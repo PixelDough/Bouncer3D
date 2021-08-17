@@ -12,7 +12,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace>PixelDough.Bouncer</RootNamespace>
-    <ProjectGuid>{90380333-15e5-341b-12d5-7b0a947afe45}</ProjectGuid>
+    <ProjectGuid>{3bb2739c-eb2c-95c8-9942-308374b6d580}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>FMODUnity</AssemblyName>
@@ -86,13 +86,13 @@
      <Compile Include="Assets\Plugins\FMOD\platforms\mac\src\PlatformMac.cs" />
      <None Include="Assets\Plugins\FMOD\FMODUnity.asmdef" />
  <Reference Include="Unity.Timeline">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.UI">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine">
  <HintPath>D:/Unity Installations/2020.1.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
@@ -289,20 +289,20 @@
  <Reference Include="UnityEditor.WindowsStandalone.Extensions">
  <HintPath>D:/Unity Installations/2020.1.17f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
  </Reference>
- <Reference Include="nunit.framework">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/PackageCache/com.unity.ext.nunit@1.0.5/net35/unity-custom/nunit.framework.dll</HintPath>
- </Reference>
- <Reference Include="ICSharpCode.NRefactory">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/PackageCache/com.unity.render-pipelines.core@8.3.1/Editor/ShaderGenerator/ICSharpCode.NRefactory.dll</HintPath>
+ <Reference Include="Rewired_Editor">
+ <HintPath>D:/Unity Projects/Bouncer 3D/Assets/Rewired/Internal/Libraries/Editor/Rewired_Editor.dll</HintPath>
  </Reference>
  <Reference Include="Rewired_Core">
- <HintPath>D:/Unity Projects/Bouncer3D/Assets/Rewired/Internal/Libraries/Runtime/Rewired_Core.dll</HintPath>
+ <HintPath>D:/Unity Projects/Bouncer 3D/Assets/Rewired/Internal/Libraries/Runtime/Rewired_Core.dll</HintPath>
  </Reference>
  <Reference Include="Rewired_Windows">
- <HintPath>D:/Unity Projects/Bouncer3D/Assets/Rewired/Internal/Libraries/Runtime/Rewired_Windows.dll</HintPath>
+ <HintPath>D:/Unity Projects/Bouncer 3D/Assets/Rewired/Internal/Libraries/Runtime/Rewired_Windows.dll</HintPath>
  </Reference>
- <Reference Include="Rewired_Editor">
- <HintPath>D:/Unity Projects/Bouncer3D/Assets/Rewired/Internal/Libraries/Editor/Rewired_Editor.dll</HintPath>
+ <Reference Include="nunit.framework">
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/PackageCache/com.unity.ext.nunit@1.0.5/net35/unity-custom/nunit.framework.dll</HintPath>
+ </Reference>
+ <Reference Include="ICSharpCode.NRefactory">
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/PackageCache/com.unity.render-pipelines.core@8.3.1/Editor/ShaderGenerator/ICSharpCode.NRefactory.dll</HintPath>
  </Reference>
  <Reference Include="netstandard">
  <HintPath>D:/Unity Installations/2020.1.17f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>

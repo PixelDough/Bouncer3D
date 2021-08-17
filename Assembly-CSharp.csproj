@@ -12,7 +12,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace>PixelDough.Bouncer</RootNamespace>
-    <ProjectGuid>{1839b6bf-873a-f608-4d6c-9db54ee4d38c}</ProjectGuid>
+    <ProjectGuid>{2dd1cf42-c1fa-abda-0c07-2cb817b25a36}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -50,19 +50,12 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\PlayerController.cs" />
-     <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ButtonInfo.cs" />
      <Compile Include="Assets\Rewired\Internal\Scripts\DataStorage\UserDataStore_PlayerPrefs.cs" />
      <Compile Include="Assets\Rewired\Integration\UnityUI\RewiredEventSystem.cs" />
-     <Compile Include="Assets\Rewired\Integration\UnityUI\RewiredPointerInputModule.cs" />
-     <Compile Include="Assets\Rewired\Internal\Scripts\Misc\ExternalTools.cs" />
-     <Compile Include="Assets\Rewired\Internal\Scripts\InputManager.cs" />
-     <Compile Include="Assets\Rewired\Internal\Scripts\Platforms\Ouya\OuyaInputSource.cs" />
-     <Compile Include="Assets\Rewired\Integration\UnityUI\PlayerPointerEventData.cs" />
-     <Compile Include="Assets\Rewired\Integration\UnityUI\RewiredStandaloneInputModule.cs" />
-     <Compile Include="Assets\Rewired\Internal\Scripts\ControllerTemplates\ControllerTemplates.cs" />
-     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ButtonInfo.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\CustomToggle.cs" />
+     <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Rewired\Integration\UnityUI\RewiredPointerInputModule.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\InputFieldInfo.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\UIControl.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\InputRow.cs" />
@@ -71,42 +64,49 @@
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\InputBehaviorWindow.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ScrollbarVisibilityHelper.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\UIImageHelper.cs" />
+     <Compile Include="Assets\LeanTween\Framework\LTSeq.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\UIControlSet.cs" />
+     <Compile Include="Assets\Scripts\ThirdPersonCameraController.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ControlMapper.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\Window.cs" />
+     <Compile Include="Assets\LeanTween\Framework\LeanSmooth.cs" />
+     <Compile Include="Assets\Scripts\OneWayWallController.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\CanvasScalerExt.cs" />
+     <Compile Include="Assets\Rewired\Internal\Scripts\Misc\ExternalTools.cs" />
+     <Compile Include="Assets\LeanTween\Framework\LeanTest.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ThemeSettings.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\UITools.cs" />
+     <Compile Include="Assets\LeanTween\Framework\LeanTween.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Examples\ControlMapperDemo\Scripts\ControlMapperDemoMessage.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ControlMapper_Enums.cs" />
+     <Compile Include="Assets\LeanTween\Framework\LeanAudio.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\UISliderControl.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\LanguageDataBase.cs" />
+     <Compile Include="Assets\Scripts\ShadowBlob.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\UIGroup.cs" />
+     <Compile Include="Assets\Rewired\Integration\Cinemachine\RewiredCinemachineBridge.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\CustomSlider.cs" />
+     <Compile Include="Assets\Rewired\RewiredConsts.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\UISelectionUtility.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ToggleInfo.cs" />
+     <Compile Include="Assets\Rewired\Internal\Scripts\InputManager.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ThemedElement.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ControlMapper_Classes.cs" />
+     <Compile Include="Assets\Rewired\Internal\Scripts\Platforms\Ouya\OuyaInputSource.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\CalibrationWindow.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\CustomButton.cs" />
+     <Compile Include="Assets\Rewired\Integration\UnityUI\PlayerPointerEventData.cs" />
+     <Compile Include="Assets\Rewired\Integration\UnityUI\RewiredStandaloneInputModule.cs" />
+     <Compile Include="Assets\LeanTween\Framework\LeanTweenExt.cs" />
+     <Compile Include="Assets\LeanTween\Framework\LTDescrOptional.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ScrollRectSelectableChild.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ICustomSelectable.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ControlMapper_InputGrid.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\UIElementInfo.cs" />
-     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\CanvasScalerFitter.cs" />
-     <Compile Include="Assets\Rewired\RewiredConsts.cs" />
-     <Compile Include="Assets\Scripts\ThirdPersonCameraController.cs" />
-     <Compile Include="Assets\Rewired\Integration\Cinemachine\RewiredCinemachineBridge.cs" />
-     <Compile Include="Assets\Scripts\ShadowBlob.cs" />
-     <Compile Include="Assets\Scripts\OneWayWallController.cs" />
-     <Compile Include="Assets\LeanTween\Framework\LTSeq.cs" />
-     <Compile Include="Assets\LeanTween\Framework\LeanSmooth.cs" />
-     <Compile Include="Assets\LeanTween\Framework\LeanTest.cs" />
-     <Compile Include="Assets\LeanTween\Framework\LeanTween.cs" />
-     <Compile Include="Assets\LeanTween\Framework\LeanAudio.cs" />
-     <Compile Include="Assets\LeanTween\Framework\LeanTweenExt.cs" />
-     <Compile Include="Assets\LeanTween\Framework\LTDescrOptional.cs" />
+     <Compile Include="Assets\Rewired\Internal\Scripts\ControllerTemplates\ControllerTemplates.cs" />
+     <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\LeanTween\Framework\LTDescr.cs" />
+     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\CanvasScalerFitter.cs" />
      <None Include="Assets\LeanTween\ReadMe.txt" />
      <None Include="Assets\SquashAndStretch\README.txt" />
      <None Include="Assets\LeanTween\License.txt" />
@@ -114,64 +114,64 @@
      <None Include="Assets\Rewired\Documentation\ReadMe.txt" />
      <None Include="Assets\Rewired\Documentation\licences.txt" />
  <Reference Include="Unity.Timeline.Editor">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.VSCode.Editor">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.RenderPipelines.Core.Editor">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.RenderPipelines.Core.Runtime">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll</HintPath>
- </Reference>
- <Reference Include="Unity.TextMeshPro.Editor">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.UI">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Timeline">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Rider.Editor">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
- </Reference>
- <Reference Include="com.hauntedpsx.render-pipelines.psx.Runtime">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/com.hauntedpsx.render-pipelines.psx.Runtime.dll</HintPath>
- </Reference>
- <Reference Include="com.hauntedpsx.render-pipelines.psx.Editor">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/com.hauntedpsx.render-pipelines.psx.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.VisualStudio.Editor">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
- </Reference>
- <Reference Include="Unity.TextMeshPro">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.UI">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
- </Reference>
- <Reference Include="Unity.ProBuilder">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/Unity.ProBuilder.dll</HintPath>
- </Reference>
- <Reference Include="Unity.ProBuilder.Editor">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/Unity.ProBuilder.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.ProBuilder.AssetIdRemapUtility">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
- </Reference>
- <Reference Include="Unity.ProBuilder.AddOns.Editor">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll</HintPath>
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Cinemachine">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.VSCode.Editor">
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.ProBuilder">
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.ProBuilder.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.RenderPipelines.Core.Editor">
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.ProBuilder.Editor">
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.ProBuilder.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.ProBuilder.AssetIdRemapUtility">
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.RenderPipelines.Core.Runtime">
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.TextMeshPro.Editor">
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.UI">
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Timeline">
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Rider.Editor">
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="com.hauntedpsx.render-pipelines.psx.Runtime">
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/com.hauntedpsx.render-pipelines.psx.Runtime.dll</HintPath>
+ </Reference>
+ <Reference Include="com.hauntedpsx.render-pipelines.psx.Editor">
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/com.hauntedpsx.render-pipelines.psx.Editor.dll</HintPath>
  </Reference>
  <Reference Include="com.unity.cinemachine.editor">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.VisualStudio.Editor">
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.ProBuilder.AddOns.Editor">
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.TextMeshPro">
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.UI">
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine">
  <HintPath>D:/Unity Installations/2020.1.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
@@ -362,14 +362,14 @@
  <Reference Include="UnityEditor">
  <HintPath>D:/Unity Installations/2020.1.17f1/Editor/Data/Managed/UnityEditor.dll</HintPath>
  </Reference>
- <Reference Include="nunit.framework">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/PackageCache/com.unity.ext.nunit@1.0.5/net35/unity-custom/nunit.framework.dll</HintPath>
- </Reference>
  <Reference Include="Rewired_Core">
- <HintPath>D:/Unity Projects/Bouncer3D/Assets/Rewired/Internal/Libraries/Runtime/Rewired_Core.dll</HintPath>
+ <HintPath>D:/Unity Projects/Bouncer 3D/Assets/Rewired/Internal/Libraries/Runtime/Rewired_Core.dll</HintPath>
  </Reference>
  <Reference Include="Rewired_Windows">
- <HintPath>D:/Unity Projects/Bouncer3D/Assets/Rewired/Internal/Libraries/Runtime/Rewired_Windows.dll</HintPath>
+ <HintPath>D:/Unity Projects/Bouncer 3D/Assets/Rewired/Internal/Libraries/Runtime/Rewired_Windows.dll</HintPath>
+ </Reference>
+ <Reference Include="nunit.framework">
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/PackageCache/com.unity.ext.nunit@1.0.5/net35/unity-custom/nunit.framework.dll</HintPath>
  </Reference>
  <Reference Include="netstandard">
  <HintPath>D:/Unity Installations/2020.1.17f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
@@ -719,28 +719,28 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="FMODUnity.csproj">
-      <Project>{90380333-15e5-341b-12d5-7b0a947afe45}</Project>
+      <Project>{3bb2739c-eb2c-95c8-9942-308374b6d580}</Project>
       <Name>FMODUnity</Name>
     </ProjectReference>
+    <ProjectReference Include="SquashAndStretchKit.csproj">
+      <Project>{a1295522-9668-1de8-b7b1-df56229f0e68}</Project>
+      <Name>SquashAndStretchKit</Name>
+    </ProjectReference>
     <ProjectReference Include="FMODUnityResonance.csproj">
-      <Project>{c1281bc3-9ad8-1d51-2d88-a8a89f23eaec}</Project>
+      <Project>{9ad8fd1f-5e5f-5ec1-8f12-a91724658b33}</Project>
       <Name>FMODUnityResonance</Name>
     </ProjectReference>
     <ProjectReference Include="FMODUnityResonanceEditor.csproj">
-      <Project>{02351f07-ef2e-5251-b12a-add155fdfe84}</Project>
+      <Project>{1643ac67-2d86-dd46-b308-101c15149bfc}</Project>
       <Name>FMODUnityResonanceEditor</Name>
     </ProjectReference>
-    <ProjectReference Include="FMODUnityEditor.csproj">
-      <Project>{7919b965-e73b-e692-9705-898330edee85}</Project>
-      <Name>FMODUnityEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="SquashAndStretchKit.csproj">
-      <Project>{63118c64-6a35-b257-3300-5ef1767c527a}</Project>
-      <Name>SquashAndStretchKit</Name>
-    </ProjectReference>
     <ProjectReference Include="SquashAndStretchKit.Editor.csproj">
-      <Project>{122f51cd-3295-6884-2f2d-ceb159fd3d54}</Project>
+      <Project>{28b4eac9-f9f6-1ed0-c072-9e705a045e04}</Project>
       <Name>SquashAndStretchKit.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="FMODUnityEditor.csproj">
+      <Project>{83b51c47-d016-f46e-ae31-5cd31dbe0c8f}</Project>
+      <Name>FMODUnityEditor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

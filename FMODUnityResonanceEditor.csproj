@@ -12,7 +12,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace>PixelDough.Bouncer</RootNamespace>
-    <ProjectGuid>{02351f07-ef2e-5251-b12a-add155fdfe84}</ProjectGuid>
+    <ProjectGuid>{1643ac67-2d86-dd46-b308-101c15149bfc}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>FMODUnityResonanceEditor</AssemblyName>
@@ -53,16 +53,16 @@
      <Compile Include="Assets\Plugins\FMOD\addons\ResonanceAudio\Editor\FmodResonanceAudioRoomEditor.cs" />
      <None Include="Assets\Plugins\FMOD\addons\ResonanceAudio\Editor\FMODUnityResonanceEditor.asmdef" />
  <Reference Include="UnityEditor.UI">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.TestRunner">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.TestRunner">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine">
  <HintPath>D:/Unity Installations/2020.1.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
@@ -259,20 +259,20 @@
  <Reference Include="UnityEditor.WindowsStandalone.Extensions">
  <HintPath>D:/Unity Installations/2020.1.17f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
  </Reference>
- <Reference Include="nunit.framework">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/PackageCache/com.unity.ext.nunit@1.0.5/net35/unity-custom/nunit.framework.dll</HintPath>
- </Reference>
- <Reference Include="ICSharpCode.NRefactory">
- <HintPath>D:/Unity Projects/Bouncer3D/Library/PackageCache/com.unity.render-pipelines.core@8.3.1/Editor/ShaderGenerator/ICSharpCode.NRefactory.dll</HintPath>
+ <Reference Include="Rewired_Editor">
+ <HintPath>D:/Unity Projects/Bouncer 3D/Assets/Rewired/Internal/Libraries/Editor/Rewired_Editor.dll</HintPath>
  </Reference>
  <Reference Include="Rewired_Core">
- <HintPath>D:/Unity Projects/Bouncer3D/Assets/Rewired/Internal/Libraries/Runtime/Rewired_Core.dll</HintPath>
+ <HintPath>D:/Unity Projects/Bouncer 3D/Assets/Rewired/Internal/Libraries/Runtime/Rewired_Core.dll</HintPath>
  </Reference>
  <Reference Include="Rewired_Windows">
- <HintPath>D:/Unity Projects/Bouncer3D/Assets/Rewired/Internal/Libraries/Runtime/Rewired_Windows.dll</HintPath>
+ <HintPath>D:/Unity Projects/Bouncer 3D/Assets/Rewired/Internal/Libraries/Runtime/Rewired_Windows.dll</HintPath>
  </Reference>
- <Reference Include="Rewired_Editor">
- <HintPath>D:/Unity Projects/Bouncer3D/Assets/Rewired/Internal/Libraries/Editor/Rewired_Editor.dll</HintPath>
+ <Reference Include="nunit.framework">
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/PackageCache/com.unity.ext.nunit@1.0.5/net35/unity-custom/nunit.framework.dll</HintPath>
+ </Reference>
+ <Reference Include="ICSharpCode.NRefactory">
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/PackageCache/com.unity.render-pipelines.core@8.3.1/Editor/ShaderGenerator/ICSharpCode.NRefactory.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>D:/Unity Installations/2020.1.17f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -622,7 +622,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="FMODUnityResonance.csproj">
-      <Project>{c1281bc3-9ad8-1d51-2d88-a8a89f23eaec}</Project>
+      <Project>{9ad8fd1f-5e5f-5ec1-8f12-a91724658b33}</Project>
       <Name>FMODUnityResonance</Name>
     </ProjectReference>
   </ItemGroup>

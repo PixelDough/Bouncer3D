@@ -18,9 +18,12 @@ namespace PixelDough.Bouncer
             {
                 Physics.IgnoreCollision(other, collider, true);
 
+                if (Vector3.Dot(other.attachedRigidbody.velocity, -transform.forward) < 5f)
+                    other.attachedRigidbody.AddForce(-transform.forward * 6f, ForceMode.VelocityChange);
+                
                 float rotationDifference = 1;
                 if  (Mathf.Abs(Vector3.SignedAngle(transform.up, transform.position - other.transform.position, 
-                    transform.up)) > 45)
+                    transform.right)) > 90)
                 {
                     rotationDifference *= -1f;
                 }
