@@ -158,8 +158,8 @@ MonoBehaviour:
   m_BindingMode: 3
   m_SplineCurvature: 0.082
   m_Orbits:
-  - m_Height: 2
-    m_Radius: 3
+  - m_Height: 3
+    m_Radius: 1
   - m_Height: 0.5
     m_Radius: 3
   - m_Height: -0.1
@@ -763,9 +763,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BindingMode: 3
   m_FollowOffset: {x: 0, y: 0.5, z: -3}
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
+  m_XDamping: 0
+  m_YDamping: 0
+  m_ZDamping: 0
   m_AngularDampingMode: 0
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -921,9 +921,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BindingMode: 3
   m_FollowOffset: {x: 0, y: 0.5, z: -3}
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
+  m_XDamping: 0
+  m_YDamping: 0
+  m_ZDamping: 0
   m_AngularDampingMode: 0
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -1316,9 +1316,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BindingMode: 3
   m_FollowOffset: {x: 0, y: 0.5, z: -3}
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
+  m_XDamping: 0
+  m_YDamping: 0
+  m_ZDamping: 0
   m_AngularDampingMode: 0
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -1702,22 +1702,6 @@ PrefabInstance:
     - target: {fileID: 3770457594252763639, guid: 38daf0a9fb5a322428650f012a0a3c7f, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3770457594252763639, guid: 38daf0a9fb5a322428650f012a0a3c7f, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.2096186
-      objectReference: {fileID: 0}
-    - target: {fileID: 3770457594252763639, guid: 38daf0a9fb5a322428650f012a0a3c7f, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3770457594252763639, guid: 38daf0a9fb5a322428650f012a0a3c7f, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.97778326
-      objectReference: {fileID: 0}
-    - target: {fileID: 3770457594252763639, guid: 38daf0a9fb5a322428650f012a0a3c7f, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3770457594252763639, guid: 38daf0a9fb5a322428650f012a0a3c7f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

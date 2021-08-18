@@ -17,6 +17,45 @@ MonoBehaviour:
   isPSXQualityEnabled:
     m_OverrideState: 1
     m_Value: 1
+--- !u!114 &-7295838628118937514
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac4315c5d81c1274fb8120ba49e62c21, type: 3}
+  m_Name: LightingVolume
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  lightingIsEnabled:
+    m_OverrideState: 1
+    m_Value: 1
+  bakedLightingMultiplier:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+  vertexColorLightingMultiplier:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+  dynamicLightingMultiplier:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+  dynamicLightsMaxCount:
+    m_OverrideState: 0
+    m_Value: 256
+    min: 1
+    max: 256
+  dynamicLightsMaxPerObjectCount:
+    m_OverrideState: 0
+    m_Value: 4
+    min: 1
+    max: 8
 --- !u!114 &-6861924239042823566
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -90,6 +129,7 @@ MonoBehaviour:
   - {fileID: 2644607455764333922}
   - {fileID: -6861924239042823566}
   - {fileID: 711210548443595597}
+  - {fileID: -7295838628118937514}
 --- !u!114 &711210548443595597
 MonoBehaviour:
   m_ObjectHideFlags: 3

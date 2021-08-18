@@ -9,8 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Mat_OneWayWall
   m_Shader: {fileID: 4800000, guid: 055eab4e84dc70a47ae75b3125a22de6, type: 3}
-  m_ShaderKeywords: _BRDF_MODE_LAMBERT _FOG_ON _SHADING_EVALUATION_MODE_PER_VERTEX
-    _TEXTURE_FILTER_MODE_TEXTURE_IMPORT_SETTINGS
+  m_ShaderKeywords: _BRDF_MODE_LAMBERT _FOG_ON _LIGHTING_BAKED_ON _LIGHTING_DYNAMIC_ON
+    _SHADING_EVALUATION_MODE_PER_VERTEX _TEXTURE_FILTER_MODE_TEXTURE_IMPORT_SETTINGS
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -53,7 +53,7 @@ Material:
     - _FogWeight: 1
     - _LightingBaked: 1
     - _LightingDynamic: 1
-    - _LightingMode: 1
+    - _LightingMode: 0
     - _PrecisionColorOverrideMode: 0
     - _PrecisionGeometryOverrideMode: 0
     - _PrecisionGeometryWeight: 1

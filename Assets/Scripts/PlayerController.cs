@@ -42,7 +42,7 @@ namespace PixelDough.Bouncer
             // Move the jump buffer towards 0
             _jumpBuffer = Mathf.MoveTowards(_jumpBuffer, 0f, Time.deltaTime);
             // If the player has pressed the jump button, reset the jump buffer to the max
-            if (GameManager.Instance.Input.GetButtonDown(RewiredConsts.Action.Jump))
+            if (GameManager.Instance.Input.GetButton(RewiredConsts.Action.Jump))
             {
                 _jumpBuffer = jumpBufferMax;
             }
@@ -60,9 +60,11 @@ namespace PixelDough.Bouncer
             
             // Important: Set this AFTER checking for a buffered jump, as isGrounded might have been set in OnCollisionEnter.
             _isGrounded = false;
-            if (Physics.SphereCast(transform.position, 0.25f, Vector3.down, out RaycastHit hit, 0.02f))
+            if (Physics.SphereCast(transform.position, 0.24f, Vector3.down, out RaycastHit hit, 
+                0.02f, ~LayerMask.GetMask("Player"), QueryTriggerInteraction.Ignore))
             {
-                _isGrounded = true;
+                if (!Physics.GetIgnoreCollision(collider, hit.collider))
+                    _isGrounded = true;
             }
         }
 
@@ -70,7 +72,7 @@ namespace PixelDough.Bouncer
         {
             rigidbody.AddForce(Physics.gravity);
             
-            if (_isGrounded || false)
+            /*if (_isGrounded)
             {
                 float reverseMultiplier = 1f;
                 Vector3 flattenedVelocity = new Vector3(rigidbody.velocity.x, 0f, rigidbody.velocity.z);
@@ -78,14 +80,19 @@ namespace PixelDough.Bouncer
                     
                 Vector3 inputConvertedToTorque = Quaternion.Euler(0, 90, 0) * _inputMovement;
                 rigidbody.AddTorque(
-                    new Vector3(inputConvertedToTorque.x, 0f, inputConvertedToTorque.z) * (2f * reverseMultiplier),
+                    new Vector3(inputConvertedToTorque.x, 0f, inputConvertedToTorque.z) *
+                    (200f * reverseMultiplier * Time.fixedDeltaTime),
                     ForceMode.VelocityChange);
             }
             else
             {
-                rigidbody.AddForce(_inputMovement / 5f, ForceMode.VelocityChange);
-            }
+                rigidbody.AddForce(_inputMovement / 5f * (60 * Time.fixedDeltaTime), ForceMode.VelocityChange);
+            }*/
+            
+            rigidbody.AddForce(_inputMovement * (12 * Time.fixedDeltaTime), ForceMode.VelocityChange);
 
+            rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, 50);
+            
             _pastVelocity = rigidbody.velocity;
         }
 
@@ -110,7 +117,7 @@ namespace PixelDough.Bouncer
                     //Squish();
                     if (Mathf.Clamp(point.normal.y, -0.1f, 0.1f) == point.normal.y)
                     {
-                        rigidbody.AddForce(point.normal * rigidbody.velocity.magnitude / 10f, ForceMode.VelocityChange);
+                        rigidbody.AddForce(point.normal * rigidbody.velocity.magnitude / 8f, ForceMode.VelocityChange);
                         rigidbody.AddForce(Vector3.up * rigidbody.velocity.magnitude / 1.2f, ForceMode.VelocityChange);
                     }
                     break;
@@ -149,7 +156,8 @@ namespace PixelDough.Bouncer
 
         private void Jump()
         {
-            rigidbody.velocity = new Vector3(rigidbody.velocity.x, 10f, rigidbody.velocity.z);
+            if (Mathf.Abs(rigidbody.velocity.y) < 10f)
+                rigidbody.velocity = new Vector3(rigidbody.velocity.x, 10f, rigidbody.velocity.z);
             _jumpBuffer = 0f;
             _coyoteTime = 0f;
         }
