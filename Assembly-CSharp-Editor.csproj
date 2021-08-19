@@ -67,6 +67,10 @@
      <Compile Include="Assets\Rewired\Internal\Scripts\Editor\CustomInspectors\ControllerDataFilesInspector.cs" />
      <Compile Include="Assets\Rewired\Internal\Scripts\Editor\CustomInspectors\InputManagerInspector.cs" />
      <Compile Include="Assets\Rewired\Internal\Scripts\Editor\CustomInspectors\UserDataStore_PlayerPrefsInspector.cs" />
+     <Compile Include="Assets\PowerSpriteAnimator\Scripts\Editor\SpriteAnimatorInfoPanel.cs" />
+     <Compile Include="Assets\PowerSpriteAnimator\Scripts\Editor\SpriteAnimator.cs" />
+     <Compile Include="Assets\PowerSpriteAnimator\Scripts\Editor\SpriteAnimatorTimeline.cs" />
+     <Compile Include="Assets\PowerSpriteAnimator\Scripts\Editor\SpriteAnimatorNodes.cs" />
  <Reference Include="UnityEditor.TestRunner">
  <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
  </Reference>
@@ -112,6 +116,9 @@
  <Reference Include="com.hauntedpsx.render-pipelines.psx.Runtime">
  <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/com.hauntedpsx.render-pipelines.psx.Runtime.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.2D.Sprite.Editor">
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+ </Reference>
  <Reference Include="com.hauntedpsx.render-pipelines.psx.Editor">
  <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/com.hauntedpsx.render-pipelines.psx.Editor.dll</HintPath>
  </Reference>
@@ -132,9 +139,6 @@
  </Reference>
  <Reference Include="UnityEditor.UI">
  <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
- </Reference>
- <Reference Include="Unity.2D.Sprite.Editor">
- <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine">
  <HintPath>D:/Unity Installations/2020.1.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
@@ -693,9 +697,17 @@
  </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{14f0f78a-792a-d2f7-525a-ba64cbdcdd69}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
     <ProjectReference Include="Assembly-CSharp.csproj">
       <Project>{2dd1cf42-c1fa-abda-0c07-2cb817b25a36}</Project>
       <Name>Assembly-CSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="Assembly-CSharp-Editor-firstpass.csproj">
+      <Project>{3df8a39a-6894-6552-5793-c4cc0b6cabaa}</Project>
+      <Name>Assembly-CSharp-Editor-firstpass</Name>
     </ProjectReference>
     <ProjectReference Include="FMODUnity.csproj">
       <Project>{3bb2739c-eb2c-95c8-9942-308374b6d580}</Project>

@@ -74,6 +74,7 @@
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\CanvasScalerExt.cs" />
      <Compile Include="Assets\Rewired\Internal\Scripts\Misc\ExternalTools.cs" />
      <Compile Include="Assets\LeanTween\Framework\LeanTest.cs" />
+     <Compile Include="Assets\Scripts\CollectableController.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ThemeSettings.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\UITools.cs" />
      <Compile Include="Assets\LeanTween\Framework\LeanTween.cs" />
@@ -107,13 +108,72 @@
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\LeanTween\Framework\LTDescr.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\CanvasScalerFitter.cs" />
-     <Compile Include="Assets\Scripts\CollectableController.cs" />
+     <Compile Include="Assets\PowerSpriteAnimator\Scripts\SpriteAnim.cs" />
+     <Compile Include="Assets\PowerSpriteAnimator\Scripts\SpriteAnimEventHandler.cs" />
+     <Compile Include="Assets\PowerSpriteAnimator\Scripts\SpriteAnimNodes.cs" />
+     <Compile Include="Assets\3D Text\ScriptableObjectFont3D.cs" />
+     <Compile Include="Assets\3D Text\Font3DLetter.cs" />
+     <Compile Include="Assets\3D Text\Font3DString.cs" />
+     <Compile Include="Assets\Scripts\CameraSelectiveRendering.cs" />
+     <Compile Include="Assets\3D Text\ChildAnimator.cs" />
+     <Compile Include="Assets\Scripts\CanvasMainCameraSelector.cs" />
+     <Compile Include="Assets\Scripts\PlayerStuffManager.cs" />
+     <Compile Include="Assets\Scripts\BoostPadController.cs" />
+     <Compile Include="Assets\Scripts\FanController.cs" />
+     <Compile Include="Assets\Scripts\UI\PlayerHudController.cs" />
+     <Compile Include="Assets\Scripts\LevelManager.cs" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
+     <None Include="Assets\FMOD Project\Metadata\Workspace.xml" />
+     <None Include="Assets\FMOD Project\Metadata\Bank\{cb331e7b-a0dd-4980-a7c9-15af4a88127b}.xml" />
      <None Include="Assets\LeanTween\ReadMe.txt" />
+     <None Include="Assets\FMOD Project\Metadata\EffectPresetFolder\{d18010fa-86f6-400e-9e82-63ad4886e3d7}.xml" />
+     <None Include="Assets\FMOD Project\Metadata\EventFolder\{a19be644-2294-4d62-b907-5fcbac02938c}.xml" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
+     <None Include="Assets\FMOD Project\Metadata\SnapshotGroup\{0cc6432d-6af1-446f-86d3-03230c121a13}.xml" />
      <None Include="Assets\SquashAndStretch\README.txt" />
+     <None Include="Assets\FMOD Project\Metadata\EventFolder\{75eaca28-d637-421a-b093-157133017103}.xml" />
+     <None Include="Assets\FMOD Project\Metadata\Event\{4cb882d4-0ba3-4b60-9427-7f4bea32be6c}.xml" />
+     <None Include="Assets\FMOD Project\Metadata\BankFolder\{c280b2a1-cae1-442a-885e-f687855a534d}.xml" />
+     <None Include="Assets\FMOD Project\Metadata\Event\{934688e6-0664-4d63-a2d7-caaa2618e420}.xml" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
      <None Include="Assets\LeanTween\License.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+     <None Include="Assets\FMOD Project\Metadata\Bank\{ccdb7a7e-3434-4749-bd35-52fe3a8f00ae}.xml" />
+     <None Include="Assets\FMOD Project\Metadata\ProfilerFolder\{b1ab7034-1fdb-4b7b-89a2-93819fe075cf}.xml" />
+     <None Include="Assets\FMOD Project\Metadata\Event\{fa1993a2-cd88-4588-a55a-3740bfe1df03}.xml" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets\Rewired\Documentation\ReleaseNotes.txt" />
+     <None Include="Assets\FMOD Project\Metadata\Asset\{39186464-ab3b-42d5-b077-3accb4a5b81c}.xml" />
      <None Include="Assets\Rewired\Documentation\ReadMe.txt" />
+     <None Include="Assets\FMOD Project\Metadata\EncodingSetting\{ff48fe30-6a00-4633-9806-6997d7ba4b18}.xml" />
+     <None Include="Assets\FMOD Project\Metadata\EventFolder\{9042050e-5beb-4c5b-8f46-cb9541d55928}.xml" />
+     <None Include="Assets\FMOD Project\Metadata\Platform\{a9a8a05a-e058-4486-9f5e-83169324072b}.xml" />
+     <None Include="Assets\FMOD Project\Metadata\AudioFile\{bd78e907-211c-4b3a-8a7f-4885f85ec61d}.xml" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
      <None Include="Assets\Rewired\Documentation\licences.txt" />
+     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+     <None Include="Assets\FMOD Project\Metadata\Return\{b9fc135a-ec6c-4ed6-86aa-a50dff481765}.xml" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
+     <None Include="Assets\FMOD Project\Metadata\ParameterPresetFolder\{c10ce413-33d4-49b1-a996-4b470b4154f9}.xml" />
+     <None Include="Assets\FMOD Project\Metadata\AudioFile\{4406671e-0db7-4f87-9541-34ad58386850}.xml" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
+     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+     <None Include="Assets\FMOD Project\Metadata\SandboxFolder\{4479d370-ad77-431f-b230-5f4cf03b2e80}.xml" />
+     <None Include="Assets\FMOD Project\Metadata\EventFolder\{e15737b2-060a-41a3-a1d1-0837810c3b79}.xml" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
+     <None Include="Assets\FMOD Project\Metadata\Tags.xml" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
+     <None Include="Assets\FMOD Project\Metadata\Master.xml" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
+     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
+     <None Include="Assets\FMOD Project\Metadata\Mixer.xml" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
@@ -153,6 +213,9 @@
  <Reference Include="com.hauntedpsx.render-pipelines.psx.Runtime">
  <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/com.hauntedpsx.render-pipelines.psx.Runtime.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.2D.Sprite.Editor">
+ <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+ </Reference>
  <Reference Include="com.hauntedpsx.render-pipelines.psx.Editor">
  <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/com.hauntedpsx.render-pipelines.psx.Editor.dll</HintPath>
  </Reference>
@@ -173,9 +236,6 @@
  </Reference>
  <Reference Include="UnityEditor.UI">
  <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
- </Reference>
- <Reference Include="Unity.2D.Sprite.Editor">
- <HintPath>D:/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine">
  <HintPath>D:/Unity Installations/2020.1.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
@@ -722,6 +782,10 @@
  </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{14f0f78a-792a-d2f7-525a-ba64cbdcdd69}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
     <ProjectReference Include="FMODUnity.csproj">
       <Project>{3bb2739c-eb2c-95c8-9942-308374b6d580}</Project>
       <Name>FMODUnity</Name>

@@ -6,6 +6,8 @@ namespace PixelDough.Bouncer
     public class PlayerController : MonoBehaviour
     {
 
+        [SerializeField] private PlayerStuffManager playerStuffManager;
+        
         [SerializeField] private new Rigidbody rigidbody;
         [SerializeField] private new Collider collider;
         private PhysicMaterial _colliderMaterial;
@@ -91,7 +93,7 @@ namespace PixelDough.Bouncer
             
             rigidbody.AddForce(_inputMovement * (12 * Time.fixedDeltaTime), ForceMode.VelocityChange);
 
-            rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, 50);
+            rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, 30);
             
             _pastVelocity = rigidbody.velocity;
         }
@@ -165,6 +167,11 @@ namespace PixelDough.Bouncer
         Vector3 CameraRelativeFlatten(Vector3 input)
         {
             return Quaternion.Euler( 0, _camera.transform.rotation.eulerAngles.y, 0) * input;
+        }
+
+        public void CollectShells(int count)
+        {
+            playerStuffManager.CollectShells(count);
         }
     }
 }

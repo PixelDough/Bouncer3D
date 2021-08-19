@@ -46,6 +46,7 @@ namespace PixelDough.Bouncer
                 
                 modelTransform.localRotation = Quaternion.identity;
                 if (LeanTween.isTweening(_spinTweenId)) LeanTween.cancel(_spinTweenId);
+                FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/ONE WAY WALL/Spin", gameObject);
                 _spinTweenId = LeanTween.value(gameObject, (float value) =>
                     {
                         modelTransform.localRotation = Quaternion.Euler(value, 0f, 0f);
