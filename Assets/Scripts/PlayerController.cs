@@ -74,7 +74,7 @@ namespace PixelDough.Bouncer
         {
             rigidbody.AddForce(Physics.gravity);
             
-            /*if (_isGrounded)
+            if (_isGrounded)
             {
                 float reverseMultiplier = 1f;
                 Vector3 flattenedVelocity = new Vector3(rigidbody.velocity.x, 0f, rigidbody.velocity.z);
@@ -83,15 +83,15 @@ namespace PixelDough.Bouncer
                 Vector3 inputConvertedToTorque = Quaternion.Euler(0, 90, 0) * _inputMovement;
                 rigidbody.AddTorque(
                     new Vector3(inputConvertedToTorque.x, 0f, inputConvertedToTorque.z) *
-                    (200f * reverseMultiplier * Time.fixedDeltaTime),
+                    (150f * reverseMultiplier * Time.fixedDeltaTime),
                     ForceMode.VelocityChange);
             }
             else
             {
-                rigidbody.AddForce(_inputMovement / 5f * (60 * Time.fixedDeltaTime), ForceMode.VelocityChange);
-            }*/
+                rigidbody.AddForce(_inputMovement * (12 * Time.fixedDeltaTime), ForceMode.VelocityChange);
+            }
             
-            rigidbody.AddForce(_inputMovement * (12 * Time.fixedDeltaTime), ForceMode.VelocityChange);
+            //rigidbody.AddForce(_inputMovement * (12 * Time.fixedDeltaTime), ForceMode.VelocityChange);
 
             rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, 30);
             
@@ -114,13 +114,18 @@ namespace PixelDough.Bouncer
                 //if (Vector3.Angle(-point.normal, _pastVelocity) > 80) continue;
 
                 // If the velocity is heading towards the normal at a high enough speed
-                if (Vector3.Dot(_pastVelocity, -point.normal) > 3f)
+                float velTowardsNormal = Vector3.Dot(_pastVelocity, -point.normal);
+                if (velTowardsNormal > 3f)
                 {
                     //Squish();
                     if (Mathf.Clamp(point.normal.y, -0.1f, 0.1f) == point.normal.y)
                     {
                         rigidbody.AddForce(point.normal * rigidbody.velocity.magnitude / 8f, ForceMode.VelocityChange);
                         rigidbody.AddForce(Vector3.up * rigidbody.velocity.magnitude / 1.2f, ForceMode.VelocityChange);
+                    }
+                    else
+                    {
+                        rigidbody.AddForce(point.normal * velTowardsNormal / 5f, ForceMode.VelocityChange);
                     }
                     break;
                 }
