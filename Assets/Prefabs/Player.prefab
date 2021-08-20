@@ -190,6 +190,8 @@ MonoBehaviour:
   collider: {fileID: 3770457596032376573}
   jumpBufferMax: 0.2
   coyoteTimeMax: 0.2
+  dampenParticle: {fileID: 0}
+  dampenBubble: {fileID: 0}
 --- !u!54 &3770457594252763638
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -199,7 +201,7 @@ Rigidbody:
   m_GameObject: {fileID: 3770457594252763637}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0.5
+  m_Drag: 0.25
   m_AngularDrag: 0.75
   m_UseGravity: 0
   m_IsKinematic: 0

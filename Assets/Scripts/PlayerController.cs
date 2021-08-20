@@ -24,8 +24,20 @@ namespace PixelDough.Bouncer
 
         private bool _isGrounded;
         private Vector3 _pastVelocity = Vector3.zero;
+
+        private bool _isDamping;
         
         private Camera _camera;
+
+        [SerializeField] private ParticleSystem dampenParticle;
+        [SerializeField] private Transform dampenBubble;
+        
+        
+        /*
+        [SerializeField] private ParticleSystem squishParticle;
+        [SerializeField] private ParticleSystem groundParticle;
+        private bool _isGroundParticlePlaying = false;
+        [SerializeField] private ParticleSystem airParticle;*/
 
         private void Start()
         {
@@ -34,6 +46,9 @@ namespace PixelDough.Bouncer
             
             _colliderMaterial = collider.material;
             _defaultBounciness = _colliderMaterial.bounciness;
+
+            /*groundParticle.Stop();
+            airParticle.Play();*/
         }
 
         private void Update()
@@ -44,7 +59,7 @@ namespace PixelDough.Bouncer
             // Move the jump buffer towards 0
             _jumpBuffer = Mathf.MoveTowards(_jumpBuffer, 0f, Time.deltaTime);
             // If the player has pressed the jump button, reset the jump buffer to the max
-            if (GameManager.Instance.Input.GetButton(RewiredConsts.Action.Jump))
+            if (GameManager.Instance.Input.GetButtonDown(RewiredConsts.Action.Jump))
             {
                 _jumpBuffer = jumpBufferMax;
             }
@@ -59,14 +74,29 @@ namespace PixelDough.Bouncer
                     Jump();
                 }
             }
+
+            /*if (_isGrounded && !_isGroundParticlePlaying)
+            {
+                groundParticle.Play();
+                airParticle.Stop();
+                _isGroundParticlePlaying = true;
+            }
+            else if (!_isGrounded && _isGroundParticlePlaying)
+            {
+                groundParticle.Stop();
+                airParticle.Play();
+                _isGroundParticlePlaying = false;
+            }*/
             
             // Important: Set this AFTER checking for a buffered jump, as isGrounded might have been set in OnCollisionEnter.
             _isGrounded = false;
             if (Physics.SphereCast(transform.position, 0.24f, Vector3.down, out RaycastHit hit, 
                 0.02f, ~LayerMask.GetMask("Player"), QueryTriggerInteraction.Ignore))
             {
-                if (!Physics.GetIgnoreCollision(collider, hit.collider))
-                    _isGrounded = true;
+                if (Physics.GetIgnoreCollision(collider, hit.collider)) return;
+                
+                _isGrounded = true;
+                //groundParticle.transform.position = hit.point;
             }
         }
 
@@ -88,7 +118,7 @@ namespace PixelDough.Bouncer
             }
             else
             {
-                rigidbody.AddForce(_inputMovement * (12 * Time.fixedDeltaTime), ForceMode.VelocityChange);
+                rigidbody.AddForce(_inputMovement * (14 * Time.fixedDeltaTime), ForceMode.VelocityChange);
             }
             
             //rigidbody.AddForce(_inputMovement * (12 * Time.fixedDeltaTime), ForceMode.VelocityChange);
@@ -108,6 +138,7 @@ namespace PixelDough.Bouncer
                 }
             }
 
+            if (_isDamping) return;
             foreach (var point in other.contacts)
             {
                 // If the angle is 
@@ -117,15 +148,16 @@ namespace PixelDough.Bouncer
                 float velTowardsNormal = Vector3.Dot(_pastVelocity, -point.normal);
                 if (velTowardsNormal > 3f)
                 {
+                    //squishParticle.Play();
                     //Squish();
                     if (Mathf.Clamp(point.normal.y, -0.1f, 0.1f) == point.normal.y)
                     {
-                        rigidbody.AddForce(point.normal * rigidbody.velocity.magnitude / 8f, ForceMode.VelocityChange);
-                        rigidbody.AddForce(Vector3.up * rigidbody.velocity.magnitude / 1.2f, ForceMode.VelocityChange);
+                        rigidbody.AddForce(point.normal * rigidbody.velocity.magnitude / 7f, ForceMode.VelocityChange);
+                        rigidbody.AddForce(Vector3.up * rigidbody.velocity.magnitude / 1.1f, ForceMode.VelocityChange);
                     }
-                    else
+                    else if (Vector3.Angle(-point.normal, Physics.gravity) > 35f && velTowardsNormal > 9f)
                     {
-                        rigidbody.AddForce(point.normal * velTowardsNormal / 5f, ForceMode.VelocityChange);
+                        rigidbody.AddForce(point.normal * velTowardsNormal / 2f, ForceMode.VelocityChange);
                     }
                     break;
                 }
@@ -136,6 +168,7 @@ namespace PixelDough.Bouncer
         {
             Vector2 rawInputMovement = GameManager.Instance.Input.GetAxis2D(RewiredConsts.Action.MoveHorizontal,
                 RewiredConsts.Action.MoveVertical);
+            rawInputMovement.Normalize();
             Vector3 rawInputMovementVector3 = new Vector3(rawInputMovement.x, 0f, rawInputMovement.y);
             Vector3 cameraRelativeInput = CameraRelativeFlatten(rawInputMovementVector3);
             cameraRelativeInput = cameraRelativeInput.normalized * cameraRelativeInput.magnitude;
@@ -145,9 +178,13 @@ namespace PixelDough.Bouncer
         
         private void HandleDampen()
         {
+            _isDamping = false;
             if (GameManager.Instance.Input.GetButton(RewiredConsts.Action.Dampen))
             {
+                _isDamping = true;
                 _colliderMaterial.bounciness = 0.5f;
+                dampenBubble.gameObject.SetActive(true);
+                if (!dampenParticle.isEmitting) dampenParticle.Play();
             }
             else if (GameManager.Instance.Input.GetButton(RewiredConsts.Action.Jump))
             {
@@ -156,6 +193,8 @@ namespace PixelDough.Bouncer
             else
             {
                 _colliderMaterial.bounciness = _defaultBounciness;
+                dampenBubble.gameObject.SetActive(false);
+                if (dampenParticle.isPlaying) dampenParticle.Stop();
             }
 
             collider.material = _colliderMaterial;
@@ -167,6 +206,8 @@ namespace PixelDough.Bouncer
                 rigidbody.velocity = new Vector3(rigidbody.velocity.x, 10f, rigidbody.velocity.z);
             _jumpBuffer = 0f;
             _coyoteTime = 0f;
+
+            //squishParticle.Play();
         }
 
         Vector3 CameraRelativeFlatten(Vector3 input)
