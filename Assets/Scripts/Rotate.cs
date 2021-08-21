@@ -48,11 +48,12 @@ public class Rotate : MonoBehaviour
                 transform.Rotate(axis, speed * deltaTime, Space.World);
                 break;
             case Space.Self:
-                Vector3 val = transform.localRotation.eulerAngles;
+                /*Vector3 val = transform.localRotation.eulerAngles;
                 val.x += axis.x * speed * deltaTime;
                 val.y += axis.y * speed * deltaTime;
                 val.z += axis.z * speed * deltaTime;
-                transform.localRotation = Quaternion.Euler(val);
+                transform.localRotation = Quaternion.Euler(val);*/
+                transform.Rotate(axis, speed * deltaTime, Space.Self);
                 break;
         }
     }
