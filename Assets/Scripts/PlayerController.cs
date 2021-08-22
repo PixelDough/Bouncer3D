@@ -32,8 +32,11 @@ namespace PixelDough.Bouncer
 
         [SerializeField] private ParticleSystem dampenParticle;
         [SerializeField] private Transform dampenBubble;
-        
-        
+
+        [Header("Audio Event Emitters")] 
+        [SerializeField] private FMODUnity.StudioEventEmitter bounceEventEmitter;
+
+
         /*
         [SerializeField] private ParticleSystem squishParticle;
         [SerializeField] private ParticleSystem groundParticle;
@@ -140,38 +143,45 @@ namespace PixelDough.Bouncer
 
         private void OnCollisionEnter(Collision other)
         {
-            foreach (var point in other.contacts)
+            foreach (var pointGround in other.contacts)
             {
-                if (Vector3.Angle(point.normal, -Physics.gravity) < 15f)
+                if (Vector3.Angle(pointGround.normal, -Physics.gravity) < 15f)
                 {
                     _isGrounded = true;
                 }
             }
 
-            if (_isDamping) return;
-            foreach (var point in other.contacts)
-            {
+            /*foreach (var point in other.contacts)
+            {*/
                 // If the angle is 
                 //if (Vector3.Angle(-point.normal, _pastVelocity) > 80) continue;
 
                 // If the velocity is heading towards the normal at a high enough speed
+                ContactPoint point = other.contacts[0];
                 float velTowardsNormal = Vector3.Dot(_pastVelocity, -point.normal);
-                if (velTowardsNormal > 3f)
+                bounceEventEmitter.Play();
+                bounceEventEmitter.EventInstance.setParameterByName("Strength", Mathf.InverseLerp(0f, 15f, Mathf.Abs(velTowardsNormal)));
+
+                if (!_isDamping)
                 {
-                    //squishParticle.Play();
-                    //Squish();
-                    if (Mathf.Clamp(point.normal.y, -0.1f, 0.1f) == point.normal.y)
+                    if (velTowardsNormal > 3f)
                     {
-                        rigidbody.AddForce(point.normal * rigidbody.velocity.magnitude / 4f, ForceMode.VelocityChange);
-                        rigidbody.AddForce(Vector3.up * rigidbody.velocity.magnitude / 1.1f, ForceMode.VelocityChange);
+                        //squishParticle.Play();
+                        //Squish();
+                        if (Mathf.Clamp(point.normal.y, -0.1f, 0.1f) == point.normal.y)
+                        {
+                            rigidbody.AddForce(point.normal * rigidbody.velocity.magnitude / 4f,
+                                ForceMode.VelocityChange);
+                            rigidbody.AddForce(Vector3.up * rigidbody.velocity.magnitude / 1.1f,
+                                ForceMode.VelocityChange);
+                        }
+                        else if (Vector3.Angle(-point.normal, Physics.gravity) > 35f && velTowardsNormal > 9f)
+                        {
+                            rigidbody.AddForce(point.normal * velTowardsNormal / 2f, ForceMode.VelocityChange);
+                        }
                     }
-                    else if (Vector3.Angle(-point.normal, Physics.gravity) > 35f && velTowardsNormal > 9f)
-                    {
-                        rigidbody.AddForce(point.normal * velTowardsNormal / 2f, ForceMode.VelocityChange);
-                    }
-                    break;
                 }
-            }
+            /*}*/
         }
         
         private void HandleMovementInput()
