@@ -6,6 +6,8 @@ namespace PixelDough.Bouncer
 {
     public class CollectableController : MonoBehaviour
     {
+        [SerializeField] private MeshRenderer meshRenderer;
+        [SerializeField] private MeshFilter meshFilter;
         [SerializeField] private Transform modelHolder;
         [SerializeField] private ParticleSystem collectParticleSystem;
 
@@ -41,6 +43,12 @@ namespace PixelDough.Bouncer
                 collectParticleSystem.Play();
                 gameObject.SetActive(false);
             }
+        }
+
+        public void SetMesh(Mesh mesh, Material material)
+        {
+            meshFilter.mesh = mesh;
+            meshRenderer.material = material;
         }
     }
 }

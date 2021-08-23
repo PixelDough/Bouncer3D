@@ -9921,6 +9921,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23dab96c20997e4aa050bc3c30dfc34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meshRenderer: {fileID: 8222023577387015695}
+  meshFilter: {fileID: 6196541493081729733}
   modelHolder: {fileID: 7339718677974611373}
   collectParticleSystem: {fileID: 1199986830530575997}
   count: 1
@@ -10165,5 +10167,15 @@ PrefabInstance:
 --- !u!4 &7084534110862304608 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a9903f838bc551344aeacb45e92c3c24, type: 3}
+  m_PrefabInstance: {fileID: 7339718679915430539}
+  m_PrefabAsset: {fileID: 0}
+--- !u!33 &6196541493081729733 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: -5754084199372789682, guid: a9903f838bc551344aeacb45e92c3c24, type: 3}
+  m_PrefabInstance: {fileID: 7339718679915430539}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &8222023577387015695 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: a9903f838bc551344aeacb45e92c3c24, type: 3}
   m_PrefabInstance: {fileID: 7339718679915430539}
   m_PrefabAsset: {fileID: 0}

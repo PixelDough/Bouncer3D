@@ -1,18 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class ZoneDataScriptableObject : MonoBehaviour
+namespace PixelDough.Bouncer.LevelData
 {
-    // Start is called before the first frame update
-    void Start()
+    [CreateAssetMenu(menuName = "Bouncer/Zone Data")]
+    public class ZoneDataScriptableObject : ScriptableObject
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public Mesh collectableMesh;
+        public Material collectableMaterial;
     }
 }
