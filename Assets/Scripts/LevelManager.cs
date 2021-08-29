@@ -25,7 +25,7 @@ namespace PixelDough.Bouncer
             foreach (var shell in _shells)
             {
                 _totalShells += shell.Count;
-                shell.SetMesh(zoneData.collectableMesh, zoneData.collectableMaterial);
+                if (zoneData) shell.SetMesh(zoneData.collectableMesh, zoneData.collectableMaterial);
             }
         }
 
