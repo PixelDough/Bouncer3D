@@ -18,6 +18,8 @@ namespace PixelDough.Bouncer.UI
         private int _localShellCount = 0;
         
         [SerializeField] private RectTransform shellFlying;
+
+        private bool _isHidden = false;
         
         private void Start()
         {
@@ -69,6 +71,12 @@ namespace PixelDough.Bouncer.UI
                 yield return null;
             }
             yield return null;
+        }
+
+        public void SetHiddenState(bool state)
+        {
+            _isHidden = state;
+                
         }
         
     }

@@ -10,10 +10,25 @@ namespace PixelDough.Bouncer
         public PlayerController playerController;
         public PlayerHudController playerHudController;
 
+        private void Start()
+        {
+            playerHudController.SetHiddenState(false);
+        }
 
         public void CollectShells(int count)
         {
             LevelManager.Instance.shellsCollected += count;
+        }
+
+        public void CutsceneBegin()
+        {
+            playerHudController.SetHiddenState(false);
+        }
+        
+        public void CutsceneEnded()
+        {
+            playerHudController.SetHiddenState(false);
+            
         }
     }
 }
