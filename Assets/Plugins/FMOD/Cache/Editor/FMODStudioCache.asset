@@ -1,87 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7495626124663007130
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/BounceBeachBall/Strength
-  m_EditorClassIdentifier: 
-  Name: Strength
-  Min: 0
-  Max: 1
-  Default: 0
-  ID:
-    data1: 0
-    data2: 0
-  Exists: 0
---- !u!114 &-5862124853780218214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/SHELLS/Shell Get
-  m_EditorClassIdentifier: 
-  Path: event:/SFX/SHELLS/Shell Get
-  guid: d482b84ca30b604b94277f4bea32be6c
-  Banks:
-  - {fileID: -774081712752422848}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 0
-  MaxDistance: 0
-  Length: 340
---- !u!114 &-5600441433208231361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.bank
-  m_EditorClassIdentifier: 
-  Path: Assets/FMOD Project/Build/Desktop/Master.bank
-  Name: Master
-  lastModified: 637652389553768958
-  LoadResult: 0
-  FileSizes: []
-  Exists: 1
---- !u!114 &-5566225753114518734
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/BounceBeachBall/Strength
-  m_EditorClassIdentifier: 
-  Name: Strength
-  Min: 0
-  Max: 1
-  Default: 0
-  ID:
-    data1: 0
-    data2: 0
-  Exists: 1
---- !u!114 &-3682579366548852882
+--- !u!114 &-8930381042321679926
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,7 +15,7 @@ MonoBehaviour:
   Path: event:/Silence
   guid: e68846936406634da2d7caaa2618e420
   Banks:
-  - {fileID: -5600441433208231361}
+  - {fileID: -953124358439264123}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -104,7 +23,7 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 0
---- !u!114 &-1970808564253214902
+--- !u!114 &-8832358742657614396
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -113,18 +32,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/BounceBeachBall/Strength
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
   m_EditorClassIdentifier: 
-  Name: Strength
-  Min: 0
-  Max: 1
-  Default: 0
-  ID:
-    data1: 0
-    data2: 0
-  Exists: 0
---- !u!114 &-774081712752422848
+  Path: Assets/FMOD Project/Build/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 637657864025609999
+  LoadResult: 0
+  FileSizes: []
+  Exists: 1
+--- !u!114 &-8636761623716555734
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -138,11 +56,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: Assets/FMOD Project/Build/Desktop/SFX.bank
   Name: SFX
-  lastModified: 637652389554282952
+  StudioPath: bank:/SFX
+  lastModified: 637657864025620001
   LoadResult: 0
   FileSizes: []
   Exists: 1
---- !u!114 &-716040261622422150
+--- !u!114 &-7697551512827450497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/SHELLS/Shell Get
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/SHELLS/Shell Get
+  guid: d482b84ca30b604b94277f4bea32be6c
+  Banks:
+  - {fileID: -407170541971933137}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 340
+--- !u!114 &-6266737025984344332
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -156,13 +98,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: Assets/FMOD Project/Build/Desktop/Master.strings.bank
   Name: Master.strings
-  lastModified: 637652389553768958
+  StudioPath: bank:/Master.strings
+  lastModified: 637657864025609999
   LoadResult: 0
   FileSizes:
   - Name: Desktop
     Value: 1026
   Exists: 1
---- !u!114 &-441226923013002639
+--- !u!114 &-6146969789829978358
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -182,35 +125,7 @@ MonoBehaviour:
     data1: 0
     data2: 0
   Exists: 1
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
-  m_Name: FMODStudioCache
-  m_EditorClassIdentifier: 
-  EditorBanks:
-  - {fileID: -716040261622422150}
-  - {fileID: -5600441433208231361}
-  - {fileID: -774081712752422848}
-  EditorEvents:
-  - {fileID: -5862124853780218214}
-  - {fileID: -3682579366548852882}
-  - {fileID: 5919578636469488876}
-  - {fileID: 3782833006350673888}
-  EditorParameters: []
-  MasterBanks:
-  - {fileID: -5600441433208231361}
-  StringsBanks:
-  - {fileID: -716040261622422150}
-  stringsBankWriteTime: 637652389553768958
-  cacheVersion: 5
---- !u!114 &3494269943165213902
+--- !u!114 &-5888777856128505061
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -220,11 +135,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Silcence
+  m_Name: event:/Silence
   m_EditorClassIdentifier: 
-  Path: event:/Silcence
+  Path: event:/Silence
   guid: e68846936406634da2d7caaa2618e420
-  Banks: []
+  Banks:
+  - {fileID: -8832358742657614396}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -232,7 +148,7 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 0
---- !u!114 &3782833006350673888
+--- !u!114 &-5275253260965558139
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -247,16 +163,16 @@ MonoBehaviour:
   Path: event:/SFX/PLAYER/BEACH BALL/BounceBeachBall
   guid: 2dfa055948b0054bbfbf6262e080a367
   Banks:
-  - {fileID: -774081712752422848}
+  - {fileID: -407170541971933137}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
   Parameters:
-  - {fileID: -441226923013002639}
+  - {fileID: 2990002202346997574}
   MinDistance: 1
   MaxDistance: 20
   Length: 176
---- !u!114 &5919578636469488876
+--- !u!114 &-3705180973104001294
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -271,7 +187,7 @@ MonoBehaviour:
   Path: event:/SFX/ONE WAY WALL/Spin
   guid: a29319fa88cd8845a55a3740bfe1df03
   Banks:
-  - {fileID: -774081712752422848}
+  - {fileID: -8636761623716555734}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -279,7 +195,184 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1315
---- !u!114 &9042789979432571610
+--- !u!114 &-2656746617273369337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMOD Project/Build/Desktop/Master.strings.bank
+  Name: Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 637689587971782268
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 1028
+  Exists: 1
+--- !u!114 &-953124358439264123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMOD Project/Build/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 637689587971762269
+  LoadResult: 0
+  FileSizes: []
+  Exists: 1
+--- !u!114 &-411691072308366871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/SHELLS/Shell Get
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/SHELLS/Shell Get
+  guid: d482b84ca30b604b94277f4bea32be6c
+  Banks:
+  - {fileID: -8636761623716555734}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 340
+--- !u!114 &-407170541971933137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/SFX.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMOD Project/Build/Desktop/SFX.bank
+  Name: SFX
+  StudioPath: bank:/SFX
+  lastModified: 637689587971982321
+  LoadResult: 0
+  FileSizes: []
+  Exists: 1
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
+  m_Name: FMODStudioCache
+  m_EditorClassIdentifier: 
+  EditorBanks:
+  - {fileID: -2656746617273369337}
+  - {fileID: -953124358439264123}
+  - {fileID: -407170541971933137}
+  EditorEvents:
+  - {fileID: -8930381042321679926}
+  - {fileID: -5275253260965558139}
+  - {fileID: 3078723226279617412}
+  - {fileID: -7697551512827450497}
+  EditorParameters: []
+  MasterBanks:
+  - {fileID: -953124358439264123}
+  StringsBanks:
+  - {fileID: -2656746617273369337}
+  stringsBankWriteTime: 637689587971782268
+  cacheVersion: 6
+--- !u!114 &548660006096410122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/PLAYER/BEACH BALL/BounceBeachBall
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/PLAYER/BEACH BALL/BounceBeachBall
+  guid: 2dfa055948b0054bbfbf6262e080a367
+  Banks:
+  - {fileID: -8636761623716555734}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -6146969789829978358}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 176
+--- !u!114 &2990002202346997574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/BounceBeachBall/Intensity
+  m_EditorClassIdentifier: 
+  Name: Intensity
+  Min: 0
+  Max: 1
+  Default: 0.5
+  ID:
+    data1: 0
+    data2: 0
+  Exists: 1
+--- !u!114 &3078723226279617412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/ONE WAY WALL/Spin
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/ONE WAY WALL/Spin
+  guid: a29319fa88cd8845a55a3740bfe1df03
+  Banks:
+  - {fileID: -407170541971933137}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1315
+--- !u!114 &4885573388420085187
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -298,4 +391,4 @@ MonoBehaviour:
   ID:
     data1: 0
     data2: 0
-  Exists: 0
+  Exists: 1

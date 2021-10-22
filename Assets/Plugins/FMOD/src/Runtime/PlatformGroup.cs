@@ -30,7 +30,7 @@ namespace FMODUnity
             return group;
         }
 
-        protected override IEnumerable<string> GetRelativeBinaryPaths(BuildTarget buildTarget, string suffix)
+        protected override IEnumerable<string> GetRelativeBinaryPaths(BuildTarget buildTarget, bool allVariants, string suffix)
         {
             yield break;
         }

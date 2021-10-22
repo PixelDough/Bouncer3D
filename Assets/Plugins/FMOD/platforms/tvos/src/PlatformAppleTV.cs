@@ -48,9 +48,17 @@ namespace FMODUnity
 #if UNITY_EDITOR
         public override Legacy.Platform LegacyIdentifier { get { return Legacy.Platform.AppleTV; } }
 
-        protected override IEnumerable<string> GetRelativeBinaryPaths(BuildTarget buildTarget, string suffix)
+        protected override IEnumerable<string> GetRelativeBinaryPaths(BuildTarget buildTarget, bool allVariants, string suffix)
         {
-            yield return string.Format("tvos/libfmodstudiounityplugin{0}.a", suffix);
+            if (allVariants || PlayerSettings.tvOS.sdkVersion == tvOSSdkVersion.Device)
+            {
+                yield return string.Format("tvos/libfmodstudiounityplugin{0}.a", suffix);
+            }
+
+            if (allVariants || PlayerSettings.tvOS.sdkVersion == tvOSSdkVersion.Simulator)
+            {
+                yield return string.Format("tvos/libfmodstudiounitypluginsimulator{0}.a", suffix);
+            }
         }
 
         public override bool SupportsAdditionalCPP(BuildTarget target)

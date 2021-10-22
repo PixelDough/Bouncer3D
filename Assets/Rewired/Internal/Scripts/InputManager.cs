@@ -207,7 +207,7 @@ namespace Rewired {
 #endif
 
 #if UNITY_GAMECORE_SCARLETT
-            platform = Platform.GameCoreXboxSeriesX;
+            platform = Platform.GameCoreScarlett;
 #endif
 
 #if UNITY_WII

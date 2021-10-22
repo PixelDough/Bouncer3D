@@ -30,6 +30,8 @@ namespace PixelDough.Bouncer
         
         private Camera _camera;
 
+        [SerializeField] private Transform cameraTiltRoot;
+        
         [SerializeField] private ParticleSystem dampenParticle;
         [SerializeField] private Transform dampenBubble;
 
@@ -159,8 +161,8 @@ namespace PixelDough.Bouncer
                 // If the velocity is heading towards the normal at a high enough speed
                 ContactPoint point = other.contacts[0];
                 float velTowardsNormal = Vector3.Dot(_pastVelocity, -point.normal);
-                bounceEventEmitter.Play();
-                bounceEventEmitter.EventInstance.setParameterByName("Strength", Mathf.InverseLerp(0f, 15f, Mathf.Abs(velTowardsNormal)));
+                //bounceEventEmitter.Play();
+                //bounceEventEmitter.EventInstance.setParameterByName("Strength", Mathf.InverseLerp(0f, 15f, Mathf.Abs(velTowardsNormal)));
 
                 if (!_isDamping)
                 {
@@ -194,6 +196,9 @@ namespace PixelDough.Bouncer
             cameraRelativeInput = cameraRelativeInput.normalized * cameraRelativeInput.magnitude;
 
             _inputMovement = cameraRelativeInput;
+
+            cameraTiltRoot.transform.rotation = Quaternion.Lerp(cameraTiltRoot.transform.rotation,
+                Quaternion.Euler(-_inputMovement.z * 10f, 0f, _inputMovement.x * 10f), 3f * Time.unscaledDeltaTime);
         }
         
         private void HandleDampen()

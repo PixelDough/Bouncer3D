@@ -48,7 +48,7 @@ namespace FMODUnity
 #if UNITY_EDITOR
         public override Legacy.Platform LegacyIdentifier { get { return Legacy.Platform.Android; } }
 
-        protected override IEnumerable<string> GetRelativeBinaryPaths(BuildTarget buildTarget, string suffix)
+        protected override IEnumerable<string> GetRelativeBinaryPaths(BuildTarget buildTarget, bool allVariants, string suffix)
         {
             yield return "android/fmod.jar";
 
@@ -58,9 +58,22 @@ namespace FMODUnity
                 yield return string.Format("android/{0}/libfmodstudio{1}.so", architecture, suffix);
             }
         }
+
+        public override bool SupportsAdditionalCPP(BuildTarget target)
+        {
+            // Unity parses --additional-cpp arguments specified via
+            // PlayerSettings.SetAdditionalIl2CppArgs() incorrectly when the Android
+            // Export Project option is set.
+            return false;
+        }
 #endif
 
         public override string GetBankFolder()
+        {
+            return StaticGetBankFolder();
+        }
+
+        public static string StaticGetBankFolder()
         {
             return Settings.Instance.AndroidUseOBB ? Application.streamingAssetsPath : "file:///android_asset";
         }
@@ -88,6 +101,8 @@ namespace FMODUnity
            new OutputType() { displayName = "OpenSL ES", outputType = FMOD.OUTPUTTYPE.OPENSL },
            new OutputType() { displayName = "AAudio", outputType = FMOD.OUTPUTTYPE.AAUDIO },
         };
+
+        public override int CoreCount { get { return MaximumCoreCount; } }
 #endif
     }
 }

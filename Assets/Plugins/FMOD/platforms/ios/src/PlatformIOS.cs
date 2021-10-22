@@ -53,9 +53,30 @@ namespace FMODUnity
 #if UNITY_EDITOR
         public override Legacy.Platform LegacyIdentifier { get { return Legacy.Platform.iOS; } }
 
-        protected override IEnumerable<string> GetRelativeBinaryPaths(BuildTarget buildTarget, string suffix)
+        protected override IEnumerable<string> GetRelativeBinaryPaths(BuildTarget buildTarget, bool allVariants, string suffix)
         {
-            yield return string.Format("ios/libfmodstudiounityplugin{0}.a", suffix);
+            if (allVariants || PlayerSettings.iOS.sdkVersion == iOSSdkVersion.DeviceSDK)
+            {
+                yield return string.Format("ios/libfmodstudiounityplugin{0}.a", suffix);
+            }
+
+            if (allVariants || PlayerSettings.iOS.sdkVersion == iOSSdkVersion.SimulatorSDK)
+            {
+                yield return string.Format("ios/libfmodstudiounitypluginsimulator{0}.a", suffix);
+            }
+        }
+
+        protected override IEnumerable<string> GetRelativeOptionalBinaryPaths(BuildTarget buildTarget, bool allVariants)
+        {
+            if (allVariants || PlayerSettings.iOS.sdkVersion == iOSSdkVersion.DeviceSDK)
+            {
+                yield return "ios/libresonanceaudio.a";
+            }
+
+            if (allVariants || PlayerSettings.iOS.sdkVersion == iOSSdkVersion.SimulatorSDK)
+            {
+                yield return "ios/libresonanceaudiosimulator.a";
+            }
         }
 
         public override bool IsFMODStaticallyLinked { get { return true; } }

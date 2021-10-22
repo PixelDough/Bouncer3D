@@ -122,7 +122,7 @@ MonoBehaviour:
     m_Value: 3
   color:
     m_OverrideState: 1
-    m_Value: {r: 0.787, g: 0.95739996, b: 1, a: 1}
+    m_Value: {r: 0.7882353, g: 0.95686275, b: 1, a: 1}
     hdr: 0
     showAlpha: 1
     showEyeDropper: 1
@@ -142,12 +142,12 @@ MonoBehaviour:
     m_Value: 0
     min: 0
   distanceMax:
-    m_OverrideState: 0
-    m_Value: 100
+    m_OverrideState: 1
+    m_Value: 200
     min: 0.00001
   fogFalloffCurve:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: -0.5
     min: -1
     max: 1
   heightFalloffEnabled:
@@ -164,10 +164,10 @@ MonoBehaviour:
     m_Value: 10
   colorLUTMode:
     m_OverrideState: 0
-    m_Value: 2
+    m_Value: 0
   colorLUTTexture:
-    m_OverrideState: 0
-    m_Value: {fileID: 8900000, guid: 8ebf89bca7af2a44aafd262460716579, type: 3}
+    m_OverrideState: 1
+    m_Value: {fileID: 8900000, guid: f1a552f90dc2c2040acda760b3afe9fd, type: 3}
   colorLUTRotationDegrees:
     m_OverrideState: 0
     m_Value: {x: 0, y: 0, z: 0}

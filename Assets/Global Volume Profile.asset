@@ -1,5 +1,60 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7541038430136037101
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cef71968baab950458c0275995ece9a8, type: 3}
+  m_Name: NTSCVolume
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  isEnabled:
+    m_OverrideState: 1
+    m_Value: 1
+  horizontalCarrierFrequency:
+    m_OverrideState: 0
+    m_Value: 0.1
+    min: 0.1
+    max: 3
+  kernelWidthRatio:
+    m_OverrideState: 0
+    m_Value: 0.1
+    min: 0.1
+    max: 2
+  sharpenPercent:
+    m_OverrideState: 0
+    m_Value: 0.8
+    min: 0
+    max: 1
+  linePhaseShift:
+    m_OverrideState: 0
+    m_Value: 3.14
+    min: 0
+    max: 6.28
+  flickerPercent:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+    max: 1
+  flickerScaleX:
+    m_OverrideState: 0
+    m_Value: 0.1
+    min: 0
+    max: 5
+  flickerScaleY:
+    m_OverrideState: 0
+    m_Value: 3
+    min: 1
+    max: 5
+  flickerUseTimeScale:
+    m_OverrideState: 0
+    m_Value: 0
 --- !u!114 &-7384324460568208412
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -70,29 +125,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   m_AdvancedMode: 0
-  analogSignalEnabled:
-    m_OverrideState: 1
-    m_Value: 1
-  analogSignalKernelWidth:
+  isEnabled:
     m_OverrideState: 0
-    m_Value: 1.5
-    min: 1
-    max: 5
-  analogSignalSharpenPercent:
+    m_Value: 0
+  horizontalCarrierFrequency:
+    m_OverrideState: 0
+    m_Value: 2.06
+    min: 0.1
+    max: 3
+  kernelWidthRatio:
+    m_OverrideState: 0
+    m_Value: 0.42
+    min: 0.1
+    max: 2
+  sharpenPercent:
     m_OverrideState: 0
     m_Value: 0.8
     min: 0
     max: 1
-  analogSignalHorizontalCarrierFrequency:
-    m_OverrideState: 0
-    m_Value: 1
-    min: 0.1
-    max: 3
-  analogSignalLinePhaseShift:
+  linePhaseShift:
     m_OverrideState: 0
     m_Value: 3.14
     min: 0
     max: 6.28
+  flickerPercent:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+    max: 1
+  flickerScaleX:
+    m_OverrideState: 0
+    m_Value: 0.1
+    min: 0
+    max: 5
+  flickerScaleY:
+    m_OverrideState: 0
+    m_Value: 3
+    min: 1
+    max: 5
+  flickerUseTimeScale:
+    m_OverrideState: 0
+    m_Value: 0
 --- !u!114 &-2756256761076809868
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -184,8 +257,8 @@ MonoBehaviour:
     min: 0
     max: 1
   chroma:
-    m_OverrideState: 0
-    m_Value: 0.33333334
+    m_OverrideState: 1
+    m_Value: 1
     min: 0
     max: 1
   alpha:
@@ -194,13 +267,13 @@ MonoBehaviour:
     min: 0
     max: 1
   affineTextureWarping:
-    m_OverrideState: 0
-    m_Value: 1
+    m_OverrideState: 1
+    m_Value: 0.1
     min: 0
     max: 1
   framebufferDither:
-    m_OverrideState: 0
-    m_Value: 1
+    m_OverrideState: 1
+    m_Value: 0
     min: 0
     max: 1
   ditherSize:
@@ -236,7 +309,7 @@ MonoBehaviour:
   - {fileID: -7295838628118937514}
   - {fileID: 7730550445032705212}
   - {fileID: -1913404177163048466}
-  - {fileID: -5567181969781426686}
+  - {fileID: -7541038430136037101}
 --- !u!114 &711210548443595597
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -345,12 +418,12 @@ MonoBehaviour:
     m_Value: 3
   targetRasterizationResolutionWidth:
     m_OverrideState: 1
-    m_Value: 256
+    m_Value: 512
     min: 1
     max: 4096
   targetRasterizationResolutionHeight:
     m_OverrideState: 1
-    m_Value: 224
+    m_Value: 288
     min: 1
     max: 4096
   isDepthBufferEnabled:

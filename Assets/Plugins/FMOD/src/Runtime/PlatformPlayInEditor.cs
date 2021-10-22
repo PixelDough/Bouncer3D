@@ -32,7 +32,7 @@ namespace FMODUnity
             Identifier = "playInEditor";
         }
 
-        public override string DisplayName { get { return "Play In Editor Settings"; } }
+        public override string DisplayName { get { return "Editor"; } }
         public override void DeclareUnityMappings(Settings settings)
         {
             settings.DeclareRuntimePlatform(RuntimePlatform.OSXEditor, this);
@@ -42,7 +42,7 @@ namespace FMODUnity
 #if UNITY_EDITOR
         public override Legacy.Platform LegacyIdentifier { get { return Legacy.Platform.PlayInEditor; } }
 
-        protected override IEnumerable<string> GetRelativeBinaryPaths(BuildTarget buildTarget, string suffix)
+        protected override IEnumerable<string> GetRelativeBinaryPaths(BuildTarget buildTarget, bool allVariants, string suffix)
         {
             yield break;
         }

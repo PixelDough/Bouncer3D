@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -114,6 +115,70 @@ namespace FMODUnity
         ObjectDisable,
     }
 
+    // We use our own enum to avoid serialization issues if FMOD.THREAD_TYPE changes
+    public enum ThreadType
+    {
+        Mixer,
+        Feeder,
+        Stream,
+        File,
+        Nonblocking,
+        Record,
+        Geometry,
+        Profiler,
+        Studio_Update,
+        Studio_Load_Bank,
+        Studio_Load_Sample,
+        Convolution_1,
+        Convolution_2,
+    }
+
+    // We use our own enum to avoid serialization issues if FMOD.THREAD_AFFINITY changes
+    [Flags]
+    public enum ThreadAffinity : uint
+    {
+        Any = 0,
+        Core0 = 1 << 0,
+        Core1 = 1 << 1,
+        Core2 = 1 << 2,
+        Core3 = 1 << 3,
+        Core4 = 1 << 4,
+        Core5 = 1 << 5,
+        Core6 = 1 << 6,
+        Core7 = 1 << 7,
+        Core8 = 1 << 8,
+        Core9 = 1 << 9,
+        Core10 = 1 << 10,
+        Core11 = 1 << 11,
+        Core12 = 1 << 12,
+        Core13 = 1 << 13,
+        Core14 = 1 << 14,
+        Core15 = 1 << 15,
+    }
+
+    [Serializable]
+    public class ThreadAffinityGroup
+    {
+        public List<ThreadType> threads = new List<ThreadType>();
+        public ThreadAffinity affinity = ThreadAffinity.Any;
+
+        public ThreadAffinityGroup()
+        {
+        }
+
+        public ThreadAffinityGroup(ThreadAffinityGroup other)
+        {
+            threads = new List<ThreadType>(other.threads);
+            affinity = other.affinity;
+        }
+
+        public ThreadAffinityGroup(ThreadAffinity affinity, params ThreadType[] threads)
+        {
+            this.threads = new List<ThreadType>(threads);
+            this.affinity = affinity;
+        }
+    }
+
     public static class RuntimeUtils
     {
         public static string GetCommonPlatformPath(string path)
@@ -212,6 +277,79 @@ namespace FMODUnity
             return attributes;
         }
 
+        public static FMOD.THREAD_TYPE ToFMODThreadType(ThreadType threadType)
+        {
+            switch (threadType)
+            {
+                case ThreadType.Mixer:
+                    return FMOD.THREAD_TYPE.MIXER;
+                case ThreadType.Feeder:
+                    return FMOD.THREAD_TYPE.FEEDER;
+                case ThreadType.Stream:
+                    return FMOD.THREAD_TYPE.STREAM;
+                case ThreadType.File:
+                    return FMOD.THREAD_TYPE.FILE;
+                case ThreadType.Nonblocking:
+                    return FMOD.THREAD_TYPE.NONBLOCKING;
+                case ThreadType.Record:
+                    return FMOD.THREAD_TYPE.RECORD;
+                case ThreadType.Geometry:
+                    return FMOD.THREAD_TYPE.GEOMETRY;
+                case ThreadType.Profiler:
+                    return FMOD.THREAD_TYPE.PROFILER;
+                case ThreadType.Studio_Update:
+                    return FMOD.THREAD_TYPE.STUDIO_UPDATE;
+                case ThreadType.Studio_Load_Bank:
+                    return FMOD.THREAD_TYPE.STUDIO_LOAD_BANK;
+                case ThreadType.Studio_Load_Sample:
+                    return FMOD.THREAD_TYPE.STUDIO_LOAD_SAMPLE;
+                case ThreadType.Convolution_1:
+                    return FMOD.THREAD_TYPE.CONVOLUTION1;
+                case ThreadType.Convolution_2:
+                    return FMOD.THREAD_TYPE.CONVOLUTION2;
+                default:
+                    throw new ArgumentException("Unrecognised thread type '" + threadType.ToString() + "'");
+            }
+        }
+
+        public static string DisplayName(this ThreadType thread)
+        {
+            return thread.ToString().Replace('_', ' ');
+        }
+
+        public static FMOD.THREAD_AFFINITY ToFMODThreadAffinity(ThreadAffinity affinity)
+        {
+            FMOD.THREAD_AFFINITY fmodAffinity = FMOD.THREAD_AFFINITY.CORE_ALL;
+
+            SetFMODAffinityBit(affinity, ThreadAffinity.Core0, FMOD.THREAD_AFFINITY.CORE_0, ref fmodAffinity);
+            SetFMODAffinityBit(affinity, ThreadAffinity.Core1, FMOD.THREAD_AFFINITY.CORE_1, ref fmodAffinity);
+            SetFMODAffinityBit(affinity, ThreadAffinity.Core2, FMOD.THREAD_AFFINITY.CORE_2, ref fmodAffinity);
+            SetFMODAffinityBit(affinity, ThreadAffinity.Core3, FMOD.THREAD_AFFINITY.CORE_3, ref fmodAffinity);
+            SetFMODAffinityBit(affinity, ThreadAffinity.Core4, FMOD.THREAD_AFFINITY.CORE_4, ref fmodAffinity);
+            SetFMODAffinityBit(affinity, ThreadAffinity.Core5, FMOD.THREAD_AFFINITY.CORE_5, ref fmodAffinity);
+            SetFMODAffinityBit(affinity, ThreadAffinity.Core6, FMOD.THREAD_AFFINITY.CORE_6, ref fmodAffinity);
+            SetFMODAffinityBit(affinity, ThreadAffinity.Core7, FMOD.THREAD_AFFINITY.CORE_7, ref fmodAffinity);
+            SetFMODAffinityBit(affinity, ThreadAffinity.Core8, FMOD.THREAD_AFFINITY.CORE_8, ref fmodAffinity);
+            SetFMODAffinityBit(affinity, ThreadAffinity.Core9, FMOD.THREAD_AFFINITY.CORE_9, ref fmodAffinity);
+            SetFMODAffinityBit(affinity, ThreadAffinity.Core10, FMOD.THREAD_AFFINITY.CORE_10, ref fmodAffinity);
+            SetFMODAffinityBit(affinity, ThreadAffinity.Core11, FMOD.THREAD_AFFINITY.CORE_11, ref fmodAffinity);
+            SetFMODAffinityBit(affinity, ThreadAffinity.Core12, FMOD.THREAD_AFFINITY.CORE_12, ref fmodAffinity);
+            SetFMODAffinityBit(affinity, ThreadAffinity.Core13, FMOD.THREAD_AFFINITY.CORE_13, ref fmodAffinity);
+            SetFMODAffinityBit(affinity, ThreadAffinity.Core14, FMOD.THREAD_AFFINITY.CORE_14, ref fmodAffinity);
+            SetFMODAffinityBit(affinity, ThreadAffinity.Core15, FMOD.THREAD_AFFINITY.CORE_15, ref fmodAffinity);
+
+            return fmodAffinity;
+        }
+
+        private static void SetFMODAffinityBit(ThreadAffinity affinity, ThreadAffinity mask,
+            FMOD.THREAD_AFFINITY fmodMask, ref FMOD.THREAD_AFFINITY fmodAffinity)
+        {
+            if ((affinity & mask) != 0)
+            {
+                fmodAffinity |= fmodMask;
+            }
+        }
+
         public static void EnforceLibraryOrder()
         {
             #if UNITY_ANDROID && !UNITY_EDITOR
@@ -229,22 +367,5 @@ namespace FMODUnity
             Guid temp3;
             FMOD.Studio.Util.parseID("", out temp3);
         }
-
-#if !UNITY_EDITOR
-        public static void SetThreadAffinity(Action<FMOD.RESULT, string> reportResult)
-        {
-            FMOD.RESULT result = FMOD.Thread.SetAttributes(FMOD.THREAD_TYPE.MIXER, FMOD.THREAD_AFFINITY.CORE_2);
-            reportResult(result, "FMOD.Thread.SetAttributes(Mixer)");
-
-            result = FMOD.Thread.SetAttributes(FMOD.THREAD_TYPE.STUDIO_UPDATE, FMOD.THREAD_AFFINITY.CORE_4);
-            reportResult(result, "FMOD.Thread.SetAttributes(Update)");
-
-            result = FMOD.Thread.SetAttributes(FMOD.THREAD_TYPE.STUDIO_LOAD_BANK, FMOD.THREAD_AFFINITY.CORE_4);
-            reportResult(result, "FMOD.Thread.SetAttributes(Load_Bank)");
-
-            result = FMOD.Thread.SetAttributes(FMOD.THREAD_TYPE.STUDIO_LOAD_SAMPLE, FMOD.THREAD_AFFINITY.CORE_4);
-            reportResult(result, "FMOD.Thread.SetAttributes(Load_Sample)");
-        }
-#endif
     }
 }

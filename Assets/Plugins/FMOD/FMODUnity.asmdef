@@ -1,7 +1,9 @@
 {
     "name": "FMODUnity",
     "references": [
-        "Unity.Timeline"
+        "Unity.Timeline",
+        "Unity.Addressables",
+        "Unity.ResourceManager"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -15,6 +17,11 @@
             "name": "com.unity.timeline",
             "expression": "1.0.0",
             "define": "UNITY_TIMELINE_EXIST"
+        },
+        {
+            "name": "com.unity.addressables",
+            "expression": "1.0.0",
+            "define": "UNITY_ADDRESSABLES_EXIST"
         }
     ],
     "noEngineReferences": false

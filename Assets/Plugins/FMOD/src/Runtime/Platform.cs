@@ -52,7 +52,7 @@ namespace FMODUnity
     // [InitializeOnLoad] and a static constructor to register themselves as supported platforms by
     // calling Settings.AddPlatformTemplate. The user can also create instances of the PlatformGroup
     // class and use them to group platforms that have settings in common.
-    public abstract class Platform : ScriptableObject, IComparable<Platform>
+    public abstract class Platform : ScriptableObject
     {
         // This is a persistent identifier. It is used:
         // * To link platforms together at load time
@@ -122,35 +122,72 @@ namespace FMODUnity
 
 #if UNITY_EDITOR
         [Flags]
-        public enum BuildType
+        public enum BinaryType
         {
             Release = 1,
-            Development = 2,
-            All = Release | Development,
+            Logging = 2,
+            Optional = 4,
+            AllVariants = 8,
+            All = Release | Logging | Optional | AllVariants
         }
 
-        public virtual IEnumerable<string> GetBinaryPaths(BuildTarget buildTarget, BuildType buildType)
+        protected virtual IEnumerable<string> GetBinaryPaths(BuildTarget buildTarget, BinaryType binaryType, string prefix)
         {
-            string pluginBasePath = GetEditorPluginBasePath();
+            string assetBasePath = GetBinaryAssetBasePath();
+            bool allVariants = (binaryType & BinaryType.AllVariants) == BinaryType.AllVariants;
 
-            if ((buildType & BuildType.Release) == BuildType.Release)
+            if ((binaryType & BinaryType.Release) == BinaryType.Release)
             {
-                foreach (string path in GetRelativeBinaryPaths(buildTarget, ""))
+                foreach (string path in GetRelativeBinaryPaths(buildTarget, allVariants, ""))
                 {
-                    yield return string.Format("{0}/{1}", pluginBasePath, path);
+                    yield return string.Format("{0}/{1}/{2}", prefix, assetBasePath, path);
                 }
             }
 
-            if ((buildType & BuildType.Development) == BuildType.Development)
+            if ((binaryType & BinaryType.Logging) == BinaryType.Logging)
             {
-                foreach (string path in GetRelativeBinaryPaths(buildTarget, "L"))
+                foreach (string path in GetRelativeBinaryPaths(buildTarget, allVariants, "L"))
                 {
-                    yield return string.Format("{0}/{1}", pluginBasePath, path);
+                    yield return string.Format("{0}/{1}/{2}", prefix, assetBasePath, path);
+                }
+            }
+
+            if ((binaryType & BinaryType.Optional) == BinaryType.Optional)
+            {
+                foreach (string path in GetRelativeOptionalBinaryPaths(buildTarget, allVariants))
+                {
+                    yield return string.Format("{0}/{1}/{2}", prefix, assetBasePath, path);
                 }
             }
         }
 
-        protected abstract IEnumerable<string> GetRelativeBinaryPaths(BuildTarget buildTarget, string suffix);
+        // Called by Settings.CanBuildTarget to get the required binaries for the current
+        // build target and logging state.
+        public virtual IEnumerable<string> GetBinaryFilePaths(BuildTarget buildTarget, BinaryType binaryType)
+        {
+            return GetBinaryPaths(buildTarget, binaryType, Application.dataPath);
+        }
+
+        // Called by Settings.SelectBinaries to get:
+        // * The required and optional binaries for the current build target and logging state;
+        //   these get enabled.
+        // * All binaries; any that weren't enabled in the previous step get disabled.
+        public virtual IEnumerable<string> GetBinaryAssetPaths(BuildTarget buildTarget, BinaryType binaryType)
+        {
+            return GetBinaryPaths(buildTarget, binaryType, "Assets");
+        }
+
+        protected virtual string GetBinaryAssetBasePath()
+        {
+            return "Plugins/FMOD/lib";
+        }
+
+        protected abstract IEnumerable<string> GetRelativeBinaryPaths(BuildTarget buildTarget, bool allVariants, string suffix);
+
+        protected virtual IEnumerable<string> GetRelativeOptionalBinaryPaths(BuildTarget buildTarget, bool allVariants)
+        {
+            yield break;
+        }
 
         public virtual bool IsFMODStaticallyLinked { get { return false; } }
 
@@ -221,33 +258,23 @@ namespace FMODUnity
         }
 
         // Loads static FMOD plugins for this platform.
-#if ENABLE_IL2CPP
         public virtual void LoadStaticPlugins(FMOD.System coreSystem, Action<FMOD.RESULT, string> reportResult)
         {
             if (StaticPlugins.Count > 0)
             {
-                FMOD.RESULT result = FMOD_Unity_RegisterStaticPlugins(FMOD.VERSION.dll, coreSystem.handle);
-                reportResult(result, "Registering static plugins");
-            }
-        }
-
-        // This function's name needs to match the contents of RegisterStaticPluginsFunctionName below
-        [DllImport("__Internal")]
-        private static extern FMOD.RESULT FMOD_Unity_RegisterStaticPlugins(string coreLibraryName, IntPtr system);
+#if !UNITY_EDITOR && ENABLE_IL2CPP
+                StaticPluginManager.Register(coreSystem, reportResult);
 #else
-        public virtual void LoadStaticPlugins(FMOD.System coreSystem, Action<FMOD.RESULT, string> reportResult)
-        {
-            if (StaticPlugins.Count > 0)
-            {
                 Debug.LogWarningFormat(
-                    "{0} static plugins specified, but static plugins are only supported on the IL2CPP scripting backend",
+                    "FMOD: {0} static plugins specified, but static plugins are only supported on the IL2CPP scripting backend",
                     StaticPlugins.Count);
+#endif
             }
         }
-#endif
 
-        // This needs to match the DllImport function called by LoadStaticPlugins above
-        public const string RegisterStaticPluginsFunctionName = "FMOD_Unity_RegisterStaticPlugins";
+        // These need to match the function called by LoadStaticPlugins above
+        public const string RegisterStaticPluginsClassName = "StaticPluginManager";
+        public const string RegisterStaticPluginsFunctionName = "Register";
 
         // Ensures that this platform has properties.
         public void AffirmProperties()
@@ -267,6 +294,9 @@ namespace FMODUnity
             {
                 Properties = new PropertyStorage();
                 active = false;
+#if UNITY_EDITOR
+                DisplaySortOrder = 0;
+#endif
             }
         }
 
@@ -304,6 +334,7 @@ namespace FMODUnity
             }
         }
 
+#if UNITY_EDITOR
         [SerializeField]
         private float displaySortOrder;
 
@@ -316,17 +347,10 @@ namespace FMODUnity
 
             set
             {
-                if (displaySortOrder != value)
-                {
-                    displaySortOrder = value;
-
-                    if (Parent != null)
-                    {
-                        Parent.children.Sort();
-                    }
-                }
+                displaySortOrder = value;
             }
         }
+#endif
 
         public bool IsLiveUpdateEnabled
         {
@@ -349,18 +373,6 @@ namespace FMODUnity
 #else
                 return Overlay == TriStateBool.Enabled;
 #endif
-            }
-        }
-
-        public int CompareTo(Platform other)
-        {
-            if (other == null)
-            {
-                return 1;
-            }
-            else
-            {
-                return DisplaySortOrder.CompareTo(other.DisplaySortOrder);
             }
         }
 
@@ -402,10 +414,16 @@ namespace FMODUnity
         {
         }
 
+        public interface PropertyOverrideControl
+        {
+            bool HasValue(Platform platform);
+            void Clear(Platform platform);
+        }
+
         // This class provides access to a specific property on any Platform object; the property to
         // operate on is determined by the Getter function. This allows client code to operate on
         // platform properties in a generic manner.
-        public struct PropertyAccessor<T>
+        public struct PropertyAccessor<T> : PropertyOverrideControl
         {
             private readonly Func<PropertyStorage, Property<T>> Getter;
             private readonly T DefaultValue;
@@ -472,6 +490,7 @@ namespace FMODUnity
         public class PropertyStorage
         {
             public PropertyBool LiveUpdate = new PropertyBool();
+            public PropertyInt LiveUpdatePort = new PropertyInt();
             public PropertyBool Overlay = new PropertyBool();
             public PropertyBool Logging = new PropertyBool();
             public PropertyInt SampleRate = new PropertyInt();
@@ -500,6 +519,7 @@ namespace FMODUnity
                 return active &&
                     (
                         Properties.LiveUpdate.HasValue
+                        || Properties.LiveUpdatePort.HasValue
                         || Properties.Overlay.HasValue
                         || Properties.Logging.HasValue
                         || Properties.SampleRate.HasValue
@@ -520,6 +540,7 @@ namespace FMODUnity
 
         // These accessors provide (possibly inherited) property values.
         public TriStateBool LiveUpdate { get { return PropertyAccessors.LiveUpdate.Get(this); } }
+        public int LiveUpdatePort { get { return PropertyAccessors.LiveUpdatePort.Get(this); } }
         public TriStateBool Overlay { get { return PropertyAccessors.Overlay.Get(this); } }
         public TriStateBool Logging { get { return PropertyAccessors.Logging.Get(this); } }
         public int SampleRate { get { return PropertyAccessors.SampleRate.Get(this); } }
@@ -538,6 +559,9 @@ namespace FMODUnity
         {
             public static readonly PropertyAccessor<TriStateBool> LiveUpdate
                     = new PropertyAccessor<TriStateBool>(properties => properties.LiveUpdate, TriStateBool.Disabled);
+
+            public static readonly PropertyAccessor<int> LiveUpdatePort
+                    = new PropertyAccessor<int>(properties => properties.LiveUpdatePort, 9264);
 
             public static readonly PropertyAccessor<TriStateBool> Overlay
                     = new PropertyAccessor<TriStateBool>(properties => properties.Overlay, TriStateBool.Disabled);
@@ -576,41 +600,26 @@ namespace FMODUnity
                     = new PropertyAccessor<PlatformCallbackHandler>(properties => properties.CallbackHandler, null);
         }
 
-        [NonSerialized]
-        private Platform parent;
-
+#if UNITY_EDITOR
         // The parent platform from which this platform inherits its property values.
         public Platform Parent
         {
-            get { return parent; }
-
-            set
+            get
             {
-                if (value != parent)
-                {
-                    if (parent != null)
-                    {
-                        parent.children.Remove(this);
-                    }
-
-                    parent = value;
-
-                    if (parent != null)
-                    {
-                        parent.children.Add(this);
-                        parent.children.Sort();
-                    }
-
-                    ParentIdentifier = (parent != null) ? parent.Identifier : null;
-                }
+                return (ParentIdentifier != null) ? Settings.Instance.FindPlatform(ParentIdentifier) : null;
             }
         }
 
-        [NonSerialized]
-        private readonly List<Platform> children = new List<Platform>();
+        [SerializeField]
+        private List<string> childIdentifiers = new List<string>();
 
         // The platforms which inherit their property values from this platform.
-        public List<Platform> Children { get { return children; } }
+        public List<string> ChildIdentifiers { get { return childIdentifiers; } }
+#else
+        // The parent platform from which this platform inherits its property values.
+        [NonSerialized]
+        public Platform Parent;
+#endif
 
         // Checks whether this platform inherits from the given platform, so we can avoid creating
         // inheritance loops.
@@ -649,6 +658,39 @@ namespace FMODUnity
         }
 
         public abstract OutputType[] ValidOutputTypes { get; }
+
+        public virtual int CoreCount { get { return 0; } }
+
+        public const int MaximumCoreCount = 16;
 #endif
+
+        public virtual List<ThreadAffinityGroup> DefaultThreadAffinities { get { return StaticThreadAffinities; } }
+
+        private static List<ThreadAffinityGroup> StaticThreadAffinities = new List<ThreadAffinityGroup>();
+
+        [Serializable]
+        public class PropertyThreadAffinityList : Property<List<ThreadAffinityGroup>>
+        {
+        }
+
+        [SerializeField]
+        private PropertyThreadAffinityList threadAffinities = new PropertyThreadAffinityList();
+
+        public IEnumerable<ThreadAffinityGroup> ThreadAffinities
+        {
+            get
+            {
+                if (threadAffinities.HasValue)
+                {
+                    return threadAffinities.Value;
+                }
+                else
+                {
+                    return DefaultThreadAffinities;
+                }
+            }
+        }
+
+        public PropertyThreadAffinityList ThreadAffinitiesProperty { get { return threadAffinities; } }
     }
 }

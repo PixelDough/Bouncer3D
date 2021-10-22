@@ -67,7 +67,7 @@ namespace FMODUnity
 #endif
 
 #if UNITY_EDITOR
-        protected override IEnumerable<string> GetRelativeBinaryPaths(BuildTarget buildTarget, string suffix)
+        protected override IEnumerable<string> GetRelativeBinaryPaths(BuildTarget buildTarget, bool allVariants, string suffix)
         {
             string dllSuffix = suffix + ".dll";
 
@@ -126,6 +126,8 @@ namespace FMODUnity
            new OutputType() { displayName = "Windows Audio Session API", outputType = FMOD.OUTPUTTYPE.WASAPI },
            new OutputType() { displayName = "Windows Sonic", outputType = FMOD.OUTPUTTYPE.WINSONIC },
         };
+
+        public override int CoreCount { get { return MaximumCoreCount; } }
 #endif
     }
 }

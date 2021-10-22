@@ -1,6 +1,6 @@
 /* ======================================================================================== */
 /* FMOD Core API - C# wrapper.                                                              */
-/* Copyright (c), Firelight Technologies Pty, Ltd. 2004-2020.                               */
+/* Copyright (c), Firelight Technologies Pty, Ltd. 2004-2021.                               */
 /*                                                                                          */
 /* For more detail visit:                                                                   */
 /* https://fmod.com/resources/documentation-api?version=2.0&page=core-api.html              */
@@ -19,7 +19,7 @@ namespace FMOD
     */
     public partial class VERSION
     {
-        public const int    number = 0x00020105;
+        public const int    number = 0x00020109;
 #if !UNITY_2017_4_OR_NEWER
         public const string dll    = "fmod";
 #endif
@@ -496,6 +496,9 @@ namespace FMOD
         PREUPDATE              = 0x00000400,
         POSTUPDATE             = 0x00000800,
         RECORDLISTCHANGED      = 0x00001000,
+        BUFFEREDNOMIX          = 0x00002000,
+        DEVICEREINITIALIZE     = 0x00004000,
+        OUTPUTUNDERRUN         = 0x00008000,
         ALL                    = 0xFFFFFFFF,
     }
 
@@ -793,13 +796,13 @@ namespace FMOD
     }
 
     [Flags]
-    public enum THREAD_AFFINITY : ulong
+    public enum THREAD_AFFINITY : long // avoid ulong for Bolt compatibility
     {
         /* Platform agnostic thread groupings */
-        GROUP_DEFAULT       = 0x8000000000000000,
-        GROUP_A             = 0x8000000000000001,
-        GROUP_B             = 0x8000000000000002,
-        GROUP_C             = 0x8000000000000003,
+        GROUP_DEFAULT       = 0x4000000000000000,
+        GROUP_A             = 0x4000000000000001,
+        GROUP_B             = 0x4000000000000002,
+        GROUP_C             = 0x4000000000000003,
         
         /* Thread defaults */
         MIXER               = GROUP_A,
@@ -816,7 +819,7 @@ namespace FMOD
         CONVOLUTION1        = GROUP_C,
         CONVOLUTION2        = GROUP_C,
                 
-        /* Core mask, valid up to 1 << 62 */
+        /* Core mask, valid up to 1 << 61 */
         CORE_ALL            = 0,
         CORE_0              = 1 << 0,
         CORE_1              = 1 << 1,
@@ -917,6 +920,11 @@ namespace FMOD
     {
         public static RESULT SetAttributes(THREAD_TYPE type, THREAD_AFFINITY affinity = THREAD_AFFINITY.GROUP_DEFAULT, THREAD_PRIORITY priority = THREAD_PRIORITY.DEFAULT, THREAD_STACK_SIZE stacksize = THREAD_STACK_SIZE.DEFAULT)
         {
+            if ((affinity & THREAD_AFFINITY.GROUP_DEFAULT) != 0)
+            {
+                affinity &= ~THREAD_AFFINITY.GROUP_DEFAULT;
+                affinity = (THREAD_AFFINITY)(((ulong)affinity) | 0x8000000000000000);
+            }
             return FMOD5_Thread_SetAttributes(type, affinity, priority, stacksize);
         }
 
@@ -1008,12 +1016,12 @@ namespace FMOD
         }
         public RESULT setAdvancedSettings(ref ADVANCEDSETTINGS settings)
         {
-            settings.cbSize = Marshal.SizeOf(settings);
+            settings.cbSize = MarshalHelper.SizeOf(typeof(ADVANCEDSETTINGS));
             return FMOD5_System_SetAdvancedSettings(this.handle, ref settings);
         }
         public RESULT getAdvancedSettings(ref ADVANCEDSETTINGS settings)
         {
-            settings.cbSize = Marshal.SizeOf(settings);
+            settings.cbSize = MarshalHelper.SizeOf(typeof(ADVANCEDSETTINGS));
             return FMOD5_System_GetAdvancedSettings(this.handle, ref settings);
         }
         public RESULT setCallback(SYSTEM_CALLBACK callback, SYSTEM_CALLBACK_TYPE callbackmask = SYSTEM_CALLBACK_TYPE.ALL)
@@ -1233,7 +1241,7 @@ namespace FMOD
         public RESULT createSound(string name, MODE mode, out Sound sound)
         {
             CREATESOUNDEXINFO exinfo = new CREATESOUNDEXINFO();
-            exinfo.cbsize = Marshal.SizeOf(exinfo);
+            exinfo.cbsize = MarshalHelper.SizeOf(typeof(CREATESOUNDEXINFO));
 
             return createSound(name, mode, ref exinfo, out sound);
         }
@@ -1255,7 +1263,7 @@ namespace FMOD
         public RESULT createStream(string name, MODE mode, out Sound sound)
         {
             CREATESOUNDEXINFO exinfo = new CREATESOUNDEXINFO();
-            exinfo.cbsize = Marshal.SizeOf(exinfo);
+            exinfo.cbsize = MarshalHelper.SizeOf(typeof(CREATESOUNDEXINFO));
 
             return createStream(name, mode, ref exinfo, out sound);
         }
@@ -3286,11 +3294,7 @@ namespace FMOD
         {
             IntPtr descPtr;
             RESULT result = FMOD5_DSP_GetParameterInfo(this.handle, index, out descPtr);
-            #if (UNITY_2017_4_OR_NEWER) && !NET_4_6
-            desc = (DSP_PARAMETER_DESC)Marshal.PtrToStructure(descPtr, typeof(DSP_PARAMETER_DESC));
-            #else
-            desc = Marshal.PtrToStructure<DSP_PARAMETER_DESC>(descPtr);
-            #endif // (UNITY_2017_4_OR_NEWER) && !NET_4_6
+            desc = (DSP_PARAMETER_DESC)MarshalHelper.PtrToStructure(descPtr, typeof(DSP_PARAMETER_DESC));
             return result;
         }
         public RESULT getDataParameterIndex(int datatype, out int index)
@@ -3766,7 +3770,7 @@ namespace FMOD
         #endregion
     }
 
-    #region String Helper Functions
+    #region Helper Functions
     [StructLayout(LayoutKind.Sequential)]
     public struct StringWrapper
     {
@@ -3923,6 +3927,23 @@ namespace FMOD
                 return helper;
             }
         }
+    }
+
+    // Some of the Marshal functions were marked as deprecated / obsolete, however that decision was reversed: https://github.com/dotnet/corefx/pull/10541
+    // Use the old syntax (non-generic) to ensure maximum compatibility (especially with Unity) ignoring the warnings
+    public static class MarshalHelper
+    {
+#pragma warning disable 618
+        public static int SizeOf(Type t)
+        {
+            return Marshal.SizeOf(t); // Always use Type version, never Object version as it boxes causes GC allocations
+        }
+
+        public static object PtrToStructure(IntPtr ptr, Type structureType)
+        {
+            return Marshal.PtrToStructure(ptr, structureType);
+        }
+#pragma warning restore 618
     }
 
     #endregion

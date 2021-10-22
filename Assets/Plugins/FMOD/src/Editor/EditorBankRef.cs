@@ -23,6 +23,19 @@ namespace FMODUnity
             base.name = "bank:/" + Name + System.IO.Path.GetExtension(filePath);
         }
 
+        public void SetStudioPath(string studioPath)
+        {
+            string stringCmp;
+            stringCmp = System.IO.Path.GetFileName(Name);
+            if (!studioPath.Contains(stringCmp))
+            {
+                // No match means localization
+                studioPath = studioPath.Substring(0, studioPath.LastIndexOf("/") + 1);
+                studioPath += stringCmp;
+            }
+            StudioPath = studioPath;
+        }
+
         [Serializable]
         public class NameValuePair
         {
@@ -41,6 +54,9 @@ namespace FMODUnity
 
         [SerializeField]
         public string Name;
+
+        [SerializeField]
+        public string StudioPath;
 
         [SerializeField]
         Int64 lastModified;

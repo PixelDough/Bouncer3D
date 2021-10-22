@@ -26,7 +26,7 @@ namespace FMODUnity
 #if UNITY_EDITOR
         public override Legacy.Platform LegacyIdentifier { get { return Legacy.Platform.MobileLow; } }
 
-        protected override IEnumerable<string> GetRelativeBinaryPaths(BuildTarget buildTarget, string suffix)
+        protected override IEnumerable<string> GetRelativeBinaryPaths(BuildTarget buildTarget, bool allVariants, string suffix)
         {
             yield break;
         }
@@ -60,11 +60,17 @@ namespace FMODUnity
             PlatformIOS.StaticLoadPlugins(this, coreSystem, reportResult);
         }
 #elif UNITY_ANDROID
+        public override string GetBankFolder()
+        {
+            return PlatformAndroid.StaticGetBankFolder();
+        }
+
         public override string GetPluginPath(string pluginName)
         {
             return PlatformAndroid.StaticGetPluginPath(pluginName);
         }
 #endif
+
 #if UNITY_EDITOR
         public override OutputType[] ValidOutputTypes { get { return null; } }
 #endif

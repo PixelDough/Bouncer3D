@@ -1,3 +1,87 @@
+1.1.39.3:
+
+    Changes:
+      - WebGL builds work again after changes to compiler in Unity 2020.2.0 to that caused builds to throw an error on launch.
+      - Updated UFE2 integration to change auto show/hide of touch controls to toggle based on a screen touch and a controller press instead of toggling based on the presence of a controller due to problems with phantom joysticks that appear on some Android devices.
+      - Control Mapper: Focus is now reset when calling Reset while windows are open.
+   
+    Bug Fixes:
+      - ControllerMap.hardwareGuid is now correctly set for MouseMap, KeyboardMap, and CustomControllerMap.
+
+1.1.39.2:
+    
+    Changes:
+      - Missing mouse axis entries in the Unity Input Manager entries no longer cause Rewired to fail initialization, but instead log an error.
+    
+    API Changes:
+      - Added public setter to InputManager_Base.dataFiles property.
+    
+    Bug Fixes:
+      - Windows Standalone, Native Mouse Handling: Virtual desktop mouse delta value is no longer ~1/2 size of local mouse delta.
+      - Fixed missing stick buttons mappings for Steam Controller (emulated) in Gamepad Template.
+
+1.1.39.1:
+  
+    Bug Fixes:
+      - Fixed IL2CPP compile errors and runtime exceptions on some platforms due to error in obfuscation introduced in 1.1.39.0.
+      - Disabled debug logging in OSX builds in Unity 2020 and 2021 branches introduced in 1.1.39.0.
+
+1.1.39.0:
+
+    Changes:
+      - Added Unity 2021.x branch.
+      - Windows Native, OSX Native: Marginally improved DualShock 4 and DualSense gyro drift in computed orientation.
+      - Changed inspector settings on Rewired_DirectInput.dll to explicitly exclude OSX platforms due to new Unity bug in Unity 2020.x including Windows DLLs on MacOS builds.
+      - Added changes for new Xbox Wireless Controller firmware on MacOS.
+
+1.1.38.4:
+
+    Changes:
+      - Updated Universal Fighting Engine 2 integration due to major breaking changes made in UFE 2.4.1 update.
+      - Updated Bolt integration implementing workaround to prevent Rewired Bolt DLL containing custom units from being stripped from project in IL2CPP builds resulting in deserialization errors.
+      - Windows 10 Universal: Added workaround for new bug in IL2CPP that causes builds to fail in Unity 2020.2.x and later.
+
+1.1.38.3:
+    
+    Changes:
+      - Updated Universal Fighting Engine 2 integration to fix issues caused by changes in UFE2 since last update.
+      - RewiredEventSystem script execution order is now automatically set to -1000.
+    
+    Bug Fixes:
+      - Editor script now enables building to Game Core platforms in Rewired_Core.dll.
+
+1.1.38.2:
+    
+    Changes:
+      - Changed WebGL native library to prevent failure in Chrome browser on MacOS 11+.
+      - Changed WebGL OS version parsing to handle inconsistencies between browsers in how the os version is reported.
+      - Touch Controller Disable Mouse Input When Enabled toggle now records original mouse state when component is intialized and restores this value when disabled.
+      - Xbox One controller definition now used on Stadia instead of Xbox 360 controller definition for Xbox-compatible controllers.
+
+1.1.38.1:
+
+    Bug Fixes:
+      - Fixed D-pad mapping bug in Sony DualSense controller definition internal driver mapping.
+
+1.1.38.0:
+
+    Changes:
+      - Added support for Game Core Xbox platforms through additional plugin.
+      - Added Enhanced Device Support for Sony DualSense controller (Windows and MacOS).
+      - Changed display name of Nintendo Switch handheld controller to meet Nintendo's new naming requirements.
+      
+    API Changes:
+      - Added ControllerExtensions.DualSenseExtension class.
+      - Added ControllerExtensions.DualSenseMicrophoneLightMode enum.
+      - Added ControllerExtensions.DualSenseOtherLightBrightness enum.
+      - Added ControllerExtensions.DualSensePlayerLightFlags enum.
+
+    New Controller Definitions:
+      - Sony DualSense
+
+    Bug Fixes:
+      - Fixed broken ReInput.MappingHelper.GetActionElementMap function.
+
 1.1.37.0:
 
   Changes:

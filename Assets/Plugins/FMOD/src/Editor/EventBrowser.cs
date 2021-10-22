@@ -237,7 +237,7 @@ namespace FMODUnity
 
                 if ((TypeFilter & TypeFilter.Bank) != 0)
                 {
-                    CreateSubTree("Banks", BankPrefix, EventManager.Banks, b => BankPrefix + b.Name, bankIcon);
+                    CreateSubTree("Banks", BankPrefix, EventManager.Banks, b => b.StudioPath, bankIcon);
                 }
 
                 if ((TypeFilter & TypeFilter.Parameter) != 0)
@@ -257,14 +257,6 @@ namespace FMODUnity
                 nextFramedItemPath = null;
 
                 return rows;
-            }
-
-            private class NaturalComparer : IComparer<string>
-            {
-                public int Compare(string a, string b)
-                {
-                    return EditorUtility.NaturalCompare(a, b);
-                }
             }
 
             private static NaturalComparer naturalComparer = new NaturalComparer();
