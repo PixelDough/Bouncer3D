@@ -21,6 +21,8 @@ namespace PixelDough.Bouncer
         private static GameManager _instance;
 
         [SerializeField] private Volume globalVolume;
+
+        public ScreenFadeController screenFadeController;
         
         public Player Input;
 

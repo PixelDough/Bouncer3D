@@ -10,7 +10,7 @@ Material:
   m_Name: Mat_BoostPad
   m_Shader: {fileID: 4800000, guid: 055eab4e84dc70a47ae75b3125a22de6, type: 3}
   m_ShaderKeywords: _BRDF_MODE_LAMBERT _FOG_ON _SHADING_EVALUATION_MODE_PER_VERTEX
-    _TEXTURE_FILTER_MODE_TEXTURE_IMPORT_SETTINGS _VERTEX_COLOR_MODE_COLOR
+    _TEXTURE_FILTER_MODE_N64 _VERTEX_COLOR_MODE_COLOR
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -59,11 +59,12 @@ Material:
     - _PrecisionGeometryWeight: 1
     - _Reflection: 0
     - _ReflectionBlendMode: 0
+    - _ReflectionDirectionMode: 0
     - _RenderQueueCategory: 0
     - _ShadingEvaluationMode: 0
     - _SrcBlend: 1
     - _Surface: 0
-    - _TextureFilterMode: 0
+    - _TextureFilterMode: 3
     - _UVAnimationMode: 1
     - _VertexColorBlendMode: 0
     - _VertexColorMode: 1

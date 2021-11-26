@@ -168,7 +168,7 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 1
   Parameters:
-  - {fileID: 1579329098872714700}
+  - {fileID: 4431206370391379769}
   MinDistance: 1
   MaxDistance: 20
   Length: 176
@@ -210,7 +210,7 @@ MonoBehaviour:
   Path: Assets/FMOD Project/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637705007707751192
+  lastModified: 637689587971782268
   LoadResult: 0
   FileSizes:
   - Name: Desktop
@@ -231,7 +231,7 @@ MonoBehaviour:
   Path: Assets/FMOD Project/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637705007707731218
+  lastModified: 637705078489677154
   LoadResult: 0
   FileSizes: []
   Exists: 1
@@ -273,7 +273,7 @@ MonoBehaviour:
   Path: Assets/FMOD Project/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 637705007708798074
+  lastModified: 637705078489687173
   LoadResult: 0
   FileSizes: []
   Exists: 1
@@ -303,7 +303,7 @@ MonoBehaviour:
   - {fileID: -953124358439264123}
   StringsBanks:
   - {fileID: -2656746617273369337}
-  stringsBankWriteTime: 637705007707751192
+  stringsBankWriteTime: 637689587971782268
   cacheVersion: 6
 --- !u!114 &548660006096410122
 MonoBehaviour:
@@ -348,7 +348,7 @@ MonoBehaviour:
   ID:
     data1: 0
     data2: 0
-  Exists: 1
+  Exists: 0
 --- !u!114 &2990002202346997574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -392,6 +392,26 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1315
+--- !u!114 &4431206370391379769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/BounceBeachBall/Intensity
+  m_EditorClassIdentifier: 
+  Name: Intensity
+  Min: 0
+  Max: 1
+  Default: 0.5
+  ID:
+    data1: 0
+    data2: 0
+  Exists: 1
 --- !u!114 &4885573388420085187
 MonoBehaviour:
   m_ObjectHideFlags: 0
