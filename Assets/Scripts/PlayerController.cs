@@ -1,4 +1,5 @@
 ﻿using System;
+using QFSW.QC;
 using UnityEngine;
 
 namespace PixelDough.Bouncer
@@ -38,12 +39,16 @@ namespace PixelDough.Bouncer
 
         [Header("Audio Event Emitters")] 
         [SerializeField] private FMODUnity.StudioEventEmitter bounceEventEmitter;
+        [SerializeField] private FMODUnity.StudioEventEmitter rollEventEmitter;
+        [SerializeField] private FMODUnity.StudioEventEmitter windFastEventEmitter;
 
         private Vector3 _respawnPoint = Vector3.zero;
         private Vector3 _respawnForward = Vector3.forward;
 
         private bool _doPhysics = true;
         private bool _doInput = true;
+
+        private int _noclip = 0;
 
 
         /*
@@ -72,25 +77,32 @@ namespace PixelDough.Bouncer
         private void Update()
         {
             HandleMovementInput();
+            HandleNoclipMovement();
             //HandleDampen();
+
+            windFastEventEmitter.EventInstance.setParameterByName("AirSpeed", rigidbody.velocity.magnitude / 30f);
+            
+            if (_isGrounded)
+            {
+                rollEventEmitter.EventInstance.setParameterByName("BallRollSpeed",
+                    Vector3.ProjectOnPlane(rigidbody.velocity, Physics.gravity).magnitude / 30f);
+            }
+            else
+            {
+                rollEventEmitter.EventInstance.setParameterByName("BallRollSpeed", 0);
+            }
+
+            if (!rigidbody.isKinematic) rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
             
             _isDamping = true;
             if (GameManager.Instance.Input.GetButton(RewiredConsts.Action.Jump))
             {
                 _isDamping = false;
                 _colliderMaterial.bounciness = _defaultBounciness;
-                /*dampenBubble.gameObject.SetActive(true);*/
-                /*if (!dampenParticle.isEmitting) dampenParticle.Play();*/
             }
-            /*else if (GameManager.Instance.Input.GetButton(RewiredConsts.Action.Jump))
-            {
-                _colliderMaterial.bounciness = 0.9f;
-            }*/
             else
             {
                 _colliderMaterial.bounciness = 0.5f;
-                /*dampenBubble.gameObject.SetActive(false);*/
-                /*if (dampenParticle.isPlaying) dampenParticle.Stop();*/
             }
 
             collider.material = _colliderMaterial;
@@ -102,11 +114,6 @@ namespace PixelDough.Bouncer
 
             // Move the jump buffer towards 0
             _jumpBuffer = Mathf.MoveTowards(_jumpBuffer, 0f, Time.deltaTime);
-            // If the player has pressed the jump button, reset the jump buffer to the max
-            if (GameManager.Instance.Input.GetButtonDown(RewiredConsts.Action.Jump))
-            {
-                _jumpBuffer = jumpBufferMax;
-            }
 
             _coyoteTime = Mathf.MoveTowards(_coyoteTime, 0f, Time.deltaTime);
             if (_isGrounded) _coyoteTime = coyoteTimeMax;
@@ -146,7 +153,7 @@ namespace PixelDough.Bouncer
 
         private void FixedUpdate()
         {
-            if (!_doPhysics) return;
+            if (!_doPhysics || _noclip == 1) return;
             
             rigidbody.AddForce(Physics.gravity);
             
@@ -172,7 +179,7 @@ namespace PixelDough.Bouncer
             
             //rigidbody.AddForce(_inputMovement * (12 * Time.fixedDeltaTime), ForceMode.VelocityChange);
 
-            rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, 30);
+            //rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, 30);
 
             float projectedMagnitude = Vector3.ProjectOnPlane(rigidbody.velocity, Vector3.up).magnitude;
             rigidbody.drag = Mathf.Lerp(rigidbody.drag, (1f / (Mathf.Max(projectedMagnitude, 1) * 2)), Time.fixedDeltaTime);
@@ -229,6 +236,8 @@ namespace PixelDough.Bouncer
         
         private void HandleMovementInput()
         {
+            if (!_doInput || GameManager.Instance.quantumConsole.IsActive || _noclip == 1) return;
+            
             Vector2 rawInputMovement = GameManager.Instance.Input.GetAxis2D(RewiredConsts.Action.MoveHorizontal,
                 RewiredConsts.Action.MoveVertical);
             rawInputMovement.Normalize();
@@ -240,6 +249,28 @@ namespace PixelDough.Bouncer
 
             cameraTiltRoot.transform.rotation = Quaternion.Lerp(cameraTiltRoot.transform.rotation,
                 Quaternion.Euler(-_inputMovement.z * 5f, 0f, _inputMovement.x * 5f), 3f * Time.unscaledDeltaTime);
+            
+            // If the player has pressed the jump button, reset the jump buffer to the max
+            if (GameManager.Instance.Input.GetButtonDown(RewiredConsts.Action.Jump))
+            {
+                _jumpBuffer = jumpBufferMax;
+            }
+        }
+
+        private void HandleNoclipMovement()
+        {
+            if (!_doInput || GameManager.Instance.quantumConsole.IsActive || _noclip == 0) return;
+            
+            Vector2 rawInputMovement = GameManager.Instance.Input.GetAxis2D(RewiredConsts.Action.MoveHorizontal,
+                RewiredConsts.Action.MoveVertical);
+            rawInputMovement.Normalize();
+            Vector3 rawInputMovementVector3 = new Vector3(rawInputMovement.x, 0f, rawInputMovement.y);
+            Vector3 cameraRelativeInput = CameraRelativeFlatten(rawInputMovementVector3);
+            cameraRelativeInput = cameraRelativeInput.normalized * cameraRelativeInput.magnitude;
+
+            cameraRelativeInput.y += (Input.GetKey(KeyCode.Space) ? 1 : 0) + (Input.GetKey(KeyCode.C) ? -1 : 0);
+            
+            transform.Translate(cameraRelativeInput * (20f * Time.deltaTime), Space.World);
         }
         
         private void HandleDampen()
@@ -272,8 +303,6 @@ namespace PixelDough.Bouncer
                 rigidbody.velocity = new Vector3(rigidbody.velocity.x, 10f, rigidbody.velocity.z);
             _jumpBuffer = 0f;
             _coyoteTime = 0f;
-
-            //squishParticle.Play();
         }
 
         Vector3 CameraRelativeFlatten(Vector3 input)
@@ -294,6 +323,7 @@ namespace PixelDough.Bouncer
 
         public void Kill()
         {
+            
             // Play a kill animation
             //rigidbody.velocity = Vector3.zero;
             _doPhysics = false;
@@ -303,6 +333,8 @@ namespace PixelDough.Bouncer
 
         private void Respawn()
         {
+            _doPhysics = false;
+            _doInput = false;
             GameManager.Instance.screenFadeController.FadeToBlack(0.5f).setOnComplete(() =>
             {
                 transform.position = _respawnPoint;
@@ -316,6 +348,36 @@ namespace PixelDough.Bouncer
                     _doInput = true;
                 });
             });
+        }
+
+        [Command("goto-checkpoint", MonoTargetType.Single)]
+        private void GoToCheckpoint(int index)
+        {
+            foreach (var checkpointController in FindObjectsOfType<CheckpointController>())
+            {
+                if (checkpointController.index == index)
+                {
+                    SetRespawnPoint(checkpointController.transform.position, checkpointController.transform.forward);
+                    Respawn();
+                    return;
+                }
+            }
+            
+            Debug.Log($"No such checkpoint exists at index {index}.");
+        }
+
+        [Command("noclip", MonoTargetType.Single)]
+        private void NoClip()
+        {
+            NoClip(_noclip == 1 ? 0 : 1);
+        }
+        
+        [Command("noclip", MonoTargetType.Single)]
+        private void NoClip(int value)
+        {
+            _noclip = value;
+            
+            rigidbody.isKinematic = _noclip == 1;
         }
     }
 }

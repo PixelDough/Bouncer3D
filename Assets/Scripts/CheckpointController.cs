@@ -7,6 +7,8 @@ using UnityEngine;
 public class CheckpointController : MonoBehaviour
 {
     [SerializeField] private Transform respawnPointTransform;
+
+    public int index = 0;
     
     private void OnTriggerEnter(Collider other)
     {

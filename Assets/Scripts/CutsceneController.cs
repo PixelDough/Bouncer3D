@@ -19,6 +19,15 @@ public class CutsceneController : MonoBehaviour
         PlayCutscene();
     }
 
+    private void Update()
+    {
+        if (GameManager.Instance.Input.GetButtonDown(RewiredConsts.Action.Start) || 
+            GameManager.Instance.Input.GetButtonDown(RewiredConsts.Action.Back))
+        {
+            FinishCutscene();
+        }
+    }
+
     public void PlayCutscene()
     {
         Timing.RunCoroutine(C_CutsceneCoroutine().CancelWith(gameObject));

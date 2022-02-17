@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.TerrainAPI;
 
 [CreateAssetMenu(menuName = "PixelDough/Font 3D")]
 public class ScriptableObjectFont3D : ScriptableObject

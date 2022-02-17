@@ -1,5 +1,5 @@
 ﻿using System;
-using HauntedPSX.RenderPipelines.PSX.Runtime;
+using QFSW.QC;
 using Rewired;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -20,7 +20,7 @@ namespace PixelDough.Bouncer
         }
         private static GameManager _instance;
 
-        [SerializeField] private Volume globalVolume;
+        //[SerializeField] private Volume globalVolume;
 
         public ScreenFadeController screenFadeController;
         
@@ -28,11 +28,14 @@ namespace PixelDough.Bouncer
 
         public static bool DebugOverlay = false;
 
+        public QuantumConsole quantumConsole;
+        private float _timeScaleBeforeConsole = 1f;
+
         private void Start()
         {
             if (_instance != null && _instance != this)
             {
-                Destroy(gameObject);
+                DestroyImmediate(gameObject);
                 return;
             }
 
@@ -49,6 +52,29 @@ namespace PixelDough.Bouncer
 
         private void Update()
         {
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Escape))
+            {
+                Cursor.lockState = CursorLockMode.None;
+            }
+            
+            if (UnityEngine.Input.GetKeyDown(KeyCode.F3))
+            {
+                quantumConsole.Toggle();
+                
+                if (quantumConsole.IsActive)
+                {
+                    _timeScaleBeforeConsole = Time.timeScale;
+                    Time.timeScale = 0f;
+                    Cursor.lockState = CursorLockMode.None;
+                }
+                else
+                {
+                    Time.timeScale = _timeScaleBeforeConsole;
+                }
+            }
+
+            if (quantumConsole.IsActive) return;
+            
             if (UnityEngine.Input.GetKeyDown(KeyCode.R))
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             if (UnityEngine.Input.GetKeyDown(KeyCode.T))
@@ -59,10 +85,7 @@ namespace PixelDough.Bouncer
                 }*/
             }
 
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Escape))
-            {
-                Cursor.lockState = CursorLockMode.None;
-            }
+            
 
             if (UnityEngine.Input.GetMouseButtonDown(0))
             {

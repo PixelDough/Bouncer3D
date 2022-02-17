@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="ParameterPreset" id="{c7377e96-298a-4bab-9c4d-c2a0eb65fd2c}">
+		<property name="name">
+			<value>AirSpeed</value>
+		</property>
+		<relationship name="folder">
+			<destination>{c10ce413-33d4-49b1-a996-4b470b4154f9}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{5ea30e86-8dea-4755-981c-1b6456452ef9}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{5ea30e86-8dea-4755-981c-1b6456452ef9}">
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+		<property name="seekSpeed">
+			<value>3</value>
+		</property>
+	</object>
+</objects>
