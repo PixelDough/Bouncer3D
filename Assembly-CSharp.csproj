@@ -64,6 +64,7 @@
      <Compile Include="Assets\3D Text\Font3DLetter.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Audio\ImpactAudioSourceBase.cs" />
      <Compile Include="Assets\Rewired\Integration\UnityUI\RewiredEventSystem.cs" />
+     <Compile Include="Assets\Scripts\CheckpointController.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Materials\ImpactMaterialInteractionSet.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\CustomToggle.cs" />
      <Compile Include="Assets\Rewired\Examples\FallbackJoystickIdentification\Scripts\FallbackJoystickIdentificationDemo.cs" />
@@ -175,6 +176,7 @@
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\UISelectionUtility.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\ImpactMaterialMapping.cs" />
      <Compile Include="Assets\Scripts\CameraSelectiveRendering.cs" />
+     <Compile Include="Assets\Scripts\KillZone.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Particles\ImpactParticleInteraction.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\ImpactSlideAndRollTriggerBase.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Utility\Range.cs" />
@@ -241,8 +243,6 @@
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\CanvasScalerFitter.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\3D\ImpactSlideAndRollTrigger3D.cs" />
      <Compile Include="Assets\TimelineEvents\Scripts\TimelineEvents\TimelineEventMixerBehaviour.cs" />
-     <Compile Include="Assets\Scripts\KillZone.cs" />
-     <Compile Include="Assets\Scripts\CheckpointController.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\FMOD Project\Metadata\AudioFile\{b3cf979e-e412-414b-9964-6b675f1665c0}.xml" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />

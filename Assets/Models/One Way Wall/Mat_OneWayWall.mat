@@ -10,7 +10,7 @@ Material:
   m_Name: Mat_OneWayWall
   m_Shader: {fileID: 4800000, guid: 055eab4e84dc70a47ae75b3125a22de6, type: 3}
   m_ShaderKeywords: _BRDF_MODE_LAMBERT _FOG_ON _LIGHTING_BAKED_ON _LIGHTING_DYNAMIC_ON
-    _SHADING_EVALUATION_MODE_PER_PIXEL _TEXTURE_FILTER_MODE_N64
+    _SHADING_EVALUATION_MODE_PER_PIXEL _TEXTURE_FILTER_MODE_POINT
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -64,7 +64,7 @@ Material:
     - _ShadingEvaluationMode: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _TextureFilterMode: 3
+    - _TextureFilterMode: 1
     - _UVAnimationMode: 0
     - _VertexColorBlendMode: 0
     - _VertexColorMode: 0

@@ -16,6 +16,7 @@ namespace PixelDough.Bouncer
 
         private float _defaultBounciness = 1f;
         private float _defaultAngularDrag = 0f;
+        private float _defaultDrag;
         
         [SerializeField] private float jumpBufferMax = 0.2f;
         private float _jumpBuffer = 0f;
@@ -41,6 +42,9 @@ namespace PixelDough.Bouncer
         private Vector3 _respawnPoint = Vector3.zero;
         private Vector3 _respawnForward = Vector3.forward;
 
+        private bool _doPhysics = true;
+        private bool _doInput = true;
+
 
         /*
         [SerializeField] private ParticleSystem squishParticle;
@@ -56,6 +60,7 @@ namespace PixelDough.Bouncer
             _colliderMaterial = collider.material;
             _defaultBounciness = _colliderMaterial.bounciness;
             _defaultAngularDrag = rigidbody.angularDrag;
+            _defaultDrag = rigidbody.drag;
 
             _respawnPoint = transform.position;
             _respawnForward = Vector3.forward;
@@ -141,6 +146,8 @@ namespace PixelDough.Bouncer
 
         private void FixedUpdate()
         {
+            if (!_doPhysics) return;
+            
             rigidbody.AddForce(Physics.gravity);
             
             if (_isGrounded)
@@ -166,6 +173,9 @@ namespace PixelDough.Bouncer
             //rigidbody.AddForce(_inputMovement * (12 * Time.fixedDeltaTime), ForceMode.VelocityChange);
 
             rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, 30);
+
+            float projectedMagnitude = Vector3.ProjectOnPlane(rigidbody.velocity, Vector3.up).magnitude;
+            rigidbody.drag = Mathf.Lerp(rigidbody.drag, (1f / (Mathf.Max(projectedMagnitude, 1) * 2)), Time.fixedDeltaTime);
             
             _pastVelocity = rigidbody.velocity;
         }
@@ -197,13 +207,17 @@ namespace PixelDough.Bouncer
                     {
                         //squishParticle.Play();
                         //Squish();
-                        if (Mathf.Clamp(point.normal.y, -0.1f, 0.1f) == point.normal.y)
+                        
+                        // Hit wall
+                        if (Mathf.Abs(point.normal.y) < 0.1f)
                         {
-                            rigidbody.AddForce(point.normal * rigidbody.velocity.magnitude / 4f,
+                            rigidbody.AddForce(point.normal * Vector3.ProjectOnPlane(_pastVelocity, Physics.gravity).magnitude / 10f,
                                 ForceMode.VelocityChange);
-                            rigidbody.AddForce(Vector3.up * rigidbody.velocity.magnitude / 1.1f,
+                            rigidbody.AddForce(Vector3.up * Vector3.ProjectOnPlane(_pastVelocity, Physics.gravity).magnitude / 1.25f,
                                 ForceMode.VelocityChange);
+
                         }
+                        // Hit something that's not a wall
                         else if (Vector3.Angle(-point.normal, Physics.gravity) > 35f && velTowardsNormal > 9f)
                         {
                             rigidbody.AddForce(point.normal * velTowardsNormal / 2f, ForceMode.VelocityChange);
@@ -225,7 +239,7 @@ namespace PixelDough.Bouncer
             _inputMovement = cameraRelativeInput;
 
             cameraTiltRoot.transform.rotation = Quaternion.Lerp(cameraTiltRoot.transform.rotation,
-                Quaternion.Euler(-_inputMovement.z * 10f, 0f, _inputMovement.x * 10f), 3f * Time.unscaledDeltaTime);
+                Quaternion.Euler(-_inputMovement.z * 5f, 0f, _inputMovement.x * 5f), 3f * Time.unscaledDeltaTime);
         }
         
         private void HandleDampen()
@@ -281,8 +295,9 @@ namespace PixelDough.Bouncer
         public void Kill()
         {
             // Play a kill animation
-            rigidbody.velocity = Vector3.zero;
-
+            //rigidbody.velocity = Vector3.zero;
+            _doPhysics = false;
+            _doInput = false;
             Respawn();
         }
 
@@ -291,9 +306,15 @@ namespace PixelDough.Bouncer
             GameManager.Instance.screenFadeController.FadeToBlack(0.5f).setOnComplete(() =>
             {
                 transform.position = _respawnPoint;
+                transform.forward = _respawnForward;
                 playerStuffManager.SetCameraForward(_respawnForward);
                 rigidbody.velocity = Vector3.zero;
-                GameManager.Instance.screenFadeController.FadeFromBlack(0.5f);
+                rigidbody.angularVelocity = Vector3.zero;
+                GameManager.Instance.screenFadeController.FadeFromBlack(0.5f).setOnComplete(() =>
+                {
+                    _doPhysics = true;
+                    _doInput = true;
+                });
             });
         }
     }
