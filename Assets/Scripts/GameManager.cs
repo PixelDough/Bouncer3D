@@ -31,6 +31,9 @@ namespace PixelDough.Bouncer
         public QuantumConsole quantumConsole;
         private float _timeScaleBeforeConsole = 1f;
 
+        public static bool DoPlayerMovement = true;
+        public static bool DoPlayerPhysics = true;
+
         private void Start()
         {
             if (_instance != null && _instance != this)

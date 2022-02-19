@@ -45,9 +45,6 @@ namespace PixelDough.Bouncer
         private Vector3 _respawnPoint = Vector3.zero;
         private Vector3 _respawnForward = Vector3.forward;
 
-        private bool _doPhysics = true;
-        private bool _doInput = true;
-
         private int _noclip = 0;
 
 
@@ -153,9 +150,9 @@ namespace PixelDough.Bouncer
 
         private void FixedUpdate()
         {
-            if (!_doPhysics || _noclip == 1) return;
+            if (!GameManager.DoPlayerPhysics || _noclip == 1) return;
             
-            rigidbody.AddForce(Physics.gravity);
+            rigidbody.AddForce(Physics.gravity, ForceMode.Acceleration);
             
             if (_isGrounded)
             {
@@ -236,7 +233,7 @@ namespace PixelDough.Bouncer
         
         private void HandleMovementInput()
         {
-            if (!_doInput || GameManager.Instance.quantumConsole.IsActive || _noclip == 1) return;
+            if (!GameManager.DoPlayerMovement || GameManager.Instance.quantumConsole.IsActive || _noclip == 1) return;
             
             Vector2 rawInputMovement = GameManager.Instance.Input.GetAxis2D(RewiredConsts.Action.MoveHorizontal,
                 RewiredConsts.Action.MoveVertical);
@@ -259,7 +256,7 @@ namespace PixelDough.Bouncer
 
         private void HandleNoclipMovement()
         {
-            if (!_doInput || GameManager.Instance.quantumConsole.IsActive || _noclip == 0) return;
+            if (!GameManager.DoPlayerMovement || GameManager.Instance.quantumConsole.IsActive || _noclip == 0) return;
             
             Vector2 rawInputMovement = GameManager.Instance.Input.GetAxis2D(RewiredConsts.Action.MoveHorizontal,
                 RewiredConsts.Action.MoveVertical);
@@ -326,15 +323,15 @@ namespace PixelDough.Bouncer
             
             // Play a kill animation
             //rigidbody.velocity = Vector3.zero;
-            _doPhysics = false;
-            _doInput = false;
+            GameManager.DoPlayerMovement = false;
+            GameManager.DoPlayerPhysics = false;
             Respawn();
         }
 
         private void Respawn()
         {
-            _doPhysics = false;
-            _doInput = false;
+            GameManager.DoPlayerMovement = false;
+            GameManager.DoPlayerPhysics = false;
             GameManager.Instance.screenFadeController.FadeToBlack(0.5f).setOnComplete(() =>
             {
                 transform.position = _respawnPoint;
@@ -344,8 +341,8 @@ namespace PixelDough.Bouncer
                 rigidbody.angularVelocity = Vector3.zero;
                 GameManager.Instance.screenFadeController.FadeFromBlack(0.5f).setOnComplete(() =>
                 {
-                    _doPhysics = true;
-                    _doInput = true;
+                    GameManager.DoPlayerMovement = true;
+                    GameManager.DoPlayerPhysics = true;
                 });
             });
         }
