@@ -78,8 +78,6 @@ namespace PixelDough.Bouncer
 
             if (quantumConsole.IsActive) return;
             
-            if (UnityEngine.Input.GetKeyDown(KeyCode.R))
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             if (UnityEngine.Input.GetKeyDown(KeyCode.T))
             {
                 /*if (globalVolume.profile.TryGet(out AnalogSignalVolume analogVolume))
@@ -94,6 +92,12 @@ namespace PixelDough.Bouncer
             {
                 Cursor.lockState = CursorLockMode.Locked;
             }
+        }
+
+        [Command("reload-scene")]
+        private static void ReloadScene()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }
