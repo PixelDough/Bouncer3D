@@ -94,10 +94,16 @@ namespace PixelDough.Bouncer
             }
         }
 
+        [Command("change-scene")]
+        private static void ChangeScene(string sceneName)
+        {
+            GameSceneManager.LoadScene(sceneName);
+        }
+
         [Command("reload-scene")]
         private static void ReloadScene()
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            GameSceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }

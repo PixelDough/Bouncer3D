@@ -15,8 +15,15 @@ public class CutsceneController : MonoBehaviour
     
     private void Start()
     {
-        
-        PlayCutscene();
+        if (GameSceneManager.IsChangingScenes)
+            GameSceneManager.OnSceneLoaded += PlayCutscene;
+        else
+            PlayCutscene();
+    }
+
+    private void OnDestroy()
+    {
+        GameSceneManager.OnSceneLoaded -= PlayCutscene;
     }
 
     private void Update()
@@ -30,6 +37,10 @@ public class CutsceneController : MonoBehaviour
 
     public void PlayCutscene()
     {
+        GameManager.DoPlayerMovement = false;
+        GameManager.DoPlayerPhysics = false;
+        FindObjectOfType<PlayerStuffManager>().CutsceneBegin();
+        
         Timing.RunCoroutine(C_CutsceneCoroutine().CancelWith(gameObject));
     }
 
@@ -41,14 +52,20 @@ public class CutsceneController : MonoBehaviour
         GameManager.Instance.screenFadeController.FadeToBlack(0.5f).setOnComplete(() =>
         {
             playableDirector.Stop();
-            GameManager.Instance.screenFadeController.FadeFromBlack(0.5f);
+            FindObjectOfType<PlayerStuffManager>().CutsceneEnded();
+            GameManager.Instance.screenFadeController.FadeFromBlack(0.5f).setOnComplete(() =>
+            {
+                GameManager.DoPlayerMovement = true;
+                GameManager.DoPlayerPhysics = true;
+                LevelManager.CountingTime = true;
+            });
         });
     }
 
     private IEnumerator<float> C_CutsceneCoroutine()
     {
         _isPlayingCutscene = true;
-        GameManager.Instance.screenFadeController.FadeFromBlack();
+        //GameManager.Instance.screenFadeController.FadeFromBlack();
         
         playableDirector.Play();
 

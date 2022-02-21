@@ -9,6 +9,7 @@ namespace PixelDough.Bouncer.UI
 {
     public class PlayerHudController : MonoBehaviour
     {
+        [SerializeField] private CanvasGroup canvasGroup;
 
         [Header("Shell Counter")]
         [SerializeField] private Image shellImage;
@@ -22,7 +23,7 @@ namespace PixelDough.Bouncer.UI
         [Header("Timer")] 
         [SerializeField] private TextMeshProUGUI timerText;
 
-        private bool _isHidden = false;
+        private bool _isVisible = true;
         
         private void Start()
         {
@@ -81,10 +82,18 @@ namespace PixelDough.Bouncer.UI
             yield return null;
         }
 
-        public void SetHiddenState(bool state)
+        public void SetVisibility(bool state, bool doAnimation = true)
         {
-            _isHidden = state;
-                
+            _isVisible = state;
+
+            if (state)
+            {
+                canvasGroup.alpha = 1;
+            }
+            else
+            {
+                canvasGroup.alpha = 0;
+            }
         }
         
     }

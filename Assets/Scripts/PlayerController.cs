@@ -343,6 +343,7 @@ namespace PixelDough.Bouncer
                 {
                     GameManager.DoPlayerMovement = true;
                     GameManager.DoPlayerPhysics = true;
+                    
                 });
             });
         }

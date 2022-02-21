@@ -8,8 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Mat_Skin_BowlingBall
-  m_Shader: {fileID: 4800000, guid: 108a099e219f20a4da6fad79a54fcc5b, type: 3}
-  m_ShaderKeywords: _USEVERTEXCOLORS_ON
+  m_Shader: {fileID: 4800000, guid: 84eb869da6c729d4aae5b45d78a7db05, type: 3}
+  m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -25,6 +25,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 09e78621da0274b4fb3f3e3c38fbfdcc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetalicMap:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ReflectionCubemap:
@@ -71,9 +75,13 @@ Material:
     - _DstBlend: 0
     - _EmissionBakedMultiplier: 1
     - _FogWeight: 1
+    - _FresnelBias: -0.16
+    - _FresnelPower: 5
+    - _FresnelScale: 1
     - _LightingBaked: 1
     - _LightingDynamic: 1
     - _LightingMode: 0
+    - _Metalic: 0
     - _PrecisionColorOverrideMode: 0
     - _PrecisionGeometryOverrideMode: 0
     - _PrecisionGeometryWeight: 1
@@ -82,6 +90,7 @@ Material:
     - _Reflection: 0
     - _ReflectionBlendMode: 0
     - _RenderQueueCategory: 0
+    - _RimLight: 0
     - _ShadingEvaluationMode: 0
     - _Smoothness: 0.75
     - _SrcBlend: 1

@@ -15,7 +15,7 @@ namespace PixelDough.Bouncer
 
         private void Start()
         {
-            playerHudController.SetHiddenState(false);
+            playerHudController.SetVisibility(false);
         }
 
         public void CollectShells(int count)
@@ -25,13 +25,12 @@ namespace PixelDough.Bouncer
 
         public void CutsceneBegin()
         {
-            GameManager.Instance.screenFadeController.FadeToBlack();
-            playerHudController.SetHiddenState(false);
+            playerHudController.SetVisibility(false);
         }
         
         public void CutsceneEnded()
         {
-            playerHudController.SetHiddenState(true);
+            playerHudController.SetVisibility(true);
             
         }
 

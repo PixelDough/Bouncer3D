@@ -21,8 +21,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Mat_BowlingBall_Green
-  m_Shader: {fileID: 4800000, guid: 108a099e219f20a4da6fad79a54fcc5b, type: 3}
-  m_ShaderKeywords: _USEVERTEXCOLORS_ON
+  m_Shader: {fileID: 4800000, guid: 84eb869da6c729d4aae5b45d78a7db05, type: 3}
+  m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -114,6 +114,9 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
+    - _FresnelBias: 0
+    - _FresnelPower: 5
+    - _FresnelScale: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0

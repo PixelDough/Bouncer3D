@@ -235,6 +235,8 @@
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ScrollbarVisibilityHelper.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Utility\Object Pool\PooledObject.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\UIGroup.cs" />
+     <Compile Include="Assets\Scripts\Final Render\LowResCameraManager.cs" />
+     <Compile Include="Assets\Scripts\GameSceneManager.cs" />
      <None Include="Assets\Shaders\MainLit.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\FMOD Project\Metadata\AudioFile\{b3cf979e-e412-414b-9964-6b675f1665c0}.xml" />
@@ -259,6 +261,7 @@
      <None Include="Assets\LeanTween\License.txt" />
      <None Include="Assets\FMOD Project\Metadata\ParameterPreset\{c7377e96-298a-4bab-9c4d-c2a0eb65fd2c}.xml" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+     <None Include="Assets\Models\Bowling World\Bowling Ball\Planet.shader" />
      <None Include="Assets\FMOD Project\Metadata\Bank\{ccdb7a7e-3434-4749-bd35-52fe3a8f00ae}.xml" />
      <None Include="Assets\FMOD Project\Metadata\ProfilerFolder\{b1ab7034-1fdb-4b7b-89a2-93819fe075cf}.xml" />
      <None Include="Assets\FMOD Project\Metadata\Event\{fa1993a2-cd88-4588-a55a-3740bfe1df03}.xml" />
@@ -1061,6 +1064,12 @@
      </Reference>
      <Reference Include="Unity.RenderPipelines.Core.Editor">
      <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VisualEffectGraph.Editor">
+     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.VisualEffectGraph.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VisualEffectGraph.Runtime">
+     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.VisualEffectGraph.Runtime.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -19,6 +19,7 @@ namespace PixelDough.Bouncer
         public int shellsCollected = 0;
 
         public static TimeSpan LevelTime;
+        public static bool CountingTime = false;
 
         private void Start()
         {
@@ -30,12 +31,19 @@ namespace PixelDough.Bouncer
                 if (zoneData) shell.SetMesh(zoneData.collectableMesh, zoneData.collectableMaterial);
             }
 
-            LevelTime = new TimeSpan(0, 0, 0, 0, 0);
+            CountingTime = false;
+            ResetTimer();
         }
 
         private void Update()
         {
-            LevelTime = LevelTime.Add(TimeSpan.FromSeconds(Time.deltaTime));
+            if (CountingTime)
+                LevelTime = LevelTime.Add(TimeSpan.FromSeconds(Time.deltaTime));
+        }
+
+        public static void ResetTimer()
+        {
+            LevelTime = new TimeSpan(0, 0, 0, 0, 0);
         }
 
         private void OnDestroy()
