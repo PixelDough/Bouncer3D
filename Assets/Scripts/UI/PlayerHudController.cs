@@ -19,6 +19,9 @@ namespace PixelDough.Bouncer.UI
         
         [SerializeField] private RectTransform shellFlying;
 
+        [Header("Timer")] 
+        [SerializeField] private TextMeshProUGUI timerText;
+
         private bool _isHidden = false;
         
         private void Start()
@@ -30,6 +33,11 @@ namespace PixelDough.Bouncer.UI
         private void Update()
         {
             shellAnimator.speed = Mathf.Lerp(shellAnimator.speed, 1f, Time.deltaTime);
+
+            if (LevelManager.LevelTime.Hours > 0)
+                timerText.text = LevelManager.LevelTime.ToString(@"hh\:mm\:ss\.fff");
+            else
+                timerText.text = LevelManager.LevelTime.ToString(@"mm\:ss\.fff");
         }
 
         private void UpdateShellCountText()

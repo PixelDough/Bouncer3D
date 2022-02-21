@@ -18,6 +18,8 @@ namespace PixelDough.Bouncer
         
         public int shellsCollected = 0;
 
+        public static TimeSpan LevelTime;
+
         private void Start()
         {
             Instance = this;
@@ -27,6 +29,13 @@ namespace PixelDough.Bouncer
                 _totalShells += shell.Count;
                 if (zoneData) shell.SetMesh(zoneData.collectableMesh, zoneData.collectableMaterial);
             }
+
+            LevelTime = new TimeSpan(0, 0, 0, 0, 0);
+        }
+
+        private void Update()
+        {
+            LevelTime = LevelTime.Add(TimeSpan.FromSeconds(Time.deltaTime));
         }
 
         private void OnDestroy()

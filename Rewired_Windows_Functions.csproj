@@ -11,12 +11,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>PixelDough.Bouncer</RootNamespace>
-    <ProjectGuid>{14f0f78a-792a-d2f7-525a-ba64cbdcdd69}</ProjectGuid>
+    <RootNamespace>Rewired.Internal.Windows</RootNamespace>
+    <ProjectGuid>{bf2fede1-2030-8ddb-ea6e-8874aba945f2}</ProjectGuid>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
+    <AssemblyName>Rewired_Windows_Functions</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -30,7 +30,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169,0649</NoWarn>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
@@ -41,70 +41,8 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\RainbowBehavior.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Presets Base\PresetBaseValues.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Custom Effects\AppearanceTemplate.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Base\IAppearanceEffect.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Base\Character.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Preset\PresetBehaviorValues.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\ShakeBehavior.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\TAnimBuilder.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\TAnimGlobalDataScriptable.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\SlideBehavior.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Presets Base\ColorCurve.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\TypewriterAction.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Base\EffectsBase.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Defaults\FadeAppearance.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\Attributes\PositiveValueAttribute.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\FormatUtils.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Presets Base\FloatCurve.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\Attributes\MinValueAttribute.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Presets\PresetAppearance.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\SwingBehavior.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\Tween.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\TextAnimator.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Base\IBehaviorEffect.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\Attributes\CharsDisplayTimeAttribute.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\Attributes\NotZeroAttribute.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\WaveBehavior.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Base\AppearanceBase.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Special Tags\EventMarker.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Defaults\VerticalExpandAppearance.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\SizeBehavior.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Scriptables\BuiltinBehaviorsDataScriptable.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\FadeBehavior.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Base\EffectInfoAttribute.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\TAnimPlayerBase.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Base\Modifier.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Custom Effects\CustomEffects.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Defaults\SizeAppearance.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Base\BehaviorBase.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Scriptables\BuiltinAppearancesDataScriptable.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Defaults\RotatingAppearance.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\EffectsDefaultValues.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Defaults\DiagonalExpandAppearance.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\TAnimTags.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Custom Effects\BehaviorTemplate.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Base\BehaviorSine.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\BounceBehavior.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Preset\PresetBehavior.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Scriptables\BuiltinDataScriptableBase.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Presets\PresetAppearanceValues.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\RotationBehavior.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\TextUtilities.cs" />
-     <Compile Include="Assets\Plugins\Trinary Software\Timing.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Defaults\HorizontallExpandAppearance.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Defaults\OffsetAppearance.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Presets Base\EmissionControl.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\TAnimExtensions.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Presets Base\EffectEvaluator.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\TextAnimatorPlayer.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\WiggleBehavior.cs" />
-     <None Include="Assets\Plugins\Febucci\Text Animator\Integrations\Integrations.txt" />
-     <None Include="Assets\Plugins\QFSW\Quantum Console\Source\Third-Party Notices.txt" />
-     <None Include="Assets\Plugins\QFSW\Quantum Console\Source\changelog.txt" />
-     <None Include="Assets\Plugins\QFSW\Quantum Console\Source\Fonts\LICENSE.txt" />
-     <None Include="Assets\Plugins\QFSW\Quantum Console\Source\Shaders\Blur.shader" />
+     <Compile Include="Assets\Rewired\Internal\Scripts\Platforms\Windows\Functions\Functions.cs" />
+     <None Include="Assets\Rewired\Internal\Scripts\Platforms\Windows\Functions\Functions.asmdef" />
      <Reference Include="UnityEngine">
      <HintPath>C:/Program Files/Unity/Hub/Editor/2021.2.5f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
      </Reference>
@@ -348,17 +286,35 @@
      <Reference Include="UnityEditor.UnityConnectModule">
      <HintPath>C:/Program Files/Unity/Hub/Editor/2021.2.5f1/Editor/Data/Managed/UnityEngine/UnityEditor.UnityConnectModule.dll</HintPath>
      </Reference>
+     <Reference Include="UnityEditor.Graphs">
+     <HintPath>C:/Program Files/Unity/Hub/Editor/2021.2.5f1/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+     <HintPath>C:/Program Files/Unity/Hub/Editor/2021.2.5f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+     </Reference>
+     <Reference Include="log4netPlastic">
+     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/PackageCache/com.unity.collab-proxy@1.15.4/Lib/Editor/PlasticSCM/log4netPlastic.dll</HintPath>
+     </Reference>
      <Reference Include="Rewired_Windows">
      <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Assets/Rewired/Internal/Libraries/Runtime/Rewired_Windows.dll</HintPath>
      </Reference>
+     <Reference Include="Unity.Plastic.Newtonsoft.Json">
+     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/PackageCache/com.unity.collab-proxy@1.15.4/Lib/Editor/PlasticSCM/Unity.Plastic.Newtonsoft.Json.dll</HintPath>
+     </Reference>
      <Reference Include="mcs">
      <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Assets/Plugins/QFSW/Quantum Console/Source/Extras/exec/CSharpCompiler/Plugins/mcs.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Plastic.Antlr3.Runtime">
+     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/PackageCache/com.unity.collab-proxy@1.15.4/Lib/Editor/PlasticSCM/Unity.Plastic.Antlr3.Runtime.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Burst.Unsafe">
      <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/PackageCache/com.unity.burst@1.6.0/Unity.Burst.Unsafe.dll</HintPath>
      </Reference>
      <Reference Include="Rewired_Core">
      <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Assets/Rewired/Internal/Libraries/Runtime/Rewired_Core.dll</HintPath>
+     </Reference>
+     <Reference Include="Rewired_Editor">
+     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Assets/Rewired/Internal/Libraries/Editor/Rewired_Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Burst.Cecil.Pdb">
      <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/PackageCache/com.unity.burst@1.6.0/Unity.Burst.CodeGen/Unity.Burst.Cecil.Pdb.dll</HintPath>
@@ -372,11 +328,17 @@
      <Reference Include="Newtonsoft.Json">
      <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/PackageCache/com.unity.nuget.newtonsoft-json@2.0.0/Runtime/Newtonsoft.Json.dll</HintPath>
      </Reference>
+     <Reference Include="unityplastic">
+     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/PackageCache/com.unity.collab-proxy@1.15.4/Lib/Editor/PlasticSCM/unityplastic.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.Burst.Cecil.Mdb">
      <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/PackageCache/com.unity.burst@1.6.0/Unity.Burst.CodeGen/Unity.Burst.Cecil.Mdb.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Burst.Cecil">
      <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/PackageCache/com.unity.burst@1.6.0/Unity.Burst.CodeGen/Unity.Burst.Cecil.dll</HintPath>
+     </Reference>
+     <Reference Include="UModelerEditor">
+     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Assets/tripolygon/UModeler/Scripts/Editor/UModelerEditor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Burst.Cecil.Rocks">
      <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/PackageCache/com.unity.burst@1.6.0/Unity.Burst.CodeGen/Unity.Burst.Cecil.Rocks.dll</HintPath>
@@ -747,192 +709,14 @@
      <Reference Include="System.Xml.Serialization">
      <HintPath>C:/Program Files/Unity/Hub/Editor/2021.2.5f1/Editor/Data/NetStandard/compat/2.1.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.VSCode.Editor">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.RenderPipelines.Universal.Shaders">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.TextMeshPro.Editor">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Searcher.Editor">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.Searcher.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.ProBuilder">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.ProBuilder.dll</HintPath>
-     </Reference>
      <Reference Include="UnityEditor.UI">
      <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Rider.Editor">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
      </Reference>
      <Reference Include="UnityEngine.UI">
      <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.ShaderGraph.Editor">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.ShaderGraph.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Cinemachine">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
-     </Reference>
-     <Reference Include="com.unity.cinemachine.editor">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Mathematics.Editor">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.RenderPipelines.Universal.Runtime">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
-     </Reference>
-     <Reference Include="PPv2URPConverters">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/PPv2URPConverters.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.VisualStudio.Editor">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.ProBuilder.AddOns.Editor">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Timeline">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.TextMeshPro">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Burst.Editor">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.Burst.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.2D.Sprite.Editor">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.RenderPipelines.Core.Runtime">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.ProBuilder.Editor">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.ProBuilder.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.PlasticSCM.Editor">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Mathematics">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Burst">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.Burst.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.RenderPipelines.Universal.Editor">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.ProBuilder.AssetIdRemapUtility">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Timeline.Editor">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.RenderPipelines.Core.Editor">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Editor.dll</HintPath>
-     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="QFSW.QC.UI.csproj">
-      <Project>{1bd9bd8e-e1ee-a721-c0c1-22e3ea701fc4}</Project>
-      <Name>QFSW.QC.UI</Name>
-    </ProjectReference>
-    <ProjectReference Include="FMODUnityResonanceEditor.csproj">
-      <Project>{1643ac67-2d86-dd46-b308-101c15149bfc}</Project>
-      <Name>FMODUnityResonanceEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="QFSW.QC.Editor.csproj">
-      <Project>{c65e8118-1b9c-bcad-cd1b-ec0cf170cf13}</Project>
-      <Name>QFSW.QC.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Dreamteck.Splines.csproj">
-      <Project>{4b2d2f36-f462-4ac4-e307-a15827e7509b}</Project>
-      <Name>Dreamteck.Splines</Name>
-    </ProjectReference>
-    <ProjectReference Include="QFSW.QC.Suggestors.csproj">
-      <Project>{6a03f144-483e-628a-bec1-e2f98dfb3a2d}</Project>
-      <Name>QFSW.QC.Suggestors</Name>
-    </ProjectReference>
-    <ProjectReference Include="AmplifyShaderEditor.csproj">
-      <Project>{61673b18-169c-b7d4-4be6-193375d40bb2}</Project>
-      <Name>AmplifyShaderEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="QFSW.QC.QGUI.csproj">
-      <Project>{bd8c71a7-c4f7-9b2c-1751-10b74aa2cc88}</Project>
-      <Name>QFSW.QC.QGUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="QFSW.QC.Serializers.csproj">
-      <Project>{679e48eb-245b-721f-e6d9-51175ca1e22f}</Project>
-      <Name>QFSW.QC.Serializers</Name>
-    </ProjectReference>
-    <ProjectReference Include="QFSW.QC.Grammar.csproj">
-      <Project>{c482e990-d0cd-aa33-5901-3416c94354be}</Project>
-      <Name>QFSW.QC.Grammar</Name>
-    </ProjectReference>
-    <ProjectReference Include="QFSW.QC.csproj">
-      <Project>{69c197c3-a85c-8851-8784-8872086c36c1}</Project>
-      <Name>QFSW.QC</Name>
-    </ProjectReference>
-    <ProjectReference Include="Dreamteck.Utilities.csproj">
-      <Project>{e577e3cf-1dad-a654-124e-612c0b9b0d97}</Project>
-      <Name>Dreamteck.Utilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="NewAssembly.csproj">
-      <Project>{32964c02-57ec-fe23-fb87-ee7f3642bcd3}</Project>
-      <Name>NewAssembly</Name>
-    </ProjectReference>
-    <ProjectReference Include="QFSW.QC.Parsers.csproj">
-      <Project>{6f9c92c2-ead4-99be-316b-618d1412f411}</Project>
-      <Name>QFSW.QC.Parsers</Name>
-    </ProjectReference>
-    <ProjectReference Include="Dreamteck.Splines.Editor.csproj">
-      <Project>{ceecbd2e-e47e-1030-d095-95490e9725c6}</Project>
-      <Name>Dreamteck.Splines.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="QFSW.QC.Editor.Tools.csproj">
-      <Project>{481403fe-bf8c-c9b8-06f7-98734e0ddf63}</Project>
-      <Name>QFSW.QC.Editor.Tools</Name>
-    </ProjectReference>
-    <ProjectReference Include="FMODUnity.csproj">
-      <Project>{3bb2739c-eb2c-95c8-9942-308374b6d580}</Project>
-      <Name>FMODUnity</Name>
-    </ProjectReference>
-    <ProjectReference Include="SquashAndStretchKit.csproj">
-      <Project>{a1295522-9668-1de8-b7b1-df56229f0e68}</Project>
-      <Name>SquashAndStretchKit</Name>
-    </ProjectReference>
-    <ProjectReference Include="FMODUnityEditor.csproj">
-      <Project>{83b51c47-d016-f46e-ae31-5cd31dbe0c8f}</Project>
-      <Name>FMODUnityEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="FMODUnityResonance.csproj">
-      <Project>{9ad8fd1f-5e5f-5ec1-8f12-a91724658b33}</Project>
-      <Name>FMODUnityResonance</Name>
-    </ProjectReference>
-    <ProjectReference Include="SquashAndStretchKit.Editor.csproj">
-      <Project>{28b4eac9-f9f6-1ed0-c072-9e705a045e04}</Project>
-      <Name>SquashAndStretchKit.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="QFSW.QC.Extras.csproj">
-      <Project>{43814100-6d77-a734-caf5-9358550a5d0f}</Project>
-      <Name>QFSW.QC.Extras</Name>
-    </ProjectReference>
-    <ProjectReference Include="Rewired_Windows_Functions.csproj">
-      <Project>{bf2fede1-2030-8ddb-ea6e-8874aba945f2}</Project>
-      <Name>Rewired_Windows_Functions</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

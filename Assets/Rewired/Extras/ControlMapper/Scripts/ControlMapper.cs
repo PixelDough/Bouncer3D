@@ -3129,7 +3129,7 @@ namespace Rewired.UI.ControlMapper
         #region Clear / Reset
 
         private void Clear() {
-            windowManager.CancelAll();
+            CloseAllWindows();
             lastUISelection = null;
             pendingInputMapping = null;
             pendingAxisCalibration = null;

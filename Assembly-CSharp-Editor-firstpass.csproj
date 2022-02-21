@@ -910,6 +910,10 @@
       <Project>{43814100-6d77-a734-caf5-9358550a5d0f}</Project>
       <Name>QFSW.QC.Extras</Name>
     </ProjectReference>
+    <ProjectReference Include="Rewired_Windows_Functions.csproj">
+      <Project>{bf2fede1-2030-8ddb-ea6e-8874aba945f2}</Project>
+      <Name>Rewired_Windows_Functions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

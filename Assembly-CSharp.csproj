@@ -125,6 +125,7 @@
      <Compile Include="Assets\Scripts\MovingPlatformController.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\ImpactParticleCollisionTrigger.cs" />
      <Compile Include="Assets\Rewired\Examples\CustomControllersTilt\Scripts\CustomControllersTiltDemo.cs" />
+     <Compile Include="Assets\Scripts\CenterOfMassSetter.cs" />
      <Compile Include="Assets\Integrations\FMOD\FMODAudioInteraction.cs" />
      <Compile Include="Assets\Rewired\Integration\UnityUI\RewiredEventSystem.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\CalibrationWindow.cs" />
@@ -234,7 +235,6 @@
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ScrollbarVisibilityHelper.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Utility\Object Pool\PooledObject.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\UIGroup.cs" />
-     <Compile Include="Assets\Scripts\CenterOfMassSetter.cs" />
      <None Include="Assets\Shaders\MainLit.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\FMOD Project\Metadata\AudioFile\{b3cf979e-e412-414b-9964-6b675f1665c0}.xml" />
@@ -1151,6 +1151,10 @@
     <ProjectReference Include="QFSW.QC.Extras.csproj">
       <Project>{43814100-6d77-a734-caf5-9358550a5d0f}</Project>
       <Name>QFSW.QC.Extras</Name>
+    </ProjectReference>
+    <ProjectReference Include="Rewired_Windows_Functions.csproj">
+      <Project>{bf2fede1-2030-8ddb-ea6e-8874aba945f2}</Project>
+      <Name>Rewired_Windows_Functions</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
