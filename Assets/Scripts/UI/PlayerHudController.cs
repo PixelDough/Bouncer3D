@@ -43,7 +43,7 @@ namespace PixelDough.Bouncer.UI
 
         private void UpdateShellCountText()
         {
-            bool hasAllShells = _localShellCount == LevelManager.Instance.TotalShells;
+            bool hasAllShells = _localShellCount == LevelManager.Instance.LevelProgress.TotalCollectables;
             
             string str = "{size}";
             if (hasAllShells)
@@ -51,7 +51,7 @@ namespace PixelDough.Bouncer.UI
             str += "<wave>" + _localShellCount;
             if (!hasAllShells)
                 str += "</>{/}";
-            str += "<size=18>/" + LevelManager.Instance.TotalShells;
+            str += "<size=18>/" + LevelManager.Instance.LevelProgress.TotalCollectables;
             shellCountText.text = str;
         }
 
@@ -59,11 +59,17 @@ namespace PixelDough.Bouncer.UI
         {
             while (true)
             {
-                while (_localShellCount < LevelManager.Instance.shellsCollected)
+                if (_localShellCount > LevelManager.Instance.LevelProgress.CurrentCollectables)
+                {
+                    _localShellCount = LevelManager.Instance.LevelProgress.CurrentCollectables;
+                    UpdateShellCountText();
+                }
+                while (_localShellCount < LevelManager.Instance.LevelProgress.CurrentCollectables)
                 {
                     _localShellCount++;
                     UpdateShellCountText();
 
+                    // TODO: Pool collectables flying towards icon in UI
                     RectTransform shell = Instantiate(shellFlying, shellFlying.parent).transform as RectTransform;
                     shell.gameObject.SetActive(true);
                     shell.LeanMoveLocal(shellImage.transform.localPosition, 0.2f).setEaseOutSine()

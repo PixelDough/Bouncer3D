@@ -41,6 +41,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\SquashAndStretch\Script\SquashAndStretchManager.cs" />
      <Compile Include="Assets\SquashAndStretch\Script\SquashAndStretchSmoothImmediateModeLogic.cs" />
      <Compile Include="Assets\SquashAndStretch\Script\SquashAndStretchPostUpdatePump.cs" />
      <Compile Include="Assets\SquashAndStretch\Script\SquashAndStretchModeLogic.cs" />
@@ -48,7 +49,6 @@
      <Compile Include="Assets\SquashAndStretch\Script\SpringTracker.cs" />
      <Compile Include="Assets\SquashAndStretch\Script\SquashAndStretchImmediateModeLogic.cs" />
      <Compile Include="Assets\SquashAndStretch\Script\SquashAndStretch.cs" />
-     <Compile Include="Assets\SquashAndStretch\Script\SquashAndStretchManager.cs" />
      <Compile Include="Assets\SquashAndStretch\Script\SquashAndStretchSpringModeLogic.cs" />
      <None Include="Assets\SquashAndStretch\Script\SquashAndStretchKit.asmdef" />
      <Reference Include="UnityEngine">

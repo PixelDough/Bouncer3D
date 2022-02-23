@@ -41,65 +41,65 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\RainbowBehavior.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Presets Base\PresetBaseValues.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Custom Effects\AppearanceTemplate.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Base\IAppearanceEffect.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Base\Character.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Preset\PresetBehaviorValues.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\ShakeBehavior.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\TAnimBuilder.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\TAnimGlobalDataScriptable.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\SlideBehavior.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Presets Base\ColorCurve.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\TypewriterAction.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Base\EffectsBase.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Defaults\FadeAppearance.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\Attributes\PositiveValueAttribute.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\FormatUtils.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Presets Base\FloatCurve.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\Attributes\MinValueAttribute.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Presets\PresetAppearance.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\SwingBehavior.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\Tween.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\TextAnimator.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Base\IBehaviorEffect.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\Attributes\CharsDisplayTimeAttribute.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\Attributes\NotZeroAttribute.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\WaveBehavior.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Base\AppearanceBase.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Special Tags\EventMarker.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Defaults\VerticalExpandAppearance.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\SizeBehavior.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Scriptables\BuiltinBehaviorsDataScriptable.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\FadeBehavior.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Base\EffectInfoAttribute.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\TAnimPlayerBase.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Base\Modifier.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Custom Effects\CustomEffects.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Defaults\SizeAppearance.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Base\BehaviorBase.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Scriptables\BuiltinAppearancesDataScriptable.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Defaults\RotatingAppearance.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\EffectsDefaultValues.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Defaults\DiagonalExpandAppearance.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\TAnimTags.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Custom Effects\BehaviorTemplate.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Base\BehaviorSine.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\BounceBehavior.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Preset\PresetBehavior.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\TextUtilities.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Defaults\HorizontallExpandAppearance.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Presets Base\EmissionControl.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\TAnimExtensions.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\TextAnimatorPlayer.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\WiggleBehavior.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\RainbowBehavior.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Base\IAppearanceEffect.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Base\Character.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\ShakeBehavior.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\SlideBehavior.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Defaults\FadeAppearance.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\Attributes\PositiveValueAttribute.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\FormatUtils.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Presets\PresetAppearance.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\Tween.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\Attributes\NotZeroAttribute.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Special Tags\EventMarker.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Defaults\VerticalExpandAppearance.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Scriptables\BuiltinBehaviorsDataScriptable.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\FadeBehavior.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\TAnimPlayerBase.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Custom Effects\CustomEffects.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Base\BehaviorBase.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Defaults\RotatingAppearance.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Defaults\DiagonalExpandAppearance.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Custom Effects\BehaviorTemplate.cs" />
+     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Base\BehaviorSine.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Scriptables\BuiltinDataScriptableBase.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Presets\PresetAppearanceValues.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\RotationBehavior.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\TextUtilities.cs" />
      <Compile Include="Assets\Plugins\Trinary Software\Timing.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Defaults\HorizontallExpandAppearance.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Defaults\OffsetAppearance.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Presets Base\EmissionControl.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\TAnimExtensions.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Presets Base\EffectEvaluator.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\TextAnimatorPlayer.cs" />
-     <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\WiggleBehavior.cs" />
      <None Include="Assets\Plugins\Febucci\Text Animator\Integrations\Integrations.txt" />
      <None Include="Assets\Plugins\QFSW\Quantum Console\Source\Third-Party Notices.txt" />
      <None Include="Assets\Plugins\QFSW\Quantum Console\Source\changelog.txt" />
@@ -747,6 +747,9 @@
      <Reference Include="System.Xml.Serialization">
      <HintPath>C:/Program Files/Unity/Hub/Editor/2021.2.5f1/Editor/Data/NetStandard/compat/2.1.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
      </Reference>
+     <Reference Include="Unity.Recorder.Editor">
+     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.Recorder.Editor.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.VSCode.Editor">
      <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
      </Reference>
@@ -789,6 +792,15 @@
      <Reference Include="Unity.Mathematics.Editor">
      <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
      </Reference>
+     <Reference Include="Unity.Recorder">
+     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.Recorder.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VisualEffectGraph.Editor">
+     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.VisualEffectGraph.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Recorder.Base">
+     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.Recorder.Base.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.RenderPipelines.Universal.Runtime">
      <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
      </Reference>
@@ -800,6 +812,9 @@
      </Reference>
      <Reference Include="Unity.ProBuilder.AddOns.Editor">
      <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VisualEffectGraph.Runtime">
+     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.VisualEffectGraph.Runtime.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Timeline">
      <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
@@ -843,12 +858,6 @@
      <Reference Include="Unity.RenderPipelines.Core.Editor">
      <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Editor.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.VisualEffectGraph.Editor">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.VisualEffectGraph.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.VisualEffectGraph.Runtime">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.VisualEffectGraph.Runtime.dll</HintPath>
-     </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="QFSW.QC.UI.csproj">
@@ -866,6 +875,10 @@
     <ProjectReference Include="Dreamteck.Splines.csproj">
       <Project>{4b2d2f36-f462-4ac4-e307-a15827e7509b}</Project>
       <Name>Dreamteck.Splines</Name>
+    </ProjectReference>
+    <ProjectReference Include="Rewired_Windows_Functions.csproj">
+      <Project>{bf2fede1-2030-8ddb-ea6e-8874aba945f2}</Project>
+      <Name>Rewired_Windows_Functions</Name>
     </ProjectReference>
     <ProjectReference Include="QFSW.QC.Suggestors.csproj">
       <Project>{6a03f144-483e-628a-bec1-e2f98dfb3a2d}</Project>
@@ -934,10 +947,6 @@
     <ProjectReference Include="QFSW.QC.Extras.csproj">
       <Project>{43814100-6d77-a734-caf5-9358550a5d0f}</Project>
       <Name>QFSW.QC.Extras</Name>
-    </ProjectReference>
-    <ProjectReference Include="Rewired_Windows_Functions.csproj">
-      <Project>{bf2fede1-2030-8ddb-ea6e-8874aba945f2}</Project>
-      <Name>Rewired_Windows_Functions</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

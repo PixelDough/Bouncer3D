@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Pool;
 using Random = UnityEngine.Random;
 
 namespace PixelDough.Bouncer
@@ -9,8 +10,11 @@ namespace PixelDough.Bouncer
         [SerializeField] private MeshRenderer meshRenderer;
         [SerializeField] private MeshFilter meshFilter;
         [SerializeField] private Transform modelHolder;
-        [SerializeField] private ParticleSystem collectParticleSystem;
+        [SerializeField] private CollectableAttractor collectableAttractor;
+        [SerializeField] private ParticleSystem collectParticleSystemPrefab;
 
+        private static ParticleSystem _collectParticleSystemInstance;
+        
         [Range(1, 10)]
         [SerializeField] private int count = 1;
         public int Count => count;
@@ -18,11 +22,26 @@ namespace PixelDough.Bouncer
         private float _randomAnimateOffset = 0f;
         private float _startOffsetY = 0f;
 
+        private Vector3 _localPosition;
+
+        public enum CollectedStates
+        {
+            None,
+            Held,
+            LockedIn
+        }
+        public CollectedStates collectedState = CollectedStates.None;
+
         private void Start()
         {
+            _localPosition = transform.localPosition;
+            
             _randomAnimateOffset = Random.Range(0f, 360f);
             _startOffsetY = modelHolder.transform.localPosition.y;
             modelHolder.transform.Rotate(Vector3.up, _randomAnimateOffset);
+
+            if (!_collectParticleSystemInstance)
+                _collectParticleSystemInstance = Instantiate(collectParticleSystemPrefab);
         }
 
         private void Update()
@@ -37,12 +56,19 @@ namespace PixelDough.Bouncer
             if (!other.attachedRigidbody) return;
             if (other.attachedRigidbody.CompareTag("Player"))
             {
-                PlayerController playerController = other.attachedRigidbody.GetComponent<PlayerController>();
-                playerController.CollectShells(count);
-                collectParticleSystem.transform.parent = null;
-                collectParticleSystem.Play();
+                LevelManager.Instance.LevelProgress.AddCollectable(this);
+                _collectParticleSystemInstance.transform.position = transform.position;
+                _collectParticleSystemInstance.Play();
                 gameObject.SetActive(false);
             }
+        }
+
+        public void Activate()
+        {
+            transform.localPosition = _localPosition;
+            gameObject.SetActive(true);
+            collectedState = CollectedStates.None;
+            collectableAttractor.ResetValues();
         }
 
         public void SetMesh(Mesh mesh, Material material)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using PixelDough.Bouncer.LevelData;
 using UnityEngine;
+using UnityEngine.Pool;
 
 namespace PixelDough.Bouncer
 {
@@ -11,23 +12,20 @@ namespace PixelDough.Bouncer
 
         [SerializeField] private ZoneDataScriptableObject zoneData;
         
-        private List<CollectableController> _shells = new List<CollectableController>();
-        
-        private int _totalShells = 0;
-        public int TotalShells => _totalShells;
-        
-        public int shellsCollected = 0;
-
         public static TimeSpan LevelTime;
         public static bool CountingTime = false;
+
+        public LevelProgress LevelProgress;
 
         private void Start()
         {
             Instance = this;
-            _shells = new List<CollectableController>(FindObjectsOfType<CollectableController>());
-            foreach (var shell in _shells)
+
+            LevelProgress = new LevelProgress();
+            LevelProgress.Initialize(new List<CollectableController>(FindObjectsOfType<CollectableController>()));
+            
+            foreach (var shell in LevelProgress.AllCollectables)
             {
-                _totalShells += shell.Count;
                 if (zoneData) shell.SetMesh(zoneData.collectableMesh, zoneData.collectableMaterial);
             }
 

@@ -42,201 +42,202 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\PowerSpriteAnimator\Scripts\SpriteAnim.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Data\InteractionData.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ControlMapper_InputGrid.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Tag Library\Interfaces\IImpactTagLibrary.cs" />
-     <Compile Include="Assets\LeanTween\Framework\LeanTween.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Data\ImpactTagMask.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Utility\Object Pool\Interfaces\IPoolable.cs" />
-     <Compile Include="Assets\LeanTween\Framework\LTDescr.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Particles\ImpactParticlesBase.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\ImpactMaterialMapping.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Utility\Object Pool\ClassPool.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Data\ImpactCollisionWrapper.cs" />
-     <Compile Include="Assets\LeanTween\Framework\LeanTweenExt.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\3D\ImpactCollisionTrigger3D.cs" />
-     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\LanguageData.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\3D\ImpactSimpleCollisionTrigger3D.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Utility\Range.cs" />
-     <Compile Include="Assets\LeanTween\Framework\LTSeq.cs" />
      <Compile Include="Assets\TimelineEvents\Scripts\Extensions\PrimitiveExtensions.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\ImpactRaycastTrigger.cs" />
      <Compile Include="Assets\Rewired\Examples\ControlRemapping1\Scripts\ControlRemappingDemo1.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Objects\ImpactTerrain.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Utility\Object Pool\ObjectPool.cs" />
-     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\CustomSlider.cs" />
-     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\Window.cs" />
      <Compile Include="Assets\PowerSpriteAnimator\Scripts\SpriteAnimNodes.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Data\ImpactMaterialComposition.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Data\VelocityData.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Particles\ImpactParticlePool.cs" />
-     <Compile Include="Assets\Integrations\FMOD\ImpactFMODParameters.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Data\Interfaces\IInteractionData.cs" />
+     <Compile Include="Assets\Scripts\GameSceneManager.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Materials\ImpactMaterialInteractionSet.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ButtonInfo.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\2D\ImpactVelocityCollisionTrigger2D.cs" />
-     <Compile Include="Assets\Rewired\Examples\FallbackJoystickIdentification\Scripts\FallbackJoystickIdentificationDemo.cs" />
      <Compile Include="Assets\Scripts\ThirdPersonCameraController.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Data\AlignmentAxis.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Materials\Interfaces\IImpactMaterial.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\ImpactManager.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Tag Library\ImpactTagLibrary.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Data\Interfaces\IImpactCollisionWrapper.cs" />
      <Compile Include="Assets\Scripts\CameraSelectiveRendering.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Particles\ParticleInteractionResult.cs" />
      <Compile Include="Assets\Rewired\Examples\PressStartToJoin\Scripts\PressStartToJoinExample_Assigner.cs" />
      <Compile Include="Assets\Rewired\Integration\Cinemachine\RewiredCinemachineBridge.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\InputFieldInfo.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Audio\ImpactAudioInteraction.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Tag Library\ImpactTagLibraryConstants.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ControlMapper_Enums.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Data\ImpactContactPoint.cs" />
      <Compile Include="Assets\Scripts\PlayerStuffManager.cs" />
      <Compile Include="Assets\Scripts\KillZone.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\ImpactManagerInstance.cs" />
-     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\UIControlSet.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Materials\ImpactMaterial.cs" />
      <Compile Include="Assets\Rewired\Internal\Scripts\DataStorage\UserDataStore_PlayerPrefs.cs" />
      <Compile Include="Assets\Rewired\Integration\UnityUI\PlayerPointerEventData.cs" />
-     <Compile Include="Assets\Rewired\Examples\PressAnyButtonToJoin\Scripts\PressAnyButtonToJoinExample_Assigner.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\ImpactTriggerContactMode.cs" />
-     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\UISelectionUtility.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Utility\PhysicsUtilities.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Utility\Extensions.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\ImpactSpeculativeCollisionTriggerBase.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Audio\ImpactAudioPool.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Objects\ImpactObjectRigidbody.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\ImpactSlideAndRollTriggerBase.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Particles\ImpactParticles.cs" />
      <Compile Include="Assets\Scripts\CollectableAttractor.cs" />
      <Compile Include="Assets\Rewired\Examples\SimpleCombinedKeyboardMouseRemapping\Scripts\SimpleCombinedKeyboardMouseRemapping.cs" />
-     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ICustomSelectable.cs" />
-     <Compile Include="Assets\TimelineEvents\Scripts\TimelineEvents\TimelineEventBehaviour.cs" />
-     <Compile Include="Assets\3D Text\ChildAnimator.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\3D\ImpactVelocityCollisionTrigger3D.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\2D\ImpactSpeculativeCollisionTrigger2D.cs" />
-     <Compile Include="Assets\Integrations\FMOD\FMODAudioInteractionResult.cs" />
-     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\CanvasScalerExt.cs" />
-     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\InputRow.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Objects\Interfaces\IImpactObject.cs" />
-     <Compile Include="Assets\Rewired\Examples\PressStartToJoin\Scripts\PressStartToJoinExample_GamePlayer.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Decals\DecalInteractionResult.cs" />
      <Compile Include="Assets\Scripts\MovingPlatformController.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\ImpactParticleCollisionTrigger.cs" />
-     <Compile Include="Assets\Rewired\Examples\CustomControllersTilt\Scripts\CustomControllersTiltDemo.cs" />
      <Compile Include="Assets\Scripts\CenterOfMassSetter.cs" />
-     <Compile Include="Assets\Integrations\FMOD\FMODAudioInteraction.cs" />
      <Compile Include="Assets\Rewired\Integration\UnityUI\RewiredEventSystem.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\CalibrationWindow.cs" />
-     <Compile Include="Assets\Rewired\Examples\DualShock4SpecialFeatures\Scripts\DualShock4SpecialFeaturesExample.cs" />
      <Compile Include="Assets\Rewired\Examples\CustomControllersTouch\Scripts\CustomControllerDemo_Player.cs" />
      <Compile Include="Assets\PowerSpriteAnimator\Scripts\SpriteAnimEventHandler.cs" />
      <Compile Include="Assets\Scripts\FanController.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Data\ImpactRigidbodyWrapper.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\2D\ImpactCollisionTriggerWithCooldown2D.cs" />
      <Compile Include="Assets\LeanTween\Framework\LTDescrOptional.cs" />
-     <Compile Include="Assets\Rewired\Integration\UnityUI\RewiredStandaloneInputModule.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Materials\ImpactMaterialBase.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\ImpactInteractionUtilities.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\ImpactTriggerBase.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\3D\ImpactSpeculativeCollisionTrigger3D.cs" />
-     <Compile Include="Assets\Rewired\Examples\GamepadTemplateUI\Scripts\GamepadTemplateUI.cs" />
      <Compile Include="Assets\3D Text\ScriptableObjectFont3D.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Interfaces\IImpactInteraction.cs" />
-     <Compile Include="Assets\Rewired\Examples\CustomControllersTouch\Scripts\CustomControllerDemo.cs" />
-     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\UIImageHelper.cs" />
-     <Compile Include="Assets\Scripts\CheckpointController.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Data\Interfaces\IImpactContactPoint.cs" />
-     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ControlMapper.cs" />
-     <Compile Include="Assets\Scripts\Rotate.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Objects\ImpactObjectRigidbodyChild.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Utility\DestroyMessenger.cs" />
      <Compile Include="Assets\Scripts\ScreenFadeController.cs" />
-     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ThemeSettings.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Decals\ImpactDecal.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Objects\ImpactObjectSingleMaterial.cs" />
-     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ScrollRectSelectableChild.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Interfaces\IInteractionResult.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Decals\ImpactDecalPool.cs" />
      <Compile Include="Assets\Rewired\Examples\GamepadTemplateUI\Scripts\ControllerUIEffect.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\ImpactCollisionTriggerBase.cs" />
-     <Compile Include="Assets\LeanTween\Framework\LeanAudio.cs" />
-     <Compile Include="Assets\Rewired\Extras\ControlMapper\Examples\ControlMapperDemo\Scripts\ControlMapperDemoMessage.cs" />
-     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\CustomToggle.cs" />
+     <Compile Include="Assets\Scripts\Final Render\LowResCameraManager.cs" />
      <Compile Include="Assets\3D Text\Font3DString.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ToggleInfo.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Tag Library\ImpactTagLibraryBase.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\3D\ImpactSlideAndRollTrigger3D.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Decals\ImpactDecalBase.cs" />
-     <Compile Include="Assets\Rewired\Internal\Scripts\ControllerTemplates\ControllerTemplates.cs" />
      <Compile Include="Assets\TimelineEvents\Scripts\TimelineEvents\TimelineEventTrack.cs" />
-     <Compile Include="Assets\Scripts\Level Data\ZoneDataScriptableObject.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Utility\Object Pool\ObjectPoolGroup.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Objects\ImpactObjectBase.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Decals\ImpactDecalInteraction.cs" />
      <Compile Include="Assets\Scripts\CanvasMainCameraSelector.cs" />
-     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\CanvasScalerFitter.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Audio\ImpactAudioSource.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Objects\ImpactObjectRigidbodyCheap.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\ImpactDebugger.cs" />
      <Compile Include="Assets\Scripts\BoostPadController.cs" />
      <Compile Include="Assets\Rewired\Examples\SimpleControlRemapping\Scripts\SimpleControlRemapping.cs" />
-     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\CustomButton.cs" />
      <Compile Include="Assets\Rewired\Internal\Scripts\Misc\ExternalTools.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Utility\Object Pool\ObjectPoolFallbackMode.cs" />
-     <Compile Include="Assets\LeanTween\Framework\LeanSmooth.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\UITools.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\InputBehaviorWindow.cs" />
-     <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Data\PhysicsType.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ControlMapper_Classes.cs" />
      <Compile Include="Assets\TimelineEvents\Scripts\TimelineEvents\TimelineEventClip.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\UIControl.cs" />
-     <Compile Include="Assets\Rewired\Examples\PlayerMouseSprite\Scripts\PlayerMouseSpriteExample.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Data\ImpactTag.cs" />
-     <Compile Include="Assets\Rewired\Internal\Scripts\Platforms\Ouya\OuyaInputSource.cs" />
      <Compile Include="Assets\Scripts\ShadowBlob.cs" />
-     <Compile Include="Assets\TimelineEvents\Scripts\TimelineEvents\EventInvocationInfo.cs" />
-     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\UIElementInfo.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Audio\ImpactAudioSourceBase.cs" />
-     <Compile Include="Assets\LeanTween\Framework\LeanTest.cs" />
-     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\LanguageDataBase.cs" />
      <Compile Include="Assets\Rewired\Examples\PlayerMouseUnityUI\Scripts\PlayerPointerEventHandlerExample.cs" />
-     <Compile Include="Assets\3D Text\Font3DLetter.cs" />
      <Compile Include="Assets\Rewired\Examples\PlayerMouseUnityUI\Scripts\UIPointer.cs" />
-     <Compile Include="Assets\Scripts\UI\PlayerHudController.cs" />
      <Compile Include="Assets\Scripts\CollectableController.cs" />
-     <Compile Include="Assets\Scripts\OneWayWallController.cs" />
      <Compile Include="Assets\Rewired\Internal\Scripts\InputManager.cs" />
-     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ControlMapper_WindowManager.cs" />
      <Compile Include="Assets\Rewired\Examples\CustomControllersTouch\Scripts\TouchButtonExample.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Tag Library\ImpactTagLibraryExtensions.cs" />
-     <Compile Include="Assets\Rewired\Examples\GamepadTemplateUI\Scripts\ControllerUIElement.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\2D\ImpactSimpleCollisionTrigger2D.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Particles\ImpactParticleInteraction.cs" />
-     <Compile Include="Assets\Rewired\Examples\PressAnyButtonToJoin\Scripts\PressAnyButtonToJoinExample_GamePlayer.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\2D\ImpactSlideAndRollTrigger2D.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\ImpactInteractionBase.cs" />
-     <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\3D\ImpactCollisionTriggerWithCooldown3D.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ThemedElement.cs" />
      <Compile Include="Assets\Rewired\Examples\EightPlayers\Scripts\EightPlayersExample_Player.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\2D\ImpactCollisionTrigger2D.cs" />
      <Compile Include="Assets\TimelineEvents\Scripts\TimelineEvents\TimelineEventMixerBehaviour.cs" />
-     <Compile Include="Assets\Rewired\RewiredConsts.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Audio\AudioInteractionResult.cs" />
-     <Compile Include="Assets\Rewired\Examples\CustomControllersTouch\Scripts\TouchJoystickExample.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\ImpactVelocityCollisionTriggerBase.cs" />
      <Compile Include="Assets\Scripts\CutsceneController.cs" />
      <Compile Include="Assets\Rewired\Integration\UnityUI\RewiredPointerInputModule.cs" />
-     <Compile Include="Assets\Scripts\LevelManager.cs" />
      <Compile Include="Assets\Rewired\Examples\Shared\Scripts\Bullet.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\UISliderControl.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ScrollbarVisibilityHelper.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Utility\Object Pool\PooledObject.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\UIGroup.cs" />
-     <Compile Include="Assets\Scripts\Final Render\LowResCameraManager.cs" />
-     <Compile Include="Assets\Scripts\GameSceneManager.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Data\InteractionData.cs" />
+     <Compile Include="Assets\LeanTween\Framework\LeanTween.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Data\ImpactTagMask.cs" />
+     <Compile Include="Assets\LeanTween\Framework\LTDescr.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Utility\Object Pool\Interfaces\IPoolable.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\ImpactMaterialMapping.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Utility\Object Pool\ClassPool.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Data\ImpactCollisionWrapper.cs" />
+     <Compile Include="Assets\LeanTween\Framework\LeanTweenExt.cs" />
+     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\LanguageData.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Utility\Range.cs" />
+     <Compile Include="Assets\LeanTween\Framework\LTSeq.cs" />
+     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\CustomSlider.cs" />
+     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\Window.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Particles\ImpactParticlePool.cs" />
+     <Compile Include="Assets\Integrations\FMOD\ImpactFMODParameters.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Data\Interfaces\IInteractionData.cs" />
+     <Compile Include="Assets\Rewired\Examples\FallbackJoystickIdentification\Scripts\FallbackJoystickIdentificationDemo.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Data\AlignmentAxis.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Tag Library\ImpactTagLibrary.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Audio\ImpactAudioInteraction.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Tag Library\ImpactTagLibraryConstants.cs" />
+     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\UIControlSet.cs" />
+     <Compile Include="Assets\Rewired\Examples\PressAnyButtonToJoin\Scripts\PressAnyButtonToJoinExample_Assigner.cs" />
+     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\UISelectionUtility.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Utility\Extensions.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\ImpactSpeculativeCollisionTriggerBase.cs" />
+     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ICustomSelectable.cs" />
+     <Compile Include="Assets\TimelineEvents\Scripts\TimelineEvents\TimelineEventBehaviour.cs" />
+     <Compile Include="Assets\3D Text\ChildAnimator.cs" />
+     <Compile Include="Assets\Integrations\FMOD\FMODAudioInteractionResult.cs" />
+     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\CanvasScalerExt.cs" />
+     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\InputRow.cs" />
+     <Compile Include="Assets\Rewired\Examples\PressStartToJoin\Scripts\PressStartToJoinExample_GamePlayer.cs" />
+     <Compile Include="Assets\Rewired\Examples\CustomControllersTilt\Scripts\CustomControllersTiltDemo.cs" />
+     <Compile Include="Assets\Integrations\FMOD\FMODAudioInteraction.cs" />
+     <Compile Include="Assets\Rewired\Examples\DualShock4SpecialFeatures\Scripts\DualShock4SpecialFeaturesExample.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\2D\ImpactCollisionTriggerWithCooldown2D.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Materials\ImpactMaterialBase.cs" />
+     <Compile Include="Assets\Rewired\Integration\UnityUI\RewiredStandaloneInputModule.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\ImpactTriggerBase.cs" />
+     <Compile Include="Assets\Rewired\Examples\GamepadTemplateUI\Scripts\GamepadTemplateUI.cs" />
+     <Compile Include="Assets\Rewired\Examples\CustomControllersTouch\Scripts\CustomControllerDemo.cs" />
+     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\UIImageHelper.cs" />
+     <Compile Include="Assets\Scripts\CheckpointController.cs" />
+     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ControlMapper.cs" />
+     <Compile Include="Assets\Scripts\Rotate.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Objects\ImpactObjectRigidbodyChild.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Utility\DestroyMessenger.cs" />
+     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ThemeSettings.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Objects\ImpactObjectSingleMaterial.cs" />
+     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ScrollRectSelectableChild.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\ImpactCollisionTriggerBase.cs" />
+     <Compile Include="Assets\LeanTween\Framework\LeanAudio.cs" />
+     <Compile Include="Assets\Rewired\Extras\ControlMapper\Examples\ControlMapperDemo\Scripts\ControlMapperDemoMessage.cs" />
+     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\CustomToggle.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Tag Library\ImpactTagLibraryBase.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\3D\ImpactSlideAndRollTrigger3D.cs" />
+     <Compile Include="Assets\Rewired\Internal\Scripts\ControllerTemplates\ControllerTemplates.cs" />
+     <Compile Include="Assets\Scripts\Level Data\Zone Data\ZoneDataScriptableObject.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Utility\Object Pool\ObjectPoolGroup.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Objects\ImpactObjectBase.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Decals\ImpactDecalInteraction.cs" />
+     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\CanvasScalerFitter.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Audio\ImpactAudioSource.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Objects\ImpactObjectRigidbodyCheap.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\ImpactDebugger.cs" />
+     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\CustomButton.cs" />
+     <Compile Include="Assets\LeanTween\Framework\LeanSmooth.cs" />
+     <Compile Include="Assets\Scripts\PlayerController.cs" />
+     <Compile Include="Assets\Rewired\Examples\PlayerMouseSprite\Scripts\PlayerMouseSpriteExample.cs" />
+     <Compile Include="Assets\Rewired\Internal\Scripts\Platforms\Ouya\OuyaInputSource.cs" />
+     <Compile Include="Assets\TimelineEvents\Scripts\TimelineEvents\EventInvocationInfo.cs" />
+     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\UIElementInfo.cs" />
+     <Compile Include="Assets\LeanTween\Framework\LeanTest.cs" />
+     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\LanguageDataBase.cs" />
+     <Compile Include="Assets\3D Text\Font3DLetter.cs" />
+     <Compile Include="Assets\Scripts\UI\PlayerHudController.cs" />
+     <Compile Include="Assets\Scripts\OneWayWallController.cs" />
+     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ControlMapper_WindowManager.cs" />
+     <Compile Include="Assets\Rewired\Examples\GamepadTemplateUI\Scripts\ControllerUIElement.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Particles\ImpactParticleInteraction.cs" />
+     <Compile Include="Assets\Rewired\Examples\PressAnyButtonToJoin\Scripts\PressAnyButtonToJoinExample_GamePlayer.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\3D\ImpactCollisionTriggerWithCooldown3D.cs" />
+     <Compile Include="Assets\Rewired\RewiredConsts.cs" />
+     <Compile Include="Assets\Rewired\Examples\CustomControllersTouch\Scripts\TouchJoystickExample.cs" />
+     <Compile Include="Assets\Scripts\LevelManager.cs" />
+     <Compile Include="Assets\Scripts\Level Data\LevelProgress.cs" />
      <None Include="Assets\Shaders\MainLit.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\FMOD Project\Metadata\AudioFile\{b3cf979e-e412-414b-9964-6b675f1665c0}.xml" />
@@ -261,6 +262,7 @@
      <None Include="Assets\LeanTween\License.txt" />
      <None Include="Assets\FMOD Project\Metadata\ParameterPreset\{c7377e96-298a-4bab-9c4d-c2a0eb65fd2c}.xml" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+     <None Include="Assets\Models\Goal Gate\Wormhole.shader" />
      <None Include="Assets\Models\Bowling World\Bowling Ball\Planet.shader" />
      <None Include="Assets\FMOD Project\Metadata\Bank\{ccdb7a7e-3434-4749-bd35-52fe3a8f00ae}.xml" />
      <None Include="Assets\FMOD Project\Metadata\ProfilerFolder\{b1ab7034-1fdb-4b7b-89a2-93819fe075cf}.xml" />
@@ -969,6 +971,9 @@
      <Reference Include="System.Xml.Serialization">
      <HintPath>C:/Program Files/Unity/Hub/Editor/2021.2.5f1/Editor/Data/NetStandard/compat/2.1.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
      </Reference>
+     <Reference Include="Unity.Recorder.Editor">
+     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.Recorder.Editor.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.VSCode.Editor">
      <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
      </Reference>
@@ -1011,6 +1016,15 @@
      <Reference Include="Unity.Mathematics.Editor">
      <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
      </Reference>
+     <Reference Include="Unity.Recorder">
+     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.Recorder.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VisualEffectGraph.Editor">
+     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.VisualEffectGraph.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Recorder.Base">
+     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.Recorder.Base.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.RenderPipelines.Universal.Runtime">
      <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
      </Reference>
@@ -1022,6 +1036,9 @@
      </Reference>
      <Reference Include="Unity.ProBuilder.AddOns.Editor">
      <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VisualEffectGraph.Runtime">
+     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.VisualEffectGraph.Runtime.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Timeline">
      <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
@@ -1065,12 +1082,6 @@
      <Reference Include="Unity.RenderPipelines.Core.Editor">
      <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Editor.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.VisualEffectGraph.Editor">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.VisualEffectGraph.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.VisualEffectGraph.Runtime">
-     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.VisualEffectGraph.Runtime.dll</HintPath>
-     </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
@@ -1092,6 +1103,10 @@
     <ProjectReference Include="Dreamteck.Splines.csproj">
       <Project>{4b2d2f36-f462-4ac4-e307-a15827e7509b}</Project>
       <Name>Dreamteck.Splines</Name>
+    </ProjectReference>
+    <ProjectReference Include="Rewired_Windows_Functions.csproj">
+      <Project>{bf2fede1-2030-8ddb-ea6e-8874aba945f2}</Project>
+      <Name>Rewired_Windows_Functions</Name>
     </ProjectReference>
     <ProjectReference Include="QFSW.QC.Suggestors.csproj">
       <Project>{6a03f144-483e-628a-bec1-e2f98dfb3a2d}</Project>
@@ -1160,10 +1175,6 @@
     <ProjectReference Include="QFSW.QC.Extras.csproj">
       <Project>{43814100-6d77-a734-caf5-9358550a5d0f}</Project>
       <Name>QFSW.QC.Extras</Name>
-    </ProjectReference>
-    <ProjectReference Include="Rewired_Windows_Functions.csproj">
-      <Project>{bf2fede1-2030-8ddb-ea6e-8874aba945f2}</Project>
-      <Name>Rewired_Windows_Functions</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

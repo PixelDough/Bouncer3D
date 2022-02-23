@@ -18,11 +18,6 @@ namespace PixelDough.Bouncer
             playerHudController.SetVisibility(false);
         }
 
-        public void CollectShells(int count)
-        {
-            LevelManager.Instance.shellsCollected += count;
-        }
-
         public void CutsceneBegin()
         {
             playerHudController.SetVisibility(false);

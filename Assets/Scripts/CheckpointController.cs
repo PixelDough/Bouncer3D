@@ -8,8 +8,15 @@ public class CheckpointController : MonoBehaviour
 {
     [SerializeField] private Transform respawnPointTransform;
 
-    public int index = 0;
+    [SerializeField] private Transform flagRoot;
     
+    public int index = 0;
+
+    private void Update()
+    {
+        flagRoot.Rotate(new Vector3(0f, 25f, 0f) * Time.deltaTime, Space.World);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (!other.attachedRigidbody) return;
@@ -18,6 +25,8 @@ public class CheckpointController : MonoBehaviour
         {
             PlayerController playerController = other.attachedRigidbody.GetComponent<PlayerController>();
             playerController.SetRespawnPoint(respawnPointTransform.position, respawnPointTransform.forward);
+
+            flagRoot.gameObject.SetActive(true);
         }
     }
 }

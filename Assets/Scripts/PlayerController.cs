@@ -307,15 +307,12 @@ namespace PixelDough.Bouncer
             return Quaternion.Euler( 0, _camera.transform.rotation.eulerAngles.y, 0) * input;
         }
 
-        public void CollectShells(int count)
-        {
-            playerStuffManager.CollectShells(count);
-        }
-
         public void SetRespawnPoint(Vector3 position, Vector3 direction)
         {
             _respawnPoint = position;
             _respawnForward = direction;
+            
+            LevelManager.Instance.LevelProgress.LockInCollectables();
         }
 
         public void Kill()
@@ -339,6 +336,9 @@ namespace PixelDough.Bouncer
                 playerStuffManager.SetCameraForward(_respawnForward);
                 rigidbody.velocity = Vector3.zero;
                 rigidbody.angularVelocity = Vector3.zero;
+                
+                LevelManager.Instance.LevelProgress.LoseCollectables();
+                
                 GameManager.Instance.screenFadeController.FadeFromBlack(0.5f).setOnComplete(() =>
                 {
                     GameManager.DoPlayerMovement = true;

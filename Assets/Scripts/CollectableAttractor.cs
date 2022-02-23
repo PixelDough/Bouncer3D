@@ -16,6 +16,11 @@ namespace PixelDough.Bouncer
                 Vector3.MoveTowards(transformToMove.position, _targetTransform.position, 2f * Time.deltaTime);
         }*/
 
+        public void ResetValues()
+        {
+            _targetTransform = null;
+        }
+        
         private void OnTriggerStay(Collider other)
         {
             if (_targetTransform) return;
