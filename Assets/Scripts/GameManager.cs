@@ -4,6 +4,7 @@ using Rewired;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
+using UnityEngine.VFX;
 
 namespace PixelDough.Bouncer
 {
@@ -34,6 +35,8 @@ namespace PixelDough.Bouncer
         public static bool DoPlayerMovement = true;
         public static bool DoPlayerPhysics = true;
 
+        private float _vfxFixedTimeStep;
+
         private void Start()
         {
             if (_instance != null && _instance != this)
@@ -51,10 +54,14 @@ namespace PixelDough.Bouncer
 
             Cursor.lockState = CursorLockMode.Locked;
             //Cursor.visible = false;
+
+            _vfxFixedTimeStep = VFXManager.fixedTimeStep;
         }
 
         private void Update()
         {
+            VFXManager.fixedTimeStep = _vfxFixedTimeStep * Time.timeScale;
+            
             if (UnityEngine.Input.GetKeyDown(KeyCode.Escape))
             {
                 Cursor.lockState = CursorLockMode.None;
