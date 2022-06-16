@@ -106,6 +106,12 @@ namespace PixelDough.Bouncer
         {
             GameSceneManager.LoadScene(sceneName);
         }
+        
+        [Command("change-scene-by-index")]
+        private static void ChangeScene(int index)
+        {
+            SceneManager.LoadScene(index);
+        }
 
         [Command("reload-scene")]
         private static void ReloadScene()
