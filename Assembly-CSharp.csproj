@@ -1014,6 +1014,9 @@
      <Reference Include="com.unity.cinemachine.editor">
      <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
      </Reference>
+     <Reference Include="com.pixeldough.ntscvolume.runtime">
+     <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/com.pixeldough.ntscvolume.runtime.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
      <HintPath>C:/Users/PixelDough/Documents/Unity Projects/Bouncer 3D/Library/ScriptAssemblies/Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
      </Reference>
@@ -1107,10 +1110,6 @@
     <ProjectReference Include="QFSW.QC.Editor.csproj">
       <Project>{c65e8118-1b9c-bcad-cd1b-ec0cf170cf13}</Project>
       <Name>QFSW.QC.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="com.pixeldough.ntscvolume.runtime.csproj">
-      <Project>{bdfae40c-7c29-4ed2-1844-5dd81cf46f4a}</Project>
-      <Name>com.pixeldough.ntscvolume.runtime</Name>
     </ProjectReference>
     <ProjectReference Include="Dreamteck.Splines.csproj">
       <Project>{4b2d2f36-f462-4ac4-e307-a15827e7509b}</Project>
