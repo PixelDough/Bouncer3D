@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3770457594252763639}
   m_RootOrder: 2
@@ -43,6 +44,7 @@ TrailRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -165,6 +167,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2077767225284576606}
   m_RootOrder: 0
@@ -218,6 +221,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 97648004116147351}
   m_Father: {fileID: 3770457594252763639}
@@ -253,6 +257,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.306, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4714637215443638422}
   - {fileID: 3770457596032376572}
@@ -278,9 +283,12 @@ MonoBehaviour:
   collider: {fileID: 3770457596032376573}
   jumpBufferMax: 0.2
   coyoteTimeMax: 0.2
+  cameraTiltRoot: {fileID: 0}
   dampenParticle: {fileID: 0}
   dampenBubble: {fileID: 0}
   bounceEventEmitter: {fileID: 2517568923684108675}
+  rollEventEmitter: {fileID: 0}
+  windFastEventEmitter: {fileID: 0}
 --- !u!54 &3770457594252763638
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -355,6 +363,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3770457594252763639}
   m_RootOrder: 1
@@ -399,6 +408,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3736266172030491351}
   m_Father: {fileID: 3770457594252763639}
