@@ -42,55 +42,64 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\tripolygon\UModeler\Scripts\PureCode\Editor\UModelerEditorInitializer.cs" />
+     <Compile Include="Assets\FImpossible Creations\Shared Tools\Editor\Property Drawers\FPD_FoldableDrawer.cs" />
+     <Compile Include="Assets\FImpossible Creations\Shared Tools\Editor\Property Drawers\FPD_FoldFrameDrawer.cs" />
      <Compile Include="Assets\Rewired\Integration\UnityUI\Editor\UnityUISetup.cs" />
      <Compile Include="Assets\PowerSpriteAnimator\Scripts\Editor\SpriteAnimator.cs" />
      <Compile Include="Assets\Impact Interaction System\Editor\ImpactMaterialAudioInteractionEditor.cs" />
      <Compile Include="Assets\Impact Interaction System\Editor\ImpactMaterialParticleInteractionEditor.cs" />
+     <Compile Include="Assets\WaterCausticsModules\WaterCausticsEffect\ShaderFunctions\Common\Editor\ReimportFunctions.cs" />
+     <Compile Include="Assets\FImpossible Creations\Editor\Plugins - Editor - Animating\Bones Stimulator\BonesStimulator.Editor.Elements.cs" />
      <Compile Include="Assets\Rewired\Internal\Scripts\Editor\UnityEditorBridge.cs" />
+     <Compile Include="Assets\FImpossible Creations\Editor\Plugins - Editor - Animating\Bones Stimulator\BonesStimulator.Editor.cs" />
      <Compile Include="Assets\tripolygon\UModeler\Scripts\PureCode\Editor\MeshFilterEditor.cs" />
-     <Compile Include="Assets\TimelineEvents\Scripts\TimelineEvents\Editor\TimelineEventDrawer.cs" />
+     <Compile Include="Assets\FImpossible Creations\Editor\Plugins - Editor - Animating\Bones Stimulator\BonesStimulator.Editor.Langs.cs" />
+     <Compile Include="Assets\IgniteCoders\Simple Water Shader\Info\Scripts\Editor\ReadmeEditor.cs" />
+     <Compile Include="Assets\FImpossible Creations\Editor\Plugins - Editor - Animating\Bones Stimulator\BonesStimulator.Editor.Helpers.cs" />
+     <Compile Include="Assets\FImpossible Creations\Shared Tools\Editor\Property Drawers\FPD_FixedCurveWindowDrawer.cs" />
+     <Compile Include="Assets\_Game\TimelineEvents\Scripts\TimelineEvents\Editor\TimelineEventDrawer.cs" />
      <Compile Include="Assets\PowerSpriteAnimator\Scripts\Editor\SpriteAnimatorTimeline.cs" />
      <Compile Include="Assets\Impact Interaction System\Editor\ImpactTagLibraryEditor.cs" />
      <Compile Include="Assets\Impact Interaction System\Editor\ImpactFixAudioSourceTemplateReferences.cs" />
      <Compile Include="Assets\Impact Interaction System\Editor\ImpactMaterialDecalInteractionEditor.cs" />
+     <Compile Include="Assets\WaterCausticsModules\WaterCausticsTexGenerator\Editor\PreviewWindow.cs" />
      <Compile Include="Assets\Impact Interaction System\Editor\ImpactManagerEditor.cs" />
      <Compile Include="Assets\Rewired\Internal\Scripts\Editor\CustomInspectors\InitializerInspector.cs" />
      <Compile Include="Assets\Impact Interaction System\Editor\ImpactTriggerEditors.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\Editor\ControlMapperInspector.cs" />
+     <Compile Include="Assets\WaterCausticsModules\WaterCausticsTexGenerator\Editor\WaterCausticsTexGeneratorEditor.cs" />
      <Compile Include="Assets\Rewired\Internal\Scripts\Editor\CustomInspectors\UserDataStore_PlayerPrefsInspector.cs" />
      <Compile Include="Assets\PowerSpriteAnimator\Scripts\Editor\SpriteAnimatorNodes.cs" />
      <Compile Include="Assets\Rewired\Internal\Scripts\Editor\CustomInspectors\HardwareJoystickTemplateMapInspector.cs" />
+     <Compile Include="Assets\WaterCausticsModules\WaterCausticsEffect\Effect\Editor\WaterCausticsEffectEditor.cs" />
      <Compile Include="Assets\Impact Interaction System\Editor\ImpactMaterialEditor.cs" />
      <Compile Include="Assets\PowerSpriteAnimator\Scripts\Editor\SpriteAnimatorInfoPanel.cs" />
+     <Compile Include="Assets\FImpossible Creations\Editor\Plugins - Editor - Animating\Bones Stimulator\BonesStimulator.Editor.Tabs.cs" />
      <Compile Include="Assets\Impact Interaction System\Editor\ImpactObjectEditors.cs" />
+     <Compile Include="Assets\WaterCausticsModules\WaterCausticsTexGenerator\Editor\VersionCheck.cs" />
      <Compile Include="Assets\Rewired\Integration\Cinemachine\Editor\RewiredCinemachineBridgeInspector.cs" />
      <Compile Include="Assets\Integrations\FMOD\Editor\FMODAudioInteractionEditor.cs" />
+     <Compile Include="Assets\FImpossible Creations\Shared Tools\Editor\Property Drawers\FPD_HeaderDrawer.cs" />
+     <Compile Include="Assets\FImpossible Creations\Shared Tools\Editor\Property Drawers\FPD_MiscDrawers.cs" />
      <Compile Include="Assets\Rewired\Internal\Scripts\Editor\CustomInspectors\HardwareJoystickMapInspector.cs" />
      <Compile Include="Assets\Rewired\Internal\Scripts\Editor\CustomInspectors\PlayerControllerInspector.cs" />
      <Compile Include="Assets\Rewired\Internal\Scripts\Editor\CustomInspectors\InputManagerInspector.cs" />
+     <Compile Include="Assets\AmplifyColor\Plugins\Editor\LUTBrowser.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\Editor\CustomToggleInspector.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\Editor\CustomButtonInspector.cs" />
      <Compile Include="Assets\Impact Interaction System\Editor\ImpactEditorUtilities.cs" />
      <Compile Include="Assets\Rewired\Internal\Scripts\Editor\CustomInspectors\CustomInspector_External.cs" />
+     <Compile Include="Assets\WaterCausticsModules\WaterCausticsEffect\Effect\Editor\CheckRenderPipeline.cs" />
      <Compile Include="Assets\LeanTween\Editor\LeanTweenDocumentationEditor.cs" />
      <Compile Include="Assets\Impact Interaction System\Editor\ImpactTerrainEditor.cs" />
      <Compile Include="Assets\Rewired\Internal\Scripts\Editor\CustomInspectors\PlayerMouseInspector.cs" />
-     <Compile Include="Assets\Rewired\Internal\Scripts\Editor\CustomInspectors\ControllerDataFilesInspector.cs" />
-     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\Editor\CustomSliderInspector.cs" />
-     <Compile Include="Assets\Rewired\Integration\UnityUI\Editor\RewiredStandaloneInputModuleInspector.cs" />
-     <Compile Include="Assets\FImpossible Creations\Shared Tools\Editor\Property Drawers\FPD_FoldFrameDrawer.cs" />
-     <Compile Include="Assets\FImpossible Creations\Shared Tools\Editor\Property Drawers\FPD_SuffixDrawer.cs" />
-     <Compile Include="Assets\FImpossible Creations\Editor\Plugins - Editor - Animating\Bones Stimulator\BonesStimulator.Editor.Langs.cs" />
-     <Compile Include="Assets\FImpossible Creations\Editor\Plugins - Editor - Animating\Bones Stimulator\BonesStimulator.Editor.Tabs.cs" />
-     <Compile Include="Assets\FImpossible Creations\Shared Tools\Editor\Property Drawers\FPD_HeaderDrawer.cs" />
-     <Compile Include="Assets\FImpossible Creations\Shared Tools\Editor\Property Drawers\FPD_MiscDrawers.cs" />
-     <Compile Include="Assets\FImpossible Creations\Editor\Plugins - Editor - Animating\Bones Stimulator\BonesStimulator.Editor.cs" />
-     <Compile Include="Assets\FImpossible Creations\Editor\Plugins - Editor - Animating\Bones Stimulator\BonesStimulator.Editor.Helpers.cs" />
-     <Compile Include="Assets\FImpossible Creations\Editor\Plugins - Editor - Animating\Bones Stimulator\BonesStimulator.Editor.Elements.cs" />
      <Compile Include="Assets\FImpossible Creations\Shared Tools\Editor\Property Drawers\FPD_HideOnBoolDrawer.cs" />
-     <Compile Include="Assets\FImpossible Creations\Shared Tools\Editor\Property Drawers\FPD_FixedCurveWindowDrawer.cs" />
-     <Compile Include="Assets\FImpossible Creations\Shared Tools\Editor\Property Drawers\FPD_FoldableDrawer.cs" />
+     <Compile Include="Assets\Rewired\Internal\Scripts\Editor\CustomInspectors\ControllerDataFilesInspector.cs" />
+     <Compile Include="Assets\FImpossible Creations\Shared Tools\Editor\Property Drawers\FPD_SuffixDrawer.cs" />
+     <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\Editor\CustomSliderInspector.cs" />
      <Compile Include="Assets\FImpossible Creations\Shared Tools\Editor\Property Drawers\FPD_TabDrawer.cs" />
+     <Compile Include="Assets\Rewired\Integration\UnityUI\Editor\RewiredStandaloneInputModuleInspector.cs" />
+     <None Include="Assets\WaterCausticsModules\WaterCausticsTexGenerator\Editor\Misc\IconShader.shader" />
      <None Include="Assets\FImpossible Creations\Editor\Plugins - Editor - Animating\Bones Stimulator\Resources\Bones Stimulator\BonesStimulator_Langs.xml" />
      <Reference Include="UnityEngine">
      <HintPath>C:/Program Files/Unity/Hub/Editor/2021.2.5f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
@@ -955,6 +964,10 @@
       <Project>{6f9c92c2-ead4-99be-316b-618d1412f411}</Project>
       <Name>QFSW.QC.Parsers</Name>
     </ProjectReference>
+    <ProjectReference Include="com.pixeldough.lowres.runtime.csproj">
+      <Project>{bfd25f2e-2335-3ae1-df85-daa4d1e7966f}</Project>
+      <Name>com.pixeldough.lowres.runtime</Name>
+    </ProjectReference>
     <ProjectReference Include="Dreamteck.Splines.Editor.csproj">
       <Project>{ceecbd2e-e47e-1030-d095-95490e9725c6}</Project>
       <Name>Dreamteck.Splines.Editor</Name>
@@ -986,10 +999,6 @@
     <ProjectReference Include="QFSW.QC.Extras.csproj">
       <Project>{43814100-6d77-a734-caf5-9358550a5d0f}</Project>
       <Name>QFSW.QC.Extras</Name>
-    </ProjectReference>
-    <ProjectReference Include="com.pixeldough.lowres.runtime.csproj">
-      <Project>{bfd25f2e-2335-3ae1-df85-daa4d1e7966f}</Project>
-      <Name>com.pixeldough.lowres.runtime</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

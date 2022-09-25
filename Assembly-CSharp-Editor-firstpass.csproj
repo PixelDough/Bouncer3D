@@ -904,6 +904,10 @@
       <Project>{6f9c92c2-ead4-99be-316b-618d1412f411}</Project>
       <Name>QFSW.QC.Parsers</Name>
     </ProjectReference>
+    <ProjectReference Include="com.pixeldough.lowres.runtime.csproj">
+      <Project>{bfd25f2e-2335-3ae1-df85-daa4d1e7966f}</Project>
+      <Name>com.pixeldough.lowres.runtime</Name>
+    </ProjectReference>
     <ProjectReference Include="Dreamteck.Splines.Editor.csproj">
       <Project>{ceecbd2e-e47e-1030-d095-95490e9725c6}</Project>
       <Name>Dreamteck.Splines.Editor</Name>
@@ -935,10 +939,6 @@
     <ProjectReference Include="QFSW.QC.Extras.csproj">
       <Project>{43814100-6d77-a734-caf5-9358550a5d0f}</Project>
       <Name>QFSW.QC.Extras</Name>
-    </ProjectReference>
-    <ProjectReference Include="com.pixeldough.lowres.runtime.csproj">
-      <Project>{bfd25f2e-2335-3ae1-df85-daa4d1e7966f}</Project>
-      <Name>com.pixeldough.lowres.runtime</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

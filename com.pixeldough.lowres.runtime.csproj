@@ -41,9 +41,9 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\LowRes Volume\LowResPass.cs" />
-     <Compile Include="Assets\LowRes Volume\LowResRenderer.cs" />
      <Compile Include="Assets\LowRes Volume\LowResVolume.cs" />
+     <Compile Include="Assets\LowRes Volume\LowResRenderer.cs" />
+     <Compile Include="Assets\LowRes Volume\LowResPass.cs" />
      <None Include="Assets\LowRes Volume\Resources\LowRes.shader" />
      <None Include="Assets\LowRes Volume\com.pixeldough.lowres.runtime.asmdef" />
      <Reference Include="UnityEngine">
