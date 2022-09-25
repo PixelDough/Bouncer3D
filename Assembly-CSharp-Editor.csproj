@@ -936,9 +936,17 @@
       <Project>{61673b18-169c-b7d4-4be6-193375d40bb2}</Project>
       <Name>AmplifyShaderEditor</Name>
     </ProjectReference>
+    <ProjectReference Include="GrabbitAssembly.csproj">
+      <Project>{04c2133e-8209-b2f1-9f12-b0c99303633f}</Project>
+      <Name>GrabbitAssembly</Name>
+    </ProjectReference>
     <ProjectReference Include="QFSW.QC.QGUI.csproj">
       <Project>{bd8c71a7-c4f7-9b2c-1751-10b74aa2cc88}</Project>
       <Name>QFSW.QC.QGUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="vhacd.csproj">
+      <Project>{3ad41cdd-21d8-19f0-422d-78fa3afa0191}</Project>
+      <Name>vhacd</Name>
     </ProjectReference>
     <ProjectReference Include="QFSW.QC.Serializers.csproj">
       <Project>{679e48eb-245b-721f-e6d9-51175ca1e22f}</Project>

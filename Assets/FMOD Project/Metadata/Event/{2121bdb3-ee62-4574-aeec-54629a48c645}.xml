@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.02.01.00">
+<objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{2121bdb3-ee62-4574-aeec-54629a48c645}">
 		<property name="name">
 			<value>WindFast</value>
@@ -203,8 +203,8 @@
 			<destination>{5ea30e86-8dea-4755-981c-1b6456452ef9}</destination>
 		</relationship>
 		<relationship name="automationPoints">
-			<destination>{9698cb0d-433d-4cda-89f9-8254c3e0573a}</destination>
 			<destination>{7332503c-9e17-48f0-bdae-d36b6122a8b2}</destination>
+			<destination>{9698cb0d-433d-4cda-89f9-8254c3e0573a}</destination>
 		</relationship>
 	</object>
 	<object class="AutomationCurve" id="{7b648efd-ecd8-49b1-a854-118bc3812874}">
@@ -219,14 +219,6 @@
 	<object class="MixerBusFader" id="{432e8922-27d5-4763-8d88-7f2f4565f8ac}" />
 	<object class="SpatialiserEffect" id="{851c4e33-ccd0-4632-b784-ee33d0a2ce26}" />
 	<object class="MixerBusFader" id="{36f7b7d8-7483-44dd-b442-8d08a7e50865}" />
-	<object class="AutomationPoint" id="{9698cb0d-433d-4cda-89f9-8254c3e0573a}">
-		<property name="position">
-			<value>0.99858757062146897</value>
-		</property>
-		<property name="value">
-			<value>3.81469727e-06</value>
-		</property>
-	</object>
 	<object class="AutomationPoint" id="{7332503c-9e17-48f0-bdae-d36b6122a8b2}">
 		<property name="position">
 			<value>0</value>
@@ -236,6 +228,14 @@
 		</property>
 		<property name="curveShape">
 			<value>0.00601615291</value>
+		</property>
+	</object>
+	<object class="AutomationPoint" id="{9698cb0d-433d-4cda-89f9-8254c3e0573a}">
+		<property name="position">
+			<value>0.99858757062146897</value>
+		</property>
+		<property name="value">
+			<value>3.81469727e-06</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{afccb7af-7728-4351-bb21-37b03f237a2d}">

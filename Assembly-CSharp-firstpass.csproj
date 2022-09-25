@@ -41,68 +41,126 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Timeline\Mixers\BoolMixer.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Weather\AutoRainPuddle.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Presets Base\PresetBaseValues.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Custom Effects\AppearanceTemplate.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\WetDecalsRootPath.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Weather\DripLine.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Preset\PresetBehaviorValues.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Timeline\Saturation\Data.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\TAnimBuilder.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\TAnimGlobalDataScriptable.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\IDecalSettings.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Presets Base\ColorCurve.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\TypewriterAction.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Base\EffectsBase.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Presets Base\FloatCurve.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\Attributes\MinValueAttribute.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Primitives.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Timeline\Mixers\SingleMixer.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\SwingBehavior.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\SemanticVersion.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\TextAnimator.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\WetAttributeModifier.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Base\IBehaviorEffect.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\Attributes\CharsDisplayTimeAttribute.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Timeline\Mixers\Vector2Mixer.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\WaveBehavior.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Base\AppearanceBase.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Timeline\Mixers\BaseMixer.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\SizeBehavior.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\ParticleWetSplatter.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Timeline\Settings\DecalSettingsClip.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Base\EffectInfoAttribute.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Timeline\TimelineTemplate.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Base\Modifier.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Defaults\SizeAppearance.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Scriptables\BuiltinAppearancesDataScriptable.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\EffectsDefaultValues.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\TAnimTags.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Timeline\Settings\DecalSettingsData.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\BounceBehavior.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Preset\PresetBehavior.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\WetDecalRenderer.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\AssemblyAttributes.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\TextUtilities.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Defaults\HorizontallExpandAppearance.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Rendering\LayerArrays.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Timeline\Mixers\Vector4Mixer.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Presets Base\EmissionControl.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\TAnimExtensions.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Rendering\MaterialPermutation.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Extensions\IListExtensions.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\TextAnimatorPlayer.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\BatchCulling.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Rendering\MaterialProperties.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\MinMaxAttribute.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\WiggleBehavior.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\RainbowBehavior.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Base\IAppearanceEffect.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Datastructures\Pool.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Base\Character.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\ShakeBehavior.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Timeline\Saturation\Track.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\SlideBehavior.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Timeline\Saturation\Clip.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Debugging\WetSurfaceDecalsException.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\WetStuffVersion.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Defaults\FadeAppearance.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Timeline\Saturation\Mixer.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\Attributes\PositiveValueAttribute.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\WetDecal.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\FormatUtils.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Presets\PresetAppearance.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\Tween.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Utilities\Attributes\NotZeroAttribute.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Special Tags\EventMarker.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\IWetDecal.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Defaults\VerticalExpandAppearance.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Scriptables\BuiltinBehaviorsDataScriptable.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Debugging\Log.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\EditorRestartHack.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\FadeBehavior.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\TAnimPlayerBase.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Custom Effects\CustomEffects.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Base\BehaviorBase.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Defaults\RotatingAppearance.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Weather\BaseExternalWetnessSource.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Defaults\DiagonalExpandAppearance.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\RcSharedState.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Weather\RainPuddle.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Custom Effects\BehaviorTemplate.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Base\BehaviorSine.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Core\Scriptables\BuiltinDataScriptableBase.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Presets\PresetAppearanceValues.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Behavior Effects\Defaults\RotationBehavior.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Timeline\Settings\DecalSettingsTrack.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Rendering\RenderSettings.cs" />
      <Compile Include="Assets\Plugins\Trinary Software\Timing.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\ParticleWetSplatterTemplate.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Jetbrains.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Appearance Effects\Defaults\OffsetAppearance.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Debugging\DebugSettings.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Timeline\Settings\DecalSettingsMixer.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\WetStuff.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\WetDecalSystem.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Rendering\InstanceProperties.cs" />
+     <Compile Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Core\Rendering\LayerParameters.cs" />
      <Compile Include="Assets\Plugins\Febucci\Text Animator\Effects\Presets Base\EffectEvaluator.cs" />
+     <None Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Resources\FreeBlueNoiseTextures\LICENSE.txt" />
+     <None Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Resources\WetSurfaceModifier.shader" />
      <None Include="Assets\Plugins\Febucci\Text Animator\Integrations\Integrations.txt" />
      <None Include="Assets\Plugins\QFSW\Quantum Console\Source\Third-Party Notices.txt" />
+     <None Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Resources\FreeBlueNoiseTextures\COPYING.txt" />
+     <None Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Resources\WetSurfaceCore.cginc" />
+     <None Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Resources\BlurNormals.shader" />
      <None Include="Assets\Plugins\QFSW\Quantum Console\Source\changelog.txt" />
+     <None Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Resources\ReconstructNormals.shader" />
+     <None Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Resources\WetSurfaceModifier.cginc" />
+     <None Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Resources\DrySurfaceMask.shader" />
+     <None Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Resources\StereoBlit.shader" />
+     <None Include="Assets\Plugins\PlaceholderSoftware\WetStuff\Resources\WetSurfaceMask.shader" />
      <None Include="Assets\Plugins\QFSW\Quantum Console\Source\Fonts\LICENSE.txt" />
      <None Include="Assets\Plugins\QFSW\Quantum Console\Source\Shaders\Blur.shader" />
      <Reference Include="UnityEngine">
@@ -895,9 +953,17 @@
       <Project>{61673b18-169c-b7d4-4be6-193375d40bb2}</Project>
       <Name>AmplifyShaderEditor</Name>
     </ProjectReference>
+    <ProjectReference Include="GrabbitAssembly.csproj">
+      <Project>{04c2133e-8209-b2f1-9f12-b0c99303633f}</Project>
+      <Name>GrabbitAssembly</Name>
+    </ProjectReference>
     <ProjectReference Include="QFSW.QC.QGUI.csproj">
       <Project>{bd8c71a7-c4f7-9b2c-1751-10b74aa2cc88}</Project>
       <Name>QFSW.QC.QGUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="vhacd.csproj">
+      <Project>{3ad41cdd-21d8-19f0-422d-78fa3afa0191}</Project>
+      <Name>vhacd</Name>
     </ProjectReference>
     <ProjectReference Include="QFSW.QC.Serializers.csproj">
       <Project>{679e48eb-245b-721f-e6d9-51175ca1e22f}</Project>

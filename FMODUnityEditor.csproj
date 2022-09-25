@@ -42,11 +42,12 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Plugins\FMOD\src\Editor\SettingsEditor.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Editor\Timeline\FMODEventTrackEditor.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Editor\FMODEventTrackEditor.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\FindAndReplace.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\BankRefreshWindow.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\EventBrowser.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\StudioBankLoaderEditor.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Editor\FileReorganizer.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\ParamRefDrawer.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\EditorBankRef.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\StudioListenerEditor.cs" />
@@ -61,8 +62,10 @@
      <Compile Include="Assets\Plugins\FMOD\src\Editor\EventCache.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\StudioParameterTriggerEditor.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\EditorUtils.cs" />
-     <Compile Include="Assets\Plugins\FMOD\src\Editor\Timeline\FMODEventPlayableEditor.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Editor\EventReferenceUpdater.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Editor\FMODEventPlayableEditor.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\SetupWizard.cs" />
+     <Compile Include="Assets\Plugins\FMOD\src\Editor\EditorSettings.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\EditorParamRef.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\EventRefDrawer.cs" />
      <Compile Include="Assets\Plugins\FMOD\src\Editor\StudioGlobalParameterTriggerEditor.cs" />

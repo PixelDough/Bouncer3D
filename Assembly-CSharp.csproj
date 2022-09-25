@@ -304,6 +304,7 @@
      <None Include="Assets\FMOD Project\Metadata\AudioFile\{b3cf979e-e412-414b-9964-6b675f1665c0}.xml" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\WaterCausticsModules\WaterCausticsTexGenerator\Shader\GenCausticsShader.shader" />
+     <None Include="Assets\FMOD Project\Metadata\EventFolder\{459d7bde-621f-4d1f-9b70-2a2309509d2e}.xml" />
      <None Include="Assets\FMOD Project\Metadata\Workspace.xml" />
      <None Include="Assets\FMOD Project\Metadata\Event\{2121bdb3-ee62-4574-aeec-54629a48c645}.xml" />
      <None Include="Assets\FMOD Project\Metadata\Bank\{cb331e7b-a0dd-4980-a7c9-15af4a88127b}.xml" />
@@ -335,11 +336,13 @@
      <None Include="Assets\WaterCausticsModules\WaterCausticsEffect\Effect\Shader\WaterCausticsEffect.shader" />
      <None Include="Assets\_Game\Shaders\ParticleUnlitDither.shader" />
      <None Include="Assets\_Game\Models\Bowling World\Bowling Ball\Planet.shader" />
+     <None Include="Assets\FMOD Project\Metadata\Event\{a3d3d229-6588-4abb-821a-9f184b5bc5a5}.xml" />
      <None Include="Assets\FMOD Project\Metadata\Bank\{ccdb7a7e-3434-4749-bd35-52fe3a8f00ae}.xml" />
      <None Include="Assets\FMOD Project\Metadata\ProfilerFolder\{b1ab7034-1fdb-4b7b-89a2-93819fe075cf}.xml" />
      <None Include="Assets\FMOD Project\Metadata\Event\{fa1993a2-cd88-4588-a55a-3740bfe1df03}.xml" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets\Rewired\Documentation\ReleaseNotes.txt" />
+     <None Include="Assets\FMOD Project\Metadata\AudioFile\{337b02e3-7d8b-44a4-a1a2-e4df8f93a0f6}.xml" />
      <None Include="Assets\_Game\Models\Levels\Beach\Palm Tree\PalmTreeLeaves.shader" />
      <None Include="Assets\FMOD Project\Metadata\Asset\{39186464-ab3b-42d5-b077-3accb4a5b81c}.xml" />
      <None Include="Assets\FMOD Project\Metadata\EventFolder\{befd4772-d426-4fc4-957a-b689488aa17d}.xml" />
@@ -362,6 +365,7 @@
      <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
      <None Include="Assets\Impact Interaction System\Documentation\Simple Setup.txt" />
+     <None Include="Assets\FMOD Project\Metadata\Asset\{2368098f-7a88-4013-8c56-e5456d316f2f}.xml" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
      <None Include="Assets\Free Stylized Skybox\ReadMe.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
@@ -1206,9 +1210,17 @@
       <Project>{61673b18-169c-b7d4-4be6-193375d40bb2}</Project>
       <Name>AmplifyShaderEditor</Name>
     </ProjectReference>
+    <ProjectReference Include="GrabbitAssembly.csproj">
+      <Project>{04c2133e-8209-b2f1-9f12-b0c99303633f}</Project>
+      <Name>GrabbitAssembly</Name>
+    </ProjectReference>
     <ProjectReference Include="QFSW.QC.QGUI.csproj">
       <Project>{bd8c71a7-c4f7-9b2c-1751-10b74aa2cc88}</Project>
       <Name>QFSW.QC.QGUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="vhacd.csproj">
+      <Project>{3ad41cdd-21d8-19f0-422d-78fa3afa0191}</Project>
+      <Name>vhacd</Name>
     </ProjectReference>
     <ProjectReference Include="QFSW.QC.Serializers.csproj">
       <Project>{679e48eb-245b-721f-e6d9-51175ca1e22f}</Project>

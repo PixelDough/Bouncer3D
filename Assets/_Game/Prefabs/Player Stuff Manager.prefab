@@ -4928,7 +4928,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CollisionTag: 
-  Event: event:/SFX/PLAYER/BallRoll
+  EventReference:
+    Guid:
+      Data1: -1420815804
+      Data2: 1139822497
+      Data3: -12934257
+      Data4: 845964480
+    Path: event:/SFX/PLAYER/BallRoll
+  Event: 
   PlayEvent: 11
   StopEvent: 12
   AllowFadeout: 1
@@ -9948,7 +9955,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CollisionTag: 
-  Event: event:/SFX/PLAYER/WindFast
+  EventReference:
+    Guid:
+      Data1: 555859379
+      Data2: 1165291106
+      Data3: 1649732782
+      Data4: 1170622618
+    Path: event:/SFX/PLAYER/WindFast
+  Event: 
   PlayEvent: 11
   StopEvent: 12
   AllowFadeout: 1
@@ -32736,6 +32750,30 @@ PrefabInstance:
     - target: {fileID: 2077767225284576606, guid: 38daf0a9fb5a322428650f012a0a3c7f, type: 3}
       propertyPath: m_RootOrder
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2517568923684108675, guid: 38daf0a9fb5a322428650f012a0a3c7f, type: 3}
+      propertyPath: Event
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2517568923684108675, guid: 38daf0a9fb5a322428650f012a0a3c7f, type: 3}
+      propertyPath: EventReference.Path
+      value: event:/SFX/PLAYER/BEACH BALL/BounceBeachBall
+      objectReference: {fileID: 0}
+    - target: {fileID: 2517568923684108675, guid: 38daf0a9fb5a322428650f012a0a3c7f, type: 3}
+      propertyPath: EventReference.Guid.Data1
+      value: 1493563949
+      objectReference: {fileID: 0}
+    - target: {fileID: 2517568923684108675, guid: 38daf0a9fb5a322428650f012a0a3c7f, type: 3}
+      propertyPath: EventReference.Guid.Data2
+      value: 1258664008
+      objectReference: {fileID: 0}
+    - target: {fileID: 2517568923684108675, guid: 38daf0a9fb5a322428650f012a0a3c7f, type: 3}
+      propertyPath: EventReference.Guid.Data3
+      value: 1650638783
+      objectReference: {fileID: 0}
+    - target: {fileID: 2517568923684108675, guid: 38daf0a9fb5a322428650f012a0a3c7f, type: 3}
+      propertyPath: EventReference.Guid.Data4
+      value: 1738768608
       objectReference: {fileID: 0}
     - target: {fileID: 3770457594252763632, guid: 38daf0a9fb5a322428650f012a0a3c7f, type: 3}
       propertyPath: dampenBubble

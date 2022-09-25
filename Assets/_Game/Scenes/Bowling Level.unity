@@ -21916,7 +21916,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CollisionTag: 
-  Event: event:/MUSIC/Emalynski - rain
+  EventReference:
+    Guid:
+      Data1: 1608527920
+      Data2: 1087733637
+      Data3: -2028382576
+      Data4: -1819970764
+    Path: event:/MUSIC/Emalynski - rain
+  Event: 
   PlayEvent: 11
   StopEvent: 12
   AllowFadeout: 1

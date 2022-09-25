@@ -185,7 +185,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CollisionTag: 
-  Event: event:/SFX/PLAYER/BEACH BALL/BounceBeachBall
+  EventReference:
+    Guid:
+      Data1: 1493563949
+      Data2: 1258664008
+      Data3: 1650638783
+      Data4: 1738768608
+    Path: event:/SFX/PLAYER/BEACH BALL/BounceBeachBall
+  Event: 
   PlayEvent: 0
   StopEvent: 0
   AllowFadeout: 1
