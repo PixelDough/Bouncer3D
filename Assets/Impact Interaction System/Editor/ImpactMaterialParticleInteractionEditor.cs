@@ -9,67 +9,65 @@ namespace Impact.EditorScripts
     [CustomEditor(typeof(ImpactParticleInteraction))]
     public class ImpactMaterialParticleInteractionEditor : Editor
     {
-        private readonly Color warningColor = new Color(1, 1, 0.5f);
-
-        private ImpactParticleInteraction interaction;
+        private SerializedProperty minimumVelocityProperty;
+        private SerializedProperty collisionNormalInfluenceProperty;
+        private SerializedProperty particlePrefabProperty;
+        private SerializedProperty isParticleLoopedProperty;
+        private SerializedProperty emissionIntervalProperty;
+        private SerializedProperty emissionIntervalTypeProperty;
+        private SerializedProperty emitOnCollisionProperty;
+        private SerializedProperty emitOnSlideProperty;
+        private SerializedProperty emitOnRollProperty;
 
         private void OnEnable()
         {
-            interaction = target as ImpactParticleInteraction;
+            minimumVelocityProperty = serializedObject.FindProperty("_minimumVelocity");
+            collisionNormalInfluenceProperty = serializedObject.FindProperty("_collisionNormalInfluence");
+            particlePrefabProperty = serializedObject.FindProperty("_particlePrefab");
+            isParticleLoopedProperty = serializedObject.FindProperty("_isParticleLooped");
+            emissionIntervalProperty = serializedObject.FindProperty("_emissionInterval");
+            emissionIntervalTypeProperty = serializedObject.FindProperty("_emissionIntervalType");
+            emitOnCollisionProperty = serializedObject.FindProperty("_emitOnCollision");
+            emitOnSlideProperty = serializedObject.FindProperty("_emitOnSlide");
+            emitOnRollProperty = serializedObject.FindProperty("_emitOnRoll");
         }
 
         public override void OnInspectorGUI()
         {
-            EditorGUI.BeginChangeCheck();
+            serializedObject.Update();
 
             EditorGUILayout.LabelField("Particle Properties", EditorStyles.boldLabel);
 
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(new GUIContent("Particle Prefab", "The particle prefab to use."), GUILayout.Width(180));
-            interaction.ParticlePrefab = EditorGUILayout.ObjectField(interaction.ParticlePrefab, typeof(ImpactParticlesBase), false) as ImpactParticlesBase;
-            EditorGUILayout.EndHorizontal();
+            ImpactEditorUtilities.DrawPropertyWithWiderLabel(particlePrefabProperty, new GUIContent("Particle Prefab", "The particle prefab to use."));
 
-            if (interaction.ParticlePrefab == null)
+            if (particlePrefabProperty.objectReferenceValue == null)
             {
                 EditorGUILayout.HelpBox("You must assign an Particle Prefab for this interaction.", MessageType.Error);
             }
 
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(new GUIContent("Is Particle Looped", "Is the particle prefab looped?"), GUILayout.Width(180));
-            interaction.IsParticleLooped = EditorGUILayout.Toggle(interaction.IsParticleLooped);
-            EditorGUILayout.EndHorizontal();
+            ImpactEditorUtilities.DrawPropertyWithWiderLabel(isParticleLoopedProperty, new GUIContent("Is Particle Looped", "Is the particle prefab looped?"));
 
             ImpactEditorUtilities.Separator();
 
             EditorGUILayout.LabelField("Interaction Properties", EditorStyles.boldLabel);
 
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(new GUIContent("Minimum Velocity", "The minimum velocity magnitude required to show particles."), GUILayout.Width(180));
-            interaction.MinimumVelocity = EditorGUILayout.FloatField(interaction.MinimumVelocity);
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(new GUIContent("Collision Normal Influence", "How much the collision normal should influence the calculated intensity."), GUILayout.Width(180));
-            interaction.CollisionNormalInfluence = EditorGUILayout.Slider(interaction.CollisionNormalInfluence, 0, 1);
-            EditorGUILayout.EndHorizontal();
+            ImpactEditorUtilities.DrawPropertyWithWiderLabel(minimumVelocityProperty, new GUIContent("Minimum Velocity", "The minimum velocity magnitude required to show particles."));
+            ImpactEditorUtilities.DrawPropertyWithWiderLabel(collisionNormalInfluenceProperty, new GUIContent("Collision Normal Influence", "How much the collision normal should influence the calculated intensity."));
 
             EditorGUILayout.Separator();
 
-            interaction.EmitOnCollision = EditorGUILayout.ToggleLeft(new GUIContent("Emit On Collision", "Should particles be emitted on single collisions?"), interaction.EmitOnCollision);
-            interaction.EmitOnSlide = EditorGUILayout.ToggleLeft(new GUIContent("Emit On Slide", "Should particles be emitted when sliding?"), interaction.EmitOnSlide);
-            interaction.EmitOnRoll = EditorGUILayout.ToggleLeft(new GUIContent("Emit On Roll", "Should particles be emitted when rolling?"), interaction.EmitOnRoll);
+            ImpactEditorUtilities.DrawToggleLeftProperty(emitOnCollisionProperty, new GUIContent("Emit On Collision", "Should particles be emitted on single collisions?"));
+            ImpactEditorUtilities.DrawToggleLeftProperty(emitOnSlideProperty, new GUIContent("Emit On Slide", "Should particles be emitted when sliding?"));
+            ImpactEditorUtilities.DrawToggleLeftProperty(emitOnRollProperty, new GUIContent("Emit On Roll", "Should particles be emitted when rolling?"));
 
-            GUI.enabled = !interaction.IsParticleLooped && (interaction.EmitOnSlide || interaction.EmitOnRoll);
+            GUI.enabled = !isParticleLoopedProperty.boolValue && (emitOnSlideProperty.boolValue || emitOnRollProperty.boolValue);
 
-            interaction.EmissionInterval = ImpactEditorUtilities.RangeEditor(interaction.EmissionInterval, new GUIContent("Emission Interval (Min/Max)", "The interval at which particles should be emitted when sliding or rolling."));
-            interaction.EmissionIntervalType = (InteractionIntervalType)EditorGUILayout.EnumPopup(new GUIContent("Interval Type", "Whether the Emission Interval is defined in Time (seconds) or Distance."), interaction.EmissionIntervalType);
+            ImpactEditorUtilities.DrawPropertyWithWiderLabel(emissionIntervalProperty, new GUIContent("Emission Interval (Min/Max)", "The interval at which particles should be emitted when sliding or rolling."));
+            ImpactEditorUtilities.DrawPropertyWithWiderLabel(emissionIntervalTypeProperty, new GUIContent("Interval Type", "Whether the Emission Interval is defined in Time (seconds) or Distance."));
 
             GUI.enabled = true;
 
-            if (EditorGUI.EndChangeCheck())
-            {
-                EditorUtility.SetDirty(interaction);
-            }
+            serializedObject.ApplyModifiedProperties();
         }
     }
 

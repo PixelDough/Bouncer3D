@@ -175,6 +175,45 @@ namespace Impact.EditorScripts
             paths = null;
             return false;
         }
+
+        public static void DrawPropertyWithWiderLabel(SerializedProperty property, GUIContent guiContent, float labelWidth = 180)
+        {
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField(guiContent, GUILayout.Width(labelWidth));
+            EditorGUILayout.PropertyField(property, new GUIContent());
+            EditorGUILayout.EndHorizontal();
+        }
+
+        public static void DrawToggleLeftProperty(SerializedProperty property, GUIContent guiContent)
+        {
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PropertyField(property, new GUIContent(), GUILayout.Width(10));
+            EditorGUILayout.LabelField(guiContent);
+            EditorGUILayout.EndHorizontal();
+        }
+    }
+
+    [CustomPropertyDrawer(typeof(Range))]
+    public class RangeDrawer : PropertyDrawer
+    {
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            EditorGUI.BeginProperty(position, label, property);
+            position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+
+            SerializedProperty min = property.FindPropertyRelative("Min");
+            SerializedProperty max = property.FindPropertyRelative("Max");
+
+            EditorGUI.PropertyField(new Rect(position.x, position.y, 80, position.height), min, new GUIContent());
+            EditorGUI.PropertyField(new Rect(position.x + 85, position.y, 80, position.height), max, new GUIContent());
+
+            EditorGUI.EndProperty();
+        }
+
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            return EditorGUIUtility.singleLineHeight;
+        }
     }
 
     [CustomPropertyDrawer(typeof(ImpactTagMask))]

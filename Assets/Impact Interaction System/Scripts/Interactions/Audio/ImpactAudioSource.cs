@@ -56,8 +56,8 @@ namespace Impact.Interactions.Audio
 
         public override void UpdateAudio(float volume, float pitch)
         {
-            _audioSource.volume = volume;
-            _audioSource.pitch = pitch;
+            _audioSource.volume = baseVolume * volume;
+            _audioSource.pitch = basePitch * pitch;
         }
 
         public override void StopAudio()

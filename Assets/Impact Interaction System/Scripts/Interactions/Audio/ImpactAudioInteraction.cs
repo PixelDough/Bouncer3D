@@ -171,8 +171,10 @@ namespace Impact.Interactions.Audio
         /// <returns>A new AudioInteractionResult.</returns>
         public override IInteractionResult GetInteractionResult<T>(T interactionData)
         {
+            float intensity = 0;
+
             //Immediately break out if intensity is less than the velocity range minimum, since any result would be invalid anyways.
-            float intensity = ImpactInteractionUtilities.GetCollisionIntensity(interactionData, CollisionNormalInfluence);
+            intensity = ImpactInteractionUtilities.GetCollisionIntensity(interactionData, CollisionNormalInfluence);
             if (intensity < VelocityRange.Min)
                 return null;
 
@@ -185,23 +187,16 @@ namespace Impact.Interactions.Audio
             if (ImpactManagerInstance.TryGetInteractionResultFromPool(interactionResultPoolKey, out c))
             {
                 c.OriginalData = InteractionDataUtilities.ToInteractionData(interactionData);
-                c.LoopAudio = interactionData.InteractionType != InteractionData.InteractionTypeCollision;
+                c.LoopAudio = interactionData.InteractionType == InteractionData.InteractionTypeSlide || interactionData.InteractionType == InteractionData.InteractionTypeRoll;
                 c.Interaction = this;
                 c.AudioSourceTemplate = AudioSourceTemplate;
 
-                if (interactionData.InteractionType == InteractionData.InteractionTypeSimple)
-                {
-                    c.AudioClip = getAudioClip(interactionData.InteractionType, 0);
-                    c.Volume = RandomVolumeRange.RandomInRange();
-                }
-                else
-                {
-                    float normalizedIntensity = VelocityRange.Normalize(intensity);
+                float normalizedIntensity = VelocityRange.Normalize(intensity);
 
-                    c.AudioClip = getAudioClip(interactionData.InteractionType, normalizedIntensity);
-                    c.Volume = getVolume(normalizedIntensity) * interactionData.CompositionValue;
-                    c.Key = key;
-                }
+                c.AudioClip = getAudioClip(interactionData.InteractionType, normalizedIntensity);
+                c.Volume = getVolume(normalizedIntensity) * interactionData.CompositionValue;
+
+                c.Key = key;
 
                 c.Pitch = RandomPitchRange.RandomInRange();
 
@@ -236,9 +231,7 @@ namespace Impact.Interactions.Audio
 
         private AudioClip getAudioClip(int interactionType, float normalizedIntensity)
         {
-            if (interactionType == InteractionData.InteractionTypeSimple)
-                return getRandomCollisionAudioClip();
-            else if (interactionType == InteractionData.InteractionTypeCollision)
+            if (interactionType == InteractionData.InteractionTypeCollision)
                 return getCollisionAudioClip(normalizedIntensity);
             else if (interactionType == InteractionData.InteractionTypeSlide)
                 return SlideAudioClip;

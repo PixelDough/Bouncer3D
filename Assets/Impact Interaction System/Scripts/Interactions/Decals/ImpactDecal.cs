@@ -92,7 +92,7 @@ namespace Impact.Interactions.Decals
             set { _parentToObject = value; }
         }
 
-        private DestroyMessenger parentObject;
+        private ImpactDecalManager parentObject;
 
         public override void SetupDecal(DecalInteractionResult interactionResult, Vector3 point, Vector3 normal)
         {
@@ -116,8 +116,8 @@ namespace Impact.Interactions.Decals
             {
                 transform.SetParent(interactionResult.OriginalData.OtherObject.transform);
 
-                parentObject = interactionResult.OriginalData.OtherObject.GetOrAddComponent<DestroyMessenger>();
-                parentObject.OnDestroyed += onParentDestroyed;
+                parentObject = interactionResult.OriginalData.OtherObject.GetOrAddComponent<ImpactDecalManager>(true);
+                parentObject.AddDecal(this);
             }
             else
                 transform.SetParent(OriginalParent, true);
@@ -131,15 +131,10 @@ namespace Impact.Interactions.Decals
                 transform.Rotate(new Vector3(0, Random.value * 360f, 0), Space.Self);
         }
 
-        private void onParentDestroyed()
-        {
-            MakeAvailable();
-        }
-
         public override void Retrieve(int priority)
         {
             if (parentObject)
-                parentObject.OnDestroyed -= onParentDestroyed;
+                parentObject.RemoveDecal(this);
             parentObject = null;
 
             base.Retrieve(priority);
@@ -148,7 +143,7 @@ namespace Impact.Interactions.Decals
         public override void MakeAvailable()
         {
             if (parentObject)
-                parentObject.OnDestroyed -= onParentDestroyed;
+                parentObject.RemoveDecal(this);
             parentObject = null;
 
             base.MakeAvailable();

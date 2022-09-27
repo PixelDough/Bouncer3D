@@ -61,9 +61,6 @@ namespace Impact.Utility.ObjectPool
             for (int i = 0; i < pooledObjects.Length; i++)
             {
                 pooledObjects[i] = createPooledObjectInstance(i);
-                pooledObjects[i].OriginalParent = this.transform;
-                pooledObjects[i].transform.SetParent(this.transform);
-                pooledObjects[i].gameObject.SetActive(false);
             }
         }
 
@@ -75,7 +72,9 @@ namespace Impact.Utility.ObjectPool
         protected virtual T createPooledObjectInstance(int index)
         {
             T instance = Instantiate(Template, this.transform);
+            instance.OriginalParent = this.transform;
             instance.gameObject.name = Template.name + "_" + index;
+            instance.MakeAvailable();
             return instance;
         }
 
@@ -142,6 +141,17 @@ namespace Impact.Utility.ObjectPool
 
             result = null;
             return false;
+        }
+
+        /// <summary>
+        /// Returns all objects to the pool. You can use this to clean up objects on scene load, for example.
+        /// </summary>
+        public void ReturnAllObjectsToPool()
+        {
+            foreach (var item in pooledObjects)
+            {
+                item.MakeAvailable();
+            }
         }
 
         /// <summary>

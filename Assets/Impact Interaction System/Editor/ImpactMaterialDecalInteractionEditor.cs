@@ -9,27 +9,36 @@ namespace Impact.EditorScripts
     [CustomEditor(typeof(ImpactDecalInteraction))]
     public class ImpactMaterialDecalInteractionEditor : Editor
     {
-        private readonly Color warningColor = new Color(1, 1, 0.5f);
-
-        private ImpactDecalInteraction interaction;
+        private SerializedProperty minimumVelocityProperty;
+        private SerializedProperty collisionNormalInfluenceProperty;
+        private SerializedProperty decalPrefabProperty;
+        private SerializedProperty creationIntervalProperty;
+        private SerializedProperty creationIntervalTypeProperty;
+        private SerializedProperty createOnCollisionProperty;
+        private SerializedProperty createOnSlideProperty;
+        private SerializedProperty createOnRollProperty;
 
         private void OnEnable()
         {
-            interaction = target as ImpactDecalInteraction;
+            minimumVelocityProperty = serializedObject.FindProperty("_minimumVelocity");
+            collisionNormalInfluenceProperty = serializedObject.FindProperty("_collisionNormalInfluence");
+            decalPrefabProperty = serializedObject.FindProperty("_decalPrefab");
+            creationIntervalProperty = serializedObject.FindProperty("_creationInterval");
+            creationIntervalTypeProperty = serializedObject.FindProperty("_creationIntervalType");
+            createOnCollisionProperty = serializedObject.FindProperty("_createOnCollision");
+            createOnSlideProperty = serializedObject.FindProperty("_createOnSlide");
+            createOnRollProperty = serializedObject.FindProperty("_createOnRoll");
         }
 
         public override void OnInspectorGUI()
         {
-            EditorGUI.BeginChangeCheck();
+            serializedObject.Update();
 
             EditorGUILayout.LabelField("Decal Properties", EditorStyles.boldLabel);
 
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(new GUIContent("Decal Prefab", "The decal prefab to use."), GUILayout.Width(180));
-            interaction.DecalPrefab = EditorGUILayout.ObjectField(interaction.DecalPrefab, typeof(ImpactDecalBase), false) as ImpactDecalBase;
-            EditorGUILayout.EndHorizontal();
+            ImpactEditorUtilities.DrawPropertyWithWiderLabel(decalPrefabProperty, new GUIContent("Decal Prefab", "The decal prefab to use."));
 
-            if (interaction.DecalPrefab == null)
+            if (decalPrefabProperty.objectReferenceValue == null)
             {
                 EditorGUILayout.HelpBox("You must assign an Decal Prefab for this interaction.", MessageType.Error);
             }
@@ -38,33 +47,23 @@ namespace Impact.EditorScripts
 
             EditorGUILayout.LabelField("Interaction Properties", EditorStyles.boldLabel);
 
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(new GUIContent("Minimum Velocity", "The minimum velocity magnitude required to place a decal."), GUILayout.Width(180));
-            interaction.MinimumVelocity = EditorGUILayout.FloatField(interaction.MinimumVelocity);
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(new GUIContent("Collision Normal Influence", "How much the collision normal should influence the calculated intensity."), GUILayout.Width(180));
-            interaction.CollisionNormalInfluence = EditorGUILayout.Slider(interaction.CollisionNormalInfluence, 0, 1);
-            EditorGUILayout.EndHorizontal();
+            ImpactEditorUtilities.DrawPropertyWithWiderLabel(minimumVelocityProperty, new GUIContent("Minimum Velocity", "The minimum velocity magnitude required to place a decal."));
+            ImpactEditorUtilities.DrawPropertyWithWiderLabel(collisionNormalInfluenceProperty, new GUIContent("Collision Normal Influence", "How much the collision normal should influence the calculated intensity."));
 
             EditorGUILayout.Separator();
 
-            interaction.CreateOnCollision = EditorGUILayout.ToggleLeft(new GUIContent("Create On Collision", "Should decals be placed on single collisions?"), interaction.CreateOnCollision);
-            interaction.CreateOnSlide = EditorGUILayout.ToggleLeft(new GUIContent("Create On Slide", "Should decals be placed when sliding?"), interaction.CreateOnSlide);
-            interaction.CreateOnRoll = EditorGUILayout.ToggleLeft(new GUIContent("Create On Roll", "Should decals be placed when rolling?"), interaction.CreateOnRoll);
+            ImpactEditorUtilities.DrawToggleLeftProperty(createOnCollisionProperty, new GUIContent("Create On Collision", "Should decals be placed on single collisions?"));
+            ImpactEditorUtilities.DrawToggleLeftProperty(createOnSlideProperty, new GUIContent("Create On Slide", "Should decals be placed when sliding?"));
+            ImpactEditorUtilities.DrawToggleLeftProperty(createOnRollProperty, new GUIContent("Create On Roll", "Should decals be placed when rolling?"));
 
-            GUI.enabled = interaction.CreateOnSlide || interaction.CreateOnRoll;
+            GUI.enabled = createOnSlideProperty.boolValue || createOnRollProperty.boolValue;
 
-            interaction.CreationInterval = ImpactEditorUtilities.RangeEditor(interaction.CreationInterval, new GUIContent("Creation Interval (Min/Max)", "The interval at which decals should be placed when sliding or rolling."));
-            interaction.CreationIntervalType = (InteractionIntervalType)EditorGUILayout.EnumPopup(new GUIContent("Interval Type", "Whether the Creation Interval is defined in Time (seconds) or Distance."), interaction.CreationIntervalType);
+            ImpactEditorUtilities.DrawPropertyWithWiderLabel(creationIntervalProperty, new GUIContent("Creation Interval (Min/Max)", "The interval at which decals should be placed when sliding or rolling."));
+            ImpactEditorUtilities.DrawPropertyWithWiderLabel(creationIntervalTypeProperty, new GUIContent("Interval Type", "Whether the Creation Interval is defined in Time (seconds) or Distance."));
 
             GUI.enabled = true;
 
-            if (EditorGUI.EndChangeCheck())
-            {
-                EditorUtility.SetDirty(interaction);
-            }
+            serializedObject.ApplyModifiedProperties();
         }
     }
 

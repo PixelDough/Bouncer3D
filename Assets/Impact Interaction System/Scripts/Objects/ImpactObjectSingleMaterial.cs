@@ -22,39 +22,48 @@ namespace Impact.Objects
             {
                 _material = value;
                 hasMaterial = _material != null;
-
-                if (hasMaterial)
-                    cachedMaterialTypeComposition = _material.GetSingleMaterialComposition();
             }
         }
 
-        private ImpactMaterialComposition[] cachedMaterialTypeComposition;
         private bool hasMaterial;
+
 
         protected virtual void Awake()
         {
             hasMaterial = Material != null;
-
-            if (hasMaterial)
-                cachedMaterialTypeComposition = Material.GetSingleMaterialComposition();
         }
 
         public override int GetMaterialCompositionNonAlloc(Vector3 point, ImpactMaterialComposition[] results)
         {
-            if (!hasMaterial)
+
+#if UNITY_EDITOR
+            if(Application.isPlaying)
+            {
+                //Use cache
+                return getMaterialCompositionNonAllocInternal(point, results, true);
+            }
+            else
+            {
+                //Don't use cache
+                return getMaterialCompositionNonAllocInternal(point, results, false);
+            }
+#else
+            //Use cache
+            return getMaterialCompositionNonAllocInternal(point, results, true);
+#endif
+
+        }
+
+        private int getMaterialCompositionNonAllocInternal(Vector3 point, ImpactMaterialComposition[] results, bool fromCache)
+        {
+            if (fromCache && !hasMaterial)
             {
                 Debug.LogError($"Cannot get material composition for ImpactObjectSingleMaterial {gameObject.name} because it has no Material.");
                 return 0;
             }
 
-            int l = Mathf.Min(results.Length, cachedMaterialTypeComposition.Length);
-
-            for (int i = 0; i < l; i++)
-            {
-                results[i] = cachedMaterialTypeComposition[i];
-            }
-
-            return cachedMaterialTypeComposition.Length;
+            results[0] = new ImpactMaterialComposition(_material, 1);
+            return 1;
         }
 
         public override IImpactMaterial GetPrimaryMaterial(Vector3 point)
@@ -64,10 +73,29 @@ namespace Impact.Objects
 
         public override IImpactMaterial GetPrimaryMaterial()
         {
+
+#if UNITY_EDITOR
+            if(Application.isPlaying)
+            {
+                //Use cache
+                if (!hasMaterial)
+                    Debug.LogError($"ImpactObjectSingleMaterial {gameObject.name} has no Material.");
+
+                return _material;
+            }
+            else
+            {
+                //Don't use cache
+                return _material;
+            }
+#else
+            //Use cache
             if (!hasMaterial)
                 Debug.LogError($"ImpactObjectSingleMaterial {gameObject.name} has no Material.");
 
             return _material;
+#endif
+
         }
     }
 }

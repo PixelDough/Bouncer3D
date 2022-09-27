@@ -13,11 +13,9 @@ namespace Impact.Utility
         /// <returns>The tangential velocity of the point.</returns>
         public static Vector3 CalculateTangentialVelocity(Vector3 point, Vector3 angularVelocity, Vector3 centerOfRotation)
         {
-            Vector3 angularVelocityAxis = new Vector3(angularVelocity.x, angularVelocity.y, angularVelocity.z);
-            Vector3 radiusVector = point - centerOfRotation;
-            Vector3 angularVelocityVector = Vector3.Cross(angularVelocityAxis, radiusVector).normalized * angularVelocityAxis.magnitude;
-
-            return angularVelocityVector * Vector3.Distance(point, centerOfRotation);
+            var p = point - centerOfRotation;
+            var v = Vector3.Cross(angularVelocity, p);
+            return v;
         }
     }
 }

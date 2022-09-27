@@ -117,6 +117,8 @@ namespace Impact
                 return;
             }
 
+            PhysicsType = PhysicsType.Unknown;
+
             Debug.LogError("Unable to find Rigidbody or Rigidbody2D component on game object: " + gameObject.name +
                 ". Please ensure that you have Rigidbody or Rigidbody2D components on your Impact Object Rigidbody objects.");
         }

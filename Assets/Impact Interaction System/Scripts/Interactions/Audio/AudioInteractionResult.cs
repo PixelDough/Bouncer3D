@@ -11,6 +11,11 @@ namespace Impact.Interactions.Audio
     public class AudioInteractionResult : IContinuousInteractionResult, IPoolable
     {
         /// <summary>
+        /// Invoked when an interaction result is processed.
+        /// </summary>
+        public static event System.Action<AudioInteractionResult> OnInteractionProcessed;
+
+        /// <summary>
         /// The original interaction data this result was created from.
         /// </summary>
         public InteractionData OriginalData { get; set; }
@@ -66,14 +71,18 @@ namespace Impact.Interactions.Audio
         /// </summary>
         public bool IsAlive
         {
-            get { return (targetVolume > 0 || currentVolume > 0) && audioSource != null; }
+            get { return (targetVolume > 0 || currentVolume > 0) && AudioSource != null; }
         }
+
+        /// <summary>
+        /// The audio source being used to play this interaction. May be null.
+        /// </summary>
+        public ImpactAudioSourceBase AudioSource { get; private set; }
 
         private float targetVolume, currentVolume;
         private float targetPitch, currentPitch;
 
         private IImpactObject parent;
-        private ImpactAudioSourceBase audioSource;
 
         private bool isAvailable = true;
 
@@ -84,14 +93,24 @@ namespace Impact.Interactions.Audio
         public void Process(IImpactObject parent)
         {
             this.parent = parent;
-            audioSource = ImpactAudioPool.PlayAudio(this, OriginalData.Point, InteractionResultExtensions.GetPriority(OriginalData.PriorityOverride, parent));
+            AudioSource = ImpactAudioPool.PlayAudio(this, OriginalData.Point, InteractionResultExtensions.GetPriority(OriginalData.PriorityOverride, parent));
 
-            targetVolume = currentVolume = Volume;
-            targetPitch = currentPitch = Pitch;
-
-            //Dispose immediately for Collision interaction types
-            if (OriginalData.InteractionType == InteractionData.InteractionTypeCollision)
+            if (AudioSource == null)
+            {
                 Dispose();
+            }
+            else
+            {
+                targetVolume = currentVolume = Volume;
+                targetPitch = currentPitch = Pitch;
+
+                OnInteractionProcessed?.Invoke(this);
+
+                //Dispose immediately for Collision interaction types
+                if (OriginalData.InteractionType == InteractionData.InteractionTypeCollision)
+                    Dispose();
+            }
+
         }
 
         /// <summary>
@@ -99,13 +118,13 @@ namespace Impact.Interactions.Audio
         /// </summary>
         public void FixedUpdate()
         {
-            if (audioSource == null)
+            if (AudioSource == null)
                 return;
 
             currentVolume = Mathf.MoveTowards(currentVolume, targetVolume, 0.1f);
             currentPitch = Mathf.MoveTowards(currentPitch, targetPitch, 0.1f);
 
-            audioSource.UpdateAudio(currentVolume, currentPitch);
+            AudioSource.UpdateAudio(currentVolume, currentPitch);
 
             targetVolume = 0;
         }
@@ -116,7 +135,7 @@ namespace Impact.Interactions.Audio
         /// <param name="newResult">The new result that will be used to get the new volume and pitch.</param>
         public void KeepAlive(IInteractionResult newResult)
         {
-            if (audioSource == null)
+            if (AudioSource == null)
                 return;
 
             AudioInteractionResult audioInteractionResult = newResult as AudioInteractionResult;
@@ -124,7 +143,7 @@ namespace Impact.Interactions.Audio
             targetVolume = audioInteractionResult.Volume;
             targetPitch = Interaction.UpdatePitch(Pitch, audioInteractionResult.OriginalData.Velocity);
 
-            audioSource.transform.position = audioInteractionResult.OriginalData.Point;
+            AudioSource.transform.position = audioInteractionResult.OriginalData.Point;
         }
 
         /// <summary>
@@ -132,11 +151,11 @@ namespace Impact.Interactions.Audio
         /// </summary>
         public void Dispose()
         {
-            if (OriginalData.InteractionType != InteractionData.InteractionTypeCollision && audioSource != null)
-                audioSource.StopAudio();
+            if (OriginalData.InteractionType != InteractionData.InteractionTypeCollision && AudioSource != null)
+                AudioSource.StopAudio();
 
             AudioSourceTemplate = null;
-            audioSource = null;
+            AudioSource = null;
             AudioClip = null;
             Interaction = null;
             parent = null;

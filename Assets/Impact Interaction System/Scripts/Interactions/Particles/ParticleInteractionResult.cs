@@ -12,6 +12,11 @@ namespace Impact.Interactions.Particles
     public class ParticleInteractionResult : IContinuousInteractionResult, IPoolable
     {
         /// <summary>
+        /// Invoked when an interaction result is processed.
+        /// </summary>
+        public static event System.Action<ParticleInteractionResult> OnInteractionProcessed;
+
+        /// <summary>
         /// The original interaction data this result was created from.
         /// </summary>
         public InteractionData OriginalData { get; set; }
@@ -51,7 +56,10 @@ namespace Impact.Interactions.Particles
         /// </summary>
         public bool IsAlive { get; private set; }
 
-        private ImpactParticlesBase particlesInstance;
+        /// <summary>
+        /// The particles associated with this interaction. May be null.
+        /// </summary>
+        public ImpactParticlesBase Particles { get; private set; }
 
         private float intervalCounter;
         private float currentEmissionIntervalTarget;
@@ -69,10 +77,12 @@ namespace Impact.Interactions.Particles
         {
             this.parent = parent;
 
-            particlesInstance = ImpactParticlePool.EmitParticles(this, OriginalData.Point, OriginalData.Normal, InteractionResultExtensions.GetPriority(OriginalData.PriorityOverride, parent));
+            Particles = ImpactParticlePool.EmitParticles(this, OriginalData.Point, OriginalData.Normal, InteractionResultExtensions.GetPriority(OriginalData.PriorityOverride, parent));
             IsAlive = true;
 
             currentEmissionIntervalTarget = EmissionInterval.RandomInRange();
+
+            OnInteractionProcessed?.Invoke(this);
 
             //Dispose immediately for Collision interaction types
             if (OriginalData.InteractionType == InteractionData.InteractionTypeCollision)
@@ -98,9 +108,9 @@ namespace Impact.Interactions.Particles
 
             ParticleInteractionResult particleInteractionResult = newResult as ParticleInteractionResult;
 
-            if (IsParticleLooped && particlesInstance != null)
+            if (IsParticleLooped && Particles != null)
             {
-                particlesInstance.UpdateTransform(particleInteractionResult.OriginalData.Point, particleInteractionResult.OriginalData.Normal, particleInteractionResult.OriginalData.Velocity);
+                Particles.UpdateTransform(particleInteractionResult.OriginalData.Point, particleInteractionResult.OriginalData.Normal, particleInteractionResult.OriginalData.Velocity);
             }
             else
             {
@@ -112,7 +122,7 @@ namespace Impact.Interactions.Particles
                 if (intervalCounter >= currentEmissionIntervalTarget)
                 {
                     currentEmissionIntervalTarget = EmissionInterval.RandomInRange();
-                    particlesInstance = ImpactParticlePool.EmitParticles(this, particleInteractionResult.OriginalData.Point, particleInteractionResult.OriginalData.Normal, parent.Priority);
+                    Particles = ImpactParticlePool.EmitParticles(this, particleInteractionResult.OriginalData.Point, particleInteractionResult.OriginalData.Normal, parent.Priority);
 
                     intervalCounter = 0;
                     previousEmissionPosition = particleInteractionResult.OriginalData.Point;
@@ -125,8 +135,8 @@ namespace Impact.Interactions.Particles
         /// </summary>
         public void Dispose()
         {
-            if (particlesInstance != null && OriginalData.InteractionType != InteractionData.InteractionTypeCollision)
-                particlesInstance.Stop();
+            if (Particles != null && OriginalData.InteractionType != InteractionData.InteractionTypeCollision)
+                Particles.Stop();
 
             IsAlive = false;
             ParticlesTemplate = null;

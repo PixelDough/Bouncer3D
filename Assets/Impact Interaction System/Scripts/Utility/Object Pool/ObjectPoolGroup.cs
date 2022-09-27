@@ -105,5 +105,16 @@ namespace Impact.Utility.ObjectPool
         {
             pools.Remove(pool);
         }
+
+        /// <summary>
+        /// Returns all objects to their respective pools. You can use this to clean up objects on scene load, for example.
+        /// </summary>
+        public void ReturnAllObjectsToPools()
+        {
+            foreach (var pool in pools)
+            {
+                pool.ReturnAllObjectsToPool();
+            }
+        }
     }
 }

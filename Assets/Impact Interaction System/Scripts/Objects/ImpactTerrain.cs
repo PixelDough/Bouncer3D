@@ -1,8 +1,8 @@
 ﻿using Impact.Materials;
-using System.Collections.Generic;
-using UnityEngine;
 using Impact.Utility;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Impact.Objects
 {
@@ -19,7 +19,6 @@ namespace Impact.Objects
 
         private float[,,] cachedAlphamaps;
         private ImpactMaterialComposition[] compositionBuffer;
-        private bool hasTerrain;
 
         /// <summary>
         /// The terrain associated with this object.
@@ -27,24 +26,14 @@ namespace Impact.Objects
         public Terrain Terrain
         {
             get { return _terrain; }
-            set
-            {
-                _terrain = value;
-                hasTerrain = _terrain != null;
-            }
+            set { _terrain = value; }
         }
 
-        /// <summary>
-        /// The terrain data associated with this object.
-        /// </summary>
-        public TerrainData TerrainData
+        private bool hasTerrainData
         {
             get
             {
-                if (Terrain != null)
-                    return Terrain.terrainData;
-
-                return null;
+                return _terrain != null && _terrain.terrainData != null;
             }
         }
 
@@ -58,8 +47,8 @@ namespace Impact.Objects
 
         private void Awake()
         {
-            hasTerrain = Terrain != null;
-            RefreshCachedAlphamaps();
+            if (hasTerrainData)
+                RefreshCachedAlphamaps();
         }
 
         private void Reset()
@@ -73,14 +62,14 @@ namespace Impact.Objects
         /// </summary>
         public void RefreshCachedAlphamaps()
         {
-            if (!hasTerrain)
+            if (!hasTerrainData)
             {
                 Debug.LogError($"Cannot refresh cached alphamaps for ImpactTerrain {gameObject.name} because it has no TerrainData.");
                 return;
             }
 
-            cachedAlphamaps = TerrainData.GetAlphamaps(0, 0, TerrainData.alphamapResolution, TerrainData.alphamapResolution);
-            compositionBuffer = new ImpactMaterialComposition[TerrainData.terrainLayers.Length];
+            cachedAlphamaps = _terrain.terrainData.GetAlphamaps(0, 0, _terrain.terrainData.alphamapResolution, _terrain.terrainData.alphamapResolution);
+            compositionBuffer = new ImpactMaterialComposition[_terrain.terrainData.terrainLayers.Length];
         }
 
         /// <summary>
@@ -88,13 +77,13 @@ namespace Impact.Objects
         /// </summary>
         public void SyncTerrainLayersAndMaterialsList()
         {
-            if (TerrainData == null)
+            if (!hasTerrainData)
             {
                 Debug.LogError($"Cannot sync terrain layers and materials for ImpactTerrain {gameObject.name} because it has no TerrainData.");
                 return;
             }
 
-            TerrainLayer[] terrainLayers = TerrainData.terrainLayers;
+            TerrainLayer[] terrainLayers = _terrain.terrainData.terrainLayers;
 
             int terrainLayerCount = terrainLayers.Length;
             int terrainMaterialTypesCount = TerrainMaterials.Count;
@@ -115,40 +104,59 @@ namespace Impact.Objects
 
         public override int GetMaterialCompositionNonAlloc(Vector3 point, ImpactMaterialComposition[] results)
         {
-            if (!hasTerrain)
+            if (!hasTerrainData)
             {
                 Debug.LogError($"Cannot get material composition for ImpactTerrain {gameObject.name} because it has no TerrainData.");
                 return 0;
             }
 
+#if UNITY_EDITOR
+            if (Application.isPlaying)
+            {
+                //Use cache
+                return getMaterialCompositionNonAllocInternal(point, results, cachedAlphamaps, compositionBuffer);
+            }
+            else
+            {
+                //Don't use cache
+                return getMaterialCompositionNonAllocInternal(point, results, _terrain.terrainData.GetAlphamaps(0, 0, _terrain.terrainData.alphamapResolution, _terrain.terrainData.alphamapResolution), new ImpactMaterialComposition[_terrain.terrainData.terrainLayers.Length]);
+            }
+#else
+            //Use cache
+            return getMaterialCompositionNonAllocInternal(point, results, cachedAlphamaps, compositionBuffer);
+#endif
+        }
+
+        private int getMaterialCompositionNonAllocInternal(Vector3 point, ImpactMaterialComposition[] results, float[,,] alphamaps, ImpactMaterialComposition[] buffer)
+        {
             Vector2Int alphamapIndices = getAlphamapIndicesAtPoint(point);
-            int finalLength = Mathf.Min(results.Length, compositionBuffer.Length);
+            int finalLength = Mathf.Min(results.Length, buffer.Length);
 
             int count = 0;
             float compositionValueTotal = 0;
 
-            //Clear influence buffer
-            for (int i = 0; i < compositionBuffer.Length; i++)
+            //Clear composition buffer
+            for (int i = 0; i < buffer.Length; i++)
             {
-                compositionBuffer[i].CompositionValue = 0;
-                compositionBuffer[i].Material = null;
+                buffer[i].CompositionValue = 0;
+                buffer[i].Material = null;
             }
 
             //Get the composition of all impact materials, combining when needed (since you can have multiple textures mapped to the same impact material)
-            for (int i = 0; i < compositionBuffer.Length; i++)
+            for (int i = 0; i < buffer.Length; i++)
             {
                 IImpactMaterial m = TerrainMaterials[i];
-                float comp = cachedAlphamaps[alphamapIndices.y, alphamapIndices.x, i];
+                float comp = alphamaps[alphamapIndices.y, alphamapIndices.x, i];
 
-                int existingIndex = compositionBuffer.IndexOf(p => p.Material == m);
+                int existingIndex = buffer.IndexOf(p => p.Material == m);
                 if (existingIndex > -1)
                 {
-                    compositionBuffer[existingIndex].CompositionValue += comp;
+                    buffer[existingIndex].CompositionValue += comp;
                 }
                 else
                 {
-                    compositionBuffer[i].CompositionValue = comp;
-                    compositionBuffer[i].Material = m;
+                    buffer[i].CompositionValue = comp;
+                    buffer[i].Material = m;
                 }
 
                 if (count < finalLength)
@@ -159,14 +167,14 @@ namespace Impact.Objects
             }
 
             //Sort composition buffer by composition value
-            Array.Sort(compositionBuffer, (a, b) => { return b.CompositionValue.CompareTo(a.CompositionValue); });
+            Array.Sort(buffer, (a, b) => { return b.CompositionValue.CompareTo(a.CompositionValue); });
 
             //Populate final composition results
             for (int i = 0; i < finalLength; i++)
             {
                 //Adjust composition value so results will always add up to 1, this is for cases where results.length < compositionBuffer.Length
-                compositionBuffer[i].CompositionValue = Mathf.Clamp01(compositionBuffer[i].CompositionValue / compositionValueTotal);
-                results[i] = compositionBuffer[i];
+                buffer[i].CompositionValue = Mathf.Clamp01(buffer[i].CompositionValue / compositionValueTotal);
+                results[i] = buffer[i];
             }
 
             return finalLength;
@@ -174,22 +182,43 @@ namespace Impact.Objects
 
         public override IImpactMaterial GetPrimaryMaterial(Vector3 point)
         {
-            if (!hasTerrain)
+            if (!hasTerrainData)
             {
                 Debug.LogError($"Cannot get primary material for ImpactTerrain {gameObject.name} because it has no TerrainData.");
                 return null;
             }
 
+#if UNITY_EDITOR
+            if (Application.isPlaying)
+            {
+                //Use cache
+                return getPrimaryMaterialInternal(point, cachedAlphamaps);
+            }
+            else
+            {
+                //Don't use cache
+                return getPrimaryMaterialInternal(point, _terrain.terrainData.GetAlphamaps(0, 0, _terrain.terrainData.alphamapResolution, _terrain.terrainData.alphamapResolution));
+            }
+#else
+            //Use cache
+            return getPrimaryMaterialInternal(point, cachedAlphamaps);
+#endif
+        }
+
+        private IImpactMaterial getPrimaryMaterialInternal(Vector3 point, float[,,] alphamaps)
+        {
             Vector2Int alphamapIndices = getAlphamapIndicesAtPoint(point);
 
             float max = 0;
             int maxIndex = -1;
 
-            for (int i = 0; i < TerrainMaterials.Count; i++)
+            int terrainLayerCount = alphamaps.GetLength(2);
+
+            for (int i = 0; i < terrainLayerCount; i++)
             {
-                if (cachedAlphamaps[alphamapIndices.y, alphamapIndices.x, i] > max)
+                if (alphamaps[alphamapIndices.y, alphamapIndices.x, i] > max)
                 {
-                    max = cachedAlphamaps[alphamapIndices.y, alphamapIndices.x, i];
+                    max = alphamaps[alphamapIndices.y, alphamapIndices.x, i];
                     maxIndex = i;
                 }
             }
@@ -210,8 +239,13 @@ namespace Impact.Objects
             Vector3 terrainPosition = _terrain.transform.position;
             Vector2Int v = new Vector2Int();
 
-            v.x = (int)(((point.x - terrainPosition.x) / TerrainData.size.x) * TerrainData.alphamapWidth);
-            v.y = (int)(((point.z - terrainPosition.z) / TerrainData.size.z) * TerrainData.alphamapHeight);
+            int cachedAlphamapsResolution = cachedAlphamaps.GetLength(0);
+
+            v.x = (int)(((point.x - terrainPosition.x) / _terrain.terrainData.size.x) * cachedAlphamapsResolution);
+            v.y = (int)(((point.z - terrainPosition.z) / _terrain.terrainData.size.z) * cachedAlphamapsResolution);
+
+            v.x = Mathf.Clamp(v.x, 0, cachedAlphamapsResolution - 1);
+            v.y = Mathf.Clamp(v.y, 0, cachedAlphamapsResolution - 1);
 
             return v;
         }

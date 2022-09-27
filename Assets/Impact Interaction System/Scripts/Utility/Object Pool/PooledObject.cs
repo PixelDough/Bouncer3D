@@ -50,7 +50,7 @@ namespace Impact.Utility.ObjectPool
         /// <returns>True if the object is available to be retrieved, false otherwise.</returns>
         public virtual bool IsAvailable()
         {
-            return !gameObject.activeSelf;
+            return !gameObject.activeInHierarchy;
         }
     }
 }

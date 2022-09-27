@@ -33,18 +33,6 @@ namespace Impact.Materials
         }
 
         /// <summary>
-        /// Gets a single-element material composition array for this material, used for impact objects that only have a single material.
-        /// </summary>
-        /// <returns>A single-element material composition array for this material.</returns>
-        public ImpactMaterialComposition[] GetSingleMaterialComposition()
-        {
-            ImpactMaterialComposition[] materialTypeComposition = new ImpactMaterialComposition[1];
-            materialTypeComposition[0] = new ImpactMaterialComposition(this, 1);
-
-            return materialTypeComposition;
-        }
-
-        /// <summary>
         /// Fills out the results array with the interaction results created from the interaction data.
         /// </summary>
         /// <param name="interactionData">The data to use for generating the interaction results.</param>

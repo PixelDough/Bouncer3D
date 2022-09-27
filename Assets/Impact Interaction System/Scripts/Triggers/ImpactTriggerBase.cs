@@ -11,7 +11,7 @@ namespace Impact.Triggers
     /// <typeparam name="TCollision">The IImpactCollisionWrapper implementation being used.</typeparam>
     /// <typeparam name="TContact">The IImpactContactPoint implementation being used.</typeparam>
     /// </summary>
-    public abstract class ImpactTriggerBase<TCollision, TContact> : MonoBehaviour where TCollision : IImpactCollisionWrapper<TContact> where TContact : IImpactContactPoint
+    public abstract class ImpactTriggerBase<TCollision, TContact> : MonoBehaviour, IImpactTrigger where TCollision : IImpactCollisionWrapper<TContact> where TContact : IImpactContactPoint
     {
         /// <summary>
         /// Invoked when triggered. Sends the Interaction Data and the Impact Object that was triggered.
@@ -202,7 +202,7 @@ namespace Impact.Triggers
                     for (int i = 0; i < count; i++)
                     {
                         ImpactMaterialComposition comp = ImpactManagerInstance.MaterialCompositionBuffer[i];
-                        if (comp.CompositionValue > 0)
+                        if (comp.CompositionValue > 0 && comp.Material != null)
                             buildInteractionData(myObject, collision, contactPoint, myVelocityData, otherVelocityData, comp.Material.MaterialTagsMask, comp.CompositionValue);
                     }
                 }

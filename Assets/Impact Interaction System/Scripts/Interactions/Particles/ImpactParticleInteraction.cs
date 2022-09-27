@@ -118,7 +118,7 @@ namespace Impact.Interactions.Particles
         /// <returns>A new ParticleInteractionResult.</returns>
         public override IInteractionResult GetInteractionResult<T>(T interactionData)
         {
-            //Immediately break out if intensity is less than the velocity minimum, since any result would be invalid anyways.
+            //Return if intensity is less than the minimum velocity.
             float intensity = ImpactInteractionUtilities.GetCollisionIntensity(interactionData, CollisionNormalInfluence);
             if (intensity < MinimumVelocity)
                 return null;

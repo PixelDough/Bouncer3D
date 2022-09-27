@@ -78,10 +78,21 @@ namespace Impact.EditorScripts
 
             EditorGUILayout.LabelField("Interaction Sets", EditorStyles.boldLabel);
 
+            if (interactionFoldouts.Count < interactionSetsProperty.arraySize)
+            {
+                int diff = interactionSetsProperty.arraySize - interactionFoldouts.Count;
+                for (int i = 0; i < diff; i++)
+                {
+                    interactionFoldouts.Add(false);
+                }
+            }
+
             GUILayout.FlexibleSpace();
 
             if (GUILayout.Button("New"))
             {
+                Undo.RecordObject(target, "Add Interaction Set");
+
                 ImpactMaterialInteractionSet newInteractionSet = new ImpactMaterialInteractionSet();
                 newInteractionSet.Name = "New Interaction Set";
                 material.AddInteractionSet(newInteractionSet);
@@ -92,16 +103,15 @@ namespace Impact.EditorScripts
 
             if (GUILayout.Button("Clear"))
             {
-                if (EditorUtility.DisplayDialog("Clear All Interaction Sets", "Are you sure you want to remove all Interaction Sets? This cannot be undone.", "Yes", "No"))
+                if (EditorUtility.DisplayDialog("Clear All Interaction Sets", "Are you sure you want to remove all Interaction Sets?", "Yes", "No"))
                 {
-                    material.ClearInteractionSets();
-                    EditorUtility.SetDirty(target);
+                    interactionSetsProperty.ClearArray();
                 }
             }
 
             EditorGUILayout.EndHorizontal();
 
-            if (material.InteractionSetCount == 0)
+            if (interactionSetsProperty.arraySize == 0)
             {
                 EditorGUILayout.HelpBox("No Interaction Sets have been added.", MessageType.Info);
             }
@@ -120,26 +130,6 @@ namespace Impact.EditorScripts
             }
         }
 
-        private int[] getFallbackValues()
-        {
-            return Enumerable.Range(-1, material.InteractionSetCount + 1).ToArray();
-        }
-
-        private GUIContent[] getMaterialInteractionSetNames()
-        {
-            GUIContent[] names = new GUIContent[material.InteractionSetCount + 1];
-
-            for (int i = 0; i < names.Length; i++)
-            {
-                if (i == 0)
-                    names[i] = new GUIContent("None");
-                else
-                    names[i] = new GUIContent(material[i - 1].Name);
-            }
-
-            return names;
-        }
-
         private void drawInteractionSet(SerializedProperty interactionSetProperty, ImpactMaterialInteractionSet interactionSet, int index)
         {
             bool removed = false;
@@ -156,6 +146,7 @@ namespace Impact.EditorScripts
             GUI.color = warningColor;
             if (GUILayout.Button(new GUIContent("X", "Remove"), GUILayout.Width(20), GUILayout.Height(15)))
             {
+                Undo.RecordObject(target, "Remove Interaction Set");
                 material.RemoveInteractionSet(index);
                 interactionFoldouts.RemoveAt(index);
                 removed = true;
@@ -183,31 +174,27 @@ namespace Impact.EditorScripts
 
                 ImpactEditorUtilities.Separator();
 
-                drawInteractionsList(interactionSet);
+                drawInteractionsList(interactionSetProperty, interactionSet);
             }
         }
 
-        private void drawInteractionsList(ImpactMaterialInteractionSet interactionSet)
+        private void drawInteractionsList(SerializedProperty interactionSetProperty, ImpactMaterialInteractionSet interactionSet)
         {
             EditorGUILayout.LabelField("Interactions", EditorStyles.boldLabel);
+            SerializedProperty interactionsListProperty = interactionSetProperty.FindPropertyRelative("_interactions");
 
-            for (int i = 0; i < interactionSet.InteractionCount; i++)
+            for (int i = 0; i < interactionsListProperty.arraySize; i++)
             {
                 EditorGUILayout.BeginHorizontal();
 
-                EditorGUI.BeginChangeCheck();
-
-                interactionSet[i] = EditorGUILayout.ObjectField(interactionSet[i], typeof(ImpactInteractionBase), false) as ImpactInteractionBase;
-
-                if (EditorGUI.EndChangeCheck())
-                    EditorUtility.SetDirty(target);
+                SerializedProperty interactionProperty = interactionsListProperty.GetArrayElementAtIndex(i);
+                EditorGUILayout.PropertyField(interactionProperty, new GUIContent());
 
                 Color originalColor = GUI.color;
                 GUI.color = warningColor;
                 if (GUILayout.Button(new GUIContent("X", "Remove"), GUILayout.Width(20), GUILayout.Height(15)))
                 {
-                    interactionSet.RemoveInteraction(i);
-                    EditorUtility.SetDirty(target);
+                    interactionsListProperty.DeleteArrayElementAtIndex(i);
                 }
                 GUI.color = originalColor;
 
@@ -226,6 +213,7 @@ namespace Impact.EditorScripts
 
             if (drop && paths != null)
             {
+                Undo.RecordObject(target, "Drag-and-drop Interaction Sets");
                 for (int i = 0; i < paths.Length; i++)
                 {
                     ImpactInteractionBase a = AssetDatabase.LoadAssetAtPath<ImpactInteractionBase>(paths[i]);
@@ -243,8 +231,7 @@ namespace Impact.EditorScripts
 
             if (GUILayout.Button("Add Interaction"))
             {
-                interactionSet.AddInteraction(null);
-                EditorUtility.SetDirty(target);
+                interactionsListProperty.InsertArrayElementAtIndex(interactionsListProperty.arraySize);
             }
 
             EditorGUILayout.EndHorizontal();

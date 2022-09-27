@@ -250,4 +250,37 @@ namespace Impact.EditorScripts
 
         }
     }
+
+    public class ImpactOnTriggerBaseEditor : ImpactTriggerBaseEditor
+    {
+        protected override void inspectorGUICore()
+        {
+            drawEnabledProperty();
+
+            EditorGUILayout.Separator();
+
+            drawTargetProperty();
+
+            EditorGUILayout.Separator();
+
+            drawMaterialCompositionProperty();
+            drawHighPriorityProperty();
+        }
+    }
+
+    [CustomEditor(typeof(ImpactOnTriggerEnter3D))]
+    [CanEditMultipleObjects]
+    public class ImpactOnTriggerEnter3DEditor : ImpactOnTriggerBaseEditor { }
+
+    [CustomEditor(typeof(ImpactOnTriggerEnter2D))]
+    [CanEditMultipleObjects]
+    public class ImpactOnTriggerEnter2DEditor : ImpactOnTriggerBaseEditor { }
+
+    [CustomEditor(typeof(ImpactOnTriggerStay3D))]
+    [CanEditMultipleObjects]
+    public class ImpactOnTriggerStay3DEditor : ImpactOnTriggerBaseEditor { }
+
+    [CustomEditor(typeof(ImpactOnTriggerStay2D))]
+    [CanEditMultipleObjects]
+    public class ImpactOnTriggerStay2DEditor : ImpactOnTriggerBaseEditor { }
 }

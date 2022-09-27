@@ -49,7 +49,7 @@ namespace Impact.Triggers
             if (ImpactManagerInstance.UseMaterialMapping && hit.collider.sharedMaterial != null)
                 physicsMaterialId = hit.collider.sharedMaterial.GetInstanceID();
 
-            triggerOnHitObject(interactionData, otherObject, physicsMaterialId, useMaterialComposition);
+            Trigger(interactionData, otherObject, physicsMaterialId, useMaterialComposition);
         }
 
         /// <summary>
@@ -92,10 +92,18 @@ namespace Impact.Triggers
             if (ImpactManagerInstance.UseMaterialMapping && hit.collider.sharedMaterial != null)
                 physicsMaterialId = hit.collider.sharedMaterial.GetInstanceID();
 
-            triggerOnHitObject(interactionData, otherObject, physicsMaterialId, useMaterialComposition);
+            Trigger(interactionData, otherObject, physicsMaterialId, useMaterialComposition);
         }
 
-        private static void triggerOnHitObject<T>(T interactionData, IImpactObject otherObject, int physicsMaterialId, bool useMaterialComposition) where T : IInteractionData
+        /// <summary>
+        /// Trigger an interaction. This will trigger an interaction on the object that was hit.
+        /// Useful for things like bullets or footsteps.
+        /// </summary>
+        /// <param name="interactionData">The fully populated interaction data.</param>
+        /// <param name="otherObject">The object that was hit.</param>
+        /// <param name="otherObjectPhysicsMaterialID">The instance ID of the physics material of the hit object. This can be 0 if unknown.</param>
+        /// <param name="useMaterialComposition">Should this trigger use the material composition of the object that was hit?</param>
+        public static void Trigger<T>(T interactionData, IImpactObject otherObject, int otherObjectPhysicsMaterialID, bool useMaterialComposition) where T : IInteractionData
         {
             if (otherObject != null)
             {
@@ -105,7 +113,7 @@ namespace Impact.Triggers
                     for (int i = 0; i < count; i++)
                     {
                         ImpactMaterialComposition comp = ImpactManagerInstance.MaterialCompositionBuffer[i];
-                        if (comp.CompositionValue > 0)
+                        if (comp.CompositionValue > 0 && comp.Material != null)
                         {
                             IInteractionData newInteractionData = interactionData.Clone();
                             newInteractionData.CompositionValue = comp.CompositionValue;
@@ -119,7 +127,7 @@ namespace Impact.Triggers
             else if (ImpactManagerInstance.UseMaterialMapping)
             {
                 IImpactMaterial m;
-                if (ImpactManagerInstance.TryGetImpactMaterialFromMapping(physicsMaterialId, out m))
+                if (ImpactManagerInstance.TryGetImpactMaterialFromMapping(otherObjectPhysicsMaterialID, out m))
                 {
                     ImpactManagerInstance.ProcessInteraction(interactionData, m, null);
                 }
@@ -165,7 +173,7 @@ namespace Impact.Triggers
             if (ImpactManagerInstance.UseMaterialMapping && hit.collider.sharedMaterial != null)
                 physicsMaterialId = hit.collider.sharedMaterial.GetInstanceID();
 
-            triggerOnRaycastingObject(interactionData, impactObject, otherObject, physicsMaterialId, useMaterialComposition);
+            Trigger(interactionData, impactObject, otherObject, physicsMaterialId, useMaterialComposition);
         }
 
         /// <summary>
@@ -207,10 +215,18 @@ namespace Impact.Triggers
             if (ImpactManagerInstance.UseMaterialMapping && hit.collider.sharedMaterial != null)
                 physicsMaterialId = hit.collider.sharedMaterial.GetInstanceID();
 
-            triggerOnRaycastingObject(interactionData, impactObject, otherObject, physicsMaterialId, useMaterialComposition);
+            Trigger(interactionData, impactObject, otherObject, physicsMaterialId, useMaterialComposition);
         }
 
-        private static void triggerOnRaycastingObject<T>(T interactionData, IImpactObject impactObject, IImpactObject otherObject, int physicsMaterialId, bool useMaterialComposition) where T : IInteractionData
+        /// <summary>
+        /// Trigger an interaction. This will trigger an interaction for the source object.
+        /// </summary>
+        /// <param name="interactionData">The fully populated interaction data.</param>
+        /// <param name="sourceObject">The object the interaction originated from.</param>
+        /// <param name="otherObject">The object that was hit.</param>
+        /// <param name="otherObjectPhysicsMaterialID">The instance ID of the physics material of the hit object. This can be 0 if unknown.</param>
+        /// <param name="useMaterialComposition">Should this trigger use the material composition of the object that was hit?</param>
+        public static void Trigger<T>(T interactionData, IImpactObject sourceObject, IImpactObject otherObject, int otherObjectPhysicsMaterialID, bool useMaterialComposition) where T : IInteractionData
         {
             if (otherObject != null)
             {
@@ -220,31 +236,31 @@ namespace Impact.Triggers
                     for (int i = 0; i < count; i++)
                     {
                         ImpactMaterialComposition comp = ImpactManagerInstance.MaterialCompositionBuffer[i];
-                        if (comp.CompositionValue > 0)
+                        if (comp.CompositionValue > 0 && comp.Material != null)
                         {
                             IInteractionData newInteractionData = interactionData.Clone();
                             newInteractionData.CompositionValue = comp.CompositionValue;
                             newInteractionData.TagMask = comp.Material.MaterialTagsMask;
-                            ImpactManagerInstance.ProcessInteraction(newInteractionData, impactObject);
+                            ImpactManagerInstance.ProcessInteraction(newInteractionData, sourceObject);
                         }
                     }
                 }
                 else
                 {
                     IImpactMaterial material = otherObject.GetPrimaryMaterial(interactionData.Point);
-                    if (material != null || (ImpactManagerInstance.UseMaterialMapping && ImpactManagerInstance.TryGetImpactMaterialFromMapping(physicsMaterialId, out material)))
+                    if (material != null || (ImpactManagerInstance.UseMaterialMapping && ImpactManagerInstance.TryGetImpactMaterialFromMapping(otherObjectPhysicsMaterialID, out material)))
                         interactionData.TagMask = material.MaterialTagsMask;
 
-                    ImpactManagerInstance.ProcessInteraction(interactionData, impactObject);
+                    ImpactManagerInstance.ProcessInteraction(interactionData, sourceObject);
                 }
             }
             else if (ImpactManagerInstance.UseMaterialMapping)
             {
                 IImpactMaterial material;
-                if (ImpactManagerInstance.TryGetImpactMaterialFromMapping(physicsMaterialId, out material))
+                if (ImpactManagerInstance.TryGetImpactMaterialFromMapping(otherObjectPhysicsMaterialID, out material))
                     interactionData.TagMask = material.MaterialTagsMask;
 
-                ImpactManagerInstance.ProcessInteraction(interactionData, impactObject);
+                ImpactManagerInstance.ProcessInteraction(interactionData, sourceObject);
             }
         }
     }

@@ -42,7 +42,7 @@ namespace Impact.EditorScripts
                     GameObject gameObject = AssetDatabase.LoadAssetAtPath<GameObject>(audioSourceTemplatePath);
                     Debug.Log($"_audioSourceTemplate Game Object: {gameObject.name}");
 
-                    ImpactAudioSource a = gameObject.GetOrAddComponent<ImpactAudioSource>();
+                    ImpactAudioSource a = gameObject.GetOrAddComponent<ImpactAudioSource>(false);
                     PrefabUtility.SavePrefabAsset(gameObject);
 
                     string audioSourcePrefabText = File.ReadAllText(audioSourceTemplatePath);

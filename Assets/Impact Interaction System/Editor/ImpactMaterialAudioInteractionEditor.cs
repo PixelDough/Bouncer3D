@@ -1,6 +1,7 @@
 ﻿using Impact.Interactions.Audio;
 using Impact.Utility;
 using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
 
 namespace Impact.EditorScripts
@@ -8,18 +9,46 @@ namespace Impact.EditorScripts
     [CustomEditor(typeof(ImpactAudioInteraction))]
     public class ImpactMaterialAudioInteractionEditor : Editor
     {
-        private readonly Color warningColor = new Color(1, 1, 0.5f);
+        private ReorderableList collisionAudioClipsList;
 
-        private ImpactAudioInteraction interaction;
+        private SerializedProperty collisionAudioSelectionModeProperty;
+        private SerializedProperty collisionAudioClipsProperty;
+        private SerializedProperty slideAudioProperty;
+        private SerializedProperty rollAudioProperty;
+        private SerializedProperty audioSourceTemplateProperty;
+
+        private SerializedProperty velocityRangeProperty;
+        private SerializedProperty collisionNormalInfluenceProperty;
+        private SerializedProperty scaleVolumeWithVelocityProperty;
+        private SerializedProperty volumeScaleCurveProperty;
+        private SerializedProperty randomPitchRangeProperty;
+        private SerializedProperty randomVolumeRangeProperty;
+        private SerializedProperty slideVelocityPitchMultiplierProperty;
 
         private void OnEnable()
         {
-            interaction = target as ImpactAudioInteraction;
+            velocityRangeProperty = serializedObject.FindProperty("_velocityRange");
+            randomPitchRangeProperty = serializedObject.FindProperty("_randomPitchRange");
+            randomVolumeRangeProperty = serializedObject.FindProperty("_randomVolumeRange");
+            scaleVolumeWithVelocityProperty = serializedObject.FindProperty("_scaleVolumeWithVelocity");
+            volumeScaleCurveProperty = serializedObject.FindProperty("_velocityVolumeScaleCurve");
+            collisionNormalInfluenceProperty = serializedObject.FindProperty("_collisionNormalInfluence");
+            slideVelocityPitchMultiplierProperty = serializedObject.FindProperty("_slideVelocityPitchMultiplier");
+
+            collisionAudioSelectionModeProperty = serializedObject.FindProperty("_collisionAudioSelectionMode");
+            collisionAudioClipsProperty = serializedObject.FindProperty("_collisionAudioClips");
+            slideAudioProperty = serializedObject.FindProperty("_slideAudioClip");
+            rollAudioProperty = serializedObject.FindProperty("_rollAudioClip");
+            audioSourceTemplateProperty = serializedObject.FindProperty("_audioSourceTemplate");
+
+            collisionAudioClipsList = new ReorderableList(serializedObject, serializedObject.FindProperty("_collisionAudioClips"), true, true, true, true);
+            collisionAudioClipsList.drawHeaderCallback = drawCollisionAudioClipHeader;
+            collisionAudioClipsList.drawElementCallback = drawCollisionAudioClipListItem;
         }
 
         public override void OnInspectorGUI()
         {
-            EditorGUI.BeginChangeCheck();
+            serializedObject.Update();
 
             drawAudioProperties();
 
@@ -27,50 +56,58 @@ namespace Impact.EditorScripts
 
             drawInteractionProperties();
 
-            if (EditorGUI.EndChangeCheck())
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        private void drawCollisionAudioClipHeader(Rect rect)
+        {
+            string name = "Collision Audio Clips";
+            EditorGUI.LabelField(rect, name);
+        }
+
+        private void drawCollisionAudioClipListItem(Rect rect, int index, bool isActive, bool isFocused)
+        {
+            SerializedProperty element = collisionAudioClipsProperty.GetArrayElementAtIndex(index);
+
+            ImpactAudioInteraction.CollisionAudioClipSelectionMode collisionAudioClipSelectionMode = (ImpactAudioInteraction.CollisionAudioClipSelectionMode)collisionAudioSelectionModeProperty.enumValueIndex;
+
+            float leftMargin = 0;
+            if (collisionAudioClipSelectionMode == ImpactAudioInteraction.CollisionAudioClipSelectionMode.Velocity)
             {
-                EditorUtility.SetDirty(interaction);
+                EditorGUI.LabelField(new Rect(rect.x, rect.y, 20, EditorGUIUtility.singleLineHeight), (index + 1) + ")");
+                leftMargin = 20;
             }
+
+            EditorGUI.PropertyField(new Rect(rect.x + leftMargin, rect.y, rect.width - leftMargin, EditorGUIUtility.singleLineHeight), element, GUIContent.none);
         }
 
         private void drawInteractionProperties()
         {
             EditorGUILayout.LabelField("Interaction Properties", EditorStyles.boldLabel);
 
-            interaction.VelocityRange = ImpactEditorUtilities.RangeEditor(interaction.VelocityRange, new GUIContent("Velocity Range (Min/Max)", "The velocity magnitude range to use when calculating collision intensity."));
+            ImpactEditorUtilities.DrawPropertyWithWiderLabel(velocityRangeProperty, new GUIContent("Velocity Range (Min/Max)", "The velocity magnitude range to use when calculating collision intensity."));
 
             EditorGUILayout.Separator();
 
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(new GUIContent("Collision Normal Influence", "How much the normal should affect the intensity."), GUILayout.Width(180));
-            interaction.CollisionNormalInfluence = EditorGUILayout.Slider("", interaction.CollisionNormalInfluence, 0, 1);
-            EditorGUILayout.EndHorizontal();
+            ImpactEditorUtilities.DrawPropertyWithWiderLabel(collisionNormalInfluenceProperty, new GUIContent("Collision Normal Influence", "How much the normal should affect the intensity."));
 
-            interaction.ScaleVolumeWithVelocity = EditorGUILayout.ToggleLeft(new GUIContent("Scale Volume With Velocity", "Should volume be scaled based on the velocity?"), interaction.ScaleVolumeWithVelocity);
+            ImpactEditorUtilities.DrawPropertyWithWiderLabel(scaleVolumeWithVelocityProperty, new GUIContent("Scale Volume With Velocity", "Should volume be scaled based on the velocity?"));
 
-            if (interaction.ScaleVolumeWithVelocity)
+            if (scaleVolumeWithVelocityProperty.boolValue)
             {
                 EditorGUI.indentLevel++;
-
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField(new GUIContent("Volume Scale Curve", ""), GUILayout.Width(150));
-                interaction.VelocityVolumeScaleCurve = EditorGUILayout.CurveField("", interaction.VelocityVolumeScaleCurve);
-                EditorGUILayout.EndHorizontal();
-
+                EditorGUILayout.PropertyField(volumeScaleCurveProperty, new GUIContent("Volume Scale Curve", ""));
                 EditorGUI.indentLevel--;
             }
 
             EditorGUILayout.Separator();
 
-            interaction.RandomPitchRange = ImpactEditorUtilities.RangeEditor(interaction.RandomPitchRange, new GUIContent("Pitch Randomness (Min/Max)", "Random multiplier for the pitch."));
-            interaction.RandomVolumeRange = ImpactEditorUtilities.RangeEditor(interaction.RandomVolumeRange, new GUIContent("Volume Randomness (Min/Max)", "Random multiplier for the volume."));
+            ImpactEditorUtilities.DrawPropertyWithWiderLabel(randomPitchRangeProperty, new GUIContent("Pitch Randomness (Min/Max)", "Random multiplier for the pitch."));
+            ImpactEditorUtilities.DrawPropertyWithWiderLabel(randomVolumeRangeProperty, new GUIContent("Volume Randomness (Min/Max)", "Random multiplier for the volume."));
 
             EditorGUILayout.Separator();
 
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(new GUIContent("Slide Velocity Pitch Modifier", "How much to increase the pitch as sliding and rolling velocity increases."), GUILayout.Width(180));
-            interaction.SlideVelocityPitchMultiplier = EditorGUILayout.Slider("", interaction.SlideVelocityPitchMultiplier, 0, 1);
-            EditorGUILayout.EndHorizontal();
+            ImpactEditorUtilities.DrawPropertyWithWiderLabel(slideVelocityPitchMultiplierProperty, new GUIContent("Slide Velocity Pitch Modifier", "How much to increase the pitch as sliding and rolling velocity increases."));
         }
 
         private void drawAudioProperties()
@@ -79,52 +116,15 @@ namespace Impact.EditorScripts
 
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
 
-            if (interaction.CollisionAudioClips.Count == 0)
-            {
-                EditorGUILayout.Separator();
+            GUILayout.Space(2);
 
-                EditorGUILayout.BeginHorizontal();
-                GUILayout.FlexibleSpace();
-                EditorGUILayout.LabelField("No Collision Audio Clips have been added.", GUILayout.Width(250));
-                GUILayout.FlexibleSpace();
-                EditorGUILayout.EndHorizontal();
+            ImpactEditorUtilities.DrawPropertyWithWiderLabel(collisionAudioSelectionModeProperty, new GUIContent("Audio Clip Selection Mode", "Should audio clips be chosen based on Velocity or be chosen Randomly?"));
 
-                EditorGUILayout.Separator();
-            }
-            else
-            {
-                GUILayout.Space(2);
+            GUILayout.Space(2);
 
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField(new GUIContent("Audio Clip Selection Mode", "Should audio clips be chosen based on Velocity or be chosen Randomly?"));
-                interaction.CollisionAudioSelectionMode = (ImpactAudioInteraction.CollisionAudioClipSelectionMode)EditorGUILayout.EnumPopup(interaction.CollisionAudioSelectionMode);
-                EditorGUILayout.EndHorizontal();
+            collisionAudioClipsList.DoLayoutList();
 
-                for (int i = 0; i < interaction.CollisionAudioClips.Count; i++)
-                {
-                    EditorGUILayout.BeginHorizontal();
-
-                    if (interaction.CollisionAudioSelectionMode == ImpactAudioInteraction.CollisionAudioClipSelectionMode.Velocity)
-                        EditorGUILayout.LabelField((i + 1) + ")", GUILayout.Width(20));
-                    else
-                        GUILayout.Space(5);
-
-                    interaction.CollisionAudioClips[i] = EditorGUILayout.ObjectField(interaction.CollisionAudioClips[i], typeof(AudioClip), false) as AudioClip;
-
-                    Color originalColor = GUI.color;
-                    GUI.color = warningColor;
-                    if (GUILayout.Button(new GUIContent("X", "Remove"), GUILayout.Width(18), GUILayout.Height(15)))
-                    {
-                        interaction.CollisionAudioClips.RemoveAt(i);
-                        i--;
-                    }
-                    GUI.color = originalColor;
-
-                    EditorGUILayout.EndHorizontal();
-                }
-
-                GUILayout.Space(2);
-            }
+            GUILayout.Space(2);
 
             EditorGUILayout.HelpBox("You can drag-and-drop Audio Clips here to add them.", MessageType.Info);
 
@@ -137,35 +137,29 @@ namespace Impact.EditorScripts
 
             if (drop && paths != null)
             {
+                ImpactAudioInteraction impactAudioInteraction = target as ImpactAudioInteraction;
+                Undo.RecordObject(target, "Drag-and-drop Collision Audio Clips");
+
                 for (int i = 0; i < paths.Length; i++)
                 {
                     AudioClip a = AssetDatabase.LoadAssetAtPath<AudioClip>(paths[i]);
                     if (a != null)
-                        interaction.CollisionAudioClips.Add(a);
+                        impactAudioInteraction.CollisionAudioClips.Add(a);
                 }
+
+                EditorUtility.SetDirty(target);
             }
-
-            EditorGUILayout.BeginHorizontal();
-
-            GUILayout.FlexibleSpace();
-
-            if (GUILayout.Button("Add Collision Audio Clip"))
-            {
-                interaction.CollisionAudioClips.Add(null);
-            }
-
-            EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.Separator();
 
-            interaction.SlideAudioClip = EditorGUILayout.ObjectField(new GUIContent("Slide Audio", "The AudioClip to play when sliding."), interaction.SlideAudioClip, typeof(AudioClip), false) as AudioClip;
-            interaction.RollAudioClip = EditorGUILayout.ObjectField(new GUIContent("Roll Audio", "The AudioClip to play when rolling."), interaction.RollAudioClip, typeof(AudioClip), false) as AudioClip;
+            ImpactEditorUtilities.DrawPropertyWithWiderLabel(slideAudioProperty, new GUIContent("Slide Audio", "The AudioClip to play when sliding."));
+            ImpactEditorUtilities.DrawPropertyWithWiderLabel(rollAudioProperty, new GUIContent("Roll Audio", "The AudioClip to play when rolling."));
 
             EditorGUILayout.Separator();
 
-            interaction.AudioSourceTemplate = EditorGUILayout.ObjectField(new GUIContent("Audio Source Template", "The audio source whose properties will be used when playing sounds from this interaction."), interaction.AudioSourceTemplate, typeof(ImpactAudioSourceBase), false) as ImpactAudioSourceBase;
+            ImpactEditorUtilities.DrawPropertyWithWiderLabel(audioSourceTemplateProperty, new GUIContent("Audio Source Template", "The audio source whose properties will be used when playing sounds from this interaction."));
 
-            if (interaction.AudioSourceTemplate == null)
+            if (audioSourceTemplateProperty.objectReferenceValue == null)
             {
                 EditorGUILayout.HelpBox("You must assign an Audio Source Template for sounds to play for this interaction.", MessageType.Error);
             }

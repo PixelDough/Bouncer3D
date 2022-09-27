@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Impact.Interactions.Decals
 {
@@ -49,11 +50,39 @@ namespace Impact.Interactions.Decals
             return null;
         }
 
+        /// <summary>
+        /// Returns all decals to their respective pools. You can use this to clean up decals on scene load, for example.
+        /// </summary>
+        public static void ReturnAllDecalsToPools()
+        {
+            poolGroup.ReturnAllObjectsToPools();
+        }
+
+        private void Awake()
+        {
+            SceneManager.sceneLoaded += sceneLoaded;
+        }
 
         protected override void OnDestroy()
         {
+            SceneManager.sceneLoaded -= sceneLoaded;
+
             base.OnDestroy();
             poolGroup.Remove(this);
+        }
+
+        private void sceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+        {
+            //Scan through pool to detect missing objects
+            for (int i = 0; i < pooledObjects.Length; i++)
+            {
+                //Create new instances if needed
+                //This can happen if a pooled object is made a child of an object that gets destroyed on scene load/unload.
+                if (pooledObjects[i] == null)
+                {
+                    pooledObjects[i] = createPooledObjectInstance(i);
+                }
+            }
         }
     }
 }

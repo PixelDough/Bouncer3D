@@ -12,6 +12,11 @@ namespace Impact.Interactions.Decals
     public class DecalInteractionResult : IContinuousInteractionResult, IPoolable
     {
         /// <summary>
+        /// Invoked when an interaction result is processed.
+        /// </summary>
+        public static event System.Action<DecalInteractionResult> OnInteractionProcessed;
+
+        /// <summary>
         /// The original interaction data this result was created from.
         /// </summary>
         public InteractionData OriginalData { get; set; }
@@ -47,6 +52,11 @@ namespace Impact.Interactions.Decals
         /// </summary>
         public bool IsAlive { get; private set; }
 
+        /// <summary>
+        /// The Decal object associated with this interaction result. May be null.
+        /// </summary>
+        public ImpactDecalBase Decal { get; private set; }
+
         private float intervalCounter;
         private float currentCreationIntervalTarget;
         private Vector3 previousCreationPosition;
@@ -63,11 +73,13 @@ namespace Impact.Interactions.Decals
         {
             this.parent = parent;
 
-            ImpactDecalPool.CreateDecal(this, OriginalData.Point, OriginalData.Normal);
+            Decal = ImpactDecalPool.CreateDecal(this, OriginalData.Point, OriginalData.Normal);
             IsAlive = true;
 
             currentCreationIntervalTarget = CreationInterval.RandomInRange();
             previousCreationPosition = OriginalData.Point;
+
+            OnInteractionProcessed?.Invoke(this);
 
             //Dispose immediately for Collision interaction types
             if (OriginalData.InteractionType == InteractionData.InteractionTypeCollision)
@@ -102,7 +114,7 @@ namespace Impact.Interactions.Decals
                 currentCreationIntervalTarget = CreationInterval.RandomInRange();
 
                 if (newResult.IsValid)
-                    ImpactDecalPool.CreateDecal(this, decalInteractionResult.OriginalData.Point, decalInteractionResult.OriginalData.Normal);
+                    Decal = ImpactDecalPool.CreateDecal(this, decalInteractionResult.OriginalData.Point, decalInteractionResult.OriginalData.Normal);
 
                 intervalCounter = 0;
                 previousCreationPosition = decalInteractionResult.OriginalData.Point;

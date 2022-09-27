@@ -13,10 +13,14 @@ namespace Impact.Triggers
 
             ImpactManagerInstance.IncrementPhysicsInteractionsLimit();
 
+            VelocityData myVelocityData = MainTarget.GetVelocityDataAtPoint(transform.position);
+
             InteractionData c = new InteractionData()
             {
-                InteractionType = InteractionData.InteractionTypeSimple,
-                Point = transform.position
+                InteractionType = InteractionData.InteractionTypeCollision,
+                Point = transform.position,
+                Velocity = myVelocityData.TotalPointVelocity,
+                CompositionValue = 1
             };
 
             ImpactManagerInstance.ProcessInteraction(c, MainTarget);

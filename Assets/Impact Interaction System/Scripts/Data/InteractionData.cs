@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Impact
 {
@@ -19,6 +20,8 @@ namespace Impact
         /// Interaction type for rolling collisions.
         /// </summary>
         public const int InteractionTypeRoll = 2;
+
+        [Obsolete("Simple interaction types are no longer used. Use InteractionTypeCollision instead.")]
         /// <summary>
         /// Interaction type for simple collisions (i.e. collisions with no velocity, normal, object, or material data).
         /// </summary>

@@ -41,49 +41,28 @@ namespace Impact.Utility
         }
 
         /// <summary>
-        /// Rounds to the given number of places.
-        /// </summary>
-        /// <param name="num">The number to round.</param>
-        /// <param name="places">The number of places to round to.</param>
-        /// <returns>The number rounded to the given number of places.</returns>
-        public static float Round(this float num, int places)
-        {
-            return (float)System.Math.Round(num, places);
-        }
-
-        /// <summary>
-        /// Rounds the X, Y, and Z components of a Vector3 to the given number of places.
-        /// </summary>
-        /// <param name="a">The Vector3 to round.</param>
-        /// <param name="places">The number of places to round to.</param>
-        /// <returns>The Vector3 rounded to the given number of places.</returns>
-        public static Vector3 Round(this Vector3 a, int places)
-        {
-            if (places < 0)
-                return a;
-
-            a.x = a.x.Round(places);
-            a.y = a.y.Round(places);
-            a.z = a.z.Round(places);
-
-            return a;
-        }
-
-        /// <summary>
         /// Either gets a component on the given game object or adds one.
         /// </summary>
         /// <typeparam name="T">The component type.</typeparam>
         /// <param name="gameObject">The game object to get or add the component to.</param>
+        /// <param name="checkParents">Should we look for the component in parent objects?</param>
         /// <returns>A reference to the existing or new component.</returns>
-        public static T GetOrAddComponent<T>(this GameObject gameObject) where T : Component
+        public static T GetOrAddComponent<T>(this GameObject gameObject, bool checkParents) where T : Component
         {
-            T existing = gameObject.GetComponent<T>();
+            T existing = checkParents ? gameObject.GetComponentInParent<T>() : gameObject.GetComponent<T>();
             if (existing != null)
                 return existing;
 
             return gameObject.AddComponent<T>();
         }
 
+        /// <summary>
+        /// Gets the index of the first element matching the given predicate.
+        /// </summary>
+        /// <typeparam name="T">The array type.</typeparam>
+        /// <param name="array">The array.</param>
+        /// <param name="predicate">The predicate to match.</param>
+        /// <returns>The index of the first element matching the given predicate.</returns>
         public static int IndexOf<T>(this T[] array, Predicate<T> predicate)
         {
             for (int i = 0; i < array.Length; i++)

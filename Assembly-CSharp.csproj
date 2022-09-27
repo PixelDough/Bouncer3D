@@ -115,7 +115,9 @@
      <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\ImpactInteractionUtilities.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\3D\ImpactSpeculativeCollisionTrigger3D.cs" />
      <Compile Include="Assets\3D Text\ScriptableObjectFont3D.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\3D\ImpactOnTriggerStay3D.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Interfaces\IImpactInteraction.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Decals\ImpactDecalManager.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Data\Interfaces\IImpactContactPoint.cs" />
      <Compile Include="Assets\FImpossible Creations\Shared Tools\Editor Tools\Property Attributes\FPD_HeaderAttribute.cs" />
      <Compile Include="Assets\FImpossible Creations\Plugins - Animating\Bones Stimulator\Core\BonesStimulator.Logics.Squeeze.cs" />
@@ -127,6 +129,7 @@
      <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Interfaces\IInteractionResult.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Interactions\Decals\ImpactDecalPool.cs" />
      <Compile Include="Assets\Rewired\Examples\GamepadTemplateUI\Scripts\ControllerUIEffect.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\ImpactAOTWorkaround.cs" />
      <Compile Include="Assets\_Game\Scripts\Final Render\LowResCameraManager.cs" />
      <Compile Include="Assets\3D Text\Font3DString.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ToggleInfo.cs" />
@@ -142,6 +145,7 @@
      <Compile Include="Assets\Impact Interaction System\Scripts\Utility\Object Pool\ObjectPoolFallbackMode.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\UITools.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\InputBehaviorWindow.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Data\ImpactOnTriggerColliderWrapper .cs" />
      <Compile Include="Assets\FImpossible Creations\Plugins - Shared\Physics\FImp_ColliderData_Capsule.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Data\PhysicsType.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\ControlMapper_Classes.cs" />
@@ -230,6 +234,7 @@
      <Compile Include="Assets\Rewired\Integration\UnityUI\RewiredStandaloneInputModule.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\ImpactTriggerBase.cs" />
      <Compile Include="Assets\Rewired\Examples\GamepadTemplateUI\Scripts\GamepadTemplateUI.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\2D\ImpactOnTriggerStay2D.cs" />
      <Compile Include="Assets\Rewired\Examples\CustomControllersTouch\Scripts\CustomControllerDemo.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\UIImageHelper.cs" />
      <Compile Include="Assets\_Game\Scripts\CheckpointController.cs" />
@@ -244,12 +249,14 @@
      <Compile Include="Assets\FImpossible Creations\Shared Tools\GUI Helpers\FGUI_Inspector.cs" />
      <Compile Include="Assets\LeanTween\Framework\LeanAudio.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Examples\ControlMapperDemo\Scripts\ControlMapperDemoMessage.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\3D\ImpactOnTriggerEnter3D.cs" />
      <Compile Include="Assets\FImpossible Creations\Plugins - Shared\Math Helpers\Math\FVectorMethods.cs" />
      <Compile Include="Assets\Rewired\Extras\ControlMapper\Scripts\CustomToggle.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Tag Library\ImpactTagLibraryBase.cs" />
      <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\3D\ImpactSlideAndRollTrigger3D.cs" />
      <Compile Include="Assets\IgniteCoders\Simple Water Shader\Info\Scripts\Readme.cs" />
      <Compile Include="Assets\FImpossible Creations\Shared Tools\GUI Helpers\FGUI_Resources.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Physics Triggers\2D\ImpactOnTriggerEnter2D.cs" />
      <Compile Include="Assets\FImpossible Creations\Shared Tools\Editor Tools\Property Attributes\FPD_DrawTextureAttribute.cs" />
      <Compile Include="Assets\Rewired\Internal\Scripts\ControllerTemplates\ControllerTemplates.cs" />
      <Compile Include="Assets\FImpossible Creations\Plugins - Shared\Math Helpers\Helpers\FDebug.cs" />
@@ -298,6 +305,7 @@
      <Compile Include="Assets\FImpossible Creations\Plugins - Animating\Bones Stimulator\Core\BonesStimulator.Preparations.cs" />
      <Compile Include="Assets\FImpossible Creations\Plugins - Shared\Math Helpers\Math\FLogicMethods.cs" />
      <Compile Include="Assets\_Game\Scripts\LevelManager.cs" />
+     <Compile Include="Assets\Impact Interaction System\Scripts\Triggers\Interfaces\IImpactTrigger.cs" />
      <None Include="Assets\_Game\Shaders\MainLit.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\WaterCausticsModules\WaterCausticsEffect\ShaderFunctions\Common\WaterCausticsEmissionFunc_Common.hlsl" />

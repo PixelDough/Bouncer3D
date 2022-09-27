@@ -1,5 +1,4 @@
-﻿using Impact.Materials;
-using Impact.Objects;
+﻿using Impact.Objects;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,28 +7,37 @@ namespace Impact.EditorScripts
     [CustomEditor(typeof(ImpactTerrain))]
     public class ImpactTerrainEditor : Editor
     {
-        private ImpactTerrain terrain;
+        private ImpactTerrain impactTerrain;
         private TerrainLayer[] terrainLayers;
+
+        private SerializedProperty terrainProperty;
+        private SerializedProperty terrainMaterialsProperty;
 
         private void OnEnable()
         {
-            terrain = target as ImpactTerrain;
+            impactTerrain = target as ImpactTerrain;
 
-            if (terrain.Terrain == null)
-                terrain.Terrain = terrain.GetComponent<Terrain>();
+            terrainProperty = serializedObject.FindProperty("_terrain");
+            terrainMaterialsProperty = serializedObject.FindProperty("_terrainMaterials");
 
-            terrain.SyncTerrainLayersAndMaterialsList();
-            terrainLayers = terrain.TerrainData.terrainLayers;
+            if (impactTerrain.Terrain != null && impactTerrain.Terrain.terrainData != null)
+            {
+                impactTerrain.SyncTerrainLayersAndMaterialsList();
+                terrainLayers = impactTerrain.Terrain.terrainData.terrainLayers;
+            }
         }
 
         public override void OnInspectorGUI()
         {
+            serializedObject.Update();
+
             EditorGUILayout.Separator();
 
             EditorGUILayout.LabelField("Terrain", EditorStyles.boldLabel);
-            terrain.Terrain = EditorGUILayout.ObjectField(new GUIContent("", "The Terrain this object is associated with."), terrain.Terrain, typeof(Terrain), true) as Terrain;
 
-            if (terrain.Terrain == null)
+            EditorGUILayout.PropertyField(terrainProperty, new GUIContent("", "The Terrain this object is associated with."));
+
+            if (impactTerrain.Terrain == null || impactTerrain.Terrain.terrainData == null)
             {
                 EditorGUILayout.HelpBox("Assign a Terrain to begin editing Terrain Materials.", MessageType.Info);
             }
@@ -40,17 +48,14 @@ namespace Impact.EditorScripts
                 drawTerrainLayersList();
             }
 
-            if (GUI.changed)
-            {
-                EditorUtility.SetDirty(terrain);
-            }
+            serializedObject.ApplyModifiedProperties();
         }
 
         private void drawTerrainLayersList()
         {
             EditorGUILayout.LabelField("Terrain Layer Materials", EditorStyles.boldLabel);
 
-            for (int i = 0; i < terrain.TerrainMaterials.Count; i++)
+            for (int i = 0; i < terrainMaterialsProperty.arraySize; i++)
             {
                 EditorGUILayout.BeginVertical();
 
@@ -67,7 +72,7 @@ namespace Impact.EditorScripts
             GUILayout.FlexibleSpace();
             if (GUILayout.Button(new GUIContent("Refresh Terrain Layers", "Manually re-sync the stored materials with the terrain layers.")))
             {
-                terrain.SyncTerrainLayersAndMaterialsList();
+                impactTerrain.SyncTerrainLayersAndMaterialsList();
             }
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
@@ -93,7 +98,8 @@ namespace Impact.EditorScripts
             else
                 EditorGUILayout.LabelField("Missing Terrain Layer");
 
-            terrain.TerrainMaterials[index] = EditorGUILayout.ObjectField("", terrain.TerrainMaterials[index], typeof(ImpactMaterialBase), false) as ImpactMaterialBase;
+            SerializedProperty terrainMaterial = terrainMaterialsProperty.GetArrayElementAtIndex(index);
+            EditorGUILayout.PropertyField(terrainMaterial, new GUIContent());
 
             EditorGUILayout.EndVertical();
 

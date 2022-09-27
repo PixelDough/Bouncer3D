@@ -12,7 +12,7 @@ namespace Impact.Interactions
         /// <returns>The adjusted intensity of the collision.</returns>
         public static float GetCollisionIntensity<T>(T interactionData, float collisionNormalInfluence) where T : IInteractionData
         {
-            float dotProduct = 0;
+            float dotProduct;
             float velocityMagnitude = interactionData.Velocity.magnitude;
 
             if (interactionData.Normal.sqrMagnitude == 0)
@@ -36,24 +36,23 @@ namespace Impact.Interactions
         {
             key = 0;
 
-            if (interactionData.InteractionType != InteractionData.InteractionTypeCollision)
-            {
-                int tagMaskValue = 0;
-                if (interactionData.TagMask.HasValue)
-                    tagMaskValue = interactionData.TagMask.Value.Value;
+            //Don't do anything for Collision interaction types because a key isn't needed
+            if (interactionData.InteractionType == InteractionData.InteractionTypeCollision)
+                return true;
 
-                key = cantorPairing(interaction.GetInstanceID(),
-                    cantorPairing(tagMaskValue,
-                    cantorPairing(interactionData.InteractionType,
-                    cantorPairing(interactionData.ThisObject.GetInstanceID(), interactionData.OtherObject.GetInstanceID()))));
+            int tagMaskValue = 0;
+            if (interactionData.TagMask.HasValue)
+                tagMaskValue = interactionData.TagMask.Value.Value;
 
-                bool containsKey = ImpactManagerInstance.HasActiveContinuousInteractionWithKey(key);
+            key = cantorPairing(interaction.GetInstanceID(),
+                cantorPairing(tagMaskValue,
+                cantorPairing(interactionData.InteractionType,
+                cantorPairing(interactionData.ThisObject.GetInstanceID(), interactionData.OtherObject.GetInstanceID()))));
 
-                if (!containsKey && ImpactManagerInstance.HasReachedContinuousInteractionLimit())
-                {
-                    return false;
-                }
-            }
+            bool containsKey = ImpactManagerInstance.HasActiveContinuousInteractionWithKey(key);
+
+            if (!containsKey && ImpactManagerInstance.HasReachedContinuousInteractionLimit())
+                return false;
 
             return true;
         }

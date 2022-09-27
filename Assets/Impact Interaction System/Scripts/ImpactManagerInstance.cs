@@ -1,5 +1,4 @@
-﻿using System;
-using Impact.Interactions;
+﻿using Impact.Interactions;
 using Impact.Materials;
 using Impact.Objects;
 using Impact.Utility.ObjectPool;
@@ -176,7 +175,10 @@ namespace Impact
             if (impactObject == null)
                 return;
 
-            ProcessInteraction(interactionData, impactObject.GetPrimaryMaterial(interactionData.Point), impactObject);
+            IImpactMaterial impactMaterial = impactObject.GetPrimaryMaterial(interactionData.Point);
+
+            if (impactMaterial != null)
+                ProcessInteraction(interactionData, impactMaterial, impactObject);
         }
 
         /// <summary>

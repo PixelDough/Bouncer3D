@@ -4878,7 +4878,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2
+  m_Radius: 2.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &1404328554792374125
 Rigidbody:
@@ -4909,6 +4909,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transformToMove: {fileID: 7339718678437010172}
+  sphereCollider: {fileID: 9188964801940133792}
 --- !u!1 &7339718677899204882
 GameObject:
   m_ObjectHideFlags: 0

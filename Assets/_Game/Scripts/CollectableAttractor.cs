@@ -7,6 +7,7 @@ namespace PixelDough.Bouncer
     {
         [SerializeField] private Transform transformToMove;
         private Transform _targetTransform;
+        [SerializeField] private SphereCollider sphereCollider;
         
         /*private void Update()
         {
@@ -35,9 +36,9 @@ namespace PixelDough.Bouncer
             
             if (other.attachedRigidbody.gameObject.CompareTag("Player"))
             {
-                float distanceCheckMax = 2;
-                float distanceModifier = Mathf.InverseLerp(0, 5, other.attachedRigidbody.velocity.magnitude);
-                if (direction.magnitude > Mathf.Lerp(0.5f, distanceCheckMax, distanceModifier)) return;
+                float distanceCheckMax = sphereCollider.radius;
+                float distanceModifier = Mathf.InverseLerp(0, 20, other.attachedRigidbody.velocity.magnitude);
+                if (direction.magnitude > Mathf.Lerp(0.75f, distanceCheckMax, distanceModifier)) return;
                 
                 _targetTransform = other.attachedRigidbody.transform;
                 LeanTween.move(transformToMove.gameObject, _targetTransform, 0.25f).setEaseInSine();
