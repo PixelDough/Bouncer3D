@@ -192,6 +192,8 @@ namespace Febucci.UI
 
         TMP_Text _tmproText;
 
+        Nova.TMP.TextMeshProTextBlock _novaTmpProText;
+
         /// <summary>
         /// The TextMeshPro component linked to this TextAnimator
         /// </summary>
