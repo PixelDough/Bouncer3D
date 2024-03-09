@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Bewildered.SmartLibrary.UndoSystem;
 
 namespace Bewildered.SmartLibrary
 {
@@ -128,7 +129,7 @@ namespace Bewildered.SmartLibrary
         internal static void HandleLibraryItemsChanged(LibraryItemsChangedEventArgs args, bool recordCollectionChange = true)
         {
             if (recordCollectionChange)
-                CollectionUndoManager.RecordItemChange(args);
+                CollectionUndoService.RegisterOperation(new NotifyItemsChangedOperation(args.collection, args.items, args.type));
             
             ItemsChanged?.Invoke(args);
         }
@@ -136,7 +137,13 @@ namespace Bewildered.SmartLibrary
         internal static void HandleLibraryHierarchyChanged(LibraryHierarchyChangedEventArgs args, bool recordCollectionChange = true)
         {
             if (recordCollectionChange)
-                CollectionUndoManager.RecordHierarchyChange(args);
+            {
+                if (args.type == HierarchyChangeType.Moved)
+                    CollectionUndoService.RegisterOperation(new NotifyCollectionMovedOperation(args.collection, args.subcollection, args.index)); 
+                else
+                    CollectionUndoService.RegisterOperation(new NotifyCollectionAddRemoveOperation(args.collection, args.subcollection, args.index, args.type));
+            }
+            
             HierarchyChanged?.Invoke(args);
         }
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Bewildered.SmartLibrary.UI;
 
@@ -30,22 +31,39 @@ namespace Bewildered.SmartLibrary
                 string.CompareOrdinal(x.Item.Type.Name, y.Item.Type.Name) :
                 string.CompareOrdinal(y.Item.Type.Name, x.Item.Type.Name);
 
-            if (_sortOrder == ItemSortOrder.NameAscending || _sortOrder == ItemSortOrder.NameDescending)
-            {
-                if (nameResult != 0)
-                    return nameResult;
-                else
-                    return typeResult;
-            }
-            else if (_sortOrder == ItemSortOrder.TypeAscending || _sortOrder == ItemSortOrder.TypeDescending)
-            {
-                if (typeResult != 0)
-                    return typeResult;
-                else
-                    return nameResult;
-            }
+            int dateResult = _sortOrder != ItemSortOrder.DateModifiedDescending
+                ? DateTime.Compare(x.Item.LastModifiedDate, y.Item.LastModifiedDate)
+                : DateTime.Compare(y.Item.LastModifiedDate, x.Item.LastModifiedDate);
 
-            return nameResult;
+            switch (_sortOrder)
+            {
+                case ItemSortOrder.NameAscending:
+                case ItemSortOrder.NameDescending:
+                {
+                    if (nameResult != 0)
+                        return nameResult;
+                    else
+                        return typeResult;
+                }
+                case ItemSortOrder.TypeAscending:
+                case ItemSortOrder.TypeDescending:
+                {
+                    if (typeResult != 0)
+                        return typeResult;
+                    else
+                        return nameResult;
+                }
+                case ItemSortOrder.DateModifiedAscending:
+                case ItemSortOrder.DateModifiedDescending:
+                {
+                    if (dateResult != 0)
+                        return dateResult;
+                    else
+                        return nameResult;
+                }
+                default:
+                    return nameResult;
+            }
         }
     }
 }

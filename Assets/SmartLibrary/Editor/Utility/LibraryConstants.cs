@@ -31,11 +31,15 @@ namespace Bewildered.SmartLibrary
         public static readonly string SortNameDescendingName = "Name ↑";
         public static readonly string SortTypeAscendingName = "Type ↓";
         public static readonly string SortTypeDescendingName = "Type ↑";
+        public static readonly string SortDataModifiedAscendingName = "Date Modified ↓";
+        public static readonly string SortDataModifiedDescendingName = "Date Modified ↑";
 
         public static readonly string ActiveSortNameAscendingName = "Sort: " + SortNameAscendingName;
         public static readonly string ActiveSortNameDescendingName = "Sort: " + SortNameDescendingName;
         public static readonly string ActiveSortTypeAscendingName = "Sort: " + SortTypeAscendingName;
         public static readonly string ActiveSortTypeDescendingName = "Sort: " + SortTypeDescendingName;
+        public static readonly string ActiveSortDataModifiedAscendingName = "Sort: " + SortDataModifiedAscendingName;
+        public static readonly string ActiveSortDataModifiedDescendingName = "Sort: " + SortDataModifiedDescendingName;
 
         public static readonly string IconUssClassName = "bewildered-library-icon";
 

@@ -22,6 +22,7 @@ namespace Bewildered.SmartLibrary.UI
         private bool _containsMouse;
         private int _hoveredIndex = -1;
         private Vector2 _itemSize = new Vector2(50, 50);
+        private Vector2 _compactItemSize = Vector2.zero;
         private List<object> _selectedItems = new List<object>();
         private Rect _contentViewRect;
         private Rect _viewportRect;
@@ -47,6 +48,12 @@ namespace Bewildered.SmartLibrary.UI
             set { _scrollPosition = value; }
         }
 
+        
+        public Vector2 FinalItemSize
+        {
+            get { return UseCompactSize ? CompactItemSize : _itemSize; }
+        }
+
         /// <summary>
         /// The size of the <see cref="Rect"/> of items.
         /// </summary>
@@ -62,6 +69,14 @@ namespace Bewildered.SmartLibrary.UI
                 Repaint();
             }
         }
+
+        public Vector2 CompactItemSize
+        {
+            get { return _compactItemSize; }
+            set { _compactItemSize = value; }
+        }
+
+        public bool UseCompactSize { get; set; }
 
         /// <summary>
         /// The items to display in the <see cref="ItemsViewControlBase"/>.
@@ -358,7 +373,7 @@ namespace Bewildered.SmartLibrary.UI
         /// </summary>
         protected virtual float GetTotalScrollableHeight()
         {
-            return Items.Count * ItemSize.y;
+            return Items.Count * FinalItemSize.y;
         }
 
         protected virtual void OnKeyDown(KeyCode keyCode, Event evt)
@@ -369,7 +384,7 @@ namespace Bewildered.SmartLibrary.UI
         protected int FirstVisibleRowIndex()
         {
             if (_scrollPosition.y > 0)
-                return (int)Mathf.Max(0, Mathf.Floor(_scrollPosition.y / ItemSize.y));
+                return (int)Mathf.Max(0, Mathf.Floor(_scrollPosition.y / FinalItemSize.y));
             else
                 return 0;
         }

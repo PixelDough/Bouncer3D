@@ -56,9 +56,9 @@ namespace Bewildered.SmartLibrary.UI
             targetScrollView.RegisterCallback<MouseMoveEvent>(OnMouseMove);
             targetScrollView.RegisterCallback<MouseLeaveEvent>(OnMouseLeave);
 
-            targetScrollView.RegisterCallback<DragEnterEvent>(OnDragEnter);
-            targetScrollView.RegisterCallback<DragUpdatedEvent>(OnDragUpdate);
-            targetScrollView.RegisterCallback<DragPerformEvent>(OnDragPerform);
+            targetListView.RegisterCallback<DragEnterEvent>(OnDragEnter);
+            targetListView.RegisterCallback<DragUpdatedEvent>(OnDragUpdate);
+            targetListView.RegisterCallback<DragPerformEvent>(OnDragPerform);
 
             targetListView.bindItem += BindIndex;
 
@@ -82,9 +82,9 @@ namespace Bewildered.SmartLibrary.UI
             targetScrollView.UnregisterCallback<MouseMoveEvent>(OnMouseMove);
             targetScrollView.UnregisterCallback<MouseLeaveEvent>(OnMouseLeave);
 
-            targetScrollView.UnregisterCallback<DragEnterEvent>(OnDragEnter);
-            targetScrollView.UnregisterCallback<DragUpdatedEvent>(OnDragUpdate);
-            targetScrollView.UnregisterCallback<DragPerformEvent>(OnDragPerform);
+            targetListView.UnregisterCallback<DragEnterEvent>(OnDragEnter);
+            targetListView.UnregisterCallback<DragUpdatedEvent>(OnDragUpdate);
+            targetListView.UnregisterCallback<DragPerformEvent>(OnDragPerform);
 
             targetListView.bindItem -= BindIndex;
 

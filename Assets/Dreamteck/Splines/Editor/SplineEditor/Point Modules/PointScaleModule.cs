@@ -39,14 +39,14 @@ namespace Dreamteck.Splines.Editor
             SaveBool("scaleTangents", scaleTangents);
         }
 
-        public override void DrawInspector()
+        protected override void OnDrawInspector()
         {
             editSpace = (EditSpace)EditorGUILayout.EnumPopup("Edit Space", editSpace);
             scaleSize = EditorGUILayout.Toggle("Scale Sizes", scaleSize);
             scaleTangents = EditorGUILayout.Toggle("Scale Tangents", scaleTangents);
         }
 
-        public override void DrawScene()
+        protected override void OnDrawScene()
         {
             if (selectedPoints.Count == 0) return;
             if (eventModule.mouseLeftUp)
@@ -58,13 +58,14 @@ namespace Dreamteck.Splines.Editor
             scale = Handles.ScaleHandle(scale, c, rotation, HandleUtility.GetHandleSize(c));
             if (lastScale != scale)
             {
-                RecordUndo("Scale Points");
                 PrepareTransform();
                 for (int i = 0; i < selectedPoints.Count; i++)
                 {
-                    points[selectedPoints[i]] = localPoints[selectedPoints[i]];
-                    TransformPoint(ref points[selectedPoints[i]], false, scaleTangents, scaleSize);
+                    var point = localPoints[selectedPoints[i]];
+                    TransformPoint(ref point, false, scaleTangents, scaleSize);
+                    points[selectedPoints[i]].SetPoint(point);
                 }
+                RegisterChange();
                 SetDirty();
             }
         }

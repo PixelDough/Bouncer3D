@@ -122,6 +122,8 @@ namespace Dreamteck.Splines
             }
         }
 
+        protected override string meshName => "Tube";
+
         private int bodyVertexCount = 0;
         private int bodyTrisCount = 0;
         private int capVertexCount = 0;
@@ -132,20 +134,16 @@ namespace Dreamteck.Splines
             base.Reset();
         }
 
-        protected override void Awake()
-        {
-            base.Awake();
-            mesh.name = "tube";
-        }
-
-
         protected override void BuildMesh()
         {
             if (_sides <= 2) return;
             base.BuildMesh();
             bodyVertexCount = (_sides + 1) * sampleCount;
             CapMethod _capModeFinal = _capMode;
-            if (!useCap) _capModeFinal = CapMethod.None;
+            if (!useCap)
+            {
+                _capModeFinal = CapMethod.None;
+            }
             switch (_capModeFinal)
             {
                 case CapMethod.Flat: capVertexCount = _sides + 1; break;
@@ -178,7 +176,7 @@ namespace Dreamteck.Splines
             bool hasOffset = offset != Vector3.zero;
             for (int i = 0; i < sampleCount; i++)
             {
-                GetSample(i, evalResult);
+                GetSample(i, ref evalResult);
                 Vector3 center = evalResult.position;
                 Vector3 right = evalResult.right;
                 float resultSize = GetBaseSize(evalResult);
@@ -195,41 +193,41 @@ namespace Dreamteck.Splines
                 {
                     float anglePercent = (float)(n) / _sides;
                     Quaternion rot = Quaternion.AngleAxis(_revolve * anglePercent + rotation + 180f, evalResult.forward);
-                    tsMesh.vertices[vertexIndex] = center + rot * right * (size * resultSize * 0.5f);
+                    _tsMesh.vertices[vertexIndex] = center + rot * right * (size * resultSize * 0.5f);
                     CalculateUVs(evalResult.percent, anglePercent);
-                    tsMesh.uv[vertexIndex] = Vector2.one * 0.5f + (Vector2)(Quaternion.AngleAxis(uvRotation + 180f, Vector3.forward) * (Vector2.one * 0.5f - (uvs + Vector2.right * ((float)evalResult.percent * _uvTwist))));
-                    tsMesh.normals[vertexIndex] = Vector3.Normalize(tsMesh.vertices[vertexIndex] - center);
-                    tsMesh.colors[vertexIndex] = vertexColor;
+                    _tsMesh.uv[vertexIndex] = Vector2.one * 0.5f + (Vector2)(Quaternion.AngleAxis(uvRotation + 180f, Vector3.forward) * (Vector2.one * 0.5f - (__uvs + Vector2.right * ((float)evalResult.percent * _uvTwist))));
+                    _tsMesh.normals[vertexIndex] = Vector3.Normalize(_tsMesh.vertices[vertexIndex] - center);
+                    _tsMesh.colors[vertexIndex] = vertexColor;
                     vertexIndex++;
                 }
             }
-            MeshUtility.GeneratePlaneTriangles(ref tsMesh.triangles, _sides, sampleCount, false);
+            MeshUtility.GeneratePlaneTriangles(ref _tsMesh.triangles, _sides, sampleCount, false);
         }
 
         void GenerateFlatCaps()
         {
             //Start Cap
 
-            GetSample(0, evalResult);
+            GetSample(0, ref evalResult);
             for (int i = 0; i < _sides+1; i++)
             {
                 int index = bodyVertexCount + i;
-                tsMesh.vertices[index] = tsMesh.vertices[i];
-                tsMesh.normals[index] = -evalResult.forward;
-                tsMesh.colors[index] = tsMesh.colors[i];
-                tsMesh.uv[index] = Quaternion.AngleAxis(_revolve * (((float)i) / (_sides - 1)), Vector3.forward) * Vector2.right * (0.5f * capUVScale) + Vector3.right * 0.5f + Vector3.up * 0.5f;
+                _tsMesh.vertices[index] = _tsMesh.vertices[i];
+                _tsMesh.normals[index] = -evalResult.forward;
+                _tsMesh.colors[index] = _tsMesh.colors[i];
+                _tsMesh.uv[index] = Quaternion.AngleAxis(_revolve * (((float)i) / (_sides - 1)), Vector3.forward) * Vector2.right * (0.5f * capUVScale) + Vector3.right * 0.5f + Vector3.up * 0.5f;
             }
 
             //End Cap
-            GetSample(sampleCount - 1, evalResult);
+            GetSample(sampleCount - 1, ref evalResult);
             for (int i = 0; i < _sides + 1; i++)
             {
                 int index = bodyVertexCount + (_sides + 1) + i;
                 int bodyIndex = bodyVertexCount - (_sides + 1) + i;
-                tsMesh.vertices[index] = tsMesh.vertices[bodyIndex];
-                tsMesh.normals[index] = GetSampleRaw(sampleCount -1).forward;
-                tsMesh.colors[index] = tsMesh.colors[bodyIndex];
-                tsMesh.uv[index] = Quaternion.AngleAxis(_revolve * ((float)(bodyIndex) / (_sides - 1)), Vector3.forward) * Vector2.right * (0.5f * capUVScale) + Vector3.right * 0.5f + Vector3.up * 0.5f;
+                _tsMesh.vertices[index] = _tsMesh.vertices[bodyIndex];
+                _tsMesh.normals[index] = evalResult.forward;
+                _tsMesh.colors[index] = _tsMesh.colors[bodyIndex];
+                _tsMesh.uv[index] = Quaternion.AngleAxis(_revolve * ((float)(bodyIndex) / (_sides - 1)), Vector3.forward) * Vector2.right * (0.5f * capUVScale) + Vector3.right * 0.5f + Vector3.up * 0.5f;
             }
 
             int t = bodyTrisCount;
@@ -238,24 +236,24 @@ namespace Dreamteck.Splines
             //Start cap
             for (int i = 0; i < finalSides - 1; i++)
             {
-                tsMesh.triangles[t++] = i + bodyVertexCount + 2;
-                tsMesh.triangles[t++] = i + +bodyVertexCount + 1;
-                tsMesh.triangles[t++] = bodyVertexCount;
+                _tsMesh.triangles[t++] = i + bodyVertexCount + 2;
+                _tsMesh.triangles[t++] = i + +bodyVertexCount + 1;
+                _tsMesh.triangles[t++] = bodyVertexCount;
             }
 
             //End cap
             for (int i = 0; i < finalSides - 1; i++)
             {
-                tsMesh.triangles[t++] = bodyVertexCount + (_sides + 1);
-                tsMesh.triangles[t++] = i + 1 + bodyVertexCount + (_sides + 1);
-                tsMesh.triangles[t++] = i + 2 + bodyVertexCount + (_sides + 1);
+                _tsMesh.triangles[t++] = bodyVertexCount + (_sides + 1);
+                _tsMesh.triangles[t++] = i + 1 + bodyVertexCount + (_sides + 1);
+                _tsMesh.triangles[t++] = i + 2 + bodyVertexCount + (_sides + 1);
             }
         }
 
         void GenerateRoundCaps()
         {
             //Start Cap
-            GetSample(0, evalResult);
+            GetSample(0, ref evalResult);
             Vector3 center = evalResult.position;
             bool hasOffset = offset != Vector3.zero;
             float resultSize = GetBaseSize(evalResult);
@@ -290,12 +288,12 @@ namespace Dreamteck.Splines
                     float anglePercent = (float)lon / sides;
                     int index = bodyVertexCount + lon + (lat-1) * (sides + 1);
                     Quaternion rot = Quaternion.AngleAxis(_revolve * anglePercent + rotation + 180f, -Vector3.forward) * Quaternion.AngleAxis(latAngle, Vector3.up);
-                    tsMesh.vertices[index] = center + lookRot * rot * -Vector3.right * (size * 0.5f * evalResult.size);
-                    tsMesh.colors[index] = vertexColor;
-                    tsMesh.normals[index] = (tsMesh.vertices[index] - center).normalized;
+                    _tsMesh.vertices[index] = center + lookRot * rot * -Vector3.right * (size * 0.5f * evalResult.size);
+                    _tsMesh.colors[index] = vertexColor;
+                    _tsMesh.normals[index] = (_tsMesh.vertices[index] - center).normalized;
                     float baseV = startV + capLengthPercent * latitudePercent;
                     Vector2 baseUV = new Vector2(anglePercent * uvScale.x - baseV * _uvTwist, baseV * uvScale.y) - uvOffset;
-                    tsMesh.uv[index] = Vector2.one * 0.5f + (Vector2)(Quaternion.AngleAxis(uvRotation + 180f, Vector3.forward) * (Vector2.one * 0.5f - baseUV));
+                    _tsMesh.uv[index] = Vector2.one * 0.5f + (Vector2)(Quaternion.AngleAxis(uvRotation + 180f, Vector3.forward) * (Vector2.one * 0.5f - baseUV));
                 }
             }
 
@@ -313,18 +311,18 @@ namespace Dreamteck.Splines
                         current = x;
                         next = bodyVertexCount + x;
                     }
-                    tsMesh.triangles[t++] = next + 1;
-                    tsMesh.triangles[t++] = current + 1;
-                    tsMesh.triangles[t++] = current;
-                    tsMesh.triangles[t++] = next;
-                    tsMesh.triangles[t++] = next + 1;
-                    tsMesh.triangles[t++] = current;
+                    _tsMesh.triangles[t++] = next + 1;
+                    _tsMesh.triangles[t++] = current + 1;
+                    _tsMesh.triangles[t++] = current;
+                    _tsMesh.triangles[t++] = next;
+                    _tsMesh.triangles[t++] = next + 1;
+                    _tsMesh.triangles[t++] = current;
                 }
             }
 
 
             //End Cap
-            GetSample(sampleCount - 1, evalResult);
+            GetSample(sampleCount - 1, ref evalResult);
             center = evalResult.position;
             resultSize = GetBaseSize(evalResult);
             if (hasOffset)
@@ -350,12 +348,12 @@ namespace Dreamteck.Splines
                     float anglePercent = (float)lon / sides;
                     int index = bodyVertexCount + capVertexCount + lon + (lat - 1) * (sides + 1);
                     Quaternion rot = Quaternion.AngleAxis(_revolve * anglePercent + rotation + 180f, Vector3.forward) * Quaternion.AngleAxis(latAngle, -Vector3.up);
-                    tsMesh.vertices[index] = center + lookRot * rot * Vector3.right * size * 0.5f * evalResult.size;
-                    tsMesh.normals[index] = (tsMesh.vertices[index] - center).normalized;
-                    tsMesh.colors[index] = vertexColor;
+                    _tsMesh.vertices[index] = center + lookRot * rot * Vector3.right * size * 0.5f * evalResult.size;
+                    _tsMesh.normals[index] = (_tsMesh.vertices[index] - center).normalized;
+                    _tsMesh.colors[index] = vertexColor;
                     float baseV = startV + capLengthPercent * latitudePercent;
                     Vector2 baseUV = new Vector2(anglePercent * uvScale.x + baseV * _uvTwist, baseV * uvScale.y) - uvOffset;
-                    tsMesh.uv[index] = Vector2.one * 0.5f + (Vector2)(Quaternion.AngleAxis(uvRotation + 180f, Vector3.forward) * (Vector2.one * 0.5f - baseUV));
+                    _tsMesh.uv[index] = Vector2.one * 0.5f + (Vector2)(Quaternion.AngleAxis(uvRotation + 180f, Vector3.forward) * (Vector2.one * 0.5f - baseUV));
                 } 
             }
 
@@ -372,12 +370,12 @@ namespace Dreamteck.Splines
                         next = bodyVertexCount + capVertexCount + x;
                     }
 
-                    tsMesh.triangles[t++] = current+1;
-                    tsMesh.triangles[t++] = next + 1;
-                    tsMesh.triangles[t++] = next;
-                    tsMesh.triangles[t++] = next;
-                    tsMesh.triangles[t++] = current;
-                    tsMesh.triangles[t++] = current + 1;
+                    _tsMesh.triangles[t++] = current+1;
+                    _tsMesh.triangles[t++] = next + 1;
+                    _tsMesh.triangles[t++] = next;
+                    _tsMesh.triangles[t++] = next;
+                    _tsMesh.triangles[t++] = current;
+                    _tsMesh.triangles[t++] = current + 1;
                 }
             }
             

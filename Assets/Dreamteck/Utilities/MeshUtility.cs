@@ -299,65 +299,20 @@ namespace Dreamteck
             }
         }
 
-        public static void InverseTransformMesh(TS_Mesh input, TS_Transform transform)
+        public static void TransformMesh(TS_Mesh input, Matrix4x4 matrix)
         {
             if (input.vertices == null || input.normals == null) return;
             for (int i = 0; i < input.vertices.Length; i++)
             {
-                input.vertices[i] = transform.InverseTransformPoint(input.vertices[i]);
-                input.normals[i] = transform.InverseTransformDirection(input.normals[i]);
+                input.vertices[i] = matrix.MultiplyPoint3x4(input.vertices[i]);
+                input.normals[i] = matrix.MultiplyVector(input.normals[i]);
             }
         }
 
-        public static void TransformMesh(TS_Mesh input, TS_Transform transform)
-        {
-            if (input.vertices == null || input.normals == null) return;
-            for (int i = 0; i < input.vertices.Length; i++)
-            {
-                input.vertices[i] = transform.TransformPoint(input.vertices[i]);
-                input.normals[i] = transform.TransformDirection(input.normals[i]);
-            }
-        }
-
-        public static void InverseTransformMesh(TS_Mesh input, Transform transform)
-        {
-            if (input.vertices == null || input.normals == null) return;
-            for (int i = 0; i < input.vertices.Length; i++)
-            {
-                input.vertices[i] = transform.InverseTransformPoint(input.vertices[i]);
-                input.normals[i] = transform.InverseTransformDirection(input.normals[i]);
-            }
-        }
-
-        public static void TransformMesh(TS_Mesh input, Transform transform)
-        {
-            if (input.vertices == null || input.normals == null) return;
-            for (int i = 0; i < input.vertices.Length; i++)
-            {
-                input.vertices[i] = transform.TransformPoint(input.vertices[i]);
-                input.normals[i] = transform.TransformDirection(input.normals[i]);
-            }
-        }
-
-        public static void InverseTransformMesh(Mesh input, Transform transform)
+        public static void TransformMesh(Mesh input, Matrix4x4 matrix)
         {
             Vector3[] vertices = input.vertices;
             Vector3[] normals = input.vertices;
-            Matrix4x4 matrix = transform.worldToLocalMatrix;
-            for (int i = 0; i < vertices.Length; i++)
-            {
-                vertices[i] = matrix.MultiplyPoint3x4(vertices[i]);
-                normals[i] = matrix.MultiplyVector(normals[i]);
-            }
-            input.vertices = vertices;
-            input.normals = normals;
-        }
-
-        public static void TransformMesh(Mesh input, Transform transform)
-        {
-            Vector3[] vertices = input.vertices;
-            Vector3[] normals = input.vertices;
-            Matrix4x4 matrix = transform.localToWorldMatrix;
             if (input.vertices == null || input.normals == null) return;
             for (int i = 0; i < input.vertices.Length; i++)
             {
@@ -369,35 +324,19 @@ namespace Dreamteck
         }
 
 
-        public static void TransformVertices(Vector3[] vertices, Transform transform)
+        public static void TransformVertices(Vector3[] vertices, Matrix4x4 matrix)
         {
             for (int i = 0; i < vertices.Length; i++)
             {
-                vertices[i] = transform.TransformPoint(vertices[i]);
+                vertices[i] = matrix.MultiplyPoint3x4(vertices[i]);
             }
         }
 
-        public static void InverseTransformVertices(Vector3[] vertices, Transform transform)
-        {
-            for (int i = 0; i < vertices.Length; i++)
-            {
-                vertices[i] = transform.InverseTransformPoint(vertices[i]);
-            }
-        }
-
-        public static void TransformNormals(Vector3[] normals, Transform transform)
+        public static void TransformNormals(Vector3[] normals, Matrix4x4 matrix)
         {
             for (int i = 0; i < normals.Length; i++)
             {
-                normals[i] = transform.TransformDirection(normals[i]);
-            }
-        }
-
-        public static void InverseTransformNormals(Vector3[] normals, Transform transform)
-        {
-            for (int i = 0; i < normals.Length; i++)
-            {
-                normals[i] = transform.InverseTransformDirection(normals[i]);
+                normals[i] = matrix.MultiplyVector(normals[i]);
             }
         }
 

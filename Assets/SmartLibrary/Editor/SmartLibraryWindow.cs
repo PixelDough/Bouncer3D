@@ -16,6 +16,11 @@ namespace Bewildered.SmartLibrary.UI
     public class SmartLibraryWindow : EditorWindow
     {
         private static List<SmartLibraryWindow> _libraryWindows = new List<SmartLibraryWindow>();
+        
+        /// <summary>
+        /// The <see cref="SmartLibraryWindow"/> that last had focus.
+        /// </summary>
+        internal static SmartLibraryWindow LastActiveWindow { get; private set; }
 
         public static event Action<DropdownMenu, LibraryCollection, LibraryItem> ContextualItemMenu;
         public static event Action<DropdownMenu, LibraryCollection> ContextualCollectionMenu;
@@ -23,7 +28,7 @@ namespace Bewildered.SmartLibrary.UI
         //public static event Action<DropdownMenu, LibraryCollection, UnityObject> DropObjectCollectMenu;
 
         private MultiSplitView _splitView;
-        private LibraryCollectionsView _collectionsView;
+        private CollectionsTreeView _collectionsTreeView;
         private LibraryItemsView _itemsView;
         private ToolbarToggle _useDefaultParentToggle;
 
@@ -96,14 +101,20 @@ namespace Bewildered.SmartLibrary.UI
         [MenuItem("Window/Smart Library #l", priority = 1000)]
         private static void Open()
         {
-            var window = GetWindow<SmartLibraryWindow>();
+            var window = CreateInstance<SmartLibraryWindow>();
             window.Show();
         }
 
+        private void OnFocus()
+        {
+            LastActiveWindow = this;
+        }
 
         private void OnEnable()
         {
             _libraryWindows.Add(this);
+            if (LastActiveWindow == null)
+                LastActiveWindow = this;
             
             LibraryUtility.HDRPPrompt();
             
@@ -126,7 +137,7 @@ namespace Bewildered.SmartLibrary.UI
             UpdateSort(_sortOrder);
 
             Undo.undoRedoPerformed += OnUndoRedo;
-            LibraryCollectionsView.OnCollectionRenamed += OnCollectionRenamed;
+            CollectionsTreeView.OnCollectionRenamed += OnCollectionRenamed;
         }
 
         private void Update()
@@ -140,7 +151,7 @@ namespace Bewildered.SmartLibrary.UI
             _libraryWindows.Remove(this);
             
             Undo.undoRedoPerformed -= OnUndoRedo;
-            LibraryCollectionsView.OnCollectionRenamed -= OnCollectionRenamed;
+            CollectionsTreeView.OnCollectionRenamed -= OnCollectionRenamed;
             
             // If the window is docked and not visible when the assembly reloads
             // the layout of the elements is not performed.
@@ -150,9 +161,9 @@ namespace Bewildered.SmartLibrary.UI
             if (!float.IsNaN(currentWidth))
                 _treeViewWidth = _splitView.ElementAt(0).localBound.width;
             
-            _expandedTreeViewIds = _collectionsView.ExpandedIds;
+            _expandedTreeViewIds = _collectionsTreeView.ExpandedIds;
             
-            Vector2 currentScrollOffset =  _collectionsView.Q<ScrollView>().scrollOffset;
+            Vector2 currentScrollOffset =  _collectionsTreeView.Q<ScrollView>().scrollOffset;
 
             if (!float.IsNaN(currentScrollOffset.x) && !float.IsNaN(currentScrollOffset.y))
                 _collectionsScrollPosition = currentScrollOffset;
@@ -203,7 +214,7 @@ namespace Bewildered.SmartLibrary.UI
             var searchField = _headerContainer.Q<ToolbarSearchField>("toolbarSearch");
 
             // Create the menu for the Add Collection button.
-            LibraryUtility.BuildCreateCollectionMenu(addMenuButton.menu, rootVisualElement.Q<LibraryCollectionsView>(), false);
+            LibraryUtility.BuildCreateCollectionMenu(addMenuButton.menu, rootVisualElement.Q<CollectionsTreeView>(), false);
 
             // Set current toggle value to the saved value.
             treeViewToggle.value = _showCollectionsPanel;
@@ -233,18 +244,18 @@ namespace Bewildered.SmartLibrary.UI
         {
             _splitView = rootVisualElement.Q<MultiSplitView>();
             _overlayContainer = _splitView.Q("overlayContainer");
-            _collectionsView = _splitView.Q<LibraryCollectionsView>();
+            _collectionsTreeView = _splitView.Q<CollectionsTreeView>();
             _itemsView = _splitView.Q<LibraryItemsView>();
 
-            _splitView.RegisterCallback<DetachFromPanelEvent>(evt => _treeViewWidth = _collectionsView.style.width.value.value);
+            _splitView.RegisterCallback<DetachFromPanelEvent>(evt => _treeViewWidth = _collectionsTreeView.style.width.value.value);
             _splitView.Refresh();
             
-            _collectionsView.style.width = _treeViewWidth;
+            _collectionsTreeView.style.width = _treeViewWidth;
 
             // Collections TreeView
-            _collectionsView.OnSelectionChanged += OnTreeViewSelectionChange;
-            _collectionsView.ExpandedIds = _expandedTreeViewIds;
-            _collectionsView.Q<ScrollView>().scrollOffset = _collectionsScrollPosition;
+            _collectionsTreeView.OnSelectionChanged += OnTreeViewSelectionChange;
+            _collectionsTreeView.ExpandedIds = _expandedTreeViewIds;
+            _collectionsTreeView.Q<ScrollView>().scrollOffset = _collectionsScrollPosition;
 
             // Items view.
             _itemsView.OnSelectionChange += items =>
@@ -264,7 +275,6 @@ namespace Bewildered.SmartLibrary.UI
                     
             };
             
-            _itemsView.Owner = this;
             _itemsView.LocalItemSize = _itemSize;
             _itemsView.LocalViewStyle = _isGridMode ? ItemsViewStyle.Grid : ItemsViewStyle.List;
 
@@ -276,7 +286,7 @@ namespace Bewildered.SmartLibrary.UI
             }
 
             // Set selection to previously selected collection.
-            _collectionsView.SetSelection(_selectedCollectionViewId);
+            _collectionsTreeView.SetSelection(_selectedCollectionViewId);
             _itemsView.SetSelectionWithoutNotify(_selectedItemIndices);
 
             _itemsView.ScrollPosition = _itemsScrollPosition;
@@ -315,6 +325,8 @@ namespace Bewildered.SmartLibrary.UI
             menu.AppendAction(LibraryConstants.SortNameDescendingName, action => UpdateSort(ItemSortOrder.NameDescending));
             menu.AppendAction(LibraryConstants.SortTypeAscendingName, action => UpdateSort(ItemSortOrder.TypeAscending));
             menu.AppendAction(LibraryConstants.SortTypeDescendingName, action => UpdateSort(ItemSortOrder.TypeDescending));
+            menu.AppendAction(LibraryConstants.SortDataModifiedAscendingName, action => UpdateSort(ItemSortOrder.DateModifiedAscending));
+            menu.AppendAction(LibraryConstants.SortDataModifiedDescendingName, action => UpdateSort(ItemSortOrder.DateModifiedDescending));
         }
 
         private void UpdateSort(ItemSortOrder sortOrder)
@@ -335,6 +347,12 @@ namespace Bewildered.SmartLibrary.UI
                     break;
                 case ItemSortOrder.TypeDescending:
                     _headerContainer.Q<ToolbarMenu>("toolbarSortMenu").text = LibraryConstants.ActiveSortTypeDescendingName;
+                    break;
+                case ItemSortOrder.DateModifiedAscending:
+                    _headerContainer.Q<ToolbarMenu>("toolbarSortMenu").text = LibraryConstants.ActiveSortDataModifiedAscendingName;
+                    break;
+                case ItemSortOrder.DateModifiedDescending:
+                    _headerContainer.Q<ToolbarMenu>("toolbarSortMenu").text = LibraryConstants.ActiveSortDataModifiedDescendingName;
                     break;
             }
         }
@@ -358,19 +376,21 @@ namespace Bewildered.SmartLibrary.UI
 
         private void OnUndoRedo()
         {
-            _collectionsView.Rebuild();
+            _collectionsTreeView.Rebuild();
             _selectedCollection = LibraryDatabase.FindCollectionByID(_selectedCollectionId);
             
             if (_selectedCollection != null)
-                _itemsView.SetTargetItems(_selectedCollection, _selectedCollection.ID);
+                _itemsView.SetItemsSource(_selectedCollection);
             else if (_selectedCollectionViewId != -1)
-                _collectionsView.SetSelection(-1);
+                _collectionsTreeView.SetSelection(-1);
         }
 
         private void OnCollectionRenamed(LibraryCollection collection, string newName)
         {
             if (collection == _selectedCollection)
                 titleContent.text = newName;
+            
+            _collectionsTreeView.Refresh();
         }
 
         public void ToggleCollectionViewLink()
@@ -456,14 +476,14 @@ namespace Bewildered.SmartLibrary.UI
                 if (!string.IsNullOrWhiteSpace(_selectedCollection.name))
                     title = _selectedCollection.name;
 
-                _itemsView.SetTargetItems(_selectedCollection, _selectedCollection.ID);
+                _itemsView.SetItemsSource(_selectedCollection);
             }
             else
             {
                 _selectedCollectionViewId = -1;
                 _selectedCollectionId = UniqueID.Empty;
-                _collectionsView.SetSelectionWithoutNotify(new int[] { -1 });
-                _itemsView.SetTargetItems(LibraryDatabase.AllItems, UniqueID.Empty);
+                _collectionsTreeView.SetSelectionWithoutNotify(new int[] { -1 });
+                _itemsView.SetItemsSource(LibraryDatabase.AllItems);
             }
 
             titleContent.text = title;

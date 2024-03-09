@@ -99,9 +99,7 @@ namespace Dreamteck.Splines
         internal static readonly object locker = new object();
         static SplineThreading()
         {
-#if UNITY_2018_1_OR_NEWER
             Application.quitting += Quitting;
-#endif
             for (int i = 0; i < threads.Length; i++)
             {
                 threads[i] = new ThreadDef();
@@ -152,7 +150,7 @@ namespace Dreamteck.Splines
                 }
                 catch (System.Exception ex)
                 {
-                    if(ex.Message != "") Debug.Log("THREAD EXCEPTION " + ex.Message);
+                    if(ex.Message != "") Debug.LogError("THREAD EXCEPTION " + ex.Message);
                     break;
                 }
             }
@@ -186,6 +184,7 @@ namespace Dreamteck.Splines
 
         public static void PrewarmThreads()
         {
+#if !UNITY_WSA
             for (int i = 0; i < threads.Length; i++)
             {
                 if (!threads[i].isAlive)
@@ -193,6 +192,7 @@ namespace Dreamteck.Splines
                     threads[i].Restart();
                 }
             }
+#endif
         }
 
         public static void Stop()

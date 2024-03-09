@@ -17,7 +17,10 @@ namespace Dreamteck.Splines.Editor
             SerializedProperty _particleSystem = serializedObject.FindProperty("_particleSystem");
 
             SerializedProperty emitPoint = serializedObject.FindProperty("emitPoint");
+            SerializedProperty offset = serializedObject.FindProperty("offset");
             SerializedProperty volumetric = serializedObject.FindProperty("volumetric");
+            SerializedProperty pauseWhenNotVisible = serializedObject.FindProperty("pauseWhenNotVisible");
+            SerializedProperty applyRotation = serializedObject.FindProperty("apply3DRotation");
             SerializedProperty emitFromShell = serializedObject.FindProperty("emitFromShell");
             SerializedProperty scale = serializedObject.FindProperty("scale");
             SerializedProperty motionType = serializedObject.FindProperty("motionType");
@@ -32,7 +35,10 @@ namespace Dreamteck.Splines.Editor
                 EditorGUILayout.HelpBox("No particle system is assigned", MessageType.Error);
                 return;
             }
+            EditorGUILayout.PropertyField(pauseWhenNotVisible);
             EditorGUILayout.PropertyField(emitPoint);
+            EditorGUILayout.PropertyField(offset);
+            EditorGUILayout.PropertyField(applyRotation);
             EditorGUILayout.PropertyField(volumetric);
             if (volumetric.boolValue)
             {
@@ -44,7 +50,7 @@ namespace Dreamteck.Splines.Editor
             {
                 EditorGUILayout.PropertyField(wrapMode);
                 EditorGUILayout.Space();
-                EditorGUILayout.LabelField("Path cycles (over " + user._particleSystem.main.startLifetime.constantMax + "s.)", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("Path cycles (over " + user.particleSystemComponent.main.startLifetime.constantMax + "s.)", EditorStyles.boldLabel);
                 EditorGUILayout.PropertyField(minCycles, new GUIContent("Min. Cycles"));
                 if (minCycles.floatValue < 0f) minCycles.floatValue = 0f;
                 EditorGUILayout.PropertyField(maxCycles, new GUIContent("Max. Cycles"));

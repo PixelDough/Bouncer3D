@@ -62,14 +62,20 @@ namespace Dreamteck
             return Clamp01((t-a)/(b-a));
         }
 
-        public static Vector3 LerpVector3(Vector3 a, Vector3 b, double t)
+        public static void LerpVector3NonAlloc(Vector3 a, Vector3 b, double t, ref Vector3 target)
         {
             t = Clamp01(t);
             Vector3 delta = (b - a);
-            double x = a.x + delta.x * t;
-            double y = a.y + delta.y * t;
-            double z = a.z + delta.z * t;
-            return new Vector3((float)x, (float)y, (float)z);
+            target.x = (float)(a.x + delta.x * t);
+            target.y = (float)(a.y + delta.y * t);
+            target.z = (float)(a.z + delta.z * t);
+        }
+
+        public static Vector3 LerpVector3(Vector3 a, Vector3 b, double t)
+        {
+            Vector3 result = Vector3.zero;
+            LerpVector3NonAlloc(a, b, t, ref result);
+            return result;
         }
 
         public static double Round(double a)

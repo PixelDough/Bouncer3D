@@ -10,14 +10,13 @@ namespace Dreamteck.Splines.Editor
         private SplineComputer addComp = null;
         private int addPoint = 0;
         private Node lastnode = null;
-        private Vector3 position, scale;
-        private Quaternion rotation;
         private int[] availablePoints;
         bool connectionsOpen = false, settingsOpen = false;
 
         private SerializedProperty transformNormals, transformSize, transformTangents, type;
         private Node[] nodes = new Node[0];
         private SerializedObject serializedNodes;
+
 
         public override void OnInspectorGUI()
         {
@@ -204,12 +203,22 @@ namespace Dreamteck.Splines.Editor
             {
                 nodes[i] = (Node)targets[i];
             }
+#if UNITY_2019_1_OR_NEWER
+            SceneView.duringSceneGui += DuringSceneGUI;
+#else
+            SceneView.onSceneGUIDelegate += DuringSceneGUI;
+#endif
         }
 
         private void OnDisable()
         {
             EditorPrefs.SetBool("Dreamteck.Splines.Editor.NodeEditor.connectionsOpen", connectionsOpen);
             EditorPrefs.SetBool("Dreamteck.Splines.Editor.NodeEditor.settingsOpen", settingsOpen);
+#if UNITY_2019_1_OR_NEWER
+            SceneView.duringSceneGui -= DuringSceneGUI;
+#else
+            SceneView.onSceneGUIDelegate -= DuringSceneGUI;
+#endif
         }
 
         void OnDestroy()
@@ -262,6 +271,7 @@ namespace Dreamteck.Splines.Editor
                 computer.ConnectNode(node, pointIndex);
                 addComp = null;
                 addPoint = 0;
+                SetDirty(node);
                 SceneView.RepaintAll();
                 Repaint();
             }
@@ -278,35 +288,13 @@ namespace Dreamteck.Splines.Editor
             return indices.ToArray();
         }
 
-        protected virtual void OnSceneGUI()
+        protected virtual void DuringSceneGUI(SceneView current)
         {
             Node node = (Node)target;
             Node.Connection[] connections = node.GetConnections();
             for (int i = 0; i < connections.Length; i++)
             {
                 DSSplineDrawer.DrawSplineComputer(connections[i].spline, 0.0, 1.0, 0.5f);
-            }
-
-            bool update = false;
-            if (position != node.transform.position)
-            {
-                position = node.transform.position;
-                update = true;
-            }
-            if(scale != node.transform.localScale){
-                scale = node.transform.localScale;
-                update = true;
-            }
-            if (rotation != node.transform.rotation)
-            {
-                rotation = node.transform.rotation;
-                update = true;
-            }
-
-            if (update)
-            {
-                node.UpdateConnectedComputers();
-                SetDirty(node);
             }
 
             if (addComp == null)
@@ -373,7 +361,7 @@ namespace Dreamteck.Splines.Editor
 
         }
 
-        private void SetDirty(Node node)
+        public static void SetDirty(Node node)
         {
             EditorUtility.SetDirty(node);
             Node.Connection[] connections = node.GetConnections();

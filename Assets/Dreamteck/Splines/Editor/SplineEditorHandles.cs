@@ -45,12 +45,29 @@ namespace Dreamteck.Splines.Editor
 
         public static Vector3 FreeMoveRectangle(Vector3 position, float size) 
         {
-            var fmh_48_53_638455202770546359 = Quaternion.identity; return Handles.FreeMoveHandle(position, size, Vector3.zero, Handles.CircleHandleCap);
+#if UNITY_2022_1_OR_NEWER
+            return Handles.FreeMoveHandle(position, size, Vector3.zero, Handles.CircleHandleCap);
+#else
+            return Handles.FreeMoveHandle(position, Quaternion.identity, size, Vector3.zero, Handles.CircleHandleCap);
+#endif
         }
 
         public static Vector3 FreeMoveCircle(Vector3 position, float size)
         {
-            var fmh_53_53_638455202770559330 = Quaternion.identity; return Handles.FreeMoveHandle(position, size, Vector3.zero, Handles.CircleHandleCap);
+#if UNITY_2022_1_OR_NEWER
+            return Handles.FreeMoveHandle(position, size, Vector3.zero, Handles.CircleHandleCap);
+#else
+            return Handles.FreeMoveHandle(position, Quaternion.identity, size, Vector3.zero, Handles.CircleHandleCap);
+#endif
+        }
+
+        public static Vector3 FreeMoveHandle(Vector3 position, float size, Vector3 snap, Handles.CapFunction capFunction)
+        {
+#if UNITY_2022_1_OR_NEWER
+            return Handles.FreeMoveHandle(position, size, snap, capFunction);
+#else
+            return Handles.FreeMoveHandle(position, Quaternion.identity, size, snap, capFunction);
+#endif
         }
 
         public static void DrawSolidSphere(Vector3 position, float radius)

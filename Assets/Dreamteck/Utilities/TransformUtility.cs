@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,6 +33,33 @@ namespace Dreamteck
             {
                 count++;
                 GetChildCount(child, ref count);
+            }
+        }
+
+        public static void MergeBoundsRecursively(this Transform rootParent, Transform tr, ref Bounds bounds, string nameToIgnore = null)
+        {
+            foreach (Transform child in tr)
+            {
+                if (!string.IsNullOrEmpty(nameToIgnore) && child.name == nameToIgnore)
+                {
+                    continue;
+                }
+
+                rootParent.MergeBoundsRecursively(child, ref bounds);
+
+                var meshFilter = child.GetComponent<MeshFilter>();
+
+                if (meshFilter == null) continue;
+                if (meshFilter.sharedMesh == null)
+                {
+                    Debug.LogError("MESH FILTER " + meshFilter.name + " IS MISSING A MESH");
+                    continue;
+                }
+                var min = child.TransformPoint(meshFilter.sharedMesh.bounds.min);
+                var max = child.TransformPoint(meshFilter.sharedMesh.bounds.max);
+
+                bounds.Encapsulate(rootParent.InverseTransformPoint(min));
+                bounds.Encapsulate(rootParent.InverseTransformPoint(max));
             }
         }
 

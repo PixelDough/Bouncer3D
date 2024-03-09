@@ -63,6 +63,7 @@ namespace Dreamteck.Splines
             {
                 EditorUtility.DisplayProgressBar("Updating nodes", "Updating node " + nodes[i].name, (float)i / (nodes.Length - 1));
                 nodes[i].UpdateConnectedComputers();
+                EditorUtility.SetDirty(nodes[i]);
                 updated += i + " - " + nodes[i].name + System.Environment.NewLine;
             }
             EditorUtility.ClearProgressBar();
@@ -76,8 +77,8 @@ namespace Dreamteck.Splines
             for (int i = 0; i < users.Length; i++)
             {
                 EditorUtility.DisplayProgressBar("Updating users", "Updating user " + users[i].name, (float)i/(users.Length-1));
-                users[i].EditorAwake();
                 users[i].Rebuild();
+                EditorUtility.SetDirty(users[i]);
                 updated += i + " - " + users[i].name + System.Environment.NewLine;
             }
             EditorUtility.ClearProgressBar();
@@ -91,8 +92,8 @@ namespace Dreamteck.Splines
             for (int i = 0; i < users.Length; i++)
             {
                 EditorUtility.DisplayProgressBar("Updating mesh generators", "Updating generator " + users[i].name, (float)i / (users.Length - 1));
-                users[i].EditorAwake();
                 users[i].Rebuild();
+                EditorUtility.SetDirty(users[i]);
                 updated += i + " - " + users[i].name + System.Environment.NewLine;
             }
             EditorUtility.ClearProgressBar();
@@ -107,6 +108,7 @@ namespace Dreamteck.Splines
             {
                 EditorUtility.DisplayProgressBar("Updating spline computers", "Updating computer " + computers[i].name, (float)i / (computers.Length - 1));
                 computers[i].RebuildImmediate();
+                EditorUtility.SetDirty(computers[i]);
                 updated += i + " - " + computers[i].name + System.Environment.NewLine;
             }
             EditorUtility.ClearProgressBar();

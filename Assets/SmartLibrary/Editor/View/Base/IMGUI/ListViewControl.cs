@@ -8,7 +8,7 @@ namespace Bewildered.SmartLibrary.UI
 
         public override int MaxVisibleItems
         {
-            get { return Mathf.CeilToInt(ViewportRect.height / ItemSize.y); }
+            get { return Mathf.CeilToInt(ViewportRect.height / FinalItemSize.y); }
         }
 
         public override void Draw(Rect rect)
@@ -28,13 +28,13 @@ namespace Bewildered.SmartLibrary.UI
 
         public override int IndexFromPosition(Vector3 position)
         {
-            return (int)Mathf.Max(0, Mathf.Floor((position.y + ScrollPosition.y) / ItemSize.y));
+            return (int)Mathf.Max(0, Mathf.Floor((position.y + ScrollPosition.y) / FinalItemSize.y));
         }
 
         public override void GetFirstLastVisibleIndices(Rect rect, out int first, out int last)
         {
             first = FirstVisibleRowIndex();
-            last = Mathf.Min(Items.Count - 1, first + Mathf.CeilToInt(rect.height / ItemSize.y));
+            last = Mathf.Min(Items.Count - 1, first + Mathf.CeilToInt(rect.height / FinalItemSize.y));
         }
 
         protected override void OnKeyDown(KeyCode keyCode, Event evt)
@@ -101,9 +101,9 @@ namespace Bewildered.SmartLibrary.UI
             return new Rect
             {
                 x = 0,
-                y = ItemSize.y * index,
+                y = FinalItemSize.y * index,
                 width = _contentViewWidth,
-                height = ItemSize.y
+                height = FinalItemSize.y
             };
         }
     }

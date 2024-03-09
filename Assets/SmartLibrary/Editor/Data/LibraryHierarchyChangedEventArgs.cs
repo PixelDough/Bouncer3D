@@ -20,7 +20,7 @@ namespace Bewildered.SmartLibrary
         public readonly HierarchyChangeType type;
 
         /// <summary>
-        /// Returns the index of the subcollection that changed. Returns the <see cref="LibraryCollection"/>'s previus index if <see cref="HierarchyChangeType.Moved"/>, and -1 if <see cref="HierarchyChangeType.Removed"/>.
+        /// Returns the index of the subcollection that changed. Returns the <see cref="LibraryCollection"/>'s previous index if <see cref="HierarchyChangeType.Moved"/>, and -1 if <see cref="HierarchyChangeType.Removed"/>.
         /// </summary>
         public readonly int index;
 

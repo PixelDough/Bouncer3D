@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -62,7 +63,6 @@ namespace Bewildered.SmartLibrary.UI
         private IList<BTreeViewItem> _rootItems = null;
         private List<ItemWrapper> _itemWrappers = new List<ItemWrapper>();
         private List<int> _expandedIds = new List<int>();
-        private List<BTreeViewItem> _selectedItems = null;
         private List<int> _selectedIds = new List<int>();
 
         public Func<VisualElement> MakeItem
@@ -149,9 +149,7 @@ namespace Bewildered.SmartLibrary.UI
         {
             get 
             {
-                if (_selectedItems == null)
-                    return null;
-                return _selectedItems.Count == 0 ? null : _selectedItems.First(); 
+                return _itemWrappers[_listView.selectedIndex].item;
             }
         }
 
@@ -159,13 +157,8 @@ namespace Bewildered.SmartLibrary.UI
         {
             get 
             {
-                if (_selectedItems != null)
-                    return _selectedItems;
-
                 foreach (int selectedIndex in _listView.selectedIndices)
-                    _selectedItems.Add(_itemWrappers[selectedIndex].item);
-
-                return _selectedItems;
+                    yield return _itemWrappers[selectedIndex].item;
             }
         }
 
@@ -206,8 +199,13 @@ namespace Bewildered.SmartLibrary.UI
             _listView.style.flexGrow = 1;
             hierarchy.Add(_listView);
             
+#if UNITY_2022_3_OR_NEWER
+            _listView.selectionChanged += HandleOnSelectionChange;
+            _listView.itemsChosen += HandleItemChosen;
+#else
             _listView.onSelectionChange += HandleOnSelectionChange;
             _listView.onItemsChosen += HandleItemChosen;
+#endif
             _listView.Q<ScrollView>().contentContainer.RegisterCallback<KeyDownEvent>(OnKeyDown);
         }
 
@@ -311,13 +309,15 @@ namespace Bewildered.SmartLibrary.UI
 #else
             _listView.Refresh();
 #endif
+            SetSelectionFromIds();
+            
         }
 
         protected int GetItemIndex(int id, bool expand)
         {
             var item = FindItem(id);
             if (item == null)
-                throw new ArgumentOutOfRangeException();
+                return -1;
 
             if (expand)
             {
@@ -334,7 +334,10 @@ namespace Bewildered.SmartLibrary.UI
                 }
 
                 if (regenerateWrappers)
-                    RegenerateWrappers();
+                {
+                    // We regenerate the wrappers than force the ListView to update the visual elements to match the wrappers.
+                    Refresh();
+                }
             }
 
             for (int i = 0; i < _itemWrappers.Count; ++i)
@@ -397,6 +400,12 @@ namespace Bewildered.SmartLibrary.UI
             _listView.ScrollToItem(index);
         }
 
+        public void ScrollToItem(int id)
+        {
+            int index = GetItemIndex(id, true);
+            _listView.ScrollToItem(index);
+        }
+
         public void SetSelection(int id)
         {
             SetSelection(new int[] { id });
@@ -422,8 +431,13 @@ namespace Bewildered.SmartLibrary.UI
             {
                 selectedIndices.Add(GetItemIndex(id, true));
             }
-
-            if (selectedIndices.Any())
+            
+            if (!selectedIndices.Any())
+                return;
+            
+            if (selectedIndices.FirstOrDefault() == -1)
+                _listView.SetSelection(-1);
+            else
             {
                 if (sendNotification)
                     _listView.SetSelection(selectedIndices);
@@ -439,18 +453,13 @@ namespace Bewildered.SmartLibrary.UI
 
         private void HandleOnSelectionChange(IEnumerable<object> newSelectedItems)
         {
-            if (_selectedItems == null)
-                _selectedItems = new List<BTreeViewItem>();
-
-            _selectedItems.Clear();
             _selectedIds.Clear();
             foreach (ItemWrapper itemWrapper in newSelectedItems)
             {
-                _selectedItems.Add(itemWrapper.item);
                 _selectedIds.Add(itemWrapper.item.Id);
             }
 
-            OnSelectionChanged?.Invoke(_selectedItems);
+            OnSelectionChanged?.Invoke(SelectedItems);
         }
 
         private void HandleItemChosen(object item)

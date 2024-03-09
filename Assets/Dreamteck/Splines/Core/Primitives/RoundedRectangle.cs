@@ -19,7 +19,7 @@ namespace Dreamteck.Splines.Primitives
         {
             base.Generate();
             closed = true;
-            CreatePoints(9, SplinePoint.Type.Broken);
+            CreatePoints(8, SplinePoint.Type.Broken);
             Vector2 edgeSize = size - new Vector2(xRadius, yRadius) * 2f;
             points[0].SetPosition(Vector3.up / 2f * edgeSize.y + Vector3.left / 2f * size.x);
             points[1].SetPosition(Vector3.up / 2f * size.y + Vector3.left / 2f * edgeSize.x);
@@ -40,10 +40,6 @@ namespace Dreamteck.Splines.Primitives
             points[5].SetTangentPosition(points[5].position + Vector3.right * xRad);
             points[6].SetTangent2Position(points[6].position + Vector3.left * xRad);
             points[7].SetTangentPosition(points[7].position + Vector3.down * yRad);
-
-
-            points[8] = points[0];
-
         }
     }
 }

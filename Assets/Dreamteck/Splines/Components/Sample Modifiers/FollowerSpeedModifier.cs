@@ -10,9 +10,11 @@
         [System.Serializable]
         public class SpeedKey : Key
         {
+            public enum Mode { Add, Multiply }
             public float speed = 0f;
+            public Mode mode = Mode.Add;
 
-            public SpeedKey(double f, double t, FollowerSpeedModifier modifier) : base(f, t, modifier)
+            public SpeedKey(double f, double t) : base(f, t)
             {
             }
         }
@@ -38,29 +40,34 @@
             keys = new List<SpeedKey>();
             for (int i = 0; i < input.Count; i++)
             {
-                input[i].modifier = this;
+                //input[i]._modifier = this;
                 keys.Add((SpeedKey)input[i]);
             }
         }
 
         public void AddKey(double f, double t)
         {
-            keys.Add(new SpeedKey(f, t, this));
+            keys.Add(new SpeedKey(f, t));
         }
 
-        public override void Apply(SplineSample result)
+        public override void Apply(ref SplineSample result)
         {
         }
 
-        public float GetSpeed(SplineSample sample)
+        public float GetSpeed(float input, double percent)
         {
-            float speed = 0f;
             for (int i = 0; i < keys.Count; i++)
             {
-                float lerp = keys[i].Evaluate(sample.percent);
-                speed += keys[i].speed * lerp;
+                float lerp = keys[i].Evaluate(percent);
+                if(keys[i].mode == SpeedKey.Mode.Add)
+                {
+                    input += keys[i].speed * lerp;
+                } else
+                {
+                    input *= Mathf.Lerp(1f, keys[i].speed, lerp);
+                }
             }
-            return speed;
+            return input;
         }
     }
 }

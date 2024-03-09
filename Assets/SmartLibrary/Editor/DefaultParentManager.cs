@@ -28,10 +28,10 @@ namespace Bewildered.SmartLibrary
 
             if (instance.TryGetComponent<CollectionDefaultParent>(out var collectionParent))
             {
-                if (SmartLibraryWindow.LibraryWindows.Count > 0 &&
-                    SmartLibraryWindow.LibraryWindows[0].UseDefaultParent &&
-                    SmartLibraryWindow.LibraryWindows[0].SelectedCollection != null &&
-                    collectionParent.CollectionIds.Contains(SmartLibraryWindow.LibraryWindows[0].SelectedCollection.ID))
+                if (SmartLibraryWindow.LastActiveWindow != null &&
+                    SmartLibraryWindow.LastActiveWindow.UseDefaultParent &&
+                    SmartLibraryWindow.LastActiveWindow.SelectedCollection != null &&
+                    collectionParent.CollectionIds.Contains(SmartLibraryWindow.LastActiveWindow.SelectedCollection.ID))
                 {
                     Rect iconRect = selectionRect;
                     iconRect.xMin = iconRect.xMax - 16;
@@ -62,10 +62,10 @@ namespace Bewildered.SmartLibrary
                 if (collection == null)
                     return;
                 
-                if (SmartLibraryWindow.LibraryWindows.Count == 0)
+                if (SmartLibraryWindow.LastActiveWindow == null)
                     return;
                 
-                if (!SmartLibraryWindow.LibraryWindows[0].UseDefaultParent)
+                if (!SmartLibraryWindow.LastActiveWindow.UseDefaultParent)
                     return;
                 
                 var newGameObject = EditorUtility.InstanceIDToObject(data.instanceId) as GameObject;
@@ -76,7 +76,7 @@ namespace Bewildered.SmartLibrary
         
         private static void OnGameObjectContextMenu(GenericMenu menu, GameObject go)
         {
-            if (go == null || SmartLibraryWindow.LibraryWindows.Count == 0 || SmartLibraryWindow.LibraryWindows[0].SelectedCollection == null)
+            if (go == null || SmartLibraryWindow.LastActiveWindow == null || SmartLibraryWindow.LastActiveWindow.SelectedCollection == null)
             {
                 menu.InsertItem(12, new GUIContent("Set as Default Parent for Collection"), null);
                 return;
@@ -84,8 +84,7 @@ namespace Bewildered.SmartLibrary
             
             if (go.TryGetComponent<CollectionDefaultParent>(out var parentLink))
             {
-                var window = SmartLibraryWindow.LibraryWindows[0];
-                if (parentLink.CollectionIds.Contains(window.SelectedCollection.ID))
+                if (parentLink.CollectionIds.Contains(SmartLibraryWindow.LastActiveWindow.SelectedCollection.ID))
                 {
                     menu.InsertItem(12, new GUIContent("Clear as Default Parent for Collection"), SetAsDefaultParent, go);
                     return;
@@ -99,7 +98,7 @@ namespace Bewildered.SmartLibrary
         {
             var target = (GameObject)userData;
 
-            UniqueID collectionId = SmartLibraryWindow.LibraryWindows[0].SelectedCollection.ID;
+            UniqueID collectionId = SmartLibraryWindow.LastActiveWindow.SelectedCollection.ID;
 
             Undo.IncrementCurrentGroup();
             int undoIndex = Undo.GetCurrentGroup();
@@ -121,12 +120,12 @@ namespace Bewildered.SmartLibrary
                         defaultParentLink.CollectionIds.Remove(collectionId);
                 }
 
-                SmartLibraryWindow.LibraryWindows[0].UseDefaultParent = true;
+                SmartLibraryWindow.LastActiveWindow.UseDefaultParent = true;
                 parentLink.CollectionIds.Add(collectionId);
             }
             else
             {
-                SmartLibraryWindow.LibraryWindows[0].UseDefaultParent = false;
+                SmartLibraryWindow.LastActiveWindow.UseDefaultParent = false;
                 parentLink.CollectionIds.Remove(collectionId);
             }
             

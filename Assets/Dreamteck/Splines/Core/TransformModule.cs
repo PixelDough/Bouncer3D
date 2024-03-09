@@ -67,6 +67,16 @@ namespace Dreamteck.Splines
                 }
             }
         }
+
+        public bool is2D
+        {
+            get { return _2dMode; }
+            set
+            {
+                _2dMode = value;
+            }
+        }
+
         [SerializeField]
         [HideInInspector]
         private bool _hasOffset = false;
@@ -76,29 +86,27 @@ namespace Dreamteck.Splines
 
         [SerializeField]
         [HideInInspector]
-        [FormerlySerializedAs("offset")]
         private Vector2 _offset;
         [SerializeField]
         [HideInInspector]
-        [FormerlySerializedAs("rotationOffset")]
         private Vector3 _rotationOffset = Vector3.zero;
         [SerializeField]
         [HideInInspector]
-        [FormerlySerializedAs("baseScale")]
         private Vector3 _baseScale = Vector3.one;
+        [SerializeField]
+        [HideInInspector]
+        private bool _2dMode = false;
         public enum VelocityHandleMode { Zero, Preserve, Align, AlignRealistic }
         public VelocityHandleMode velocityHandleMode = VelocityHandleMode.Zero;
         public SplineSample splineResult
         {
             get
             {
-                if (_splineResult == null) _splineResult = new SplineSample();
                 return _splineResult;
             }
             set
             {
-                if (_splineResult == null) _splineResult = new SplineSample(value);
-                else _splineResult.CopyFrom(value);
+                _splineResult = value;
             }
         }
         private SplineSample _splineResult;
@@ -106,31 +114,44 @@ namespace Dreamteck.Splines
         public bool applyPositionX = true;
         public bool applyPositionY = true;
         public bool applyPositionZ = true;
+        public bool applyPosition2D = true;
+        public bool retainLocalPosition = false;
+
         public Spline.Direction direction = Spline.Direction.Forward;
         public bool applyPosition
         {
             get
             {
+                if (_2dMode)
+                {
+                    return applyPosition2D;
+                }
                 return applyPositionX || applyPositionY || applyPositionZ;
             }
             set
             {
-                applyPositionX = applyPositionY = applyPositionZ = value;
+                applyPositionX = applyPositionY = applyPositionZ = applyPosition2D = value;
             }
         }
 
         public bool applyRotationX = true;
         public bool applyRotationY = true;
         public bool applyRotationZ = true;
+        public bool applyRotation2D = true;
+        public bool retainLocalRotation = false;
         public bool applyRotation
         {
             get
             {
+                if (_2dMode)
+                {
+                    return applyRotation2D;
+                }
                 return applyRotationX || applyRotationY || applyRotationZ;
             }
             set
             {
-                applyRotationX = applyRotationY = applyRotationZ = value;
+                applyRotationX = applyRotationY = applyRotationZ = applyRotation2D = value;
             }
         }
 
@@ -164,6 +185,13 @@ namespace Dreamteck.Splines
 
         public void ApplyRigidbody(Rigidbody input)
         {
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+            {
+                ApplyTransform(input.transform);
+                return;
+            }
+#endif
             input.transform.localScale = GetScale(input.transform.localScale);
             input.MovePosition(GetPosition(input.position));
             input.velocity = HandleVelocity(input.velocity);
@@ -177,7 +205,7 @@ namespace Dreamteck.Splines
             {
                 angularVelocity.y = 0f;
             }
-            if (applyRotationZ)
+            if (applyRotationZ || applyRotation2D)
             {
                 angularVelocity.z = 0f;
             }
@@ -186,10 +214,18 @@ namespace Dreamteck.Splines
 
         public void ApplyRigidbody2D(Rigidbody2D input)
         {
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+            {
+                ApplyTransform(input.transform);
+                input.transform.rotation = Quaternion.AngleAxis(GetRotation(Quaternion.Euler(0f, 0f, input.rotation)).eulerAngles.z, Vector3.forward);
+                return;
+            }
+#endif
             input.transform.localScale = GetScale(input.transform.localScale);
             input.position = GetPosition(input.position);
             input.velocity = HandleVelocity(input.velocity);
-            input.rotation = -GetRotation(Quaternion.Euler(0f, 0f, input.rotation)).eulerAngles.z;
+            input.rotation = GetRotation(Quaternion.Euler(0f, 0f, input.rotation)).eulerAngles.z;
             if (applyRotationX)
             {
                 input.angularVelocity = 0f;
@@ -222,35 +258,72 @@ namespace Dreamteck.Splines
         {
             position = _splineResult.position;
             Vector2 finalOffset = _offset;
-            //if (customOffset != null) finalOffset += customOffset.Evaluate(_splineResult.percent);
-            if (finalOffset != Vector2.zero) position += _splineResult.right * finalOffset.x * _splineResult.size + _splineResult.up * finalOffset.y * _splineResult.size;
-            if (applyPositionX) inputPosition.x = position.x;
-            if (applyPositionY) inputPosition.y = position.y;
-            if (applyPositionZ) inputPosition.z = position.z;
+            if (finalOffset != Vector2.zero)
+            {
+                position += _splineResult.right * finalOffset.x * _splineResult.size + _splineResult.up * finalOffset.y * _splineResult.size;
+            }
+            if (retainLocalPosition)
+            {
+                Matrix4x4 matrix = Matrix4x4.TRS(position, _splineResult.rotation, Vector3.one);
+                Vector3 splineLocalPosition = matrix.inverse.MultiplyPoint3x4(targetUser.transform.position);
+                splineLocalPosition.x = applyPositionX ? 0f : splineLocalPosition.x;
+                splineLocalPosition.y = applyPositionY ? 0f : splineLocalPosition.y;
+                splineLocalPosition.z = applyPositionZ ? 0f : splineLocalPosition.z;
+                inputPosition = matrix.MultiplyPoint3x4(splineLocalPosition);
+            } else
+            {
+                if (applyPositionX) inputPosition.x = position.x;
+                if (applyPositionY) inputPosition.y = position.y;
+                if (applyPositionZ) inputPosition.z = position.z;
+            }
             return inputPosition;
         }
 
         private Quaternion GetRotation(Quaternion inputRotation)
         {
             rotation = Quaternion.LookRotation(_splineResult.forward * (direction == Spline.Direction.Forward ? 1f : -1f), _splineResult.up);
-            if (_rotationOffset != Vector3.zero)
+            if (_2dMode)
             {
-                rotation = rotation * Quaternion.Euler(_rotationOffset);
-            }
-
-            if (!applyRotationX || !applyRotationY || !applyRotationZ)
-            {
-                Vector3 targetEuler = rotation.eulerAngles;
-                Vector3 sourceEuler = inputRotation.eulerAngles;
-                if (!applyRotationX) targetEuler.x = sourceEuler.x;
-                if (!applyRotationY) targetEuler.y = sourceEuler.y;
-                if (!applyRotationZ) targetEuler.z = sourceEuler.z;
-                inputRotation.eulerAngles = targetEuler;
+                if (applyRotation2D)
+                {
+                    rotation *= Quaternion.Euler(90, -90, 0);
+                    inputRotation = Quaternion.AngleAxis(rotation.eulerAngles.z + _rotationOffset.z, Vector3.forward);
+                }
+                return inputRotation;
             }
             else
             {
-                inputRotation = rotation;
+                if (_rotationOffset != Vector3.zero)
+                {
+                    rotation = rotation * Quaternion.Euler(_rotationOffset);
+                }
             }
+
+            if (retainLocalRotation)
+            {
+                Quaternion localRotation = Quaternion.Inverse(rotation) * inputRotation;
+                Vector3 targetEuler = localRotation.eulerAngles;
+                targetEuler.x = applyRotationX ? 0f : targetEuler.x;
+                targetEuler.y = applyRotationY ? 0f : targetEuler.y;
+                targetEuler.z = applyRotationZ ? 0f : targetEuler.z;
+                inputRotation = rotation * Quaternion.Euler(targetEuler);
+            } else
+            {
+                if (!applyRotationX || !applyRotationY || !applyRotationZ)
+                {
+                    Vector3 targetEuler = rotation.eulerAngles;
+                    Vector3 sourceEuler = inputRotation.eulerAngles;
+                    if (!applyRotationX) targetEuler.x = sourceEuler.x;
+                    if (!applyRotationY) targetEuler.y = sourceEuler.y;
+                    if (!applyRotationZ) targetEuler.z = sourceEuler.z;
+                    inputRotation.eulerAngles = targetEuler;
+                }
+                else 
+                {
+                    inputRotation = rotation;
+                }
+            }
+
             return inputRotation;
         }
 

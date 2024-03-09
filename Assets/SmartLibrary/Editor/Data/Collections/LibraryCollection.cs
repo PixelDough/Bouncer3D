@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Bewildered.SmartLibrary.UI;
+using Bewildered.SmartLibrary.UndoSystem;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.Serialization;
@@ -233,19 +234,21 @@ namespace Bewildered.SmartLibrary
                 throw new ArgumentNullException(nameof(collection));
             
             int undoGroup = Undo.GetCurrentGroup();
-            
-            if (collection.Parent != null)
-                collection.Parent.RemoveSubcollection(collection);
-            
+
             // We need to destroy all of the subcollections as well or when we undo they will not be reconnected properly.
             // Additionally, they would just float in memory and cause problems when reading the files again.
             for (int i = collection._subcollections.Count - 1; i >= 0; i--)
             {
                 DestroyCollection(collection._subcollections[i]);
             }
+            
+            // It is important to remove the collection from its parent after we remove and destroy the children.
+            // This way the change events will be collect in the correct order.
+            if (collection.Parent != null)
+                collection.Parent.RemoveSubcollection(collection);
 
-            CollectionUndoManager.RegisterUndo();
-            CollectionUndoManager.RecordDestroyCollection(collection);
+            CollectionUndoService.RegisterUndo();
+            CollectionUndoService.RegisterOperation(new DestroyCollectionOperation(collection));
             LibraryUtility.DeleteCollectionFile(collection);
             Undo.DestroyObjectImmediate(collection);
 
@@ -373,9 +376,6 @@ namespace Bewildered.SmartLibrary
 
             AddSubcollectionReference(index, collection);
 
-            //TODO: Replace
-            //LibraryData.DequeCollectionDestruction(collection);
-
             FinishChange(undoGroup);
 
             if (collection.Count > 0)
@@ -405,6 +405,7 @@ namespace Bewildered.SmartLibrary
             if (collection.Root != null)
                 collection.Root.RemoveCollectionFromTree(collection);
 
+            int index = _subcollections.IndexOf(collection);
             _subcollections.Remove(collection);
             _subcollectionIDs.Remove(collection.ID);
             
@@ -417,7 +418,7 @@ namespace Bewildered.SmartLibrary
             if (collection.Count > 0)
                 LibraryDatabase.HandleLibraryItemsChanged(new LibraryItemsChangedEventArgs(collection, collection, LibraryItemsChangeType.Removed));
             
-            NotifySubcollectionsChanged(collection, -1, HierarchyChangeType.Removed);
+            NotifySubcollectionsChanged(collection, index, HierarchyChangeType.Removed);
         }
 
         private bool IsValidReparenting(LibraryCollection newParent)
@@ -546,7 +547,7 @@ namespace Bewildered.SmartLibrary
         {
             Undo.IncrementCurrentGroup();
             int undoGroup = Undo.GetCurrentGroup();
-            CollectionUndoManager.RegisterUndo();
+            CollectionUndoService.RegisterUndo();
             Undo.RegisterCompleteObjectUndo(this, "Library Collection Modified");
             EditorUtility.SetDirty(this);
             

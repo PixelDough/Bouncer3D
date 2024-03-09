@@ -13,8 +13,8 @@ namespace Bewildered.SmartLibrary.UI
         {
             get 
             {
-                int columns = Mathf.Max(1, Mathf.FloorToInt(ViewportRect.width / ItemSize.x));
-                int rows = Mathf.Max(1, Mathf.CeilToInt(ViewportRect.height / ItemSize.y));
+                int columns = Mathf.Max(1, Mathf.FloorToInt(ViewportRect.width / FinalItemSize.x));
+                int rows = Mathf.Max(1, Mathf.CeilToInt(ViewportRect.height / FinalItemSize.y));
                 return columns * rows;
             }
         }
@@ -29,7 +29,7 @@ namespace Bewildered.SmartLibrary.UI
                 _contentViewWidth = totalHeight > rect.height ? rect.width - 11 : rect.width;
             }
             
-            _columnCount = Mathf.Max(1, Mathf.FloorToInt(_contentViewWidth / ItemSize.x));
+            _columnCount = Mathf.Max(1, Mathf.FloorToInt(_contentViewWidth / FinalItemSize.x));
             _rowCount = Mathf.Max(1, Mathf.CeilToInt(Items.Count / (float)_columnCount));
 
             base.Draw(rect);
@@ -37,11 +37,11 @@ namespace Bewildered.SmartLibrary.UI
 
         public override int IndexFromPosition(Vector3 position)
         {
-            int columnIndex = (int)(position.x / ItemSize.x);
+            int columnIndex = (int)(position.x / FinalItemSize.x);
             if (columnIndex >= _columnCount)
                 return -1;
             
-            int rowIndex = (int)Mathf.Max(0, Mathf.Floor((position.y + ScrollPosition.y) / ItemSize.y));
+            int rowIndex = (int)Mathf.Max(0, Mathf.Floor((position.y + ScrollPosition.y) / FinalItemSize.y));
 
             return (rowIndex * _columnCount) + columnIndex;
         }
@@ -50,7 +50,7 @@ namespace Bewildered.SmartLibrary.UI
         {
             first = FirstVisibleRowIndex() * _columnCount;
 
-            int visibleRowCount = Mathf.CeilToInt(rect.height / ItemSize.y);
+            int visibleRowCount = Mathf.CeilToInt(rect.height / FinalItemSize.y);
 
             // Add an extra row to avoid poping in and out when scrolling.
             visibleRowCount++;
@@ -147,16 +147,16 @@ namespace Bewildered.SmartLibrary.UI
 
             return new Rect()
             {
-                x = ItemSize.x * column,
-                y = ItemSize.y * row,
-                width = ItemSize.x,
-                height = ItemSize.y
+                x = FinalItemSize.x * column,
+                y = FinalItemSize.y * row,
+                width = FinalItemSize.x,
+                height = FinalItemSize.y
             };
         }
 
         protected override float GetTotalScrollableHeight()
         {
-            return _rowCount * ItemSize.y;
+            return _rowCount * FinalItemSize.y;
         }
     }
 }

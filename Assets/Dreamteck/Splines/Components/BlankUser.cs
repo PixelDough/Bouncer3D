@@ -8,13 +8,11 @@ namespace Dreamteck.Splines
     //DO NOT ADD Update, LateUpdate or FixedUpdate, use Run, it is automatically called through one of these methods
     public class BlankUser : SplineUser
     {
-#if UNITY_EDITOR
-        public override void EditorAwake()
+        protected override void Awake()
         {
-            base.EditorAwake();
-            //Editor initialization 
+            base.Awake();
+            //Awake is also called in the editor
         }
-#endif
 
         void Start()
         {

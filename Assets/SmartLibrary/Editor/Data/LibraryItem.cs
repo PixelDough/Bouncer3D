@@ -17,6 +17,7 @@ namespace Bewildered.SmartLibrary
 
         [NonSerialized] private string _fileName;
         [NonSerialized] private string _path;
+        [NonSerialized] private DateTime _lastModifiedDate;
         [NonSerialized] private int _instanceID;
         [NonSerialized] private Type _type;
         
@@ -52,6 +53,20 @@ namespace Bewildered.SmartLibrary
                 SetFileNameAndPath();
 
                 return _path;
+            }
+        }
+
+        /// <summary>
+        /// Returns the <see cref="DateTime"/> of the last edit made to the asset.
+        /// </summary>
+        public DateTime LastModifiedDate
+        {
+            get
+            {
+
+                SetFileNameAndPath();
+                
+                return _lastModifiedDate;
             }
         }
 
@@ -137,6 +152,8 @@ namespace Bewildered.SmartLibrary
             {
                 _path = AssetDatabase.GUIDToAssetPath(_guid);
                 _fileName = Path.GetFileNameWithoutExtension(_path);
+                if (!string.IsNullOrEmpty(_path))
+                    _lastModifiedDate = File.GetLastWriteTime(_path);
             }
         }
 
@@ -145,6 +162,7 @@ namespace Bewildered.SmartLibrary
             _path = "";
             _fileName = "";
             _type = null;
+            _lastModifiedDate = default;
         }
 
         public override string ToString()

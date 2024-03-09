@@ -48,6 +48,21 @@ namespace Bewildered.SmartLibrary
 
                 // Need to have the filter within quotes because if there is a space in the filter text
                 // it will no longer check if it starts exactly with the entered text. Example: "name:my material" would also return "mytexture".
+                
+                // TODO: Remove once Unity fixes Search
+#if UNITY_2021_1_OR_NEWER
+                switch (_matchType)
+                {
+                    case NameMatchType.StartsWith:
+                        return $@"{'"'}^{_text}{'"'}";
+                    case NameMatchType.Contains:
+                        return $"{'"'}{_text}{'"'}"; 
+                    case NameMatchType.Regex:
+                        return $"{'"'}{_text}{'"'}";
+                    default:
+                        return string.Empty;
+                }
+#else
                 switch (_matchType)
                 {
                     case NameMatchType.StartsWith:
@@ -59,6 +74,7 @@ namespace Bewildered.SmartLibrary
                     default:
                         return string.Empty;
                 }
+#endif
             }
         }
 

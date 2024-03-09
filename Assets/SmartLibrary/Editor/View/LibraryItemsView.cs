@@ -8,41 +8,36 @@ using UnityEditor.Search;
 
 namespace Bewildered.SmartLibrary.UI
 {
-    public enum ItemSortOrder { NameAscending, NameDescending, TypeAscending, TypeDescending }
+    public enum ItemSortOrder
+    {
+        NameAscending,
+        NameDescending,
+        TypeAscending,
+        TypeDescending,
+        DateModifiedAscending,
+        DateModifiedDescending
+    }
     
     public enum ItemsViewStyle { Grid, List }
 
     internal class LibraryItemsView : VisualElement
     {
-        public new class UxmlFactory : UxmlFactory<LibraryItemsView, UxmlTraits> { }
-
-        public new class UxmlTraits : VisualElement.UxmlTraits { }
-        
-        private class DragAndDropDelay
-        {
-            public Vector2 MouseDownPosition { get; set; }
-
-            public bool CanStartDrag()
-            {
-                return Vector2.Distance(MouseDownPosition, Event.current.mousePosition) > 6;
-            }
-        }
-
-        public static readonly string UssClassName = "bewildered-library-items-container";
-        private static readonly string _emptyOverlayContainerUssClassName = "bewildered-library-items__empty-overlay-container";
-        private static readonly string _notificationLabelUssClassName = "bewildered-library-items__notification-label";
-        private static readonly string _notificationContainerUssClassName = "bewildered-library-items__notification-container";
+        public static readonly string ussClassName = "bewildered-library-items";
+        public static readonly string emptyOverlayContainerUssClassName = ussClassName + "__empty-overlay-container";
+        public static readonly string notificationLabelUssClassName = ussClassName + "__notification-label";
+        public static readonly string notificationContainerUssClassName = ussClassName + "__notification-container";
 
         private static readonly int _gridNameLineCount = 2;
         private static readonly float _iconPadding = 3.0f;
         private static readonly float _gridLabelPadding = 2.0f;
+        private static readonly float _compactItemSize = 20.0f;
 
         private static readonly Color _hoverLabelBackgroundColorDark = new Color(0.1f, 0.1f, 0.1f, 0.7f);
         private static readonly Color _hoverLabelBackgroundColorLight = new Color(0.8f, 0.8f, 0.8f, 0.7f);
 
         protected const int minDistanceToActive = 5;
 
-        private SmartLibraryWindow _owner;
+        private int _ownerId;
         private GridViewControl _gridView;
         private ListViewControl _listView;
         private ItemsViewControlBase _currentView;
@@ -50,8 +45,9 @@ namespace Bewildered.SmartLibrary.UI
         private VisualElement _emptyOverlayContainer;
         private VisualElement _notificationOverlayContainer;
         private Label _notificationLabel;
-
-        private LibraryCollectionEditor _collectionEditor;
+        
+        private LibraryCollectionEditor _sourceCollectionEditor;
+        
         private ItemsViewStyle _viewStyle = ItemsViewStyle.Grid;
         private float _itemSize = 100;
         private Vector2 _startPosition;
@@ -67,21 +63,15 @@ namespace Bewildered.SmartLibrary.UI
 
         private bool UseCollectionSettings
         {
-            get { return Owner != null && Owner.SelectedCollection != null && Owner.SelectedCollection.UseCollectionViewSettings; }
+            get { return SourceCollection != null && SourceCollection.UseCollectionViewSettings; }
         }
         
-        internal SmartLibraryWindow Owner
-        {
-            get { return _owner; }
-            set { _owner = value; }
-        }
-
         public bool IsGridViewStyle
         {
             get
             {
                 if (UseCollectionSettings)
-                    return Owner.SelectedCollection.ViewStyle == ItemsViewStyle.Grid;
+                    return SourceCollection.ViewStyle == ItemsViewStyle.Grid;
                 
                 return _viewStyle == ItemsViewStyle.Grid;
             }
@@ -92,7 +82,7 @@ namespace Bewildered.SmartLibrary.UI
             get
             {
                 if (UseCollectionSettings)
-                    return Owner.SelectedCollection.ViewStyle;
+                    return SourceCollection.ViewStyle;
                 
                 return _viewStyle;
             }
@@ -110,14 +100,14 @@ namespace Bewildered.SmartLibrary.UI
             get
             {
                 if (UseCollectionSettings)
-                    return Owner.SelectedCollection.ItemDisplaySize;
+                    return SourceCollection.ItemDisplaySize;
                 
                 return _itemSize;
             }
             set
             {
                 if (UseCollectionSettings)
-                    _owner.SelectedCollection.ItemDisplaySize = value;
+                    SourceCollection.ItemDisplaySize = value;
                 else
                     _itemSize = value;
 
@@ -138,6 +128,8 @@ namespace Bewildered.SmartLibrary.UI
             }
         }
 
+        public float MinItemSize { get; set; } = 40;
+
         public IEnumerable<int> SelectedIndices
         {
             get { return _currentView.SelectedIndices; }
@@ -151,6 +143,14 @@ namespace Bewildered.SmartLibrary.UI
         public IEnumerable<LibraryItem> Items
         {
             get { return _filteredItems.ItemsSource; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public LibraryCollection SourceCollection
+        {
+            get { return _filteredItems.ItemsSource as LibraryCollection; }
         }
 
         /// <summary>
@@ -170,12 +170,6 @@ namespace Bewildered.SmartLibrary.UI
             }
         }
 
-        /// <summary>
-        /// The id of the <see cref="LibraryCollection"/> whose items are being displayed by the <see cref="LibraryItemsView"/>. 
-        /// <c>UniqueID.Empty</c> if the items are not from a <see cref="LibraryCollection"/> or no items are set yet.
-        /// </summary>
-        public UniqueID CollectionId { get; private set; } = UniqueID.Empty;
-
         public string Filter
         {
             get { return _filteredItems.Filter; }
@@ -192,13 +186,13 @@ namespace Bewildered.SmartLibrary.UI
         
         public LibraryItemsView()
         {
-            AddToClassList(UssClassName);
+            AddToClassList(ussClassName);
             RegisterCallback<AttachToPanelEvent>(OnAttachToPanel);
             RegisterCallback<DetachFromPanelEvent>(OnDetachFromPanel);
             this.AddManipulator(new LibrarySetManipulator());
             focusable = true;
 
-            _filteredItems = new FilteredSet<LibraryItem>(new LibraryItem[0], ItemFilter);
+            _filteredItems = new FilteredSet<LibraryItem>(Array.Empty<LibraryItem>(), ItemFilter);
             _filteredItems.Comparer = new LibraryItemEntryComparer(_sortOrder);
 
             SetupItemViews();
@@ -232,6 +226,7 @@ namespace Bewildered.SmartLibrary.UI
             _listView.ItemLostFocusColor = new Color(0.24f, 0.24f, 0.24f);
             _listView.OnSelectionChange += SelectionChangedHandler;
             _listView.OnItemsChosen += HandleOnItemsChosen;
+            _listView.CompactItemSize = new Vector2(0, _compactItemSize);
             
             UpdateViewsItemSize();
 
@@ -244,19 +239,19 @@ namespace Bewildered.SmartLibrary.UI
             // Empty collection overlay setup.
             _emptyOverlayContainer = new VisualElement();
             _emptyOverlayContainer.pickingMode = PickingMode.Ignore;
-            _emptyOverlayContainer.AddToClassList(_emptyOverlayContainerUssClassName);
+            _emptyOverlayContainer.AddToClassList(emptyOverlayContainerUssClassName);
             hierarchy.Add(_emptyOverlayContainer);
 
             // Notification overlay setup.
             _notificationOverlayContainer = new VisualElement();
             _notificationOverlayContainer.pickingMode = PickingMode.Ignore;
-            _notificationOverlayContainer.AddToClassList(_notificationContainerUssClassName);
+            _notificationOverlayContainer.AddToClassList(notificationContainerUssClassName);
             hierarchy.Add(_notificationOverlayContainer);
 
             _notificationLabel = new Label();
             _notificationLabel.pickingMode = PickingMode.Ignore;
             _notificationLabel.style.opacity = 0;
-            _notificationLabel.AddToClassList(_notificationLabelUssClassName);
+            _notificationLabel.AddToClassList(notificationLabelUssClassName);
             _notificationOverlayContainer.Add(_notificationLabel);
         }
 
@@ -277,7 +272,7 @@ namespace Bewildered.SmartLibrary.UI
             // Resize the preview cache to be able to store previews for 2x the number of items that can be shown so that it loads smoothly.
             // The +30 is something that Unity does internally, so we do it too since they have a good reason to most likely...
             if (Event.current.type == EventType.Repaint)
-                AssetPreviewManager.SetPreviewCacheSize(_currentView.MaxVisibleItems * 2 + 30, _owner.GetInstanceID());
+                AssetPreviewManager.SetPreviewCacheSize(_currentView.MaxVisibleItems * 2 + 30, _ownerId);
         }
 
         /// <summary>
@@ -286,7 +281,7 @@ namespace Bewildered.SmartLibrary.UI
         private void HandleMouseInput()
         {
             Event evt = Event.current;
-            int controlID = _owner.GetInstanceID() + 10000;
+            int controlID = _ownerId + 10000;
 
             switch (evt.type)
             {
@@ -339,7 +334,8 @@ namespace Bewildered.SmartLibrary.UI
                         if (delay.CanStartDrag())
                         {
                             DragAndDrop.PrepareStartDrag();
-                            DragAndDrop.SetGenericData(LibraryConstants.ItemDragDataName, CollectionId);
+                            DragAndDrop.SetGenericData(LibraryConstants.ItemDragDataName,
+                                SourceCollection != null ? SourceCollection.ID : UniqueID.Empty);
             
                             DragAndDrop.objectReferences = _draggableItems.Select(item => AssetDatabase.LoadMainAssetAtPath(item.AssetPath)).ToArray();
                             DragAndDrop.StartDrag(LibraryConstants.DragItemFromCollectionName);
@@ -359,7 +355,7 @@ namespace Bewildered.SmartLibrary.UI
             if (evt.type == EventType.KeyDown && evt.keyCode == KeyCode.Delete)
             {
                 // We check if the items are from a collection (could be 'all items') and if that collection supports manually removing items.
-                if (LibraryDatabase.FindCollectionByID(CollectionId) is ILibrarySet librarySet)
+                if (SourceCollection is ILibrarySet librarySet)
                 {
                     // Remove all selected items from the collection.
                     if (SelectedIndices.Any())
@@ -381,8 +377,7 @@ namespace Bewildered.SmartLibrary.UI
 
         private void BuildContextMenu(ContextualMenuPopulateEvent evt)
         {
-            var collection = LibraryDatabase.FindCollectionByID(CollectionId);
-            ILibrarySet librarySet = collection as ILibrarySet;
+            ILibrarySet librarySet = SourceCollection as ILibrarySet;
             LibraryItem targetItem = GetItemFromPosition(_viewContainer.WorldToLocal(evt.mousePosition));
 
             if (targetItem != null)
@@ -396,7 +391,7 @@ namespace Bewildered.SmartLibrary.UI
                 evt.menu.AppendSeparator();
                 evt.menu.AppendAction("Properties... _&P", a => LibraryUtility.OpenPropertyEditor(AssetDatabase.LoadMainAssetAtPath(targetItem.AssetPath))); 
             }
-            SmartLibraryWindow.HandleContextualItemMenu(evt.menu, collection, targetItem);
+            SmartLibraryWindow.HandleContextualItemMenu(evt.menu, SourceCollection, targetItem);
         }
 
         private void DrawGridItem(Rect rect, int index, bool isActive, bool isHovering, bool isFocused)
@@ -448,14 +443,19 @@ namespace Bewildered.SmartLibrary.UI
         {
             var item = _filteredItems[index].Item;
             AddDirtyStateTracking(item);
-
-            Rect iconRect = DrawPreview(rect, item);
+            
+            Rect iconRect = Rect.zero;
+            if (_listView.UseCompactSize)
+                iconRect = DrawCompactTypeIcon(rect, item);
+            else
+                iconRect = DrawPreview(rect, item);
+            
             DrawMiniTypeIcon(iconRect, item, isActive, isHovering, isFocused);
 
             bool showPath = LibraryPreferences.ShowPathInListView;
 
             float labelY = rect.y + (rect.height / 2);
-            if (showPath)
+            if (showPath && !_listView.UseCompactSize)
                 labelY -= EditorGUIUtility.singleLineHeight;
             else
                 labelY -= EditorGUIUtility.singleLineHeight / 2; // Centers label.
@@ -487,7 +487,7 @@ namespace Bewildered.SmartLibrary.UI
 
             GUI.Label(labelRect, item.DisplayName, labelStyle);
 
-            if (showPath)
+            if (showPath && !_listView.UseCompactSize)
                 GUI.Label(pathRect, item.AssetPath, pathStyle);
         }
         
@@ -506,7 +506,7 @@ namespace Bewildered.SmartLibrary.UI
                 height = iconSize
             };
 
-            var icon = AssetPreviewManager.GetAssetPreview(item.GUID, _owner.GetInstanceID(), out bool generated);
+            var icon = AssetPreviewManager.GetAssetPreview(item.GUID, _ownerId, out bool generated);
             if (icon == null)
                 icon = (Texture2D)LibraryConstants.FallbackAssetIcon;
 
@@ -515,6 +515,24 @@ namespace Bewildered.SmartLibrary.UI
                 EditorGUI.DrawPreviewTexture(iconRect, icon, LibraryUtility.PreviewGUIMaterial);
             else
                 GUI.DrawTexture(iconRect, icon, ScaleMode.ScaleToFit);
+
+            return iconRect;
+        }
+
+        private Rect DrawCompactTypeIcon(Rect rect, LibraryItem item)
+        {
+            float iconSize = _listView.CompactItemSize.y - (_currentView.Padding * 2.0f) - (_currentView.Margin * 2);
+            var iconRect = new Rect
+            {
+                x = rect.x,
+                y = rect.y,
+                width = iconSize,
+                height = iconSize
+            };
+            
+            var typeIcon = item.Type.IsSubclassOf(typeof(Texture)) ? AssetPreview.GetMiniTypeThumbnail(item.Type) : AssetDatabase.GetCachedIcon(item.AssetPath);
+            
+            GUI.DrawTexture(iconRect, typeIcon, ScaleMode.ScaleToFit);
 
             return iconRect;
         }
@@ -643,12 +661,14 @@ namespace Bewildered.SmartLibrary.UI
 
             if (_listView.ItemSize.y != ItemSize)
                 _listView.ItemSize = new Vector2(0, ItemSize);
+            
+            _listView.UseCompactSize = ItemSize <= MinItemSize;
         }
         
         private void SetViewStyle(ItemsViewStyle viewStyle)
         {
             if (UseCollectionSettings)
-                Owner.SelectedCollection.ViewStyle = viewStyle;
+                SourceCollection.ViewStyle = viewStyle;
             else
                 _viewStyle = viewStyle;
 
@@ -663,49 +683,32 @@ namespace Bewildered.SmartLibrary.UI
             _currentView.SetSelectionWithoutNotify(selectedIndices);
         }
 
-        public void SetTargetItems(IEnumerable<LibraryItem> items, UniqueID collectionId)
+        public void SetItemsSource(IEnumerable<LibraryItem> items)
         {
-            if (CollectionId == collectionId)
+            if (Equals(_filteredItems.ItemsSource, items))
                 return;
             
-            _filteredItems.ItemsSource = items;
-            CollectionId = collectionId;
-
+            // Clear current data...
+            
             // Reset scroll position back to top.
             _gridView.ScrollPosition = Vector2.zero;
             _listView.ScrollPosition = Vector2.zero;
+            
+            if (_sourceCollectionEditor != null)
+                Editor.DestroyImmediate(_sourceCollectionEditor);
 
             ClearSelectionWithoutNotify();
-
-            if (_collectionEditor != null)
-                Editor.DestroyImmediate(_collectionEditor);
+            
+            // Set new data...
+            
+            _filteredItems.ItemsSource = items;
 
             if (items is LibraryCollection collection)
             {
-                _collectionEditor = (LibraryCollectionEditor)Editor.CreateEditor(collection);
+                _sourceCollectionEditor = (LibraryCollectionEditor)Editor.CreateEditor(collection);
             }
 
             UpdateEmptyOverlay();
-        }
-
-        private void OnAttachToPanel(AttachToPanelEvent evt)
-        {
-            LibraryDatabase.ItemsChanged += OnLibraryItemsChanged;
-            Undo.undoRedoPerformed += _filteredItems.FilterItems;
-            Undo.undoRedoPerformed += UpdateEmptyOverlay;
-        }
-
-        private void OnDetachFromPanel(DetachFromPanelEvent evt)
-        {
-            LibraryDatabase.ItemsChanged -= OnLibraryItemsChanged;
-            Undo.undoRedoPerformed -= _filteredItems.FilterItems;
-            Undo.undoRedoPerformed -= UpdateEmptyOverlay;
-        }
-
-        private void OnLibraryItemsChanged(LibraryItemsChangedEventArgs args)
-        {
-            if (args.collection.ID == CollectionId)
-                Refresh();
         }
 
         /// <summary>
@@ -739,6 +742,26 @@ namespace Bewildered.SmartLibrary.UI
             _listView.ClearSelectionWithoutNotify();
         }
 
+        private void OnAttachToPanel(AttachToPanelEvent evt)
+        {
+            _ownerId = evt.destinationPanel.GetOwner().GetInstanceID();
+            LibraryDatabase.ItemsChanged += OnLibraryItemsChanged;
+            Undo.undoRedoPerformed += Refresh;
+        }
+
+        private void OnDetachFromPanel(DetachFromPanelEvent evt)
+        {
+            _ownerId = 0;
+            LibraryDatabase.ItemsChanged -= OnLibraryItemsChanged;
+            Undo.undoRedoPerformed -= Refresh;
+        }
+
+        private void OnLibraryItemsChanged(LibraryItemsChangedEventArgs args)
+        {
+            if (args.collection == SourceCollection)
+                Refresh();
+        }
+        
         private void SelectionChangedHandler(IEnumerable<object> items)
         {
             var libraryItems = new List<LibraryItem>();
@@ -759,10 +782,10 @@ namespace Bewildered.SmartLibrary.UI
         private void HandleOnItemsChosen(IEnumerable<object> items)
         {
             var assets = new List<UnityEngine.Object>();
-            foreach (var item in items)
+            foreach (FilterEntry<LibraryItem> filterItem in items)
             {
-                var guid = ((FilterEntry<LibraryItem>)item).Item.GUID;
-                var path = AssetDatabase.GUIDToAssetPath(guid);
+                string guid = filterItem.Item.GUID;
+                string path = AssetDatabase.GUIDToAssetPath(guid);
                 assets.Add(AssetDatabase.LoadMainAssetAtPath(path));
             }
 
@@ -782,7 +805,7 @@ namespace Bewildered.SmartLibrary.UI
             _notificationLabel.text = text;
             _notificationLabel.style.opacity = 1;
             _notificationLabel.schedule
-                .Execute(() => _notificationLabel.style.opacity = _notificationLabel.style.opacity.value - 0.035f) // Decrease the the opacity a small amount every call.
+                .Execute(() => _notificationLabel.style.opacity = _notificationLabel.style.opacity.value - 0.035f) // Decrease the opacity a small amount every call.
                 .Every(50)
                 .Until(() => _notificationLabel.style.opacity.value <= 0)
                 .ExecuteLater(600);
@@ -792,8 +815,8 @@ namespace Bewildered.SmartLibrary.UI
         {
             _emptyOverlayContainer.Clear();
 
-            if (_collectionEditor != null)
-                _emptyOverlayContainer.Add(_collectionEditor.CreateEmptyCollectionPrompt());
+            if (_sourceCollectionEditor != null)
+                _emptyOverlayContainer.Add(_sourceCollectionEditor.CreateEmptyCollectionPrompt());
             else
                 _emptyOverlayContainer.Add(CreateEmptyAllItemsPrompt());
 
@@ -859,6 +882,20 @@ namespace Bewildered.SmartLibrary.UI
         {
             int index = _currentView.IndexFromPosition(position);
             return index > -1 && index < _filteredItems.Count ? _filteredItems[index].Item : null;
+        }
+        
+        public new class UxmlFactory : UxmlFactory<LibraryItemsView, UxmlTraits> { }
+
+        public new class UxmlTraits : VisualElement.UxmlTraits { }
+        
+        private class DragAndDropDelay
+        {
+            public Vector2 MouseDownPosition { get; set; }
+
+            public bool CanStartDrag()
+            {
+                return Vector2.Distance(MouseDownPosition, Event.current.mousePosition) > 6;
+            }
         }
 
         private static class Styles

@@ -10,14 +10,11 @@ namespace Dreamteck.Splines {
         public enum Direction { Forward = 1, Backward = -1 }
         public enum Type { CatmullRom, BSpline, Bezier, Linear };
         public SplinePoint[] points = new SplinePoint[0];
-        [SerializeField]
-        private bool closed = false;
         public Type type = Type.Bezier;
         public bool linearAverageDirection = true;
         public AnimationCurve customValueInterpolation = null;
         public AnimationCurve customNormalInterpolation = null;
         public int sampleRate = 10;
-        private static Vector3[] catPoints = new Vector3[4];
 
         /// <summary>
         /// Returns true if the spline is closed
@@ -26,9 +23,8 @@ namespace Dreamteck.Splines {
         {
             get
             {
-                return closed && points.Length >= 4;
+                return closed && points.Length >= 3;
             }
-            set { }
         }
         /// <summary>
         /// The step size of the percent incrementation when evaluating a spline (based on percision)
@@ -47,13 +43,37 @@ namespace Dreamteck.Splines {
        public int iterations
         {
             get {
-                if (type == Type.Linear) return points.Length;
-                return sampleRate * (points.Length - 1) - (points.Length-1) + 1;
+                if (type == Type.Linear) return closed ? points.Length + 1 : points.Length;
+                int segments = closed ? points.Length : points.Length - 1;
+                return sampleRate * segments - segments + 1;
             }
         }
 
+        public float knotParametrization
+        {
+            get { return _knotParametrization; }
+            set
+            {
+                _knotParametrization = Mathf.Clamp01(value);
+            }
+        }
 
-		public Spline(Type type){
+        private static Vector3[] P = new Vector3[4];
+        private static Vector3 A1;
+        private static Vector3 A2;
+        private static Vector3 A3;
+        private static Vector3 B1;
+        private static Vector3 B2;
+        private static float t1;
+        private static float t2;
+        private static float t3;
+
+        [SerializeField]
+        private bool closed = false;
+        [SerializeField, Range(0f, 1f)]
+        private float _knotParametrization;
+
+        public Spline(Type type){
 			this.type = type;
 			points = new SplinePoint[0];
 		}
@@ -218,6 +238,10 @@ namespace Dreamteck.Splines {
         /// <returns></returns>
         public double GetPointPercent(int pointIndex)
         {
+            if (closed)
+            {
+                return DMath.Clamp01((double)pointIndex / points.Length);
+            }
             return DMath.Clamp01((double)pointIndex / (points.Length - 1));
         }
 
@@ -228,9 +252,9 @@ namespace Dreamteck.Splines {
         public Vector3 EvaluatePosition(double percent)
         {
             if (points.Length == 0) return Vector3.zero;
-            Vector3 point = new Vector3();
-            EvaluatePosition(ref point, percent);
-            return point;
+            Vector3 position = new Vector3();
+            EvaluatePosition(percent, ref position);
+            return position;
         }
 
         /// <summary>
@@ -240,7 +264,7 @@ namespace Dreamteck.Splines {
         public SplineSample Evaluate(double percent)
         {
             SplineSample result = new SplineSample();
-            Evaluate(result, percent);
+            Evaluate(percent, ref result);
             return result;
 		}
 
@@ -251,7 +275,7 @@ namespace Dreamteck.Splines {
         public SplineSample Evaluate(int pointIndex)
         {
             SplineSample result = new SplineSample();
-            Evaluate(result, GetPointPercent(pointIndex));
+            Evaluate(GetPointPercent(pointIndex), ref result);
             return result;
         }
 
@@ -260,99 +284,131 @@ namespace Dreamteck.Splines {
         /// </summary>
         /// <param name="result">The result output</param>
         /// <param name="pointIndex">Point index</param>
-        public void Evaluate(SplineSample result, int pointIndex)
+        public void Evaluate(int pointIndex, ref SplineSample result)
         {
-            Evaluate(result, GetPointPercent(pointIndex));
+            Evaluate(GetPointPercent(pointIndex), ref result);
         }
 
         /// <summary>
         /// Evaluate the splien at the given time and write the result to the "result" object
         /// </summary>
-        /// <param name="result">The result output</param>
+        /// <param name="sample">The result output</param>
         /// <param name="percent">Percent of evaluation [0-1]</param>
-        public void Evaluate(SplineSample result, double percent)
+        public void Evaluate(double percent, ref SplineSample sample)
         {
             if (points.Length == 0)
             {
-                result = new SplineSample();
+                sample = new SplineSample();
                 return;
             }
             percent = DMath.Clamp01(percent);
-            if (closed && points.Length <= 2) closed = false;
+            if (closed && points.Length <= 2)
+            {
+                closed = false;
+            }
             if (points.Length == 1)
             {
-                result.position = points[0].position;
-                result.up = points[0].normal;
-                result.forward = Vector3.forward;
-                result.size = points[0].size;
-                result.color = points[0].color;
-                result.percent = percent;
+                sample.position = points[0].position;
+                sample.up = points[0].normal;
+                sample.forward = Vector3.forward;
+                sample.size = points[0].size;
+                sample.color = points[0].color;
+                sample.percent = percent;
                 return;
             }
 
             double doubleIndex = (points.Length - 1) * percent;
-            int pointIndex = Mathf.Clamp(DMath.FloorInt(doubleIndex), 0, points.Length - 2);
-            double getPercent = doubleIndex - pointIndex;
-            Vector3 point = EvaluatePosition(percent);
-            result.position = point;
-            result.percent = percent;
-            if (pointIndex <= points.Length - 2)
+            if (closed)
             {
-                SplinePoint nextPoint = points[pointIndex + 1];
-                if (pointIndex == points.Length - 2 && closed) nextPoint = points[0];
-                float valueInterpolation = (float)getPercent;
-                if (customValueInterpolation != null)
-                {
-                    if (customValueInterpolation.length > 0) valueInterpolation = customValueInterpolation.Evaluate(valueInterpolation);
-                }
-                float normalInterpolation = (float)getPercent;
-                if (customNormalInterpolation != null)
-                {
-                    if (customNormalInterpolation.length > 0) normalInterpolation = customNormalInterpolation.Evaluate(normalInterpolation);
-                }
-                result.size = Mathf.Lerp(points[pointIndex].size, nextPoint.size, valueInterpolation);
-                result.color = Color.Lerp(points[pointIndex].color, nextPoint.color, valueInterpolation);
-                result.up = Vector3.Slerp(points[pointIndex].normal, nextPoint.normal, normalInterpolation);
+                doubleIndex = points.Length * percent;
             }
-            else
+            int fromIndex = DMath.FloorInt(doubleIndex);
+            int toIndex = fromIndex + 1;
+            if (closed)
             {
-                if (closed)
+                if (fromIndex >= points.Length - 1)
                 {
-                    result.size = points[0].size;
-                    result.color = points[0].color;
-                    result.up = points[0].normal;
+                    fromIndex = points.Length - 1;
                 }
-                else
+                if(toIndex > points.Length - 1)
                 {
-                    result.size = points[pointIndex].size;
-                    result.color = points[pointIndex].color;
-                    result.up = points[pointIndex].normal;
+                    toIndex = 0;
+                }
+            } else
+            {
+                if(toIndex > points.Length-1)
+                {
+                    toIndex = points.Length - 1;
                 }
             }
+            double getPercent = doubleIndex - fromIndex;
+
+            sample.percent = percent;
+
+            float valueInterpolation = (float)getPercent;
+            if (customValueInterpolation != null)
+            {
+                if (customValueInterpolation.length > 0)
+                {
+                    valueInterpolation = customValueInterpolation.Evaluate(valueInterpolation);
+                }
+            }
+            float normalInterpolation = (float)getPercent;
+            if (customNormalInterpolation != null)
+            {
+                if (customNormalInterpolation.length > 0)
+                {
+                    normalInterpolation = customNormalInterpolation.Evaluate(normalInterpolation);
+                }
+            }
+            sample.size = Mathf.Lerp(points[fromIndex].size, points[toIndex].size, valueInterpolation);
+            sample.color = Color.Lerp(points[fromIndex].color, points[toIndex].color, valueInterpolation);
+            sample.up = Vector3.Slerp(points[fromIndex].normal, points[toIndex].normal, normalInterpolation);
+
+            EvaluatePositionAndTangent(ref sample.position, ref sample.forward, percent);
+
             if (type == Type.BSpline)
             {
-                double step = 1.0 / (iterations-1);
-                if (percent <= 1.0 - step && percent >= step) result.forward = EvaluatePosition(percent + step) - EvaluatePosition(percent - step);
+                double step = 1.0 / (iterations - 1);
+                if (percent <= 1.0 - step && percent >= step)
+                {
+                    sample.forward = EvaluatePosition(percent + step) - EvaluatePosition(percent - step);
+                }
                 else
                 {
                     Vector3 back = Vector3.zero, front = Vector3.zero;
                     if (closed)
                     {
-                        if (percent < step) back = EvaluatePosition(1.0 - (step - percent));
-                        else back = EvaluatePosition(percent - step);
-                        if (percent > 1.0 - step) front = EvaluatePosition(step - (1.0 - percent));
-                        else front = EvaluatePosition(percent + step);
-                        result.forward = front - back;
+                        if (percent < step) EvaluatePosition(1.0 - (step - percent), ref back);
+                        else  EvaluatePosition(percent - step, ref back);
+                        if (percent > 1.0 - step) EvaluatePosition(step - (1.0 - percent), ref front);
+                        else EvaluatePosition(percent + step, ref front);
+                        sample.forward = front - back;
                     }
                     else
                     {
-                        back = result.position - EvaluatePosition(percent - step);
-                        front = EvaluatePosition(percent + step) - result.position;
-                        result.forward = Vector3.Slerp(front, back, back.magnitude / front.magnitude);
+                        EvaluatePosition(percent - step, ref back);
+                        back = sample.position - back;
+                        EvaluatePosition(percent + step, ref front);
+                        front = front - sample.position;
+                        sample.forward = Vector3.Slerp(front, back, back.magnitude / front.magnitude);
                     }
                 }
-            } else EvaluateTangent(ref result.forward, percent);
-            result.forward.Normalize();
+            }
+            
+            sample.forward.Normalize();
+        }
+
+        [System.Obsolete("This override is obsolete. Use Evaluate(int pointIndex, ref SplineSample sample) instead")]
+        public void Evaluate(ref SplineSample sample, int pointIndex)
+        {
+            Evaluate(pointIndex, ref sample);
+        }
+
+        [System.Obsolete("This override is obsolete. Use Evaluate(double percent, ref SplineSample sample) instead")]
+        public void Evaluate(ref SplineSample sample, double percent)
+        {
+            Evaluate(percent, ref sample);
         }
 
         /// <summary>
@@ -405,24 +461,23 @@ namespace Dreamteck.Splines {
             double toValue = to * (iterations - 1);
             int clippedIterations = DMath.CeilInt(toValue) - DMath.FloorInt(fromValue) + 1;
             if (samples == null || samples.Length != clippedIterations) samples = new SplineSample[clippedIterations];
-            if (originalSamplePercents == null || originalSamplePercents.Length != clippedIterations) originalSamplePercents = new double[clippedIterations];
-            for (int i = 0; i < samples.Length; i++)
+            if (originalSamplePercents == null || originalSamplePercents.Length != clippedIterations)
             {
-                if (samples[i] == null) samples[i] = new SplineSample();
+                originalSamplePercents = new double[clippedIterations];
             }
             float lengthStep = CalculateLength(from, to) / (iterations - 1);
-            Evaluate(samples[0], from);
+            Evaluate(from, ref samples[0]);
             samples[0].percent = originalSamplePercents[0] = from;
             double lastPercent = from;
             float moved = 0f;
             for (int i = 1; i < samples.Length - 1; i++)
             {
-                Evaluate(samples[i], Travel(lastPercent, lengthStep, out moved, Direction.Forward));
+                Evaluate(Travel(lastPercent, lengthStep, out moved, Direction.Forward), ref samples[i]);
                 lastPercent = samples[i].percent;
                 originalSamplePercents[i] = lastPercent;
                 samples[i].percent = DMath.Lerp(from, to, (double)i/ (samples.Length - 1));
             }
-            Evaluate(samples[samples.Length - 1], to);
+            Evaluate(to, ref samples[samples.Length - 1]);
             samples[samples.Length - 1].percent = originalSamplePercents[originalSamplePercents.Length - 1] = to;
         }
 
@@ -472,7 +527,7 @@ namespace Dreamteck.Splines {
             else if (direction == Direction.Backward && start <= 0.0) return 0.0; ;
             if (distance == 0f) return DMath.Clamp01(start);
             Vector3 pos = Vector3.zero;
-            EvaluatePosition(ref pos, start);
+            EvaluatePosition(start, ref pos);
             Vector3 lastPosition = pos;
             double lastPercent = start;
             int i = iterations - 1;
@@ -508,22 +563,91 @@ namespace Dreamteck.Splines {
             return Travel(start, distance, out moved, direction);
         }
 
-        public void EvaluatePosition(ref Vector3 point, double percent)
+        public void EvaluatePosition(double percent, ref Vector3 position)
         {
+            if (points.Length == 0)
+            {
+                position = Vector3.zero;
+                return;
+            }
+
+            if (points.Length == 1)
+            {
+                position = points[0].position;
+                return;
+            }
+
             percent = DMath.Clamp01(percent);
             double doubleIndex = (points.Length - 1) * percent;
+            if (closed)
+            {
+                doubleIndex = points.Length * percent;
+            }
             int pointIndex = DMath.FloorInt(doubleIndex);
-            if (type == Type.Bezier) pointIndex = Mathf.Clamp(pointIndex, 0, Mathf.Max(points.Length - 2, 0));
-            GetPoint(ref point, doubleIndex - pointIndex, pointIndex);
+            if (type == Type.Bezier)
+            {
+                pointIndex = Mathf.Clamp(pointIndex, 0, Mathf.Max(points.Length - 1, 0));
+            }
+            CalculatePosition(ref position, doubleIndex - pointIndex, pointIndex);
         }
 
-        public void EvaluateTangent(ref Vector3 tangent, double percent)
+        [System.Obsolete("This override is obsolete. Use EvaluatePosition(double percent, ref Vector3 position) instead")]
+
+        public void EvaluatePosition(ref Vector3 position, double percent)
         {
+            EvaluatePosition(percent, ref position);
+        }
+
+        public void EvaluateTangent(double percent, ref Vector3 tangent)
+        {
+            if (points.Length < 2)
+            {
+                tangent = Vector3.forward;
+                return;
+            }
+
             percent = DMath.Clamp01(percent);
             double doubleIndex = (points.Length - 1) * percent;
+            if (closed)
+            {
+                doubleIndex = points.Length * percent;
+            }
             int pointIndex = DMath.FloorInt(doubleIndex);
-            if (type == Type.Bezier) pointIndex = Mathf.Clamp(pointIndex, 0, Mathf.Max(points.Length - 2, 0));
-            GetTangent(ref tangent, doubleIndex - pointIndex, pointIndex);
+            if (type == Type.Bezier)
+            {
+                pointIndex = Mathf.Clamp(pointIndex, 0, Mathf.Max(points.Length - 1, 0));
+            }
+            CalculateTangent(ref tangent, doubleIndex - pointIndex, pointIndex);
+        }
+
+        public void EvaluatePositionAndTangent(ref Vector3 position, ref Vector3 tangent, double percent)
+        {
+            if (points.Length == 0)
+            {
+                position = Vector3.zero;
+                tangent = Vector3.forward;
+                return;
+            }
+
+            if (points.Length == 1)
+            {
+                position = points[0].position;
+                tangent = Vector3.forward;
+                return;
+            }
+
+            percent = DMath.Clamp01(percent);
+            double doubleIndex = (points.Length - 1) * percent;
+            if (closed)
+            {
+                doubleIndex = points.Length * percent;
+            }
+            int pointIndex = DMath.FloorInt(doubleIndex);
+            if (type == Type.Bezier)
+            {
+                pointIndex = Mathf.Clamp(pointIndex, 0, Mathf.Max(points.Length - 1, 0));
+            }
+            CalculatePositionAndTangent(doubleIndex - pointIndex, pointIndex, ref position, ref tangent);
         }
 
         //Get closest point in spline segment. Used for projection
@@ -544,7 +668,7 @@ namespace Dreamteck.Splines {
             Vector3 pos = Vector3.zero;
             while (true)
             {
-                EvaluatePosition(ref pos, t);
+                EvaluatePosition(t, ref pos);
                 float dist = (point - pos).sqrMagnitude;
                 if (dist < closestDistance)
                 {
@@ -577,11 +701,20 @@ namespace Dreamteck.Splines {
         {
             if (!closed) return;
             if (at >= points.Length) return;
-            SplinePoint[] prev = new SplinePoint[at];
-            for (int i = 0; i < prev.Length; i++) prev[i] = points[i];
-            for (int i = at; i < points.Length - 1; i++) points[i - at] = points[i];
-            for (int i = 0; i < prev.Length; i++) points[points.Length - at + i - 1] = prev[i];
-            points[points.Length - 1] = points[0];
+            if (at < 0) return;
+            SplinePoint[] previousPoints = new SplinePoint[points.Length];
+            points.CopyTo(previousPoints, 0);
+
+            for (int i = at; i < previousPoints.Length; i++)
+            {
+                points[i - at] = previousPoints[i];
+            }
+
+            for (int i = 0; i < at; i++)
+            {
+                points[(points.Length - at) + i] = previousPoints[i];
+            }
+
             closed = false;
         }
 
@@ -590,9 +723,9 @@ namespace Dreamteck.Splines {
         /// </summary>
         public void Close()
         {
-            if (points.Length < 4)
+            if (points.Length < 3)
             {
-                Debug.LogError("Points need to be at least 4 to close the spline");
+                Debug.LogError("Points need to be at least 3 to close the spline");
                 return;
             }
             closed = true;
@@ -616,26 +749,17 @@ namespace Dreamteck.Splines {
                 case Type.CatmullRom:
                     for (int i = 0; i < points.Length; i++)
                     {
-                        GetCatPoints(i);
                         points[i].type = SplinePoint.Type.SmoothMirrored;
-                        if (i == 0)
+                        double percent = GetPointPercent(i);
+                        Vector3 tangent = Vector3.forward;
+                        EvaluateTangent(percent, ref tangent);
+                        if(_knotParametrization > 0f)
                         {
-                            Vector3 direction = catPoints[1] - catPoints[2];
-                            if (closed)
-                            {
-                                direction = points[points.Length - 2].position - points[i + 1].position;
-                                points[i].SetTangentPosition(points[i].position + direction / 6f);
-                            } else points[i].SetTangentPosition(points[i].position + direction / 3f);
-                        }
-                        else if (i == points.Length - 1)
+                            ComputeCatPoints(i);
+                            points[i].SetTangent2Position(points[i].position + tangent.normalized * Vector3.Distance(P[0], P[2]) / 6f);
+                        } else
                         {
-                            Vector3 direction = catPoints[2] - catPoints[3];
-                            points[i].SetTangentPosition(points[i].position + direction / 3f);
-                        }
-                        else
-                        {
-                            Vector3 direction = catPoints[0] - catPoints[2];
-                            points[i].SetTangentPosition(points[i].position + direction / 6f);
+                            points[i].SetTangent2Position(points[i].position + tangent / 3f);
                         }
                     }
                     break;
@@ -646,165 +770,316 @@ namespace Dreamteck.Splines {
             type = Type.Bezier;
         }
 
-
-        private void GetPoint(ref Vector3 point, double percent, int pointIndex)
-        {
-            //Handle closed paths
-            if (closed && points.Length > 3)
-            {
-                if (pointIndex == points.Length - 2)
-                {
-                    points[0].SetTangentPosition(points[points.Length - 1].tangent);
-                    points[points.Length - 1] = points[0];
-                }
-            } else closed = false;
-            switch (type)
-            {
-                case Type.CatmullRom: CatmullRomGetPoint(ref point, percent, pointIndex); break;
-                case Type.Bezier: BezierGetPoint(ref point, percent, pointIndex); break;
-                case Type.BSpline: BSPGetPoint(ref point, percent, pointIndex); break;
-                case Type.Linear: LinearGetPoint(ref point, percent, pointIndex); break;
-            }
-        }
-
-        private void GetTangent(ref Vector3 tangent, double percent, int pointIndex)
+        /// <summary>
+        /// Evaluates the position of the spline using one of the algorithms
+        /// </summary>
+        private void CalculatePosition(ref Vector3 position, double percent, int pointIndex)
         {
             switch (type)
             {
-                case Type.CatmullRom: GetCatmullRomTangent(ref tangent, percent, pointIndex); break;
-                case Type.Bezier: BezierGetTangent(ref tangent, percent, pointIndex); break;
-                //case Type.BSpline: BSPGetTangent(ref tangent, percent, pointIndex);  break;
-                case Type.Linear: LinearGetTangent(ref tangent, percent, pointIndex); break;
+                case Type.CatmullRom:
+                    ComputeCatPoints(pointIndex);
+                    if (_knotParametrization < 0.000001f)
+                    {
+                        CalculateCatmullRomPositionFast(ref position, percent, pointIndex);
+                    } else
+                    {
+                        CalculateCatmullRomComponents(percent);
+                        CalculateCatmullRomPosition(percent, ref position);
+                    }
+                    break;
+                case Type.Bezier: CalculateBezierPosition(ref position, percent, pointIndex); break;
+                case Type.BSpline:
+                    ComputeCatPoints(pointIndex);
+                    CalculateBSplinePosition(ref position, percent, pointIndex); break;
+                case Type.Linear:
+                    ComputeCatPoints(pointIndex);
+                    CalculateLinearPosition(ref position, percent, pointIndex); 
+                    break;
             }
         }
 
-        private void LinearGetPoint(ref Vector3 point, double t, int i)
+        /// <summary>
+        /// Evaluates the direction of the spline using one of the algorithms
+        /// </summary>
+        private void CalculateTangent(ref Vector3 tangent, double percent, int pointIndex)
+        {
+            switch (type)
+            {
+                case Type.CatmullRom:
+                    ComputeCatPoints(pointIndex);
+                    if (_knotParametrization < 0.000001f)
+                    {
+                        CalculateCatmullRomTangentFast(ref tangent, percent, pointIndex);
+                    }
+                    else
+                    {
+                        CalculateCatmullRomComponents(percent);
+                        CalculateCatmullRomTangent(percent, ref tangent);
+                    }
+                    break;
+                case Type.Bezier: 
+                    CalculateBezierTangent(ref tangent, percent, pointIndex); 
+                    break;
+                case Type.Linear:
+                    ComputeCatPoints(pointIndex);
+                    CalculateLinearTangent(ref tangent, percent, pointIndex); 
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Slightly faster than calling GetPoint and GetTangent separately
+        /// </summary>
+        private void CalculatePositionAndTangent(double percent, int pointIndex, ref Vector3 position, ref Vector3 tangent)
+        {
+            switch (type)
+            {
+                case Type.CatmullRom:
+                    ComputeCatPoints(pointIndex);
+                    if (_knotParametrization < 0.000001f)
+                    {
+                        CalculateCatmullRomPositionFast(ref position, percent, pointIndex);
+                        CalculateCatmullRomTangentFast(ref tangent, percent, pointIndex);
+                    }
+                    else
+                    {
+                        CalculateCatmullRomComponents(percent);
+                        CalculateCatmullRomPosition(percent, ref position);
+                        CalculateCatmullRomTangent(percent, ref tangent);
+                    }
+                    break;
+                case Type.Bezier: 
+                    CalculateBezierPosition(ref position, percent, pointIndex);
+                    CalculateBezierTangent(ref tangent, percent, pointIndex);
+                    break;
+                case Type.BSpline:
+                    ComputeCatPoints(pointIndex);
+                    CalculateBSplinePosition(ref position, percent, pointIndex); 
+                    break;
+                case Type.Linear:
+                    ComputeCatPoints(pointIndex);
+                    CalculateLinearPosition(ref position, percent, pointIndex);
+                    CalculateLinearTangent(ref tangent, percent, pointIndex);
+                    break;
+            }
+        }
+
+        private void CalculateLinearPosition(ref Vector3 position, double t, int i)
         {
             if (points.Length == 0)
             {
-                point = Vector3.zero;
+                position = Vector3.zero;
                 return;
             }
-            if (i < points.Length - 1)
-            {
-                t = DMath.Clamp01(t);
-                i = Mathf.Clamp(i, 0, points.Length - 2);
-                point = Vector3.Lerp(points[i].position, points[i + 1].position, (float)t);
-            } else point = points[i].position;
+
+            position = Vector3.Lerp(P[1], P[2], (float)t);
         }
 
-        private void LinearGetTangent(ref Vector3 tangent, double t, int i)
+        private void CalculateLinearTangent(ref Vector3 tangent, double t, int i)
         {
             if (points.Length == 0)
             {
                 tangent = Vector3.forward;
                 return;
             }
-            GetCatPoints(i);
-            if (linearAverageDirection) tangent = Vector3.Slerp(catPoints[1] - catPoints[0], catPoints[2] - catPoints[1], 0.5f);
-            else tangent = catPoints[2] - catPoints[1];
+
+            if (linearAverageDirection) tangent = Vector3.Slerp(P[1] - P[0], P[2] - P[1], 0.5f);
+            else tangent = P[2] - P[1];
         }
 
-        private void BSPGetPoint(ref Vector3 point, double time, int i)
+        private void CalculateBSplinePosition(ref Vector3 position, double time, int i)
         {
-            //Used for getting a point on a B-spline
-            if (points.Length > 0) point = points[0].position;
+            if (points.Length > 0) position = points[0].position;
             if (points.Length > 1)
             {
-                float t1 = (float)DMath.Clamp01(time);
-                GetCatPoints(i);
-                point = ((-catPoints[0] + catPoints[2]) / 2f 
-                + t1 * ((catPoints[0] - 2f * catPoints[1] + catPoints[2]) / 2f 
-                + t1 * (-catPoints[0] + 3f * catPoints[1] - 3f * catPoints[2] + catPoints[3]) / 6f)) * t1 
-                + (catPoints[0] + 4f * catPoints[1] + catPoints[2]) / 6f;
+                float tf = (float)DMath.Clamp01(time);
+                position = ((-P[0] + P[2]) / 2f 
+                + tf * ((P[0] - 2f * P[1] + P[2]) / 2f 
+                + tf * (-P[0] + 3f * P[1] - 3f * P[2] + P[3]) / 6f)) * tf 
+                + (P[0] + 4f * P[1] + P[2]) / 6f;
             }
         }
 
-        private void BezierGetPoint(ref Vector3 point, double t, int i)
+        private void CalculateBezierPosition(ref Vector3 position, double t, int i)
         {
-            //Used for getting a point on a Bezier spline
-            if (points.Length > 0) point = points[0].position;
+            if (points.Length > 0) position = points[0].position;
             else return;
-            if (points.Length == 1) return;
-            if (i < points.Length - 1)
+            if (!closed && points.Length == 1) return;
+            t = DMath.Clamp01(t);
+            int it = i + 1;
+            if (it >= points.Length)
             {
-                t = DMath.Clamp01(t);
-                i = Mathf.Clamp(i, 0, points.Length - 2);
-                float ft = (float)t;
-                float nt = 1f - ft;
-                point = nt * nt * nt * points[i].position + 
-                    3f * nt * nt * ft * points[i].tangent2 + 
-                    3f * nt * ft * ft * points[i + 1].tangent + 
-                    ft * ft * ft * points[i + 1].position;
+                it = 0;
             }
+
+            float ft = (float)t;
+            float nt = 1f - ft;
+            position = nt * nt * nt * points[i].position + 
+                3f * nt * nt * ft * points[i].tangent2 + 
+                3f * nt * ft * ft * points[it].tangent + 
+                ft * ft * ft * points[it].position;
         }
 
-        private void BezierGetTangent(ref Vector3 tangent, double t, int i)
+        private void CalculateBezierTangent(ref Vector3 tangent, double t, int i)
         {
-            if (points.Length > 0) tangent = points[0].tangent2;
+            if (points.Length > 0) tangent = points[0].tangent;
             else return;
-            if (points.Length == 1) return;
-            if (i < points.Length - 1)
+            if (!closed && points.Length == 1) return;
+            t = DMath.Clamp01(t);
+            int it = i + 1;
+            if (it >= points.Length)
             {
-                t = DMath.Clamp01(t);
-                i = Mathf.Clamp(i, 0, points.Length - 2);
-                float ft = (float)t;
-                float nt = 1f - ft;
-                tangent = -3 * nt * nt * points[i].position + 
-                    3 * nt * nt * points[i].tangent2 - 
-                    6 * ft * nt * points[i].tangent2 - 
-                    3 * ft * ft * points[i + 1].tangent + 
-                    6 * ft * nt * points[i + 1].tangent + 
-                    3 * ft * ft * points[i + 1].position;
+                it = 0;
+            }
+            float ft = (float)t;
+            float nt = 1f - ft;
+            tangent = -3f * nt * nt * points[i].position + 
+                3f * nt * nt * points[i].tangent2 - 
+                6f * ft * nt * points[i].tangent2 - 
+                3f * ft * ft * points[it].tangent + 
+                6f * ft * nt * points[it].tangent + 
+                3f * ft * ft * points[it].position;
+           
+        }
+
+        private void CalculateCatmullRomComponents(double t)
+        {
+            const float t0 = 0f;
+            t1 = GetInterval(P[0], P[1]);
+            t2 = GetInterval(P[1], P[2]) + t1;
+            t3 = GetInterval(P[2], P[3]) + t2;
+            float tf = Mathf.LerpUnclamped(t1, t2, (float)t);
+
+            A1 = (t1 - tf) / (t1 - t0) * P[0] + (tf - t0) / (t1 - t0) * P[1];
+            A2 = (t2 - tf) / (t2 - t1) * P[1] + (tf - t1) / (t2 - t1) * P[2];
+            A3 = (t3 - tf) / (t3 - t2) * P[2] + (tf - t2) / (t3 - t2) * P[3];
+
+            B1 = (t2 - tf) / (t2 - t0) * A1 + (tf - t0) / (t2 - t0) * A2;
+            B2 = (t3 - tf) / (t3 - t1) * A2 + (tf - t1) / (t3 - t1) * A3;
+            
+
+            float GetInterval(Vector3 a, Vector3 b)
+            {
+                return Mathf.Pow((a - b).sqrMagnitude, _knotParametrization * 0.5f);
             }
         }
 
-        private void CatmullRomGetPoint(ref Vector3 point, double t, int i)
+        private void CalculateCatmullRomPosition(double t, ref Vector3 position)
+        {
+            float tf = Mathf.LerpUnclamped(t1, t2, (float)t);
+            position = (t2 - tf) / (t2 - t1) * B1 + (tf - t1) / (t2 - t1) * B2;
+        }
+
+        private void CalculateCatmullRomTangent(double t, ref Vector3 tangent)
+        {
+            float tf = Mathf.LerpUnclamped(t1, t2, (float)t);
+            Vector3 A1p = (P[1] - P[0]) / t1;
+            Vector3 A2p = (P[2] - P[1]) / (t2 - t1);
+            Vector3 A3p = (P[3] - P[2]) / (t3 - t2);
+
+            Vector3 B1p = (A2 - A1) / t2  + (t2 - tf) / t2 * A1p + tf / t2  * A2p;
+            Vector3 B2p = (A3 - A2) / (t3 - t1) + (t3 - tf) / (t3 - t1) * A2p + (tf - t1) / (t3 - t1) * A3p;
+
+            tangent = (B2 - B1) / (t2 - t1) + (t2 - tf) / (t2 - t1) * B1p + (tf - t1) / (t2 - t1) * B2p;
+        }
+
+        private void CalculateCatmullRomPositionFast(ref Vector3 position, double t, int i)
         {
             float t1 = (float)t;
             float t2 = t1 * t1;
             float t3 = t2 * t1;
-            if (points.Length > 0) point = points[0].position;
-            if (i >= points.Length) return;
-            if (points.Length > 1)
+            if (points.Length > 0)
             {
-                GetCatPoints(i);
-                point = 0.5f * ((2f * catPoints[1]) + (-catPoints[0] + catPoints[2]) * t1
-                + (2f * catPoints[0] - 5f * catPoints[1] + 4f * catPoints[2] - catPoints[3]) * t2
-                + (-catPoints[0] + 3f * catPoints[1] - 3f * catPoints[2] + catPoints[3]) * t3);
+                position = points[0].position;
             }
-		}
 
-        private void GetCatmullRomTangent(ref Vector3 direction, double t, int i)
-        {
-            float t1 = (float)t;
-            float t2 = t1 * t1;
-            if (points.Length > 0) direction = Vector3.forward;
-            if (i >= points.Length) return;
+            if (!closed && i >= points.Length) return;
+
             if (points.Length > 1)
             {
-                GetCatPoints(i);
-                direction = (6 * t2 - 6 * t1) * catPoints[1]
-                + (3 * t2 - 4 * t1 + 1) * (catPoints[2] - catPoints[0]) * 0.5f
-                + (-6 * t2 + 6 * t1) * catPoints[2]
-                + (3 * t2 - 2 * t1) * (catPoints[3] - catPoints[1]) * 0.5f;
+                position = 0.5f * ((2f * P[1]) + (-P[0] + P[2]) * t1
+                + (2f * P[0] - 5f * P[1] + 4f * P[2] - P[3]) * t2
+                + (-P[0] + 3f * P[1] - 3f * P[2] + P[3]) * t3);
             }
         }
 
-        private void GetCatPoints(int i)
+        private void CalculateCatmullRomTangentFast(ref Vector3 tangent, double t, int i)
         {
-            //Fills the array with the current point, the previous one, the next one and the one after that. Used for Catmull Rom and Bspline
-            if (i > 0) catPoints[0] = points[i - 1].position;
-            else if (closed && points.Length - 2 > i) catPoints[0] = points[points.Length - 2].position;
-            else if (i + 1 < points.Length) catPoints[0] = points[i].position + (points[i].position - points[i + 1].position); //Extrapolate
-            else catPoints[0] = points[i].position;
-            catPoints[1] = points[i].position;
-            if (i + 1 < points.Length) catPoints[2] = points[i + 1].position;
-            else if (closed && (i + 2) - points.Length != i) catPoints[2] = points[(i + 2) - points.Length].position;
-            else catPoints[2] = catPoints[1] + (catPoints[1] - catPoints[0]); //Extrapolate
-            if (i + 2 < points.Length) catPoints[3] = points[i + 2].position;
-            else if (closed && (i + 3) - points.Length != i) catPoints[3] = points[(i + 3) - points.Length].position;
-            else catPoints[3] = catPoints[2] + (catPoints[2] - catPoints[1]); //Extrapolate
+            float t1 = (float)t;
+            float t2 = t1 * t1;
+            if (!closed && i >= points.Length) return;
+            if (points.Length > 1)
+            {
+                tangent = (6 * t2 - 6 * t1) * P[1]
+                + (3 * t2 - 4 * t1 + 1) * (P[2] - P[0]) * 0.5f
+                + (-6 * t2 + 6 * t1) * P[2]
+                + (3 * t2 - 2 * t1) * (P[3] - P[1]) * 0.5f;
+            }
+        }
+
+        private void ComputeCatPoints(int i)
+        {
+            int p1 = i - 1;
+            int p2 = i;
+            int p3 = i + 1;
+            int p4 = i + 2;
+
+            if (closed)
+            {
+                if(p1 < 0)
+                {
+                    p1 += points.Length;
+                }
+                if (p2 >= points.Length)
+                {
+                    p2 -= points.Length;
+                }
+                if (p3 >= points.Length)
+                {
+                    p3 -= points.Length;
+                }
+                if(p4 >= points.Length)
+                {
+                    p4 -= points.Length;
+                }
+                P[0] = points[p1].position;
+                P[1] = points[p2].position;
+                P[2] = points[p3].position;
+                P[3] = points[p4].position;
+            } else
+            {
+                if(p1 < 0)
+                {
+                    P[0] = points[0].position;
+                    P[0] += (P[0] - points[1].position);
+                } else 
+                {
+                    P[0] = points[p1].position;
+                }
+
+                P[1] = points[p2].position;
+
+                if (p3 >= points.Length)
+                {
+                    P[2] = points[points.Length - 1].position;
+                    Vector3 pos = P[2];
+                    P[2] += P[2] - points[points.Length - 2].position;
+                    P[3] = P[2] + (P[2] - pos);
+                }
+                else
+                {
+                    P[2] = points[p3].position;
+                    if(p4 >= points.Length)
+                    {
+                        P[3] = P[2] + (P[2] - points[p3 - 1].position);
+                    } 
+                    else
+                    {
+                        P[3] = points[p4].position;
+                    }
+                }
+            }
         }
 
         public static void FormatFromTo(ref double from, ref double to, bool preventInvert = true)

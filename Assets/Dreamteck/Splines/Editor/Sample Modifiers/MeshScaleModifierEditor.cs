@@ -11,9 +11,8 @@ namespace Dreamteck.Splines.Editor
         public bool allowSelection = true;
         private float addTime = 0f;
 
-        public MeshScaleModifierEditor(MeshGenerator user, SplineUserEditor editor, MeshScaleModifier input) : base(user, editor, input)
+        public MeshScaleModifierEditor(MeshGenerator user, SplineUserEditor editor, int channelIndex) : base(user, editor, "_channels/["+channelIndex+"]/_scaleModifier")
         {
-            module = input;
             title = "Scale Modifiers";
         }
 
@@ -28,16 +27,17 @@ namespace Dreamteck.Splines.Editor
             if (!isOpen) return;
             if (GUILayout.Button("Add New Scale"))
             {
-                ((MeshScaleModifier)module).AddKey(addTime - 0.1, addTime + 0.1);
-                user.Rebuild();
+                var key = AddKey(addTime - 0.1f, addTime + 0.1f);
+                key.FindPropertyRelative("scale").vector3Value = Vector3.one;
+                UpdateValues();
             }
         }
 
-        protected override void KeyGUI(SplineSampleModifier.Key key)
+        protected override void KeyGUI(SerializedProperty key)
         {
-            MeshScaleModifier.ScaleKey scaleKey = (MeshScaleModifier.ScaleKey)key;
+            SerializedProperty scale = key.FindPropertyRelative("scale");
             base.KeyGUI(key);
-            scaleKey.scale = EditorGUILayout.Vector3Field("Scale", scaleKey.scale);
+            EditorGUILayout.PropertyField(scale);
         }
     }
 }

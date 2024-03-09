@@ -26,6 +26,15 @@ namespace Dreamteck.Editor
             iconsSelected.CopyTo(allContent, iconsNormal.Length);
         }
 
+        public Toolbar(GUIContent[] contents, float elementWidth = 0f)
+        {
+            this.elementWidth = elementWidth;
+            allContent = new GUIContent[contents.Length * 2];
+            shownContent = new GUIContent[contents.Length];
+            contents.CopyTo(allContent, 0);
+            contents.CopyTo(allContent, contents.Length);
+        }
+
         public void SetContent(int index, GUIContent content)
         {
             allContent[index] = content;

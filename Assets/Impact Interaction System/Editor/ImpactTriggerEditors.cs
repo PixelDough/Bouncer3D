@@ -253,6 +253,15 @@ namespace Impact.EditorScripts
 
     public class ImpactOnTriggerBaseEditor : ImpactTriggerBaseEditor
     {
+        private SerializedProperty contactPointModeProperty;
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+
+            contactPointModeProperty = serializedObject.FindProperty("contactPointMode");
+        }
+
         protected override void inspectorGUICore()
         {
             drawEnabledProperty();
@@ -265,6 +274,10 @@ namespace Impact.EditorScripts
 
             drawMaterialCompositionProperty();
             drawHighPriorityProperty();
+
+            EditorGUILayout.Separator();
+
+            EditorGUILayout.PropertyField(contactPointModeProperty, new GUIContent("Contact Point Mode", "Whether the contact point should be this object's position, or the position of the other object entering the trigger."));
         }
     }
 

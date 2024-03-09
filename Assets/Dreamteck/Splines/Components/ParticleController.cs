@@ -8,16 +8,33 @@ namespace Dreamteck.Splines
     [AddComponentMenu("Dreamteck/Splines/Users/Particle Controller")]
     public class ParticleController : SplineUser
     {
+        public ParticleSystem particleSystemComponent
+        {
+            get { return _particleSystem; }
+            set {
+                _particleSystem = value;
+                _renderer = _particleSystem.GetComponent<ParticleSystemRenderer>();
+            }
+        }
+
+        [SerializeField]
         [HideInInspector]
-        public ParticleSystem _particleSystem;
+        private ParticleSystem _particleSystem;
+        private ParticleSystemRenderer _renderer;
         public enum EmitPoint { Beginning, Ending, Random, Ordered }
         public enum MotionType { None, UseParticleSystem, FollowForward, FollowBackward, ByNormal, ByNormalRandomized }
         public enum Wrap { Default, Loop }
 
         [HideInInspector]
+        public bool pauseWhenNotVisible = false;
+        [HideInInspector]
+        public Vector2 offset = Vector2.zero;
+        [HideInInspector]
         public bool volumetric = false;
         [HideInInspector]
         public bool emitFromShell = false;
+        [HideInInspector]
+        public bool apply3DRotation = false;
         [HideInInspector]
         public Vector2 scale = Vector2.one;
         [HideInInspector]
@@ -31,61 +48,76 @@ namespace Dreamteck.Splines
         [HideInInspector]
         public float maxCycles = 1f;
 
-        private ParticleSystem.Particle[] particles = new ParticleSystem.Particle[0];
-        private Particle[] controllers = new Particle[0];
-        private int particleCount = 0;
-        private int birthIndex = 0;
+        private ParticleSystem.Particle[] _particles = new ParticleSystem.Particle[0];
+        private Particle[] _controllers = new Particle[0];
+        private int _particleCount = 0;
+        private int _birthIndex = 0;
+        private List<Vector4> _customParticleData = new List<Vector4>();
 
         protected override void LateRun()
         {
             if (_particleSystem == null) return;
-            int maxParticles = _particleSystem.main.maxParticles;
-            if (particles.Length != maxParticles)
+            if (pauseWhenNotVisible)
             {
-                particles = new ParticleSystem.Particle[maxParticles];
+                if (_renderer == null)
+                {
+                    _renderer = _particleSystem.GetComponent<ParticleSystemRenderer>();
+                }
+                if (!_renderer.isVisible) return;
+            }
+
+            int maxParticles = _particleSystem.main.maxParticles;
+            if (_particles.Length != maxParticles)
+            {
+                _particles = new ParticleSystem.Particle[maxParticles];
+                _customParticleData = new List<Vector4>(maxParticles);
                 Particle[] newControllers = new Particle[maxParticles];
                 for (int i = 0; i < newControllers.Length; i++)
                 {
-                    if (i >= controllers.Length) break;
-                    newControllers[i] = controllers[i];
+                    if (i >= _controllers.Length) break;
+                    newControllers[i] = _controllers[i];
                 }
-                controllers = newControllers;
+                _controllers = newControllers;
             }
-            particleCount = _particleSystem.GetParticles(particles);
+            _particleCount = _particleSystem.GetParticles(_particles);
+            _particleSystem.GetCustomParticleData(_customParticleData, ParticleSystemCustomData.Custom1);
 
             bool isLocal = _particleSystem.main.simulationSpace == ParticleSystemSimulationSpace.Local;
 
             Transform particleSystemTransform = _particleSystem.transform;
 
-            for (int i = particleCount-1; i >= 0; i--)
+            for (int i = 0; i < _particleCount; i++)
             {
-                if (isLocal) TransformParticle(ref particles[i], particleSystemTransform);
-                if (controllers[i] == null)
+                if (_controllers[i] == null)
                 {
-                    controllers[i] = new Particle();
-                    OnParticleBorn(i);
-                    if (isLocal) InverseTransformParticle(ref particles[i], particleSystemTransform);
-                    continue;
+                    _controllers[i] = new Particle();
                 }
-                float life = particles[i].startLifetime - particles[i].remainingLifetime;
-                if (life <= Time.deltaTime && controllers[i].lifeTime > life) OnParticleBorn(i);
-                if (isLocal) InverseTransformParticle(ref particles[i], particleSystemTransform);
+                if (isLocal)
+                {
+                    TransformParticle(ref _particles[i], particleSystemTransform);
+                }
+                if (_customParticleData[i].w < 1f)
+                {
+                    OnParticleBorn(i);
+                }
+                HandleParticle(i);
+                if (isLocal)
+                {
+                    InverseTransformParticle(ref _particles[i], particleSystemTransform);
+                }
             }
 
-            for (int i = 0; i < particleCount; i++)
-            {
-                if (controllers[i] == null) controllers[i] = new Particle();
-                if (isLocal) TransformParticle(ref particles[i], particleSystemTransform);
-                HandleParticle(i);
-                if (isLocal) InverseTransformParticle(ref particles[i], particleSystemTransform);
-            }
-            
-            _particleSystem.SetParticles(particles, particleCount);
+            _particleSystem.SetCustomParticleData(_customParticleData, ParticleSystemCustomData.Custom1);
+            _particleSystem.SetParticles(_particles, _particleCount);
         }
 
         void TransformParticle(ref ParticleSystem.Particle particle, Transform trs)
         {
             particle.position = trs.TransformPoint(particle.position);
+            if (apply3DRotation)
+            {
+
+            }
             particle.velocity = trs.TransformDirection(particle.velocity);
         }
 
@@ -104,65 +136,75 @@ namespace Dreamteck.Splines
 
         void HandleParticle(int index)
         {
-            float lifePercent = particles[index].remainingLifetime / particles[index].startLifetime;
+            float lifePercent = _particles[index].remainingLifetime / _particles[index].startLifetime;
             if (motionType == MotionType.FollowBackward || motionType == MotionType.FollowForward || motionType == MotionType.None)
             {
-                Evaluate(controllers[index].GetSplinePercent(wrapMode, particles[index], motionType), evalResult);
-                ModifySample(evalResult);
-                particles[index].position = evalResult.position;
+                Evaluate(_controllers[index].GetSplinePercent(wrapMode, _particles[index], motionType), ref evalResult);
+                ModifySample(ref evalResult);
+                Vector3 resultRight = evalResult.right;
+                _particles[index].position = evalResult.position;
+                if (apply3DRotation)
+                {
+                    _particles[index].rotation3D = evalResult.rotation.eulerAngles;
+                }
+                Vector2 finalOffset = offset;
                 if (volumetric)
                 {
-                    Vector3 right = -Vector3.Cross(evalResult.forward, evalResult.up);
-                    Vector2 offset = controllers[index].startOffset;
-                    if (motionType != MotionType.None) offset = Vector2.Lerp(controllers[index].startOffset, controllers[index].endOffset, 1f - lifePercent);
-                    particles[index].position += right * offset.x * scale.x * evalResult.size + evalResult.up * offset.y * scale.y * evalResult.size;
+                    if (motionType != MotionType.None)
+                    {
+                        finalOffset += Vector2.Lerp(_controllers[index].startOffset, _controllers[index].endOffset, 1f - lifePercent);
+                        finalOffset.x *= scale.x;
+                        finalOffset.y *= scale.y;
+                    } else
+                    {
+                        finalOffset += _controllers[index].startOffset;
+                    }
                 }
-                particles[index].velocity = evalResult.forward;
-                particles[index].startColor = controllers[index].startColor * evalResult.color;
+                _particles[index].position += resultRight * (finalOffset.x * evalResult.size) + evalResult.up * (finalOffset.y * evalResult.size);
+                _particles[index].velocity = evalResult.forward;
+                _particles[index].startColor = _controllers[index].startColor * evalResult.color;
             }
-            controllers[index].remainingLifetime = particles[index].remainingLifetime;
-            controllers[index].lifeTime = particles[index].startLifetime - particles[index].remainingLifetime;
         }
 
-        void OnParticleDie(int index)
+        private void OnParticleBorn(int index)
         {
-
-        }
-
-        void OnParticleBorn(int index)
-        {
-            birthIndex++;
+            Vector4 custom = _customParticleData[index];
+            custom.w = 1;
+            _customParticleData[index] = custom;
             double percent = 0.0;
             float emissionRate = Mathf.Lerp(_particleSystem.emission.rateOverTime.constantMin, _particleSystem.emission.rateOverTime.constantMax, 0.5f);
             float expectedParticleCount = emissionRate * _particleSystem.main.startLifetime.constantMax;
-            if (birthIndex > expectedParticleCount) birthIndex = 0;
+            _birthIndex++;
+            if (_birthIndex > expectedParticleCount)
+            {
+                _birthIndex = 0;
+            }
+
             switch (emitPoint)
             {
                 case EmitPoint.Beginning: percent = 0f; break;
                 case EmitPoint.Ending: percent = 1f; break;
                 case EmitPoint.Random: percent = Random.Range(0f, 1f); break;
-                case EmitPoint.Ordered: percent = expectedParticleCount > 0 ? (float)birthIndex / expectedParticleCount : 0f;  break;
+                case EmitPoint.Ordered: percent = expectedParticleCount > 0 ? (float)_birthIndex / expectedParticleCount : 0f;  break;
             }
-            Evaluate(percent, evalResult);
-            ModifySample(evalResult);
-            controllers[index].startColor = particles[index].startColor;
-            controllers[index].startPercent = percent;
-            controllers[index].startLifetime = particles[index].startLifetime;
-            controllers[index].remainingLifetime = particles[index].remainingLifetime;
-          
-            controllers[index].cycleSpeed = Random.Range(minCycles, maxCycles);
+            Evaluate(percent, ref evalResult);
+            ModifySample(ref evalResult);
+            _controllers[index].startColor = _particles[index].startColor;
+            _controllers[index].startPercent = percent;
+
+            _controllers[index].cycleSpeed = Random.Range(minCycles, maxCycles);
             Vector2 circle = Vector2.zero;
             if (volumetric)
             {
                 if (emitFromShell) circle = Quaternion.AngleAxis(Random.Range(0f, 360f), Vector3.forward) * Vector2.right;
                 else circle = Random.insideUnitCircle;
             }
-            controllers[index].startOffset = circle * 0.5f;
-            controllers[index].endOffset = Random.insideUnitCircle * 0.5f;
+            _controllers[index].startOffset = circle * 0.5f;
+            _controllers[index].endOffset = Random.insideUnitCircle * 0.5f;
 
 
             Vector3 right = Vector3.Cross(evalResult.forward, evalResult.up);
-            particles[index].position = evalResult.position + right * controllers[index].startOffset.x * evalResult.size * scale.x + evalResult.up * controllers[index].startOffset.y * evalResult.size * scale.y;
+            _particles[index].position = evalResult.position + right * _controllers[index].startOffset.x * evalResult.size * scale.x + evalResult.up * _controllers[index].startOffset.y * evalResult.size * scale.y;
 
             float forceX = _particleSystem.forceOverLifetime.x.constantMax;
             float forceY = _particleSystem.forceOverLifetime.y.constantMax;
@@ -174,23 +216,23 @@ namespace Dreamteck.Splines
                 forceZ = Random.Range(_particleSystem.forceOverLifetime.z.constantMin, _particleSystem.forceOverLifetime.z.constantMax);
             }
 
-            float time = particles[index].startLifetime - particles[index].remainingLifetime;
+            float time = _particles[index].startLifetime - _particles[index].remainingLifetime;
             Vector3 forceDistance = new Vector3(forceX, forceY, forceZ) * 0.5f * (time * time);
 
             float startSpeed = _particleSystem.main.startSpeed.constantMax;
 
             if (motionType == MotionType.ByNormal)
             {
-                particles[index].position += evalResult.up * startSpeed * (particles[index].startLifetime - particles[index].remainingLifetime);
-                particles[index].position += forceDistance;
-                particles[index].velocity = evalResult.up * startSpeed + new Vector3(forceX, forceY, forceZ) * time;
+                _particles[index].position += evalResult.up * startSpeed * (_particles[index].startLifetime - _particles[index].remainingLifetime);
+                _particles[index].position += forceDistance;
+                _particles[index].velocity = evalResult.up * startSpeed + new Vector3(forceX, forceY, forceZ) * time;
             }
             else if (motionType == MotionType.ByNormalRandomized)
             {
                 Vector3 normal = Quaternion.AngleAxis(Random.Range(0f, 360f), evalResult.forward) * evalResult.up;
-                particles[index].position += normal * startSpeed * (particles[index].startLifetime - particles[index].remainingLifetime);
-                particles[index].position += forceDistance;
-                particles[index].velocity = normal * startSpeed + new Vector3(forceX, forceY, forceZ) * time;
+                _particles[index].position += normal * startSpeed * (_particles[index].startLifetime - _particles[index].remainingLifetime);
+                _particles[index].position += forceDistance;
+                _particles[index].velocity = normal * startSpeed + new Vector3(forceX, forceY, forceZ) * time;
             }
             HandleParticle(index);
         }
@@ -200,10 +242,7 @@ namespace Dreamteck.Splines
             internal Vector2 startOffset = Vector2.zero;
             internal Vector2 endOffset = Vector2.zero;
             internal float cycleSpeed = 0f;
-            internal float startLifetime = 0f;
             internal Color startColor = Color.white;
-            internal float remainingLifetime = 0f;
-            internal float lifeTime = 0f;
             internal double startPercent = 0.0;
 
             internal double GetSplinePercent(Wrap wrap, ParticleSystem.Particle particle, MotionType motionType)

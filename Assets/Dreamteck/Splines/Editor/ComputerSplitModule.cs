@@ -23,7 +23,7 @@ namespace Dreamteck.Splines.Editor
             return IconContent("Split", "split_on", "Split Spline");
         }
 
-        public override void DrawScene()
+        protected override void OnDrawScene()
         {
             bool change = false;
             Camera editorCamera = SceneView.currentDrawingSceneView.camera;

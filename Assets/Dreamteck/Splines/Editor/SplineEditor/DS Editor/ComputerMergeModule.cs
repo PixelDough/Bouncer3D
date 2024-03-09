@@ -45,7 +45,7 @@ namespace Dreamteck.Splines.Editor
             FindAvailableComputers();
         }
 
-        void FindAvailableComputers()
+        private void FindAvailableComputers()
         {
             SplineComputer[] found = Object.FindObjectsOfType<SplineComputer>();
             List<SplineComputer> available = new List<SplineComputer>();
@@ -56,9 +56,9 @@ namespace Dreamteck.Splines.Editor
             availableMergeComputers = available.ToArray();
         }
 
-        public override void DrawScene()
+        protected override void OnDrawScene()
         {
-            base.DrawScene();
+            base.OnDrawScene();
             if (spline.isClosed) return;
             Camera editorCamera = SceneView.currentDrawingSceneView.camera;
             for (int i = 0; i < availableMergeComputers.Length; i++)
@@ -82,9 +82,9 @@ namespace Dreamteck.Splines.Editor
             Handles.color = Color.white;
         }
 
-        public override void DrawInspector()
+        protected override void OnDrawInspector()
         {
-            base.DrawInspector();
+            base.OnDrawInspector();
             if (spline.isClosed)
             {
                 EditorGUILayout.LabelField("Closed splines cannot be merged with others.", EditorStyles.centeredGreyMiniLabel);
@@ -94,9 +94,9 @@ namespace Dreamteck.Splines.Editor
             mergeEndpoints = EditorGUILayout.Toggle("Merge Endpoints", mergeEndpoints);
         }
 
-        void Merge(int index, MergeSide mergingSide)
+        private void Merge(int index, MergeSide mergingSide)
         {
-            RecordUndo("Merge Splines");
+            RegisterChange();
             SplineComputer mergedSpline = availableMergeComputers[index];
             SplinePoint[] mergedPoints = mergedSpline.GetPoints();
             SplinePoint[] original = spline.GetPoints();

@@ -151,60 +151,12 @@ namespace Bewildered.SmartLibrary
             return bounds;
         }
 
-        public static Rect GetGUIRenderableBounds(RectTransform rectTransform)
+        public static Bounds GetGUIRenderableBounds(RectTransform rectTransform)
         {
             // We force rebuild so that components that effect layout (e.g. VerticalLayoutGroup) will layout their children.
             LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
-            return GetGUIRenderableBoundsRecursive(new Rect(), rectTransform.gameObject);
-        }
 
-        private static Rect GetGUIRenderableBoundsRecursive(Rect rect, GameObject go)
-        {
-            if (go.TryGetComponent(out Graphic graphic))
-            {
-                RectTransform rectTransform = graphic.rectTransform;
-
-                // Some components like TextMeshPro don't affect the sizeDelta or position, opting for a custom system.
-                // This will throw off the calculations so we skip components with no size.
-                if (rectTransform.sizeDelta.x > 0 && rectTransform.sizeDelta.y > 0)
-                {
-                    if (rect.size == Vector2.zero)
-                    {
-                        rect = new Rect(rectTransform.localPosition, rectTransform.sizeDelta);
-                    }
-                    else
-                    {
-                        rect = RectEncapsulate(rect, new Rect(rectTransform.localPosition, rectTransform.sizeDelta));
-                    }
-                }
-            }
-            
-            // Recurse into children
-            foreach (Transform t in go.transform)
-            {
-                rect = GetGUIRenderableBoundsRecursive(rect, t.gameObject);
-            }
-
-            return rect;
-        }
-
-        private static Rect RectEncapsulate(Rect rect, Rect otherRect)
-        {
-            rect = RectEncapsulate(rect, otherRect.center - otherRect.size / 2);
-            rect = RectEncapsulate(rect, otherRect.center + otherRect.size / 2);
-            return rect;
-        }
-        
-        private static Rect RectEncapsulate(Rect rect, Vector2 point)
-        {
-            return RectSetMinMax(rect, Vector2.Min(rect.min, point), Vector2.Max(rect.max, point));
-        }
-
-        private static Rect RectSetMinMax(Rect rect, Vector2 min, Vector2 max)
-        {
-            rect.size = max - min;
-            rect.center = min + (rect.size / 2);
-            return rect;
+            return RectTransformUtility.CalculateRelativeRectTransformBounds(rectTransform);
         }
     }
 }

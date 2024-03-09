@@ -10,7 +10,6 @@ namespace Dreamteck.Splines.Editor
     {
         SplineSample result = new SplineSample();
         protected SplineFollower[] followers = new SplineFollower[0];
-        protected SerializedObject serializedFollowers;
         protected FollowerSpeedModifierEditor speedModifierEditor;
 
         void OnSetDistance(float distance)
@@ -19,7 +18,10 @@ namespace Dreamteck.Splines.Editor
             {
                 SplineFollower follower = (SplineFollower)targets[i];
                 double travel = follower.Travel(0.0, distance, Spline.Direction.Forward);
-                follower.startPosition = travel;
+                var startPosition = serializedObject.FindProperty("_startPosition");
+                startPosition.floatValue = (float)travel;
+                follower.SetPercent(travel);
+                EditorUtility.SetDirty(follower);
             }
         }
 
@@ -34,7 +36,7 @@ namespace Dreamteck.Splines.Editor
 
             if (followers.Length == 1)
             {
-                speedModifierEditor = new FollowerSpeedModifierEditor(followers[0], this, followers[0].speedModifier);
+                speedModifierEditor = new FollowerSpeedModifierEditor(followers[0], this);
             }
         }
 
@@ -44,47 +46,72 @@ namespace Dreamteck.Splines.Editor
             EditorGUILayout.LabelField("Following", EditorStyles.boldLabel);
             SplineFollower follower = (SplineFollower)target;
 
-            serializedFollowers = new SerializedObject(followers);
             SerializedProperty followMode = serializedObject.FindProperty("followMode");
             SerializedProperty preserveUniformSpeedWithOffset = serializedObject.FindProperty("preserveUniformSpeedWithOffset");
             SerializedProperty wrapMode = serializedObject.FindProperty("wrapMode");
             SerializedProperty startPosition = serializedObject.FindProperty("_startPosition");
             SerializedProperty autoStartPosition = serializedObject.FindProperty("autoStartPosition");
-            SerializedProperty follow = serializedObject.FindProperty("follow");
+            SerializedProperty follow = serializedObject.FindProperty("_follow");
+            SerializedProperty direction = serializedObject.FindProperty("_direction");
             SerializedProperty unityOnEndReached = serializedObject.FindProperty("_unityOnEndReached");
             SerializedProperty unityOnBeginningReached = serializedObject.FindProperty("_unityOnBeginningReached");
 
             EditorGUI.BeginChangeCheck();
 
+            bool lastFollow = follow.boolValue;
             EditorGUILayout.PropertyField(follow);
-            if (follow.boolValue)
+            if(lastFollow != follow.boolValue)
             {
-                EditorGUILayout.PropertyField(followMode);
-                if (followMode.intValue == (int)SplineFollower.FollowMode.Uniform)
+                if (follow.boolValue)
                 {
-                    SerializedProperty followSpeed = serializedObject.FindProperty("_followSpeed");
-                    SerializedProperty motion = serializedObject.FindProperty("_motion");
-                    SerializedProperty motionHasOffset = motion.FindPropertyRelative("_hasOffset");
-
-                    EditorGUILayout.PropertyField(followSpeed, new GUIContent("Follow Speed"));
-                    if (followSpeed.floatValue < 0f)
+                    if (autoStartPosition.boolValue)
                     {
-                        followSpeed.floatValue = 0f;
+                        SplineSample sample = new SplineSample();
+                        followers[0].Project(followers[0].transform.position, ref sample);
+                        if (Application.isPlaying)
+                        {
+                            for (int i = 0; i < followers.Length; i++)
+                            {
+                                followers[i].SetPercent(sample.percent);
+                            }
+                        }
                     }
-                    if (motionHasOffset.boolValue)
-                    {
-                        EditorGUILayout.PropertyField(preserveUniformSpeedWithOffset, new GUIContent("Preserve Uniform Speed With Offset"));
-                    }
-                    if (followers.Length == 1)
-                    {
-                        speedModifierEditor.DrawInspector();
-                    }
-                }
-                else
-                {
-                    follower.followDuration = EditorGUILayout.FloatField("Follow duration", follower.followDuration);
                 }
             }
+            EditorGUILayout.PropertyField(followMode);
+            if (followMode.intValue == (int)SplineFollower.FollowMode.Uniform)
+            {
+                SerializedProperty followSpeed = serializedObject.FindProperty("_followSpeed");
+
+                if(followSpeed.floatValue < 0f)
+                {
+                    direction.intValue = (int)Spline.Direction.Backward;
+                } else if (followSpeed.floatValue > 0f)
+                {
+                    direction.intValue = (int)Spline.Direction.Forward;
+                }
+
+                SerializedProperty motion = serializedObject.FindProperty("_motion");
+                SerializedProperty motionHasOffset = motion.FindPropertyRelative("_hasOffset");
+
+                EditorGUILayout.PropertyField(followSpeed, new GUIContent("Follow Speed"));
+
+
+
+                if (motionHasOffset.boolValue)
+                {
+                    EditorGUILayout.PropertyField(preserveUniformSpeedWithOffset, new GUIContent("Preserve Uniform Speed With Offset"));
+                }
+                if (followers.Length == 1)
+                {
+                    speedModifierEditor.DrawInspector();
+                }
+            }
+            else
+            {
+                follower.followDuration = EditorGUILayout.FloatField("Follow duration", follower.followDuration);
+            }
+            
 
 
             EditorGUILayout.PropertyField(wrapMode);
@@ -97,11 +124,12 @@ namespace Dreamteck.Splines.Editor
 
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Start Position", EditorStyles.boldLabel);
-            EditorGUILayout.PropertyField(autoStartPosition, new GUIContent("Project"));
+            EditorGUILayout.PropertyField(autoStartPosition, new GUIContent("Automatic Start Position"));
             EditorGUILayout.BeginHorizontal();
             EditorGUIUtility.labelWidth = 100f;
             if (!follower.autoStartPosition && !Application.isPlaying)
             {
+                float lastStartpos = startPosition.floatValue;
                 EditorGUILayout.PropertyField(startPosition, new GUIContent("Start Position"));
                 if (GUILayout.Button("Set Distance", GUILayout.Width(85)))
                 {
@@ -137,13 +165,26 @@ namespace Dreamteck.Splines.Editor
                 }
             }
 
+            int lastDirection = direction.intValue;
             base.BodyGUI();
+
+            if(lastDirection != direction.intValue)
+            {
+                SerializedProperty followSpeed = serializedObject.FindProperty("_followSpeed");
+                if(direction.intValue == (int)Spline.Direction.Forward)
+                {
+                    followSpeed.floatValue = Mathf.Abs(followSpeed.floatValue);
+                } else
+                {
+                    followSpeed.floatValue = -Mathf.Abs(followSpeed.floatValue);
+                }
+            }
         }
 
 
-        protected override void OnSceneGUI()
+        protected override void DuringSceneGUI(SceneView currentSceneView)
         {
-            base.OnSceneGUI();
+            base.DuringSceneGUI(currentSceneView);
             SplineFollower user = (SplineFollower)target;
             if (user == null) return;
             if (Application.isPlaying)
@@ -154,7 +195,7 @@ namespace Dreamteck.Splines.Editor
             if (user.spline == null) return;
             if (user.autoStartPosition)
             {
-                user.spline.Project(result, user.transform.position, user.clipFrom, user.clipTo);
+                user.spline.Project(user.transform.position, ref result, user.clipFrom, user.clipTo);
                 DrawResult(result);
             } else if(!user.follow) DrawResult(user.result);
 

@@ -129,14 +129,26 @@ namespace Dreamteck.Splines
             for (int i = 0; i < channels.Length; i++)
             {
                 float delta = Mathf.Abs(i - channelValue);
-                if (delta > 1f) SetWeight(i, 0f);
+                if (delta > 1f)
+                {
+                    SetWeight(i, 0f);
+                }
                 else
                 {
-                    if (channelValue <= i) SetWeight(i, 1f - (i - channelValue));
-                    else SetWeight(i, 1f - (channelValue - i));
+                    if (channelValue <= i)
+                    {
+                        SetWeight(i, 1f - (i - channelValue));
+                    }
+                    else
+                    {
+                        SetWeight(i, 1f - (channelValue - i));
+                    }
                 }
             }
-            if (loop && channelValue >= channels.Length - 1) SetWeight(0, channelValue - (channels.Length - 1));
+            if (loop && channelValue >= channels.Length - 1)
+            {
+                SetWeight(0, channelValue - (channels.Length - 1));
+            }
         }
 
         public void CaptureSnapshot(string name)
@@ -165,6 +177,11 @@ namespace Dreamteck.Splines
         {
             return channels[index].points;
         }
+        public void SetSnapshot(int index, SplinePoint[] points)
+        {
+            channels[index].points = points;
+        }
+
 
         public SplinePoint[] GetSnapshot(string name)
         {
@@ -268,6 +285,7 @@ namespace Dreamteck.Splines
                         points[j] = channels[0].points[j];
                         continue;
                     }
+
                     float percent = channels[i].curve.Evaluate(channels[i].percent);
                     if (channels[i].interpolation == Channel.Interpolation.Linear)
                     {
@@ -293,7 +311,11 @@ namespace Dreamteck.Splines
                     }
                 }
             }
-            for (int i = 0; i < points.Length; i++) points[i].normal.Normalize();
+
+            for (int i = 0; i < points.Length; i++)
+            {
+                points[i].normal.Normalize();
+            }
             _spline.SetPoints(points, space);
         }
     }

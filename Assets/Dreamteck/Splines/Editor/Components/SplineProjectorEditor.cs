@@ -57,9 +57,9 @@ namespace Dreamteck.Splines.Editor
             base.BodyGUI();
         }
 
-        protected override void OnSceneGUI()
+        protected override void DuringSceneGUI(SceneView currentSceneView)
         {
-            base.OnSceneGUI();
+            base.DuringSceneGUI(currentSceneView);
             for (int i = 0; i < users.Length; i++)
             {
                 SplineProjector user = (SplineProjector)users[i];

@@ -34,11 +34,7 @@ namespace Dreamteck.Splines.Editor
             internal void Spawn(GameObject obj, Vector3 position, Quaternion rotation)
             {
                 GameObject go = null;
-#if UNITY_2018_3_OR_NEWER
                 bool isPrefab = PrefabUtility.GetPrefabAssetType(obj) != PrefabAssetType.NotAPrefab;
-#else
-                bool isPrefab = PrefabUtility.GetPrefabType(obj) == PrefabType.Prefab;
-#endif
 
                 if (isPrefab) go = (GameObject)PrefabUtility.InstantiatePrefab(obj);
                 else go = Object.Instantiate(obj, position, rotation);
@@ -375,7 +371,7 @@ namespace Dreamteck.Splines.Editor
                 evaluate += positionOffset;
                 if (evaluate > 1f) evaluate -= 1f;
                 else if (evaluate < 0f) evaluate += 1f;
-                collection.spline.Evaluate(evaluate, result);
+                collection.spline.Evaluate(evaluate, ref result);
                 HandleObject(collection.objects[i]);
             }
         }

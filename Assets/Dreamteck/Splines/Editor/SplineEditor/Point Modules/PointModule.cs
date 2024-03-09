@@ -9,24 +9,24 @@ namespace Dreamteck.Splines.Editor
     {
         protected bool isClosed
         {
-            get { return editor.isClosed; }
+            get { return editor.GetSplineClosed(); }
         }
         protected int sampleRate
         {
-            get { return editor.sampleRate; }
+            get { return editor.GetSplineSampleRate(); }
         }
         protected Spline.Type splineType
         {
-            get { return editor.splineType; }
+            get { return editor.GetSplineType(); }
         }
         protected Color color {
-            get { return editor.color; }
+            get { return editor.drawColor; }
         }
         protected SplineEditor editor;
 
-        protected SplinePoint[] points{
+        protected SerializedSplinePoint[] points {
             get { return editor.points; }    
-            set { editor.points = value; }
+            set { editor.points = value; }    
         }
 
         protected List<int> selectedPoints
@@ -74,6 +74,7 @@ namespace Dreamteck.Splines.Editor
 
         private bool movePivot = false;
         private Vector3 idealPivot = Vector3.zero;
+
         
 
         public PointModule(SplineEditor editor)
@@ -151,11 +152,11 @@ namespace Dreamteck.Splines.Editor
         public virtual void DuplicateSelected()
         {
             if (selectedPoints.Count == 0) return;
-            RecordUndo("Duplicate Points");
             SplinePoint[] newPoints = new SplinePoint[points.Length + selectedPoints.Count];
             SplinePoint[] duplicated = new SplinePoint[selectedPoints.Count];
+            editor.SetPointsCount(newPoints.Length);
             int index = 0;
-            for (int i = 0; i < selectedPoints.Count; i++) duplicated[index++] = points[selectedPoints[i]];
+            for (int i = 0; i < selectedPoints.Count; i++) duplicated[index++] = points[selectedPoints[i]].CreateSplinePoint();
             int min = points.Length - 1, max = 0;
             for (int i = 0; i < selectedPoints.Count; i++)
             {
@@ -166,25 +167,26 @@ namespace Dreamteck.Splines.Editor
             selectedPoints.Clear();
             if (duplicationDirection == Spline.Direction.Backward)
             {
-                for (int i = 0; i < min; i++) newPoints[i] = points[i];
+                for (int i = 0; i < min; i++) newPoints[i] = points[i].CreateSplinePoint();
                 for (int i = 0; i < duplicated.Length; i++)
                 {
                     newPoints[i + min] = duplicated[i];
                     selectedPoints.Add(i + min);
                 }
-                for (int i = min; i < points.Length; i++) newPoints[i + duplicated.Length] = points[i];
+                for (int i = min; i < points.Length; i++) newPoints[i + duplicated.Length] = points[i].CreateSplinePoint();
             }
             else
             {
-                for (int i = 0; i <= max; i++) newPoints[i] = points[i];
+                for (int i = 0; i <= max; i++) newPoints[i] = points[i].CreateSplinePoint();
                 for (int i = 0; i < duplicated.Length; i++)
                 {
                     newPoints[i + max + 1] = duplicated[i];
                     selectedPoints.Add(i + max + 1);
                 }
-                for (int i = max + 1; i < points.Length; i++) newPoints[i + duplicated.Length] = points[i];
+                for (int i = max + 1; i < points.Length; i++) newPoints[i + duplicated.Length] = points[i].CreateSplinePoint();
             }
-            points = newPoints;
+            editor.SetPointsArray(newPoints);
+            RegisterChange();
             if (onDuplicatePoint != null) onDuplicatePoint(selected);
         }
 
@@ -212,36 +214,23 @@ namespace Dreamteck.Splines.Editor
                 onBeforeDeleteSelectedPoints();
             }
 
-            if (isClosed && selectedPoints.Count == points.Length - 1)
+            for (int i = 0; i < selectedPoints.Count; i++)
             {
-                for (int i = points.Length - 1; i >= 0; i--)
+                DeletePoint(selectedPoints[i]);
+                for (int n = i; n < selectedPoints.Count; n++)
                 {
-                    DeletePoint(i);
-                }
-            }
-            else
-            {
-                for (int i = 0; i < selectedPoints.Count; i++)
-                {
-                    DeletePoint(selectedPoints[i]);
-                    for (int n = i; n < selectedPoints.Count; n++) selectedPoints[n]--;
+                    selectedPoints[n]--;
                 }
             }
             ClearSelection();
+            RegisterChange();
+            editor.ApplyModifiedProperties(true);
         }
 
         protected void DeletePoint(int index)
         {
-            RecordUndo("Delete Point");
-            SplinePoint[] p = points;
-            ArrayUtility.RemoveAt(ref p, index);
-            points = p;
-#if DREAMTECK_SPLINES
-            if(editor is DreamteckSplinesEditor)
-            {
-               ((DreamteckSplinesEditor)editor).UpdateSpline();
-            }
-#endif
+            editor.DeletePoint(index);
+            RegisterChange();
         }
 
 
@@ -269,7 +258,6 @@ namespace Dreamteck.Splines.Editor
 
         protected void SelectPoint(int index)
         {
-            if (isClosed && index == points.Length - 1) return;
             if (selectedPoints.Count == 1 && selectedPoints[0] == index) return;
             selectedPoints.Clear();
             selectedPoints.Add(index);
@@ -294,7 +282,6 @@ namespace Dreamteck.Splines.Editor
             selectedPoints.Clear();
             for (int i = 0; i < indices.Count; i++)
             {
-                if (isClosed && i == points.Length - 1) continue;
                 selectedPoints.Add(indices[i]);
             }
             Repaint();
@@ -304,7 +291,6 @@ namespace Dreamteck.Splines.Editor
 
         protected void AddPointSelection(int index)
         {
-            if (isClosed && index == points.Length - 1) return;
             if (selectedPoints.Contains(index)) return;
             selectedPoints.Add(index);
             Repaint();

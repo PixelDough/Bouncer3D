@@ -8,9 +8,9 @@ namespace Dreamteck.Splines.Editor
     [CanEditMultipleObjects]
     public class SurfaceGeneratorEditor : MeshGenEditor
     {
-        protected override void OnSceneGUI()
+        protected override void DuringSceneGUI(SceneView currentSceneView)
         {
-            base.OnSceneGUI();
+            base.DuringSceneGUI(currentSceneView);
             SurfaceGenerator user = (SurfaceGenerator)target;
             if (user.extrudeSpline != null)
             {
@@ -33,7 +33,28 @@ namespace Dreamteck.Splines.Editor
             EditorGUILayout.LabelField("Shape", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(expand, new GUIContent("Expand"));
             if (extrudeSpline.objectReferenceValue == null) EditorGUILayout.PropertyField(extrude, new GUIContent("Extrude"));
+            var lastExtrudeSpline = extrudeSpline.objectReferenceValue;
             EditorGUILayout.PropertyField(extrudeSpline, new GUIContent("Extrude Path"));
+            if(lastExtrudeSpline != extrudeSpline.objectReferenceValue)
+            {
+                if (lastExtrudeSpline != null)
+                {
+                    for (int i = 0; i < users.Length; i++)
+                    {
+                        ((SplineComputer)lastExtrudeSpline).Unsubscribe(users[i]);
+                    }
+                }
+
+                SplineComputer spline = (SplineComputer)extrudeSpline.objectReferenceValue;
+                if (spline != null)
+                {
+                    for (int i = 0; i < users.Length; i++)
+                    {
+                        spline.Subscribe(users[i]);
+                    }
+                }
+            }
+
             if (extrudeSpline.objectReferenceValue != null)
             {
                 SerializedProperty extrudeClipFrom = serializedObject.FindProperty("_extrudeFrom");
@@ -43,6 +64,8 @@ namespace Dreamteck.Splines.Editor
                 EditorGUILayout.MinMaxSlider(new GUIContent("Extrude Clip Range:"), ref clipFrom, ref clipTo, 0f, 1f);
                 extrudeClipFrom.floatValue = clipFrom;
                 extrudeClipTo.floatValue = clipTo;
+                SerializedProperty extrudeOffset = serializedObject.FindProperty("_extrudeOffset");
+                EditorGUILayout.PropertyField(extrudeOffset);
             }
             bool change = false;
             if (EditorGUI.EndChangeCheck())
@@ -58,9 +81,12 @@ namespace Dreamteck.Splines.Editor
                 EditorGUI.BeginChangeCheck();
                 SerializedProperty sideUvOffset = serializedObject.FindProperty("_sideUvOffset");
                 SerializedProperty sideUvScale = serializedObject.FindProperty("_sideUvScale");
+                SerializedProperty sideUVRotation = serializedObject.FindProperty("_sideUvRotation");
                 SerializedProperty uniformUvs = serializedObject.FindProperty("_uniformUvs");
 
+
                 EditorGUILayout.PropertyField(sideUvOffset, new GUIContent("Side UV Offset"));
+                EditorGUILayout.PropertyField(sideUVRotation, new GUIContent("Side UV Rotation"));
                 EditorGUILayout.PropertyField(sideUvScale, new GUIContent("Side UV Scale"));
                 EditorGUILayout.PropertyField(uniformUvs, new GUIContent("Unform UVs"));
                 if (EditorGUI.EndChangeCheck())

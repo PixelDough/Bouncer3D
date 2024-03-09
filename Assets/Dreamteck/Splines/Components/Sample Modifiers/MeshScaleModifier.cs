@@ -12,7 +12,7 @@
         {
             public Vector3 scale = Vector3.one;
 
-            public ScaleKey(double f, double t, MeshScaleModifier modifier) : base(f, t, modifier)
+            public ScaleKey(double f, double t) : base(f, t)
             {
             }
         }
@@ -38,17 +38,16 @@
             keys = new List<ScaleKey>();
             for (int i = 0; i < input.Count; i++)
             {
-                input[i].modifier = this;
                 keys.Add((ScaleKey)input[i]);
             }
         }
 
         public void AddKey(double f, double t)
         {
-            keys.Add(new ScaleKey(f, t, this));
+            keys.Add(new ScaleKey(f, t));
         }
 
-        public override void Apply(SplineSample result)
+        public override void Apply(ref SplineSample result)
         {
             if (keys.Count == 0)
             {
@@ -56,7 +55,7 @@
             }
             for (int i = 0; i < keys.Count; i++)
             {
-                result.size += keys[i].Evaluate(result.percent) * keys[i].scale.magnitude;
+                result.size += keys[i].Evaluate(result.percent) * keys[i].scale.magnitude * blend;
             }
         }
 
@@ -71,7 +70,7 @@
                 scale.y *= scaleMultiplier.y;
                 scale.z *= scaleMultiplier.z;
             }
-            return scale;
+            return Vector3.Lerp(Vector3.one, scale, blend);
         }
     }
 }

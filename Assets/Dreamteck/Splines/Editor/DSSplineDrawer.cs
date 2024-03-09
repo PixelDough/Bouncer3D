@@ -23,11 +23,7 @@ namespace Dreamteck.Splines.Editor
 #endif
 
             FindComputers();
-#if UNITY_2018_1_OR_NEWER
             EditorApplication.hierarchyChanged += HerarchyWindowChanged;
-#else
-            EditorApplication.hierarchyWindowChanged += HerarchyWindowChanged;
-#endif
             EditorApplication.playModeStateChanged += ModeChanged;
         }
 
@@ -96,30 +92,37 @@ namespace Dreamteck.Splines.Editor
         public static void DrawSplineComputer(SplineComputer comp, double fromPercent = 0.0, double toPercent = 1.0, float alpha = 1f)
         {
             if (comp == null) return;
+            if (comp.pointCount < 2) return;
+            if (Event.current.type != EventType.Repaint) return;
             Color prevColor = Handles.color;
             Color handleColor = comp.editorPathColor;
             handleColor.a = alpha;
             Handles.color = handleColor;
-            if (comp.pointCount < 2) return;
 
             if (comp.type == Spline.Type.BSpline && comp.pointCount > 1)
             {
                 SplinePoint[] compPoints = comp.GetPoints();
                 Handles.color = new Color(handleColor.r, handleColor.g, handleColor.b, 0.5f * alpha);
-                for (int i = 0; i < compPoints.Length - 1; i++) Handles.DrawLine(compPoints[i].position, compPoints[i + 1].position);
+                for (int i = 0; i < compPoints.Length - 1; i++)
+                {
+                    Handles.DrawLine(compPoints[i].position, compPoints[i + 1].position);
+                }
                 Handles.color = handleColor;
             }
 
             if (!comp.editorDrawThickness)
             {
-                if (positions.Length != comp.sampleCount * 2) positions = new Vector3[comp.sampleCount * 2];
+                if (positions.Length != comp.sampleCount * 2)
+                {
+                    positions = new Vector3[comp.sampleCount * 2];
+                }
                 Vector3 prevPoint = comp.EvaluatePosition(fromPercent);
                 int pointIndex = 0;
                 for (int i = 1; i < comp.sampleCount; i++)
                 {
                     positions[pointIndex] = prevPoint;
                     pointIndex++;
-                    positions[pointIndex] = comp.samples[i].position;
+                    positions[pointIndex] = comp[i].position;
                     pointIndex++;
                     prevPoint = positions[pointIndex - 1];
                 }
@@ -136,20 +139,19 @@ namespace Dreamteck.Splines.Editor
                 int pointIndex = 0;
                 for (int i = 1; i < comp.sampleCount; i++)
                 {
-                    SplineSample newResult = comp.samples[i];
-                    Vector3 newNormal = newResult.up;
-                    if (comp.editorBillboardThickness) newNormal = (editorCamera.position - newResult.position).normalized;
-                    Vector3 newRight = Vector3.Cross(newResult.forward, newNormal).normalized * newResult.size * 0.5f;
+                    Vector3 newNormal = comp[i].up;
+                    if (comp.editorBillboardThickness) newNormal = (editorCamera.position - comp[i].position).normalized;
+                    Vector3 newRight = Vector3.Cross(comp[i].forward, newNormal).normalized * comp[i].size * 0.5f;
 
                     positions[pointIndex] = prevResult.position + prevRight;
                     positions[pointIndex + comp.sampleCount * 2] = prevResult.position - prevRight;
-                    positions[pointIndex + comp.sampleCount * 4] = newResult.position - newRight;
+                    positions[pointIndex + comp.sampleCount * 4] = comp[i].position - newRight;
                     pointIndex++;
-                    positions[pointIndex] = newResult.position + newRight;
-                    positions[pointIndex + comp.sampleCount * 2] = newResult.position - newRight;
-                    positions[pointIndex + comp.sampleCount * 4] = newResult.position + newRight;
+                    positions[pointIndex] = comp[i].position + newRight;
+                    positions[pointIndex + comp.sampleCount * 2] = comp[i].position - newRight;
+                    positions[pointIndex + comp.sampleCount * 4] = comp[i].position + newRight;
                     pointIndex++;
-                    prevResult = newResult;
+                    prevResult = comp[i];
                     prevRight = newRight;
                     prevNormal = newNormal;
                 }

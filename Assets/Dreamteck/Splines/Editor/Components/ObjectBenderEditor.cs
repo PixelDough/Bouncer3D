@@ -277,9 +277,9 @@ namespace Dreamteck.Splines.Editor
             }
         }
 
-        protected override void OnSceneGUI()
+        protected override void DuringSceneGUI(SceneView currentSceneView)
         {
-            base.OnSceneGUI();
+            base.DuringSceneGUI(currentSceneView);
             ObjectBender bender = (ObjectBender)target;
             if (selected.Count > 0)
             {

@@ -37,15 +37,6 @@ namespace Dreamteck.Splines
 
         private bool updateCollider = false;
 
-#if UNITY_EDITOR
-        public override void EditorAwake()
-        {
-            base.EditorAwake();
-            edgeCollider = GetComponent<EdgeCollider2D>();
-            Awake();
-        }
-#endif
-
         protected override void Awake()
         {
             base.Awake();
@@ -97,7 +88,7 @@ namespace Dreamteck.Splines
             bool hasOffset = offset != 0f;
             for (int i = 0; i < sampleCount; i++)
             {
-                GetSample(i, evalResult);
+                GetSample(i, ref evalResult);
                 vertices[i] = evalResult.position;
                 if (hasOffset)
                 {

@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace Bewildered.SmartLibrary.UI
 {
-    internal class BTreeViewItem
+    internal class BTreeViewItem : IReadOnlyList<BTreeViewItem>
     {
         private BTreeViewItem _parent;
         private List<BTreeViewItem> _children;
@@ -27,6 +28,17 @@ namespace Bewildered.SmartLibrary.UI
         public int ChildCount
         {
             get { return _children != null ? _children.Count : 0; }
+        }
+        
+        int IReadOnlyCollection<BTreeViewItem>.Count
+        {
+            get { return _children.Count; }
+        }
+        
+
+        public BTreeViewItem this[int index]
+        {
+            get { return _children[index]; }
         }
 
         public BTreeViewItem(int id)
@@ -77,6 +89,29 @@ namespace Bewildered.SmartLibrary.UI
             }
 
             return -1;
+        }
+
+        public bool IsChildOf(BTreeViewItem otherParent)
+        {
+            BTreeViewItem parent = this;
+            while (parent != null)
+            {
+                if (parent == otherParent)
+                    return true;
+                parent = parent._parent;
+            }
+
+            return false;
+        }
+
+        public IEnumerator<BTreeViewItem> GetEnumerator()
+        {
+            return _children.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

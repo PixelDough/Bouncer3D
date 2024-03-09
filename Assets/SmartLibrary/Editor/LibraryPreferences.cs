@@ -8,7 +8,7 @@ namespace Bewildered.SmartLibrary
     [FilePath("SmartLibrary/LibraryPreferences.settings", FilePathAttribute.Location.PreferencesFolder)]
     public class LibraryPreferences : ScriptableSingleton<LibraryPreferences>
     {
-        private static readonly string Version = "2.2.1";
+        private static readonly string Version = "2.3.1";
             
         [SerializeField] private string _lastSavedVersion = Version;
         [SerializeField] private TextTruncationPosition _gridTruncationPosition = TextTruncationPosition.Middle;
@@ -16,6 +16,7 @@ namespace Bewildered.SmartLibrary
         [SerializeField] private bool _showPathInListView = true;
         [SerializeField] private float _particleSystemProgress = 0.25f;
         [SerializeField] private PreviewResolution _previewResolution = PreviewResolution.x128;
+        [SerializeField] private bool _useDefaultAssetPreviews = false;
         [SerializeField] private bool _showTypeIcons = true;
         [SerializeField] private float _minItemSizeDisplayTypeIcon = 70.0f;
         [SerializeField] private bool _showTextureTypeIcon = true;
@@ -90,6 +91,19 @@ namespace Bewildered.SmartLibrary
 
                 instance._previewResolution = value;
                 Previewer.Resolution = value;
+                Modified();
+            }
+        }
+        
+        public static bool UseDefaultAssetPreviews
+        {
+            get { return instance._useDefaultAssetPreviews; }
+            set
+            {
+                if (value == instance._useDefaultAssetPreviews)
+                    return;
+
+                instance._useDefaultAssetPreviews = value;
                 Modified();
             }
         }
@@ -209,23 +223,30 @@ namespace Bewildered.SmartLibrary
             ShowNamesInGridView = EditorGUILayout.Toggle(new GUIContent("Show Names In Grid View"), ShowNamesInGridView);
 
             GUILayout.Space(10);
+            
             HeaderLabel("Previews");
 
-            var previewResolutionContent = new GUIContent("Preview Resolution", "The resolution of the previews generated for assets in the Library. Higher resolutions increase memory usage of Unity, each size uses 4x the memory of the previous size, so X256 uses 4x the memory of X128.");
-            PreviewResolution = (PreviewResolution) EditorGUILayout.EnumPopup(previewResolutionContent, PreviewResolution);
-            
-            ParticleSystemProgress =
-                EditorGUILayout.Slider(new GUIContent("Particle System Play Progress"), ParticleSystemProgress, 0, 1);
+            var useDefaultAssetPreviewsContent = new GUIContent("Use Default Unity Asset Previews", "Whether to use the default Unity previews instead of the custom rendered ones.");
+            UseDefaultAssetPreviews = EditorGUILayout.Toggle(useDefaultAssetPreviewsContent, UseDefaultAssetPreviews);
 
-            using (new GUILayout.HorizontalScope())
+            if (!UseDefaultAssetPreviews)
             {
-                GUILayout.Space(18);
-                if (GUILayout.Button("Force Regenerate All Previews", GUILayout.ExpandWidth(false)))
+                var previewResolutionContent = new GUIContent("Preview Resolution", "The resolution of the previews generated for assets in the Library. Higher resolutions increase memory usage of Unity, each size uses 4x the memory of the previous size, so X256 uses 4x the memory of X128.");
+                PreviewResolution = (PreviewResolution) EditorGUILayout.EnumPopup(previewResolutionContent, PreviewResolution);
+            
+                ParticleSystemProgress =
+                    EditorGUILayout.Slider(new GUIContent("Particle System Play Progress"), ParticleSystemProgress, 0, 1);
+
+                using (new GUILayout.HorizontalScope())
                 {
-                    AssetPreviewManager.DeleteAllPreviewTextures();
+                    GUILayout.Space(18);
+                    if (GUILayout.Button("Force Regenerate All Previews", GUILayout.ExpandWidth(false)))
+                    {
+                        AssetPreviewManager.DeleteAllPreviewTextures();
+                    }
                 }
             }
-            
+
             GUILayout.Space(10);
             HeaderLabel("Type Icon");
 

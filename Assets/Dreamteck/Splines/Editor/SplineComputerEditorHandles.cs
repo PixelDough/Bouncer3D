@@ -11,7 +11,7 @@
         public static bool Slider(SplineComputer spline, ref double percent, Color color, string text = "", SplineSliderGizmo gizmo = SplineSliderGizmo.Rectangle, float buttonSize = 1f)
         {
             Camera cam = SceneView.currentDrawingSceneView.camera;
-            spline.Evaluate(percent, evalResult);
+            spline.Evaluate(percent, ref evalResult);
             float size = HandleUtility.GetHandleSize(evalResult.position);
 
             Handles.color = new Color(color.r, color.g, color.b, 0.4f);
@@ -73,7 +73,8 @@
             }
             Vector3 lastPos = evalResult.position;
             Handles.color = Color.clear;
-            var fmh_76_79_638455202770553220 = Quaternion.LookRotation(cam.transform.position - evalResult.position); evalResult.position = Handles.FreeMoveHandle(evalResult.position, size * 0.2f * buttonSize, Vector3.zero, Handles.CircleHandleCap);
+            var lookRotation = Quaternion.LookRotation(cam.transform.position - evalResult.position); 
+            evalResult.position = SplineEditorHandles.FreeMoveHandle(evalResult.position, size * 0.2f * buttonSize, Vector3.zero, Handles.CircleHandleCap);
             if (evalResult.position != lastPos) percent = spline.Project(evalResult.position).percent;
             Handles.color = Color.white;
             return buttonClick;

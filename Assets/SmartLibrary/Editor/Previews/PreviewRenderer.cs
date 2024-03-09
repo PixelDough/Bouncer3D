@@ -67,7 +67,11 @@ namespace Bewildered.SmartLibrary
                 RenderSettings.ambientMode = AmbientMode.Flat;
                 RenderSettings.ambientProbe = ambientProbe;
                 RenderSettings.defaultReflectionMode = DefaultReflectionMode.Custom;
+#if UNITY_2022_3_OR_NEWER
+                RenderSettings.customReflectionTexture = defaultTexture;
+#else
                 RenderSettings.customReflection = defaultTexture as Cubemap;
+#endif
                 RenderSettings.fog = false;
             }
         }
@@ -123,13 +127,16 @@ namespace Bewildered.SmartLibrary
             
             int size = (int) _resolution;
             
-            RenderTexture temporary = RenderTexture.GetTemporary(size, size, 0, GraphicsFormat.R8G8B8A8_UNorm);
+            RenderTexture temporary = RenderTexture.GetTemporary(size, size, 0, _renderTexture.format);
+            RenderTexture active = RenderTexture.active;
             Graphics.Blit(_renderTexture, temporary, PreviewEditorUtility.GUITextureBlit2SRGBMaterial);
-            RenderTexture.active = temporary;
-            
-            Texture2D texture2D = new Texture2D(size, size, TextureFormat.RGBA32, false, false);
+
+            Texture2D texture2D = new Texture2D(size, size, TextureFormat.ARGB32, false, false);
             texture2D.ReadPixels(new Rect(0.0f, 0.0f, size, size), 0, 0);
             texture2D.Apply();
+            
+
+            RenderTexture.active = active;
             
             RenderTexture.ReleaseTemporary(temporary);
             FinishFrame();

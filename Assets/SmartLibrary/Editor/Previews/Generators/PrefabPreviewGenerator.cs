@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UI;
@@ -11,6 +12,9 @@ namespace Bewildered.SmartLibrary
         private GameObject _targetInstance;
         private GameObject _canvasGameObject;
         private CanvasScaler _scaler;
+
+        private List<MonoBehaviour> _components = new List<MonoBehaviour>();
+        private List<bool> _cachedComponentStates = new List<bool>();
 
         public PrefabPreviewGenerator(PreviewRenderer renderer) : base(renderer)
         {
@@ -40,6 +44,7 @@ namespace Bewildered.SmartLibrary
         {
             // Note: We don't need to add the target instance to the renderer scene
             // because it is instantiated as a child of the canvas.
+            
             _targetInstance = Object.Instantiate(target, _canvasGameObject.transform);
             RectTransform rectTransform = _targetInstance.GetComponent<RectTransform>();
             
@@ -49,19 +54,14 @@ namespace Bewildered.SmartLibrary
 
             // We get the renderable bounds after creating the instance because we need
             // to parent it to the canvas so we can force rebuild its layout (e.g. VerticalLayoutGroup component)
-            Rect rect = PreviewEditorUtility.GetGUIRenderableBounds(rectTransform);
             
-            if (rect == Rect.zero)
+            var bounds = PreviewEditorUtility.GetGUIRenderableBounds(rectTransform);
+            if (bounds == new Bounds(Vector3.zero, Vector3.zero))
                 return false;
-
-            Vector2 transformSize = rectTransform.rect.size;
-
-            // Note that 0,0 is the center of the canvas, with up and right being positive of their respective axis.
-            _targetInstance.transform.localPosition = new Vector3(
-                -(rect.width / 2 - transformSize.x / 2),
-                rect.height / 2 - transformSize.y / 2);
             
-            _scaler.referenceResolution = rect.size;
+            _targetInstance.transform.localPosition = new Vector3(-bounds.center.x, -bounds.center.y);
+            
+            _scaler.referenceResolution = new Vector2(bounds.size.x, bounds.size.y);
             
             // Canvas' are not rendered in the Preview CameraType so we need to change it to the Game type.
             Renderer.Camera.cameraType = CameraType.Game;
@@ -73,6 +73,8 @@ namespace Bewildered.SmartLibrary
 
         private bool BeforeRenderObject(GameObject target)
         {
+            CacheAndDisableComponents(target);
+            
             // Note: We use the target instance to get the renderable bounds because to get the bounds
             // of a particle system it needs to be played, and cannot be played on prefab assets.
             _targetInstance = Object.Instantiate(target, Vector3.zero, Quaternion.identity);
@@ -82,7 +84,6 @@ namespace Bewildered.SmartLibrary
 
             if (bounds.size == Vector3.zero)
                 return false;
-            
 
             if (EditorSettings.defaultBehaviorMode == EditorBehaviorMode.Mode2D && has2DRenderer)
                 PreviewEditorUtility.PositionCamera2D(Renderer.Camera, bounds, 7.5f);
@@ -96,6 +97,8 @@ namespace Bewildered.SmartLibrary
         {
             Renderer.Camera.cameraType = CameraType.Preview;
             _canvasGameObject.SetActive(false);
+
+            RevertComponentsFromCache();
             
             if (_targetInstance != null)
                 Object.DestroyImmediate(_targetInstance);
@@ -105,6 +108,35 @@ namespace Bewildered.SmartLibrary
         {
             if (_canvasGameObject != null)
                 Object.DestroyImmediate(_canvasGameObject);
+        }
+
+        private void CacheAndDisableComponents(GameObject target)
+        {
+            // We get all components and disable them so that if they have the [ExecuteAlways] attribute
+            // it will not run when we instantiate it for the preview.
+            var components = target.GetComponentsInChildren<MonoBehaviour>();
+            for (int i = 0; i < components.Length; i++)
+            {
+                MonoBehaviour component = components[i];
+                
+                // Components with MissingScripts will still be gotten with GetComponent but will evaluate to null.
+                if (component == null)
+                    continue;
+                
+                _components.Add(component);
+                _cachedComponentStates.Add(component.enabled);
+                component.enabled = false;
+            }
+        }
+
+        private void RevertComponentsFromCache()
+        {
+            for (int i = 0; i < _components.Count; i++)
+            {
+                _components[i].enabled = _cachedComponentStates[i];
+            }
+            _components.Clear();
+            _cachedComponentStates.Clear();
         }
     }
 }

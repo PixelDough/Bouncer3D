@@ -1,7 +1,7 @@
 namespace Bewildered.SmartLibrary.UI
 {
     /// <summary>
-    /// Base <see cref="BTreeViewItem"/> used for all items in a <see cref="LibraryCollectionsView"/>.
+    /// Base <see cref="BTreeViewItem"/> used for all items in a <see cref="CollectionsTreeView"/>.
     /// </summary>
     internal class LibraryTreeViewItem : BTreeViewItem
     {
@@ -37,7 +37,7 @@ namespace Bewildered.SmartLibrary.UI
             get { return Collection.Count; }
         }
 
-        public CollectionTreeViewItem(LibraryCollection collection, int id) : base(id)
+        public CollectionTreeViewItem(LibraryCollection collection) : base(collection.GetInstanceID())
         {
             Collection = collection;
         }

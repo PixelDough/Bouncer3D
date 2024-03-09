@@ -391,9 +391,6 @@
     <Reference Include="mcs">
       <HintPath>C:\Users\PixelDoughAdmin\Documents\Repos\Bouncer3D\Assets\Plugins\QFSW\Quantum Console\Source\Extras\exec\CSharpCompiler\Plugins\mcs.dll</HintPath>
     </Reference>
-    <Reference Include="UModelerCommon">
-      <HintPath>C:\Users\PixelDoughAdmin\Documents\Repos\Bouncer3D\Assets\tripolygon\UModeler\Scripts\UModelerCommon.dll</HintPath>
-    </Reference>
     <Reference Include="Rewired_Windows">
       <HintPath>C:\Users\PixelDoughAdmin\Documents\Repos\Bouncer3D\Assets\Rewired\Internal\Libraries\Runtime\Rewired_Windows.dll</HintPath>
     </Reference>
@@ -972,9 +969,9 @@
       <Project>{970bae88-444d-7191-35c9-ca6da4c14535}</Project>
       <Name>Febucci.Attributes.Editor</Name>
     </ProjectReference>
-    <ProjectReference Include="NewAssembly.csproj">
-      <Project>{6db82202-c66f-018b-61ba-e89f9c64abdf}</Project>
-      <Name>NewAssembly</Name>
+    <ProjectReference Include="Dreamteck.Utilities.Editor.csproj">
+      <Project>{8cc3fcfc-4145-4926-81ba-77dc484c0614}</Project>
+      <Name>Dreamteck.Utilities.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="QFSW.QC.csproj">
       <Project>{d0c8f73c-0d61-7da2-edf9-f78315514a6c}</Project>

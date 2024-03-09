@@ -72,15 +72,6 @@ namespace Dreamteck.Splines
 
         private bool updateCollider = false;
 
-#if UNITY_EDITOR
-        public override void EditorAwake()
-        {
-            base.EditorAwake();
-            polygonCollider = GetComponent<PolygonCollider2D>();
-            Awake();
-        }
-#endif
-
         protected override void Awake()
         {
             base.Awake();
@@ -160,7 +151,7 @@ namespace Dreamteck.Splines
             if (vertices.Length != vertexCount) vertices = new Vector2[vertexCount];
             for (int i = 0; i < sampleCount; i++)
             {
-                GetSample(i, evalResult);
+                GetSample(i, ref evalResult);
                 Vector2 right = new Vector2(-evalResult.forward.y, evalResult.forward.x).normalized * evalResult.size;
                 vertices[i] = new Vector2(evalResult.position.x, evalResult.position.y) + right * size * 0.5f + right * offset;
                 vertices[sampleCount + (sampleCount - 1) - i] = new Vector2(evalResult.position.x, evalResult.position.y) - right * size * 0.5f + right * offset;
@@ -172,7 +163,7 @@ namespace Dreamteck.Splines
             if (vertices.Length != sampleCount) vertices = new Vector2[sampleCount];
             for (int i = 0; i < sampleCount; i++)
             {
-                GetSample(i, evalResult);
+                GetSample(i, ref evalResult);
                 vertices[i] = evalResult.position;
                 if (offset != 0f)
                 {

@@ -38,12 +38,12 @@ using System.Collections.Generic;
             SaveFloat("deleteRadius", deleteRadius);
         }
 
-        public override void DrawInspector()
+        protected override void OnDrawInspector()
         {
             deleteRadius = EditorGUILayout.FloatField("Brush Radius", deleteRadius);
         }
 
-        public override void DrawScene()
+        protected override void OnDrawScene()
         {
             if (selectedPoints.Count > 0) ClearSelection();
             Handles.BeginGUI();
@@ -77,6 +77,7 @@ using System.Collections.Generic;
                     if (Vector2.Distance(mousPos, screenPos) <= deleteRadius)
                     {
                         DeletePoint(i);
+                        editor.ApplyModifiedProperties(true);
                         i--;
                     }
                 }

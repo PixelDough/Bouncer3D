@@ -49,7 +49,7 @@ namespace Bewildered.SmartLibrary.UI
                 if (collection == null)
                     continue;
 
-                var item = new CollectionTreeViewItem(collection, NextId());
+                var item = new CollectionTreeViewItem(collection);
                 items.Add(item);
                 
                 if (collection == _currentCollection)
@@ -66,7 +66,7 @@ namespace Bewildered.SmartLibrary.UI
         {
             foreach (var collection in childCollections)
             {
-                var item = new CollectionTreeViewItem(collection, NextId());
+                var item = new CollectionTreeViewItem(collection);
                 parent.AddChild(item);
                 
                 if (collection == _currentCollection)

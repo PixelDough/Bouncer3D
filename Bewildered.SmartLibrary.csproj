@@ -54,7 +54,6 @@
     <Compile Include="Assets\SmartLibrary\Editor\PropertyDrawers\LibraryCollectionPropertyDrawer.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Previews\Generators\PrefabPreviewGenerator.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\EditorAssetsFolderLocator.cs" />
-    <Compile Include="Assets\SmartLibrary\Editor\View\CollectionTreeItem.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Utility\AssetSelection.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Previews\Generators\PreviewGeneratorBase.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Data\Collections\SmartCollection.cs" />
@@ -71,6 +70,7 @@
     <Compile Include="Assets\SmartLibrary\Editor\Previews\Cache\PreviewCache.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Editors\SmartCollectionEditor.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\PropertyDrawers\RuleDrawers\NameRulePropertyDrawer.cs" />
+    <Compile Include="Assets\SmartLibrary\Editor\View\CollectionsTreeView.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\PropertyDrawers\RuleDrawers\PrefabRulePropertyDrawer.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Undo\CollectionsUndoState.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Data\Collections\ILibrarySet.cs" />
@@ -78,6 +78,7 @@
     <Compile Include="Assets\SmartLibrary\Editor\Data\SerializableDictionary.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\View\LibraryItemsView.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\PropertyDrawers\CollectionReferencePropertyDrawer.cs" />
+    <Compile Include="Assets\SmartLibrary\Editor\Undo\Operations\NotifyCollectionMovedOperation.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\View\RulesView.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\PropertyDrawers\RuleDrawers\TypeRulePropertyDrawer.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Data\LibraryItem.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Assets\SmartLibrary\Editor\View\ComponentTypeDropdown.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Data\AssetGUIDHashSet.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\View\Base\BTreeView.cs" />
+    <Compile Include="Assets\SmartLibrary\Editor\Undo\CollectionUndoService.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Data\Collections\RootLibraryCollection.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\View\Base\IMGUI\ItemsViewControl.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\View\CollectionField.cs" />
@@ -99,19 +101,23 @@
     <Compile Include="Assets\SmartLibrary\Editor\View\Base\ReorderableList.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\View\Base\DragAutoScroller.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Previews\PreviewStage.cs" />
+    <Compile Include="Assets\SmartLibrary\Editor\Data\UStackRef.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Previews\PreviewRenderer.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Rules\TypeRule.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\View\Base\ComponentTypeField.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Rules\ExtensionRule.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\View\Base\HierarchyChangedEvent.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\DefaultParentManager.cs" />
+    <Compile Include="Assets\SmartLibrary\Editor\Undo\Operations\DestroyCollectionOperation.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\SmartLibraryWindow.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Data\Collections\LibraryCollection.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Previews\Generators\AudioPreviewGenerator.cs" />
+    <Compile Include="Assets\SmartLibrary\Editor\Undo\UndoOperation.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Utility\LibraryItemEntryComparer.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\View\Base\SplitResizer.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Previews\Generators\MeshPreviewGenerator.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Utility\CollectionSaveSync.cs" />
+    <Compile Include="Assets\SmartLibrary\Editor\Utility\SmartCollectionUtility.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Data\LibraryDatabase.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Rules\RuleSet.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\PropertyDrawers\RuleDrawers\LabelRulePropertyDrawer.cs" />
@@ -133,6 +139,7 @@
     <Compile Include="Assets\SmartLibrary\Editor\Data\LibraryHierarchyChangedEventArgs.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\View\Base\FolderSelector.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Editors\LibraryCollectionEditor.cs" />
+    <Compile Include="Assets\SmartLibrary\Editor\View\CollectionTreeItemElement.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Draggers\ReorderListManipulator.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Draggers\TreeViewDragger.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Utility\LibraryUtility.cs" />
@@ -142,12 +149,13 @@
     <Compile Include="Assets\SmartLibrary\Editor\Utility\FilteredSet.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Data\LibraryData.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Data\CollectionReference.cs" />
+    <Compile Include="Assets\SmartLibrary\Editor\Undo\Operations\NotifyCollectionAddRemoveOperation.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\View\CollectionSelector.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Rules\ComponentRule.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\View\Base\BTreeViewItem.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\PropertyDrawers\RuleSetPropertyDrawer.cs" />
-    <Compile Include="Assets\SmartLibrary\Editor\View\LibraryCollectionsView.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\PropertyDrawers\RuleDrawers\ComponentRulePropertyDrawer.cs" />
+    <Compile Include="Assets\SmartLibrary\Editor\Undo\Operations\NotifyItemsChangedOperation.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Data\TypeReference.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Data\Collections\CompoundCollection.cs" />
     <Compile Include="Assets\SmartLibrary\Editor\Data\LibraryItemsChangedEventArgs.cs" />
@@ -534,17 +542,11 @@
     <Reference Include="log4netPlastic">
       <HintPath>C:\Users\PixelDoughAdmin\Documents\Repos\Bouncer3D\Library\PackageCache\com.unity.collab-proxy@2.2.0\Lib\Editor\PlasticSCM\log4netPlastic.dll</HintPath>
     </Reference>
-    <Reference Include="UModelerCommon">
-      <HintPath>C:\Users\PixelDoughAdmin\Documents\Repos\Bouncer3D\Assets\tripolygon\UModeler\Scripts\UModelerCommon.dll</HintPath>
-    </Reference>
     <Reference Include="Rewired_Windows">
       <HintPath>C:\Users\PixelDoughAdmin\Documents\Repos\Bouncer3D\Assets\Rewired\Internal\Libraries\Runtime\Rewired_Windows.dll</HintPath>
     </Reference>
     <Reference Include="Rewired_Core">
       <HintPath>C:\Users\PixelDoughAdmin\Documents\Repos\Bouncer3D\Assets\Rewired\Internal\Libraries\Runtime\Rewired_Core.dll</HintPath>
-    </Reference>
-    <Reference Include="UModelerEditor">
-      <HintPath>C:\Users\PixelDoughAdmin\Documents\Repos\Bouncer3D\Assets\tripolygon\UModeler\Scripts\Editor\UModelerEditor.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>C:\Users\PixelDoughAdmin\Documents\Repos\Bouncer3D\Library\PackageCache\com.unity.nuget.mono-cecil@1.11.4\Mono.Cecil.dll</HintPath>

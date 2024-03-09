@@ -1,7 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
+using UnityEngine.Networking;
 
 namespace Dreamteck
 {
@@ -14,12 +14,16 @@ namespace Dreamteck
         protected static GUIStyle buttonTitleText;
         protected static GUIStyle warningText;
         protected static GUIStyle titleText;
+        protected bool _hasSentImageRequest;
+        protected List<UnityWebRequest> _textureWebRequests;
+        protected Data _bannerData;
         protected string headerTitle = "";
         private static bool init = true;
+        protected virtual Vector2 _windowSize => new Vector2(450, 500);
 
         public virtual void Load()
         {
-            minSize = maxSize = new Vector2(450, 500);
+            minSize = maxSize = _windowSize;
             buttonTitleText = new GUIStyle(GUI.skin.GetStyle("label"));
             buttonTitleText.fontStyle = FontStyle.Bold;
             titleText = new GUIStyle(GUI.skin.GetStyle("label"));
@@ -34,7 +38,7 @@ namespace Dreamteck
             warningText.alignment = TextAnchor.MiddleCenter;
             wrapText = new GUIStyle(GUI.skin.GetStyle("label"));
             wrapText.wordWrap = true;
-            init = false; 
+            init = false;
         }
 
         protected virtual void SetTitle(string titleBar, string header)
@@ -68,6 +72,100 @@ namespace Dreamteck
             }
             Repaint();
 
+        }
+
+        protected Data LoadBannersData(string url, string savePrefKey)
+        {
+            var data = default(Data);
+
+            using (var mainDataReq = UnityWebRequest.Get(url))
+            {
+                mainDataReq.SendWebRequest();
+
+                while (!mainDataReq.isDone || mainDataReq.result == UnityWebRequest.Result.InProgress)
+                {
+
+                }
+
+                if (mainDataReq.result == UnityWebRequest.Result.ProtocolError ||
+                    mainDataReq.result == UnityWebRequest.Result.DataProcessingError ||
+                    mainDataReq.result == UnityWebRequest.Result.ConnectionError)
+                {
+                    Debug.LogError("An error occured while fetching the banners data.");
+                }
+                else
+                {
+                    var jObj = JsonUtility.FromJson<Data>(mainDataReq.downloadHandler.text);
+
+                    data = new Data();
+                    data.version = jObj.version;
+                    data.banners = jObj.banners;
+
+                    var currentVersion = EditorPrefs.GetInt(savePrefKey, -1);
+
+                    if (currentVersion < 0 || currentVersion < data.version)
+                    {
+                        EditorPrefs.SetInt(savePrefKey, data.version);
+                    }
+                }
+            }
+
+            return data;
+        }
+
+        protected void OnEditorUpdate()
+        {
+            if (!_hasSentImageRequest)
+            {
+                _hasSentImageRequest = false;
+                EditorApplication.update -= OnEditorUpdate;
+                return;
+            }
+
+            for (int i = 0; i < _textureWebRequests.Count; i++)
+            {
+                var request = _textureWebRequests[i];
+
+                if (!request.isDone || request.result == UnityWebRequest.Result.InProgress)
+                {
+                    if (request.result == UnityWebRequest.Result.ConnectionError ||
+                        request.result == UnityWebRequest.Result.ProtocolError ||
+                        request.result == UnityWebRequest.Result.DataProcessingError)
+                    {
+                        _textureWebRequests.RemoveAt(i);
+                        i--;
+                        Debug.LogError("A banner request failed for the spline welcome screen! Please investigate!");
+                    }
+
+                    return;
+                }
+            }
+
+            for (int i = 0; i < _textureWebRequests.Count; i++)
+            {
+                var request = _textureWebRequests[i];
+
+                if (request.result == UnityWebRequest.Result.Success)
+                {
+                    var texture = DownloadHandlerTexture.GetContent(request);
+                    var data = _bannerData.banners[i];
+                    var banner = new WindowPanel.Banner(texture, data.title, data.description, 400f, 70f, new ActionLink(data.forwardUrl));
+
+                    panels[0].elements.Add(new WindowPanel.Space(400, 10));
+                    panels[0].elements.Add(banner);
+                    request.Dispose();
+                }
+            }
+
+            DrawFooter();
+            _hasSentImageRequest = false;
+            _textureWebRequests.Clear();
+            _textureWebRequests = null;
+            EditorApplication.update -= OnEditorUpdate;
+        }
+
+        protected virtual void DrawFooter()
+        {
         }
 
         public class WindowPanel
@@ -212,7 +310,6 @@ namespace Dreamteck
                 GUILayout.EndArea();
             }
 
-
             public class Element
             {
                 protected Vector2 size = Vector2.zero;
@@ -233,7 +330,7 @@ namespace Dreamteck
             {
                 public Space(float x, float y) : base(x, y)
                 {
-           
+
                 }
 
                 internal override void Draw()
@@ -261,6 +358,59 @@ namespace Dreamteck
                 }
             }
 
+            public class Banner : Element
+            {
+                private string _title;
+                private string _description;
+                private Texture _image;
+
+                public Banner(float x, float y, ActionLink a = null) : base(x, y, a) { }
+
+                public Banner(Texture image, string title, string description, float x, float y, ActionLink a = null) : this(x, y, a)
+                {
+                    _title = title;
+                    _description = description;
+                    _image = image;
+                }
+
+                internal override void Draw()
+                {
+                    Rect rect = GUILayoutUtility.GetRect(size.x, size.y);
+
+                    EditorGUIUtility.AddCursorRect(rect, MouseCursor.Link);
+
+                    GUI.BeginGroup(rect);
+                    if (GUI.Button(new Rect(0, 0, size.x, size.y), "")) action.Do();
+
+                    GUI.DrawTexture(new Rect(Vector2.one, size), _image, ScaleMode.StretchToFill);
+
+                    var hoverRect = new Rect(0, 0, size.x, size.y);
+                    if (hoverRect.Contains(Event.current.mousePosition))
+                    {
+                        EditorGUI.DrawRect(hoverRect, new Color(1, 1, 1, 0.5f));
+                    }
+
+                    var titleStyle = new GUIStyle();
+                    titleStyle.fontSize = 19;
+                    titleStyle.fontStyle = FontStyle.Bold;
+                    titleStyle.alignment = TextAnchor.MiddleLeft;
+                    titleStyle.normal.textColor = Color.white;
+                    EditorGUI.DropShadowLabel(new Rect(6, 5, 370 - 65, 18), _title, titleStyle);
+
+                    var descriptionStyle = new GUIStyle();
+                    descriptionStyle.fontSize = 11;
+                    descriptionStyle.wordWrap = true;
+                    descriptionStyle.fontStyle = FontStyle.Bold;
+                    descriptionStyle.alignment = TextAnchor.MiddleLeft;
+                    descriptionStyle.normal.textColor = Color.white;
+
+                    EditorGUI.DropShadowLabel(new Rect(6, 20, 380, 40), _description, descriptionStyle);
+
+                    GUI.EndGroup();
+                    GUILayout.Space(5);
+                }
+            }
+
             public class Thumbnail : Element
             {
                 private string thumbnailPath = "";
@@ -275,7 +425,7 @@ namespace Dreamteck
                     description = d;
                     thumbnailPath = path;
                     thumbnailName = fileName;
-                    
+
                     thumbnail = ResourceUtility.EditorLoadTexture(thumbnailPath, thumbnailName);
                 }
 
@@ -290,13 +440,13 @@ namespace Dreamteck
                     GUI.color = Color.white;
                     if (thumbnail != null)
                     {
-                        Vector2 offset = new Vector2(0, (size.y - 50) / 2);
+                        Vector2 offset = new Vector2(5, (size.y - 50) / 2);
                         GUI.DrawTexture(new Rect(offset, Vector2.one * 50), thumbnail, ScaleMode.StretchToFill);
                     }
                     GUI.Label(new Rect(60, 5, 370 - 65, 16), title, buttonTitleText);
                     GUI.Label(new Rect(60, 20, 370 - 65, 40), description, wrapText);
                     GUI.EndGroup();
-                    GUILayout.Space(10);
+                    GUILayout.Space(5);
                 }
             }
 
@@ -354,7 +504,7 @@ namespace Dreamteck
             private string URL = "";
             private WindowPanel currentPanel = null;
             private WindowPanel targetPanel = null;
-            private EmptyHandler customHandler = null; 
+            private EmptyHandler customHandler = null;
 
             public ActionLink(string u)
             {
@@ -384,5 +534,20 @@ namespace Dreamteck
             }
         }
 
+        [System.Serializable]
+        public class Data
+        {
+            public BannerData[] banners;
+            public int version;
+        }
+
+        [System.Serializable]
+        public class BannerData
+        {
+            public string title;
+            public string description;
+            public string bannerUrl;
+            public string forwardUrl;
+        }
     }
 }

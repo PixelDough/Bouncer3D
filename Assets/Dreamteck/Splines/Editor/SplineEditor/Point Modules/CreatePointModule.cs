@@ -68,7 +68,7 @@ using System.Collections.Generic;
             }
         }
 
-        public override void DrawInspector()
+        protected override void OnDrawInspector()
         {
             placementMode = (PlacementMode)EditorGUILayout.EnumPopup("Placement Mode", placementMode);
             if (placementMode != PlacementMode.Insert)
@@ -86,7 +86,7 @@ using System.Collections.Generic;
             }
         }
 
-        public override void DrawScene()
+        protected override void OnDrawScene()
         {
             editorCamera = SceneView.currentDrawingSceneView.camera;
             bool canCreate = false;
@@ -151,12 +151,20 @@ using System.Collections.Generic;
                 CreateSplinePoint(createPoint, createNormal);
             }
 
-            if(lastCreated >= 0 && lastCreated < points.Length && editor.eventModule.mouseLeft)
+            if (lastCreated >= 0 && lastCreated < points.Length && editor.eventModule.mouseLeft)
             {
                 Vector3 tangent = points[lastCreated].position - createPoint;
-                if (appendMode == AppendMode.End) tangent = createPoint - points[lastCreated].position;
+                if (appendMode == AppendMode.End)
+                {
+                    tangent = createPoint - points[lastCreated].position;
+                }
                 points[lastCreated].SetTangent2Position(points[lastCreated].position + tangent);
-            } else if (!editor.eventModule.mouseLeft) lastCreated = -1;
+                RegisterChange();
+            }
+            else if (!editor.eventModule.mouseLeft)
+            {
+                lastCreated = -1;
+            }
 
 
             if (!canCreate) DrawMouseCross();
@@ -167,7 +175,6 @@ using System.Collections.Generic;
 
         protected virtual void CreateSplinePoint(Vector3 position, Vector3 normal)
         {
-            RecordUndo("Create Point");
             GUIUtility.hotControl = -1;
             AddPoint();
         }
@@ -177,41 +184,22 @@ using System.Collections.Generic;
             SplinePoint newPoint = new SplinePoint(createPoint, createPoint);
             newPoint.size = createPointSize;
             newPoint.color = createPointColor;
-            SplinePoint[] newPoints = new SplinePoint[points.Length];
-            points.CopyTo(newPoints, 0);
+            SplinePoint[] newPoints = editor.GetPointsArray();
             if (appendMode == AppendMode.End)
             {
-                if (isClosed)
-                {
-                    Dreamteck.ArrayUtility.Insert(ref newPoints, newPoints.Length - 1, newPoint);
-                    lastCreated = newPoints.Length - 2;
-                } else
-                {
-                    Dreamteck.ArrayUtility.Add(ref newPoints, newPoint);
-                    lastCreated = newPoints.Length - 1;
-                }
+                Dreamteck.ArrayUtility.Add(ref newPoints, newPoint);
+                lastCreated = newPoints.Length - 1;
             }
             else
             {
-                if (isClosed)
-                {
-                    Dreamteck.ArrayUtility.Insert(ref newPoints, 1, newPoint);
-                    lastCreated = 1;
-                }
-                else
-                {
-                    Dreamteck.ArrayUtility.Insert(ref newPoints, 0, newPoint);
-                    lastCreated = 0;
-                }
+                Dreamteck.ArrayUtility.Insert(ref newPoints, 0, newPoint);
+                lastCreated = 0;
             }
 
-            if (isClosed)
-            {
-                newPoints[newPoints.Length - 1] = newPoints[0];
-            }
-            points = newPoints;
+            editor.SetPointsArray(newPoints);
             SetPointNormal(lastCreated, createNormal);
             SelectPoint(lastCreated);
+            RegisterChange();
         }
 
         protected void SetPointNormal(int index, Vector3 defaultNormal)
@@ -244,7 +232,7 @@ using System.Collections.Generic;
         {
            
             double percent = ProjectScreenSpace(screenCoordinates);
-            editor.evaluate(percent, evalResult);
+            editor.evaluate(percent, ref evalResult);
             if (editor.eventModule.mouseRight)
             {
                 SplineEditorHandles.DrawCircle(evalResult.position, Quaternion.LookRotation(editorCamera.transform.position - evalResult.position), HandleUtility.GetHandleSize(evalResult.position) * 0.2f);
@@ -252,22 +240,16 @@ using System.Collections.Generic;
             }
             if (SplineEditorHandles.CircleButton(evalResult.position, Quaternion.LookRotation(editorCamera.transform.position - evalResult.position), HandleUtility.GetHandleSize(evalResult.position) * 0.2f, 1.5f, color))
             {
-                RecordUndo("Create Point");
                 SplinePoint newPoint = new SplinePoint(evalResult.position, evalResult.position);
                 newPoint.size = evalResult.size;
                 newPoint.color = evalResult.color;
                 newPoint.normal = evalResult.up;
-                SplinePoint[] newPoints = new SplinePoint[points.Length + 1];
                 double floatIndex = (points.Length - 1) * percent;
                 int pointIndex = Mathf.Clamp(DMath.FloorInt(floatIndex), 0, points.Length - 2);
-                for (int i = 0; i < newPoints.Length; i++)
-                {
-                    if (i <= pointIndex) newPoints[i] = points[i];
-                    else if (i == pointIndex + 1) newPoints[i] = newPoint;
-                    else newPoints[i] = points[i - 1];
-                }
-                points = newPoints;
+                editor.AddPointAt(pointIndex + 1);
+                points[pointIndex + 1].SetPoint(newPoint); 
                 SelectPoint(pointIndex);
+                RegisterChange();
             }
         }
 
@@ -281,7 +263,7 @@ using System.Collections.Generic;
             int count = 0;
             for (double i = add; i < 1.0; i += add)
             {
-                editor.evaluate(i, evalResult);
+                editor.evaluate(i, ref evalResult);
                 Vector2 point = HandleUtility.WorldToGUIPoint(evalResult.position);
                 float dist = (point - screenPoint).sqrMagnitude;
                 if (dist < closestDistance)
@@ -391,46 +373,49 @@ using System.Collections.Generic;
             visualizer.sampleRate = sampleRate;
             if(placementMode == PlacementMode.Insert)
             {
-                visualizer.points = points;
+                visualizer.points = editor.GetPointsArray();
                 if (isClosed) visualizer.Close();
                 else if (visualizer.isClosed) visualizer.Break();
                 return;
             }
 
-            if(visualizer.points.Length != points.Length + 1) visualizer.points = new SplinePoint[points.Length + 1];
+            if (visualizer.points.Length != points.Length + 1)
+            {
+                visualizer.points = new SplinePoint[points.Length + 1];
+            }
+
             SplinePoint newPoint = new SplinePoint(createPoint, createPoint, createNormal, 1f, Color.white);
             if (appendMode == AppendMode.End)
             {
-                if (isClosed)
+                for (int i = 0; i < points.Length; i++)
                 {
- 
-                    for (int i = 0; i < points.Length; i++) visualizer.points[i] = points[i];
-                    visualizer.points[visualizer.points.Length - 2] = newPoint;
-                    visualizer.points[visualizer.points.Length - 1] = points[points.Length-1];
+                    visualizer.points[i] = points[i].CreateSplinePoint();
                 }
-                else
-                {
-                    for (int i = 0; i < points.Length; i++) visualizer.points[i] = points[i];
-                    visualizer.points[visualizer.points.Length - 1] = newPoint;
-                }
+                visualizer.points[visualizer.points.Length - 1] = newPoint;
             }
             else
             {
-                if (isClosed)
+                for (int i = 1; i < visualizer.points.Length; i++)
                 {
-                    for (int i = 1; i < points.Length; i++) visualizer.points[i] = points[i-1];
-                    visualizer.points[1] = newPoint;
-                    visualizer.points[0] = points[0];
+                    visualizer.points[i] = points[i - 1].CreateSplinePoint();
                 }
-                else
+                visualizer.points[0] = newPoint;
+            }
+
+            if (isClosed && !visualizer.isClosed)
+            {
+                if(visualizer.points.Length >= 3)
                 {
-                    for (int i = 1; i < visualizer.points.Length; i++) visualizer.points[i] = points[i - 1];
-                    visualizer.points[0] = newPoint;
+                    visualizer.Close();
+                } else
+                {
+                    visualizer.Break();
                 }
             }
-            if (isClosed && !visualizer.isClosed) visualizer.Close();
-            else if (visualizer.isClosed) visualizer.Break();
-            if (visualizer.isClosed) visualizer.points[0].SetPosition(createPoint);
+            else if (!isClosed && visualizer.isClosed)
+            {
+                visualizer.Break();
+            }
         }
     }
 }

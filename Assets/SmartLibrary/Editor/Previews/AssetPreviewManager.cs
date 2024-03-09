@@ -63,6 +63,13 @@ namespace Bewildered.SmartLibrary
             if (clientID == 0)
                 return GetAssetPreview(guid);
 
+            // If the preference option to use the unity previews is on, we simply return right away.
+            if (LibraryPreferences.UseDefaultAssetPreviews)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                return GetUnityAssetPreview(path, AssetDatabase.GetMainAssetTypeAtPath(path), clientID);
+            }
+
             Texture2D preview = PreviewCacheManager.GetCachedPreview(guid, clientID);
             if (preview != null)
             {
@@ -81,6 +88,11 @@ namespace Bewildered.SmartLibrary
                 _previewRequests.Add((guid, clientID));
             }
 
+            return GetUnityAssetPreview(assetPath, assetType, clientID);
+        }
+
+        private static Texture2D GetUnityAssetPreview(string assetPath, System.Type assetType, int clientID)
+        {
             // NOTE: This was replaced because it does not support ScriptableObjects with custom icons.
             // AssetDatabase.GetCachedIcon returns blury for textures so we need to use the asset preview to get the preview for them.
             // However the AssetPreview has worse performance so we don't use it for all of them, it also doesn't return the right icon for things like AnimationController.
@@ -88,12 +100,16 @@ namespace Bewildered.SmartLibrary
             //     return AssetPreviewRef.GetAssetPreviewFromGUID(guid, clientID);
             //  else
             //      return (Texture2D)AssetDatabase.GetCachedIcon(assetPath);
+
+            // All GetPreview() type of methods return a blurry texture so we just return the texture asset directly.
+            if (assetType != null && assetType.IsSubclassOf(typeof(Texture)))
+                return AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath);
             
             int instanceId = AssetUtility.GetMainAssetInstanceID(assetPath);
             
             // We use getAssetPreview because it supports objects with a custom Editor.RenderStaticPreview method
             // however returns null on anything without a *preview* so we use GetCachedIcon for everything else.
-            preview = AssetPreviewRef.GetAssetPreview(instanceId, clientID);
+            Texture2D preview = AssetPreviewRef.GetAssetPreview(instanceId, clientID);
             if (preview != null)
                 return preview;
 

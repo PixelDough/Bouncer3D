@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,6 +11,10 @@ namespace Bewildered.SmartLibrary
     {
         private static PropertyInfo _pseudoStatesProperty;
         private static Type _unityPseudoStatesType;
+        
+        private static PropertyInfo _panelOwnerObjectProperty;
+        private static Type _hostViewType;
+        private static PropertyInfo _actualViewProperty;
 
         /// <summary>
         /// Sets the element's display style.
@@ -17,6 +22,32 @@ namespace Bewildered.SmartLibrary
         public static void SetDisplay(this VisualElement element, bool doDisplay)
         {
             element.style.display = doDisplay ? DisplayStyle.Flex : DisplayStyle.None;
+        }
+
+        /// <summary>
+        /// Returns the <see cref="ScriptableObject"/> that owns the <see cref="IPanel"/>.
+        /// </summary>
+        /// <param name="panel"></param>
+        /// <returns></returns>
+        public static ScriptableObject GetOwner(this IPanel panel)
+        {
+            if (_panelOwnerObjectProperty == null)
+            {
+                var basePanelType = typeof(VisualElement).Assembly.GetType("UnityEngine.UIElements.BaseVisualElementPanel");
+                _panelOwnerObjectProperty = basePanelType.GetProperty("ownerObject");
+                
+                _hostViewType = typeof(EditorWindow).Assembly.GetType("UnityEditor.HostView");
+                _actualViewProperty = _hostViewType.GetProperty("actualView", BindingFlags.Instance | BindingFlags.NonPublic);
+            }
+
+            var ownerObject = _panelOwnerObjectProperty.GetValue(panel);
+            
+            // For panels for EditorWindows the owner is actually the GUIView (HostView or the subclass DockView).
+            // So we need to get the ActualView to get the editor window that the panel is for.
+            if (ownerObject.GetType() == _hostViewType || ownerObject.GetType().IsSubclassOf(_hostViewType))
+                return _actualViewProperty.GetValue(ownerObject) as ScriptableObject;
+            else
+                return ownerObject as ScriptableObject;
         }
 
         public static void SetPseudoStates(this VisualElement element, PseudoStates pseudoState)

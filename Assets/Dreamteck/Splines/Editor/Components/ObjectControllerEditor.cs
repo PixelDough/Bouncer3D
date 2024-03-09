@@ -39,6 +39,9 @@ namespace Dreamteck.Splines.Editor
             SerializedProperty useCustomObjectDistance = serializedObject.FindProperty("_useCustomObjectDistance");
             SerializedProperty minObjectDistance = serializedObject.FindProperty("_minObjectDistance");
             SerializedProperty maxObjectDistance = serializedObject.FindProperty("_maxObjectDistance");
+            SerializedProperty customOffsetRule = serializedObject.FindProperty("_customOffsetRule");
+            SerializedProperty customRotationRule = serializedObject.FindProperty("_customRotationRule");
+            SerializedProperty customScaleRule = serializedObject.FindProperty("_customScaleRule");
 
 
             EditorGUI.BeginChangeCheck();
@@ -152,43 +155,69 @@ namespace Dreamteck.Splines.Editor
             }
 
             EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Transform", EditorStyles.boldLabel);
+
+            EditorGUILayout.LabelField("Position and Offset");
+            EditorGUI.indentLevel++;
+            EditorGUILayout.PropertyField(customOffsetRule);
+
+            if (customOffsetRule.objectReferenceValue == null)
+            {
+                if (offsetUseWorldCoords.boolValue)
+                {
+                    minOffset.vector3Value = EditorGUILayout.Vector3Field("Min. Offset", minOffset.vector3Value);
+                    maxOffset.vector3Value = EditorGUILayout.Vector3Field("Max. Offset", maxOffset.vector3Value);
+                }
+                else
+                {
+                    minOffset.vector3Value = EditorGUILayout.Vector2Field("Min. Offset", minOffset.vector3Value);
+                    maxOffset.vector3Value = EditorGUILayout.Vector2Field("Max. Offset", maxOffset.vector3Value);
+                }
+            } else
+            {
+                CustomRuleUI((ObjectControllerCustomRuleBase)customOffsetRule.objectReferenceValue);
+            }
+            EditorGUI.indentLevel--;
+
+            EditorGUILayout.Space();
             EditorGUILayout.PropertyField(applyRotation, new GUIContent("Apply Rotation"));
             if (user.applyRotation)
             {
                 EditorGUI.indentLevel++;
-                EditorGUILayout.PropertyField(minRotation, new GUIContent("Min. Rotation Offset"));
-                EditorGUILayout.PropertyField(maxRotation, new GUIContent("Max. Rotation Offset"));
+                EditorGUILayout.PropertyField(customRotationRule);
+                if (customRotationRule.objectReferenceValue == null)
+                {
+                    EditorGUILayout.PropertyField(minRotation, new GUIContent("Min. Rotation Offset"));
+                    EditorGUILayout.PropertyField(maxRotation, new GUIContent("Max. Rotation Offset"));
+                } else
+                {
+                    CustomRuleUI((ObjectControllerCustomRuleBase)customRotationRule.objectReferenceValue);
+                }
                 EditorGUI.indentLevel--;
             }
+
+            EditorGUILayout.Space();
             EditorGUILayout.PropertyField(applyScale, new GUIContent("Apply Scale"));
             if (user.applyScale)
             {
                 EditorGUI.indentLevel++;
-                EditorGUILayout.PropertyField(minScaleMultiplier, new GUIContent("Min. Scale Multiplier"));
-                EditorGUILayout.PropertyField(maxScaleMultiplier, new GUIContent("Max. Scale Multiplier"));
-                EditorGUI.indentLevel++;
-                EditorGUILayout.PropertyField(uniformScaleLerp, new GUIContent("Uniform Lerp"));
-                EditorGUI.indentLevel--;
+                EditorGUILayout.PropertyField(customScaleRule);
+                if (customScaleRule.objectReferenceValue == null)
+                {
+                    EditorGUILayout.PropertyField(minScaleMultiplier, new GUIContent("Min. Scale Multiplier"));
+                    EditorGUILayout.PropertyField(maxScaleMultiplier, new GUIContent("Max. Scale Multiplier"));
+                    EditorGUI.indentLevel++;
+                    EditorGUILayout.PropertyField(uniformScaleLerp, new GUIContent("Uniform Lerp"));
+                    EditorGUI.indentLevel--;
+                } else
+                {
+                    CustomRuleUI((ObjectControllerCustomRuleBase)customScaleRule.objectReferenceValue);
+                }
                 EditorGUI.indentLevel--;
             }
 
             EditorGUILayout.PropertyField(objectPositioning, new GUIContent("Object Positioning"));
             EditorGUILayout.PropertyField(evaluateOffset, new GUIContent("Evaluate Offset"));
 
-
-
-
-            if (offsetUseWorldCoords.boolValue)
-            {
-                minOffset.vector3Value = EditorGUILayout.Vector3Field("Min. Offset", minOffset.vector3Value);
-                maxOffset.vector3Value = EditorGUILayout.Vector3Field("Max. Offset", maxOffset.vector3Value);
-            }
-            else
-            {
-                minOffset.vector3Value = EditorGUILayout.Vector2Field("Min. Offset", minOffset.vector3Value);
-                maxOffset.vector3Value = EditorGUILayout.Vector2Field("Max. Offset", maxOffset.vector3Value);
-            }
             EditorGUI.indentLevel++;
             EditorGUILayout.PropertyField(offsetUseWorldCoords, new GUIContent("Use World Coords."));
             if(minOffset.vector3Value != maxOffset.vector3Value) EditorGUILayout.PropertyField(shellOffset, new GUIContent("Shell"));
@@ -200,5 +229,24 @@ namespace Dreamteck.Splines.Editor
             
         }
 
+        private void CustomRuleUI(ObjectControllerCustomRuleBase customRule)
+        {
+            SerializedObject serializedRule = new SerializedObject(customRule);
+            SerializedProperty property = serializedRule.GetIterator();
+            property.NextVisible(true);
+            property.NextVisible(false);
+            EditorGUI.BeginChangeCheck();
+            do
+            {
+                EditorGUILayout.PropertyField(property);
+            } while (property.NextVisible(false));
+            if (EditorGUI.EndChangeCheck())
+            {
+                serializedRule.ApplyModifiedProperties();
+            }
+        }
+
     }
+
+
 }

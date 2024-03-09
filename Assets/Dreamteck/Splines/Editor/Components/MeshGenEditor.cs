@@ -17,23 +17,23 @@ namespace Dreamteck.Splines.Editor
         protected bool showOffset = true;
         protected bool showTangents = true;
         protected bool showNormalMethod = true;
-        private int framesPassed = 0;
 
-        private bool verticesFoldout = false;
+        private int _framesPassed = 0;
+        private bool _commonFoldout = false;
 
         MeshGenerator[] generators = new MeshGenerator[0];
 
         BakeMeshWindow bakeWindow = null;
 
-        protected override void OnSceneGUI()
+        protected override void DuringSceneGUI(SceneView currentSceneView)
         {
-            base.OnSceneGUI();
+            base.DuringSceneGUI(currentSceneView);
             MeshGenerator generator = (MeshGenerator)target;
             if (Application.isPlaying) return;
-            framesPassed++;
-            if(framesPassed >= 100)
+            _framesPassed++;
+            if(_framesPassed >= 100)
             {
-                framesPassed = 0;
+                _framesPassed = 0;
                 if (generator != null && generator.GetComponent<MeshCollider>() != null) generator.UpdateCollider();
             }
         }
@@ -90,8 +90,8 @@ namespace Dreamteck.Splines.Editor
 
             EditorGUILayout.Space();
 
-            verticesFoldout = EditorGUILayout.Foldout(verticesFoldout, "Vertices", foldoutHeaderStyle);
-            if (verticesFoldout)
+            _commonFoldout = EditorGUILayout.Foldout(_commonFoldout, "Common", foldoutHeaderStyle);
+            if (_commonFoldout)
             {
                 EditorGUI.indentLevel++;
                 if (showSize) EditorGUILayout.PropertyField(size, new GUIContent("Size"));
@@ -100,6 +100,7 @@ namespace Dreamteck.Splines.Editor
                 if (showOffset) EditorGUILayout.PropertyField(offset, new GUIContent("Offset"));
                 if (showRotation) EditorGUILayout.PropertyField(rotation, new GUIContent("Rotation"));
                 if (showTangents) EditorGUILayout.PropertyField(calculateTangents, new GUIContent("Calculate Tangents"));
+
                 EditorGUILayout.PropertyField(useSplineSize, new GUIContent("Use Spline Size"));
                 EditorGUILayout.PropertyField(useSplineColor, new GUIContent("Use Spline Color"));
                 EditorGUILayout.PropertyField(markDynamic, new GUIContent("Mark Dynamic", "Improves performance in situations where the mesh changes frequently"));

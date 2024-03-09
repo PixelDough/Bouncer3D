@@ -69,6 +69,28 @@ namespace Dreamteck.Splines.Editor
                             morph.spline.SetPoints(morph.GetSnapshot(0), SplineComputer.Space.Local);
                         }
                     }
+
+                    if (GUILayout.Button("Update Morph States"))
+                    {
+                        if (EditorUtility.DisplayDialog("Update morph states?", "This will add or delete the needed spline points to all morph states", "Yes", "No"))
+                        {
+                            for (int i = 0; i < morph.GetChannelCount(); i++)
+                            {
+                                var points = morph.GetSnapshot(i);
+                                while (points.Length < morph.spline.pointCount)
+                                {
+                                    Dreamteck.ArrayUtility.Add(ref points, new SplinePoint());
+                                }
+
+                                while (points.Length > morph.spline.pointCount)
+                                {
+                                    Dreamteck.ArrayUtility.RemoveAt(ref points, points.Length-1);
+                                }
+
+                                morph.SetSnapshot(i, points);
+                            }
+                        }
+                    }
                     EditorGUILayout.EndHorizontal();
                     return;
                 }

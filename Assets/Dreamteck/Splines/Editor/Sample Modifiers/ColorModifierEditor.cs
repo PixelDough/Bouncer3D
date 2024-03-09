@@ -10,9 +10,8 @@ namespace Dreamteck.Splines.Editor
     {
         private float addTime = 0f;
 
-        public ColorModifierEditor(SplineUser user, SplineUserEditor editor, ColorModifier input) : base(user, editor, input)
+        public ColorModifierEditor(SplineUser user, SplineUserEditor editor) : base(user, editor, "_colorModifier")
         {
-            module = input;
             title = "Color Modifiers";
         }
 
@@ -27,23 +26,18 @@ namespace Dreamteck.Splines.Editor
             if (!isOpen) return;
             if (GUILayout.Button("Add New Color"))
             {
-                ((ColorModifier)module).AddKey(addTime - 0.1, addTime + 0.1);
-                user.Rebuild();
+                AddKey(addTime - 0.1f, addTime + 0.1f);
+                UpdateValues();
             }
         }
 
-        protected override void KeyGUI(SplineSampleModifier.Key key)
+        protected override void KeyGUI(SerializedProperty key)
         {
-            ColorModifier.ColorKey offsetKey = (ColorModifier.ColorKey)key;
+            SerializedProperty color = key.FindPropertyRelative("color");
+            SerializedProperty blendMode = key.FindPropertyRelative("blendMode");
             base.KeyGUI(key);
-            offsetKey.color = EditorGUILayout.ColorField("Color", offsetKey.color);
-            offsetKey.blendMode = (ColorModifier.ColorKey.BlendMode)EditorGUILayout.EnumPopup("Blend Mode", offsetKey.blendMode);
-        }
-
-        protected override void KeyHandles(SplineSampleModifier.Key key, bool edit)
-        {
-            if (!isOpen) return;
-            base.KeyHandles(key, edit);
+            EditorGUILayout.PropertyField(color);
+            EditorGUILayout.PropertyField(blendMode);
         }
     }
 }

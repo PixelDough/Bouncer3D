@@ -3,41 +3,37 @@ namespace Dreamteck.Splines.Editor
     using UnityEngine;
     using System.Collections.Generic;
     using UnityEditor;
-    using Dreamteck.Editor;
 
     [CustomEditor(typeof(SplineComputer), true)]
     [CanEditMultipleObjects]
     public partial class SplineComputerEditor : Editor 
     {
-        private List<int> selectedPoints = new List<int>();
+        public SplineComputer spline;
+        public SplineComputer[] splines = new SplineComputer[0];
+        public static bool hold = false;
 
         public int[] pointSelection
         {
             get
             {
-                return selectedPoints.ToArray();
+                return _selectedPoints.ToArray();
             }
         }
-        public SplineComputer spline;
-        public SplineComputer[] splines = new SplineComputer[0];
-
-
-        protected bool closedOnMirror = false;
-
-        public static bool hold = false;
-
-        private DreamteckSplinesEditor pathEditor;
-        private ComputerEditor computerEditor;
-        private SplineTriggersEditor triggersEditor;
-        private SplineDebugEditor debugEditor;
-
-        private bool _rebuildSpline = false;
 
         public int selectedPointsCount
         {
-            get { return selectedPoints.Count; }
+            get { return _selectedPoints.Count; }
             set { }
         }
+
+        protected bool closedOnMirror = false;
+
+        private DreamteckSplinesEditor _pathEditor;
+        private ComputerEditor _computerEditor;
+        private SplineTriggersEditor _triggersEditor;
+        private SplineComputerDebugEditor _debugEditor;
+        private bool _rebuildSpline = false;
+        private List<int> _selectedPoints = new List<int>();
 
 
         [MenuItem("GameObject/3D Object/Spline Computer")]
@@ -82,13 +78,12 @@ namespace Dreamteck.Splines.Editor
 
         public void UndoRedoPerformed()
         {
-            pathEditor.points = spline.GetPoints();
-            pathEditor.UndoRedoPerformed();
+            _pathEditor.UndoRedoPerformed();
             spline.EditorUpdateConnectedNodes();
             spline.Rebuild();
         }
 
-        void OnEnable()
+        private void OnEnable()
         {
             splines = new SplineComputer[targets.Length];
             for (int i = 0; i < splines.Length; i++)
@@ -103,24 +98,26 @@ namespace Dreamteck.Splines.Editor
             spline = splines[0];
             InitializeSplineEditor();
             InitializeComputerEditor();
-            debugEditor = new SplineDebugEditor(spline, serializedObject);
-            debugEditor.undoHandler += RecordUndo;
-            debugEditor.repaintHandler += OnRepaint;
-            triggersEditor = new SplineTriggersEditor(spline);
-            triggersEditor.undoHandler += RecordUndo;
-            triggersEditor.repaintHandler += OnRepaint;
+            _debugEditor = new SplineComputerDebugEditor(spline, serializedObject, _pathEditor);
+            _debugEditor.undoHandler += RecordUndo;
+            _debugEditor.repaintHandler += OnRepaint;
+            _triggersEditor = new SplineTriggersEditor(spline, serializedObject);
+            _triggersEditor.undoHandler += RecordUndo;
+            _triggersEditor.repaintHandler += OnRepaint;
             hold = false;
 #if UNITY_2019_1_OR_NEWER
             SceneView.beforeSceneGui += BeforeSceneGUI;
+            SceneView.duringSceneGui += DuringSceneGUI;
 #else
             SceneView.onSceneGUIDelegate += BeforeSceneGUI;
+            SceneView.onSceneGUIDelegate += DuringSceneGUI;
 #endif
             Undo.undoRedoPerformed += UndoRedoPerformed;
         }
 
-        void BeforeSceneGUI(SceneView current)
+        private void BeforeSceneGUI(SceneView current)
         {
-            pathEditor.BeforeSceneGUI(current);
+            _pathEditor.BeforeSceneGUI(current);
 
             if (Event.current.type == EventType.MouseUp)
             {
@@ -137,22 +134,22 @@ namespace Dreamteck.Splines.Editor
             }
         }
 
-        void InitializeSplineEditor()
+        private void InitializeSplineEditor()
         {
-            pathEditor = new DreamteckSplinesEditor(spline, "DreamteckSplines");
-            pathEditor.undoHandler = RecordUndo;
-            pathEditor.repaintHandler = OnRepaint;
-            pathEditor.space = (SplineEditor.Space)SplinePrefs.pointEditSpace;
+            _pathEditor = new DreamteckSplinesEditor(spline, serializedObject);
+            _pathEditor.undoHandler = RecordUndo;
+            _pathEditor.repaintHandler = OnRepaint;
+            _pathEditor.editSpace = (SplineEditor.Space)SplinePrefs.pointEditSpace;
         }
 
-        void InitializeComputerEditor()
+        private void InitializeComputerEditor()
         {
-            computerEditor = new ComputerEditor(splines, serializedObject, pathEditor);
-            computerEditor.undoHandler = RecordUndo;
-            computerEditor.repaintHandler = OnRepaint;
+            _computerEditor = new ComputerEditor(splines, serializedObject, _pathEditor);
+            _computerEditor.undoHandler = RecordUndo;
+            _computerEditor.repaintHandler = OnRepaint;
         }
 
-        void RecordUndo(string title)
+        private void RecordUndo(string title)
         {
             for (int i = 0; i < splines.Length; i++)
             {
@@ -160,78 +157,84 @@ namespace Dreamteck.Splines.Editor
             }
         }
 
-        void OnRepaint()
+        private void OnRepaint()
         {
             SceneView.RepaintAll();
             Repaint();
         }
 
-        void OnDisable()
+        private void OnDisable()
         {
             Undo.undoRedoPerformed -= UndoRedoPerformed;
 #if UNITY_2019_1_OR_NEWER
             SceneView.beforeSceneGui -= BeforeSceneGUI;
+            SceneView.duringSceneGui -= DuringSceneGUI;
 #else
             SceneView.onSceneGUIDelegate -= BeforeSceneGUI;
+            SceneView.onSceneGUIDelegate -= DuringSceneGUI;
 #endif
-            pathEditor.Destroy();
-            computerEditor.Destroy();
-            debugEditor.Destroy();
-            triggersEditor.Destroy();
+            _pathEditor.Destroy();
+            _computerEditor.Destroy();
+            _debugEditor.Destroy();
+            _triggersEditor.Destroy();
         }
 
         public override void OnInspectorGUI()
         {
-            if (Event.current.type == EventType.MouseUp && Event.current.button == 0)
+            if (_debugEditor.editorUpdateMode == SplineComputer.EditorUpdateMode.OnMouseUp)
             {
-                _rebuildSpline = true;
-            }
-            if (Event.current.type == EventType.KeyDown && (Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.KeypadEnter))
-            {
-                _rebuildSpline = true;
+                if (Event.current.type == EventType.MouseUp && Event.current.button == 0)
+                {
+                    _rebuildSpline = true;
+                }
+                if (Event.current.type == EventType.KeyDown && (Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.KeypadEnter))
+                {
+                    _rebuildSpline = true;
+                }
             }
             base.OnInspectorGUI();
             spline = (SplineComputer)target;
-            Undo.RecordObject(spline, "Edit Points");
 
             if (splines.Length == 1)
             {
-                SplineEditorGUI.BeginContainerBox(ref pathEditor.open, "Edit");
-                if (pathEditor.open)
+                SplineEditorGUI.BeginContainerBox(ref _pathEditor.open, "Edit");
+                if (_pathEditor.open)
                 {
-                    SplineEditor.Space lastSpace = pathEditor.space;
-                    pathEditor.DrawInspector();
-                    if (lastSpace != pathEditor.space)
+                    SplineEditor.Space lastSpace = _pathEditor.editSpace;
+                    _pathEditor.DrawInspector();
+                    if (lastSpace != _pathEditor.editSpace)
                     {
-                        SplinePrefs.pointEditSpace = (SplineComputer.Space)pathEditor.space;
+                        SplinePrefs.pointEditSpace = (SplineComputer.Space)_pathEditor.editSpace;
                         SplinePrefs.SavePrefs();
                     }
                 }
-                else if (pathEditor.lastEditorTool != Tool.None && Tools.current == Tool.None)
+                else if (_pathEditor.lastEditorTool != Tool.None && Tools.current == Tool.None)
                 {
-                    Tools.current = pathEditor.lastEditorTool;
+                    Tools.current = _pathEditor.lastEditorTool;
                 }
                 SplineEditorGUI.EndContainerBox();
             }
 
-            SplineEditorGUI.BeginContainerBox(ref computerEditor.open, "Spline Computer");
-            if (computerEditor.open) computerEditor.DrawInspector();
+            SplineEditorGUI.BeginContainerBox(ref _computerEditor.open, "Spline Computer");
+            if (_computerEditor.open)
+            {
+                _computerEditor.DrawInspector();
+            }
             SplineEditorGUI.EndContainerBox();
 
             if (splines.Length == 1)
             {
-                SplineEditorGUI.BeginContainerBox(ref triggersEditor.open, "Triggers");
-                if (triggersEditor.open) triggersEditor.DrawInspector();
+                SplineEditorGUI.BeginContainerBox(ref _triggersEditor.open, "Triggers");
+                if (_triggersEditor.open) _triggersEditor.DrawInspector();
                 SplineEditorGUI.EndContainerBox();
             }
 
-            SplineEditorGUI.BeginContainerBox(ref debugEditor.open, "Editor Properties");
-            if (debugEditor.open) debugEditor.DrawInspector();
+            SplineEditorGUI.BeginContainerBox(ref _debugEditor.open, "Editor Properties");
+            if (_debugEditor.open) _debugEditor.DrawInspector();
             SplineEditorGUI.EndContainerBox();
 
             if (GUI.changed)
             {
-               if (spline.isClosed) pathEditor.points[pathEditor.points.Length - 1] = pathEditor.points[0];
                 EditorUtility.SetDirty(spline);
             }
 
@@ -250,22 +253,19 @@ namespace Dreamteck.Splines.Editor
 
         }
 
-        
-
         public bool IsPointSelected(int index)
         {
-            return selectedPoints.Contains(index);
+            return _selectedPoints.Contains(index);
         }
 
-        private void OnSceneGUI()
+        private void DuringSceneGUI(SceneView currentSceneView)
         {
-            spline = (SplineComputer)target;
-            SceneView currentSceneView = SceneView.currentDrawingSceneView;
-            debugEditor.DrawScene(currentSceneView);
-            computerEditor.drawComputer = !(pathEditor.currentModule is CreatePointModule);
-            computerEditor.DrawScene(currentSceneView);
-            if (splines.Length == 1 && triggersEditor.open) triggersEditor.DrawScene(currentSceneView);
-            if (splines.Length == 1 && pathEditor.open) pathEditor.DrawScene(currentSceneView);
+            _debugEditor.DrawScene(currentSceneView);
+            _computerEditor.drawComputer = !(_pathEditor.currentModule is CreatePointModule);
+            _computerEditor.drawPivot = _pathEditor.open && spline.editorDrawPivot;
+            _computerEditor.DrawScene(currentSceneView);
+            if (splines.Length == 1 && _triggersEditor.open) _triggersEditor.DrawScene(currentSceneView);
+            if (splines.Length == 1 && _pathEditor.open) _pathEditor.DrawScene(currentSceneView);
         }
     }
 }

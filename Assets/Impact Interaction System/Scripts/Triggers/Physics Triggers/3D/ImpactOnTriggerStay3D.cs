@@ -5,6 +5,9 @@ namespace Impact.Triggers
     [AddComponentMenu("Impact/3D Collision Triggers/Impact On Trigger Stay 3D", 0)]
     public class ImpactOnTriggerStay3D : ImpactSlideAndRollTriggerBase<ImpactCollisionSingleContactWrapper, ImpactContactPoint>
     {
+        [SerializeField]
+        private ImpactOnTriggerContactMode contactPointMode;
+
         private void OnTriggerStay(Collider collider)
         {
             if (!Enabled || (!HighPriority && ImpactManagerInstance.HasReachedPhysicsInteractionsLimit()))
@@ -16,9 +19,11 @@ namespace Impact.Triggers
             if (collider.sharedMaterial != null)
                 otherPhysicsMaterialID = collider.sharedMaterial.GetInstanceID();
 
+            Vector3 contactPoint = contactPointMode == ImpactOnTriggerContactMode.ThisObject ? transform.position : collider.transform.position;
+
             ImpactCollisionSingleContactWrapper c = new ImpactCollisionSingleContactWrapper(new ImpactContactPoint()
             {
-                Point = transform.position,
+                Point = contactPoint,
                 Normal = Vector3.zero,
                 ThisObject = this.gameObject,
                 OtherObject = collider.gameObject,

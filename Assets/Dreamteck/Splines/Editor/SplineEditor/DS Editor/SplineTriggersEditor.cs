@@ -13,7 +13,7 @@ namespace Dreamteck.Splines.Editor
         SplineTrigger.Type addTriggerType = SplineTrigger.Type.Double;
         private int setDistanceGroup, setDistanceTrigger;
 
-        public SplineTriggersEditor(SplineComputer spline) : base()
+        public SplineTriggersEditor(SplineComputer spline, SerializedObject serializedObject) : base(serializedObject)
         {
             this.spline = spline;
         }
@@ -51,6 +51,9 @@ namespace Dreamteck.Splines.Editor
         public override void DrawScene(SceneView current)
         {
             base.DrawScene(current);
+
+            if (spline == null) return;
+
             for (int i = 0; i < spline.triggerGroups.Length; i++)
             {
                 if (!spline.triggerGroups[i].open) continue;
@@ -75,7 +78,7 @@ namespace Dreamteck.Splines.Editor
                 {
                     Select(index, i);
                     Repaint();
-                } 
+                }
             }
         }
 

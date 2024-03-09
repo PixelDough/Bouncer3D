@@ -56,11 +56,15 @@
     <Compile Include="Assets\Dreamteck\Splines\Core\TransformModule.cs" />
     <Compile Include="Assets\Dreamteck\Splines\Core\Primitives\Rectangle.cs" />
     <Compile Include="Assets\Dreamteck\Splines\Components\PolygonColliderGenerator.cs" />
+    <Compile Include="Assets\Dreamteck\Splines\Core\SplineUtility.cs" />
     <Compile Include="Assets\Dreamteck\Splines\Components\PathGenerator.cs" />
+    <Compile Include="Assets\Dreamteck\Splines\Components\ObjectController CustomRules\Classes\ObjectControllerCustomRuleBase.cs" />
     <Compile Include="Assets\Dreamteck\Splines\Core\SplinePrefs.cs" />
     <Compile Include="Assets\Dreamteck\Splines\Components\Sample Modifiers\FollowerSpeedModifier.cs" />
     <Compile Include="Assets\Dreamteck\Splines\Components\TubeGenerator.cs" />
+    <Compile Include="Assets\Dreamteck\Splines\Components\SplineMeshChannel.cs" />
     <Compile Include="Assets\Dreamteck\Splines\Core\SplineTrigger.cs" />
+    <Compile Include="Assets\Dreamteck\Splines\Components\ObjectController CustomRules\Classes\ObjectControllerSpiralRule.cs" />
     <Compile Include="Assets\Dreamteck\Splines\Components\SplineRenderer.cs" />
     <Compile Include="Assets\Dreamteck\Splines\Core\SplineSample.cs" />
     <Compile Include="Assets\Dreamteck\Splines\Components\SplineProjector.cs" />
@@ -72,6 +76,7 @@
     <Compile Include="Assets\Dreamteck\Splines\Components\Sample Modifiers\ColorModifier.cs" />
     <Compile Include="Assets\Dreamteck\Splines\Core\Primitives\Line.cs" />
     <Compile Include="Assets\Dreamteck\Splines\Core\ObjectSequence.cs" />
+    <Compile Include="Assets\Dreamteck\Splines\Components\ObjectController CustomRules\Classes\ObjectControllerSineRule.cs" />
     <Compile Include="Assets\Dreamteck\Splines\Core\SplinePoint.cs" />
     <Compile Include="Assets\Dreamteck\Splines\Core\Primitives\Ellipse.cs" />
     <Compile Include="Assets\Dreamteck\Splines\Core\IO\CSV.cs" />
@@ -457,17 +462,11 @@
     <Reference Include="log4netPlastic">
       <HintPath>C:\Users\PixelDoughAdmin\Documents\Repos\Bouncer3D\Library\PackageCache\com.unity.collab-proxy@2.2.0\Lib\Editor\PlasticSCM\log4netPlastic.dll</HintPath>
     </Reference>
-    <Reference Include="UModelerCommon">
-      <HintPath>C:\Users\PixelDoughAdmin\Documents\Repos\Bouncer3D\Assets\tripolygon\UModeler\Scripts\UModelerCommon.dll</HintPath>
-    </Reference>
     <Reference Include="Rewired_Windows">
       <HintPath>C:\Users\PixelDoughAdmin\Documents\Repos\Bouncer3D\Assets\Rewired\Internal\Libraries\Runtime\Rewired_Windows.dll</HintPath>
     </Reference>
     <Reference Include="Rewired_Core">
       <HintPath>C:\Users\PixelDoughAdmin\Documents\Repos\Bouncer3D\Assets\Rewired\Internal\Libraries\Runtime\Rewired_Core.dll</HintPath>
-    </Reference>
-    <Reference Include="UModelerEditor">
-      <HintPath>C:\Users\PixelDoughAdmin\Documents\Repos\Bouncer3D\Assets\tripolygon\UModeler\Scripts\Editor\UModelerEditor.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>C:\Users\PixelDoughAdmin\Documents\Repos\Bouncer3D\Library\PackageCache\com.unity.nuget.mono-cecil@1.11.4\Mono.Cecil.dll</HintPath>

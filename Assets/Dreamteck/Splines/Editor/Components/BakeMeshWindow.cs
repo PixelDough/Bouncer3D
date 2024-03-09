@@ -14,8 +14,9 @@ namespace Dreamteck.Splines.Editor
         public bool generateLightmapUVs = false;
 
         MeshFilter filter;
+        MeshRenderer renderer;
         MeshGenerator meshGen;
-        public enum SaveFormat { MeshAsset, OBJ, None }
+        public enum SaveFormat { MeshAsset, OBJ, Scene }
         SaveFormat format = SaveFormat.MeshAsset;
 
         public void Init(MeshGenerator generator)
@@ -23,6 +24,7 @@ namespace Dreamteck.Splines.Editor
             titleContent = new GUIContent("Bake Mesh");
             meshGen = generator;
             filter = generator.GetComponent<MeshFilter>();
+            renderer = generator.GetComponent<MeshRenderer>();
             if (EditorPrefs.HasKey("BakeWindow_isStatic")) isStatic = EditorPrefs.GetBool("BakeWindow_isStatic");
             if (EditorPrefs.HasKey("BakeWindow_generateLightmapUVs")) generateLightmapUVs = EditorPrefs.GetBool("BakeWindow_generateLightmapUVs");
             if (EditorPrefs.HasKey("BakeWindow_copy")) copy = EditorPrefs.GetBool("BakeWindow_copy");
@@ -45,13 +47,13 @@ namespace Dreamteck.Splines.Editor
 
         void OnGUI() {
             format = (SaveFormat)EditorGUILayout.EnumPopup("Save Format", format);
-            bool saveMesh = format != SaveFormat.None;
+            bool saveMesh = format != SaveFormat.Scene;
 
-            if (format != SaveFormat.None) copy = EditorGUILayout.Toggle("Save without baking", copy);
-            bool isCopy = format != SaveFormat.None && copy;
+            if (format != SaveFormat.Scene) copy = EditorGUILayout.Toggle("Save without baking", copy);
+            bool isCopy = format != SaveFormat.Scene && copy;
             switch (format)
             {
-                case SaveFormat.None: EditorGUILayout.HelpBox("Saves the mesh inside the scene for lightmap", MessageType.Info); break;
+                case SaveFormat.Scene: EditorGUILayout.HelpBox("Saves the mesh inside the scene for lightmap", MessageType.Info); break;
                 case SaveFormat.MeshAsset: EditorGUILayout.HelpBox("Saves the mesh as an .asset file inside the project. This makes using the mesh in prefabs and across scenes possible.", MessageType.Info); break;
                 case SaveFormat.OBJ: EditorGUILayout.HelpBox("Exports the mesh as an OBJ file which can be imported in a third-party modeling application.", MessageType.Info); break;
             }
@@ -108,35 +110,51 @@ namespace Dreamteck.Splines.Editor
                 if (!isCopy) Bake();
                 else
                 {
-                    UnityEditor.MeshUtility.Optimize(filter.sharedMesh);
+                    MeshUtility.Optimize(filter.sharedMesh);
                     Unwrapping.GenerateSecondaryUVSet(filter.sharedMesh);
                 }
-                if (saveMesh) SaveMeshFile(savePath);
+                if (saveMesh)
+                {
+                    SaveMeshFile(savePath);
+                }
             }
         }
 
         void Bake()
         {
             meshGen.Bake(isStatic, generateLightmapUVs);
+            EditorUtility.SetDirty(meshGen);
             if (permanent && !copy)
             {
                 SplineComputer meshGenComputer = meshGen.spline;
                 if (permanent)
                 {
                     meshGenComputer.Unsubscribe(meshGen);
+
+                    if (removeComputer && meshGen.transform.IsChildOf(meshGenComputer.transform))
+                    {
+                        DestroyImmediate(meshGenComputer);
+                    }
+
                     DestroyImmediate(meshGen);
                 }
-                if (removeComputer)
+                if (removeComputer && meshGenComputer != null)
                 {
-                    if(meshGenComputer.GetComponents<Component>().Length == 2) DestroyImmediate(meshGenComputer.gameObject);
-                    else DestroyImmediate(meshGenComputer);
+                    if (meshGenComputer.GetComponents<Component>().Length == 2)
+                    {
+                        DestroyImmediate(meshGenComputer.gameObject);
+                    }
+                    else
+                    {
+                        DestroyImmediate(meshGenComputer);
+                    }
                 }
             }
         }
 
         void SaveMeshFile(string savePath)
         {
-            if (format == SaveFormat.None) return;
+            if (format == SaveFormat.Scene) return;
             string relativePath = "";
             if(savePath.StartsWith(Application.dataPath)) relativePath = "Assets" + savePath.Substring(Application.dataPath.Length);
 
@@ -151,7 +169,6 @@ namespace Dreamteck.Splines.Editor
 
             if (format == SaveFormat.OBJ)
             {
-                MeshRenderer renderer = meshGen.GetComponent<MeshRenderer>();
                 string objString = Dreamteck.MeshUtility.ToOBJString(filter.sharedMesh, renderer.sharedMaterials);
                 File.WriteAllText(savePath, objString);
                 if (!copy) DestroyImmediate(filter.sharedMesh);

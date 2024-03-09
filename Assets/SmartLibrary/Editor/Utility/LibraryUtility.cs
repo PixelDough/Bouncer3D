@@ -79,10 +79,9 @@ namespace Bewildered.SmartLibrary
         [MenuItem("Assets/Add to Last Collection", true)]
         private static bool AddToLastCollectionValidation()
         {
-            var smartLibraryWindows = Resources.FindObjectsOfTypeAll<SmartLibraryWindow>();
-            if (Selection.assetGUIDs.Length > 0 && smartLibraryWindows.Length > 0)
+            if (Selection.assetGUIDs.Length > 0 && SmartLibraryWindow.LastActiveWindow != null)
             {
-                if (smartLibraryWindows[0].SelectedCollection is ILibrarySet)
+                if (SmartLibraryWindow.LastActiveWindow.SelectedCollection is ILibrarySet)
                     return true;
                 else
                     return false;
@@ -96,7 +95,7 @@ namespace Bewildered.SmartLibrary
         [MenuItem("Assets/Add to Last Collection")]
         private static void AddToLastCollection()
         {
-            LibraryCollection collection = Resources.FindObjectsOfTypeAll<SmartLibraryWindow>()[0].SelectedCollection;
+            LibraryCollection collection = SmartLibraryWindow.LastActiveWindow.SelectedCollection;
             if (collection is ILibrarySet collectionSet)
             {
                 var items = new List<LibraryItem>();
@@ -134,10 +133,10 @@ namespace Bewildered.SmartLibrary
             return (EditorWindow)_openPropertyWindowInfo.Invoke(null, new object[] { obj, true });
         }
 
-        internal static void BuildCreateCollectionMenu(DropdownMenu menu, LibraryCollectionsView collectionsView, bool asChildOfSelected)
+        internal static void BuildCreateCollectionMenu(DropdownMenu menu, CollectionsTreeView collectionsTreeView, bool asChildOfSelected)
         {
-            menu.AppendAction("Standard Collection", action => OnCreateMenuItemSelect(collectionsView, asChildOfSelected, typeof(StandardCollection)));
-            menu.AppendAction("Smart Collection", action => OnCreateMenuItemSelect(collectionsView, asChildOfSelected, typeof(SmartCollection)));
+            menu.AppendAction("Standard Collection", action => OnCreateMenuItemSelect(collectionsTreeView, asChildOfSelected, typeof(StandardCollection)));
+            menu.AppendAction("Smart Collection", action => OnCreateMenuItemSelect(collectionsTreeView, asChildOfSelected, typeof(SmartCollection)));
             IEnumerable<Type> collectionTypes = TypeCache.GetTypesDerivedFrom<LibraryCollection>();
             foreach (Type collectionType in collectionTypes)
             {
@@ -149,25 +148,25 @@ namespace Bewildered.SmartLibrary
 
                 string entryName = ObjectNames.NicifyVariableName(collectionType.Name);
 
-                menu.AppendAction(entryName, action => OnCreateMenuItemSelect(collectionsView, asChildOfSelected, collectionType));
+                menu.AppendAction(entryName, action => OnCreateMenuItemSelect(collectionsTreeView, asChildOfSelected, collectionType));
             }
             menu.AppendSeparator();
-            menu.AppendAction("Compound Collection", action => OnCreateMenuItemSelect(collectionsView, asChildOfSelected, typeof(CompoundCollection)));
+            menu.AppendAction("Compound Collection", action => OnCreateMenuItemSelect(collectionsTreeView, asChildOfSelected, typeof(CompoundCollection)));
         }
 
-        private static void OnCreateMenuItemSelect(LibraryCollectionsView collectionsView, bool asChildOfSelected, Type collectionType)
+        private static void OnCreateMenuItemSelect(CollectionsTreeView collectionsTreeView, bool asChildOfSelected, Type collectionType)
         {
             var newCollection = LibraryCollection.CreateCollection(collectionType);
 
-            if (asChildOfSelected && collectionsView.SelectedItem is CollectionTreeViewItem collectionTreeViewItem)
+            if (asChildOfSelected && collectionsTreeView.SelectedItem is CollectionTreeViewItem collectionTreeViewItem)
                 collectionTreeViewItem.Collection.AddSubcollection(newCollection);
             else
                 LibraryDatabase.AddBaseCollection(newCollection);
             
-            collectionsView.Rebuild();
-            collectionsView.ScrollToCollection(newCollection);
-            collectionsView.SetCollectionSelection(newCollection);
-            collectionsView.BeginRenamingCollection(newCollection);
+            collectionsTreeView.Rebuild();
+            collectionsTreeView.ScrollToCollection(newCollection);
+            collectionsTreeView.SetCollectionSelection(newCollection);
+            collectionsTreeView.BeginRenamingCollection(newCollection);
         }
 
         /// <summary>
@@ -208,6 +207,11 @@ namespace Bewildered.SmartLibrary
             File.Move(path, newPath);
         }
 
+        /// <summary>
+        /// Returns the project relative file path for the specified collection.
+        /// </summary>
+        /// <param name="collection">The collection to get the file path for.</param>
+        /// <returns>The file path for the collection.</returns>
         internal static string GetCollectionPath(LibraryCollection collection)
         {
             string filename = $"{collection.CollectionName}_{collection.ID}";
@@ -233,6 +237,12 @@ namespace Bewildered.SmartLibrary
             {
                 var collection = LoadCollection(collectionPath);
 
+                if (collection == null)
+                {
+                    Debug.LogWarning($"SmartLibrary: Could not load collection at '{collectionPath}'");
+                    continue;
+                }
+                
                 // This is required since in 2.0.0 the HideAndDontSave flag was used. So this is used to update it.
                 if (collection.hideFlags != HideFlags.DontSave)
                     collection.hideFlags = HideFlags.DontSave;   

@@ -44,13 +44,16 @@ namespace Dreamteck.Splines.Editor
 
 
             format = (BakeMeshWindow.SaveFormat)EditorGUILayout.EnumPopup("Save Format", format);
-            bool saveMesh = format != BakeMeshWindow.SaveFormat.None;
+            bool saveMesh = format != BakeMeshWindow.SaveFormat.Scene;
 
-            if (format != BakeMeshWindow.SaveFormat.None) copy = EditorGUILayout.Toggle("Save without baking", copy);
-            bool isCopy = format != BakeMeshWindow.SaveFormat.None && copy;
+            if (format != BakeMeshWindow.SaveFormat.Scene)
+            {
+                copy = EditorGUILayout.Toggle("Save without baking", copy);
+            }
+            bool isCopy = format != BakeMeshWindow.SaveFormat.Scene && copy;
             switch (format)
             {
-                case BakeMeshWindow.SaveFormat.None: EditorGUILayout.HelpBox("Saves the mesh inside the scene for lightmap", MessageType.Info); break;
+                case BakeMeshWindow.SaveFormat.Scene: EditorGUILayout.HelpBox("Saves the mesh inside the scene", MessageType.Info); break;
                 case BakeMeshWindow.SaveFormat.MeshAsset: EditorGUILayout.HelpBox("Saves the mesh as an .asset file inside the project. This makes using the mesh in prefabs and across scenes possible.", MessageType.Info); break;
                 case BakeMeshWindow.SaveFormat.OBJ: EditorGUILayout.HelpBox("Exports the mesh as an OBJ file which can be imported in a third-party modeling application.", MessageType.Info); break;
             }

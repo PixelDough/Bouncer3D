@@ -12,9 +12,8 @@ namespace Dreamteck.Splines.Editor
         private float addTime = 0f;
         Matrix4x4 matrix = new Matrix4x4();
 
-        public OffsetModifierEditor(SplineUser user, SplineUserEditor editor, OffsetModifier input) : base(user, editor, input)
+        public OffsetModifierEditor(SplineUser user, SplineUserEditor editor) : base(user, editor, "_offsetModifier")
         {
-            module = input;
             title = "Offset Modifiers";
         }
 
@@ -29,33 +28,41 @@ namespace Dreamteck.Splines.Editor
             if (!isOpen) return;
             if (GUILayout.Button("Add New Offset"))
             {
-                ((OffsetModifier)module).AddKey(Vector2.zero, addTime - 0.1, addTime + 0.1);
-                user.Rebuild();
+                AddKey(addTime - 0.1f, addTime + 0.1f);
+                UpdateValues();
             }
         }
 
-        protected override void KeyGUI(SplineSampleModifier.Key key)
+        protected override void KeyGUI(SerializedProperty key)
         {
-            OffsetModifier.OffsetKey offsetKey = (OffsetModifier.OffsetKey)key;
+            SerializedProperty offset = key.FindPropertyRelative("offset");
             base.KeyGUI(key);
-            offsetKey.offset = EditorGUILayout.Vector2Field("Offset", offsetKey.offset);
+            EditorGUILayout.PropertyField(offset);
         }
 
-        protected override void KeyHandles(SplineSampleModifier.Key key, bool edit)
+        protected override bool KeyHandles(SerializedProperty key, bool edit)
         {
-            if (!isOpen) return;
+            if (!isOpen) return false;
+            bool changed = false;
             bool is2D = user.spline != null && user.spline.is2D;
             SplineSample result = new SplineSample();
-            OffsetModifier.OffsetKey offsetKey = (OffsetModifier.OffsetKey)key;
-            user.spline.Evaluate(offsetKey.position, result);
+            SerializedProperty start = key.FindPropertyRelative("_featherStart");
+            SerializedProperty end = key.FindPropertyRelative("_featherEnd");
+            SerializedProperty centerStart = key.FindPropertyRelative("_centerStart");
+            SerializedProperty centerEnd = key.FindPropertyRelative("_centerEnd");
+            SerializedProperty offset = key.FindPropertyRelative("offset");
+
+            float position = GetPosition(start.floatValue, end.floatValue, centerStart.floatValue, centerEnd.floatValue);
+
+            user.spline.Evaluate(position, ref result);
             matrix.SetTRS(result.position, Quaternion.LookRotation(result.forward, result.up), Vector3.one * result.size);
-            Vector3 pos = matrix.MultiplyPoint(offsetKey.offset);
+            Vector3 pos = matrix.MultiplyPoint(offset.vector2Value);
             if (is2D)
             {
-                Handles.DrawLine(result.position, result.position + result.right * offsetKey.offset.x * result.size);
-                Handles.DrawLine(result.position, result.position - result.right * offsetKey.offset.x * result.size);
+                Handles.DrawLine(result.position, result.position + result.right * offset.vector2Value.x * result.size);
+                Handles.DrawLine(result.position, result.position - result.right * offset.vector2Value.x * result.size);
             }
-            else Handles.DrawWireDisc(result.position, result.forward, offsetKey.offset.magnitude * result.size);
+            else Handles.DrawWireDisc(result.position, result.forward, offset.vector2Value.magnitude * result.size);
             Handles.DrawLine(result.position, pos);
 
             if (edit)
@@ -64,15 +71,21 @@ namespace Dreamteck.Splines.Editor
                 pos = SplineEditorHandles.FreeMoveRectangle(pos, HandleUtility.GetHandleSize(pos) * 0.1f);
                 if (pos != lastPos)
                 {
+                    changed = true;
                     pos = matrix.inverse.MultiplyPoint(pos);
                     pos.z = 0f;
-                    if (is2D) offsetKey.offset = Vector2.right * pos.x;
-                    else offsetKey.offset = pos;
-                    user.Rebuild();
+                    if (is2D)
+                    {
+                        offset.vector2Value = Vector2.right * pos.x;
+                    }
+                    else
+                    {
+                        offset.vector2Value = pos;
+                    }
                 }
             }
 
-            base.KeyHandles(key, edit);
+            return base.KeyHandles(key, edit) || changed;
         }
     }
 }

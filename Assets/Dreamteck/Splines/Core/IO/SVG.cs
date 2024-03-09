@@ -670,15 +670,15 @@ namespace Dreamteck.Splines.IO
 
                 // New point in buffer
                 Vector3 posc = Vector3.zero, tanc = Vector3.zero, tanp = Vector3.zero;
-                ellipseSpline.EvaluatePosition(ref posc, pc);
-                ellipseSpline.EvaluateTangent(ref tanc, pc);
+                ellipseSpline.EvaluatePosition(pc, ref posc);
+                ellipseSpline.EvaluateTangent(pc, ref tanc);
                 tanc *= sgn;
                 tanc /= (float)d;
                 buffer.position = posc;
                 buffer.tangent = posc - tanc; 
 
                 // Modify tangent2 of last point in buffer
-                ellipseSpline.EvaluateTangent(ref tanp, pp);
+                ellipseSpline.EvaluateTangent(pp, ref tanp);
                 tanp *= sgn;
                 tanp /= (float)d;
                 p = buffer.GetLastPoint();

@@ -1,0 +1,191 @@
+// Hi, this is a documentation heavy shader that doesn't do a lot except show
+// you how everyting works.
+
+
+BEGIN_OPTIONS
+   // ShaderName "Path/ShaderName"     // The default will just use the filename, but if you want to path/name your shader
+   // Tessellation "Distance"          // automatic tessellation, distance, edge, phong
+   // Alpha "Blend"                    // Blend, PreMultiply, Add
+   // Fallback "Diffuse"               // fallback shader
+   // CustomEditor "MyCustomEditor"    // Custom Editor
+   // Tags { "RenderType" = "Opaque" "Queue" = "Geometry+100" }  // tags are always in standard pipeline style
+   // Workflow "Metallic"              // Metallic, Specular, or Unlit
+   // StripV2F { vertexColor texcoord2 } // do not carry this data from the vertex to pixel stage
+   // Stackable "True"                 // when false, only one copy of this shader will ever be included via the subshader block. Kind of like an include guard.
+   // VertexColorModifier "_centroid"  // add modifier to v2f interpolator
+   // ExtraV2F3Require "_MyDefine"     // make extraV2F3 register only exist when define is set
+   // Pipeline "HDRP"                  // when stacked, only include this on this specific pipeline. Standard, URP, HDRP are the options
+   // DisableGBufferPass "True"        // disable gbuffer pass
+   // DisableShadowPass "True"         // disable shadow pass     
+END_OPTIONS
+
+BEGIN_PASS("All")
+   // Cull Front           // add various pass semantics to all passes, or individual passes with pass blocks
+END_PASS
+
+
+// "Relative/Path/File.surfshader" // merge all blocks into this shader. Like a better include.
+BEGIN_SUBSHADERS
+  
+END_SUBSHADERS
+
+
+// Put any properties you have between the begin/end property blocks
+BEGIN_PROPERTIES
+    _MainTex ("Texture", 2D) = "white" { }
+	_Color ("Main Color", Color) = (0, 1, 0, 1)
+END_PROPERTIES
+
+
+// Any variables you want to have in the per material CBuffer go here.
+BEGIN_CBUFFER
+	half4 _Color;
+END_CBUFFER
+
+// You can use the define block to insert includes, defines, etc before any code.
+// if you are writing a subshader, any defines that should be set on the main
+// shader are defined here. 
+BEGIN_DEFINES
+
+END_DEFINES
+
+
+// All code goes here
+BEGIN_CODE
+
+	// (optional) if you want to modify any vertex data before it's processed,
+	//	put it in the ModifyVertex function. The struct is:
+	//	struct VertexData :
+   //    float4 vertex
+   //    float3 normal
+   //    float4 tangent
+   //    float4 texcoord0
+   //    float4 texcoord1
+   //    float4 texcoord2
+   //    float4 texcoord3
+   //    float4 vertexColor
+
+   // an ExtraV2F structure is available to assign any custom data to
+   // and have it taken to the pixel shader
+   // float4 extraV2F0;
+   // float4 extraV2F1;
+   // etc..
+   // float4 extraV2F7;
+   //
+   // In HDRP, the motion vector pass recomputes the vertex positions for objects in previous
+   // frames. So if you animate the vertices using _Time, use this instead for proper motion
+   // vectors, as time might be the last frame instead of the current.
+   // float4 time; 
+
+   // (optional)modify the vertex
+	// void ModifyVertex(inout VertexData v, inout ExtraV2F d)
+	// {
+	// }
+
+   // (optional)modify the vertex post tessellation
+   // void ModifyTessellatedVertex(inout VertexData v, inout ExtraV2F d)
+   // {
+   // }
+
+   // (optional) if you are using tessellation and displacement, you can return
+   // the tessellation distance and subdivision here
+   // float3 GetTessDistanceFactors ()
+   // {
+   //    float minDistance = 0;
+   //    float maxDistance = 35;
+   //    float subDiv = 12;
+   //    return float3(minDistance, maxDistance, subDiv);
+   // }
+
+
+	// (required) Write your surface function, filling out the inputs to the
+   // lighting equation. Surface contains:
+
+	// Surface :
+   //    half3 Albedo;
+   //    half3 Normal;
+   //    half Smoothness;
+   //    half Metallic;
+   //    half Occlusion;
+   //    half3 Emission;
+   //    half Height;
+   //    half Alpha;
+   //    float outputDepth; // if written, SV_Depth semantic is used. ShaderData.clipPos.z is unused value
+   // HDRP Only, may require certain flags/defines/etc to be set to be used
+   //    half SpecularOcclusion;
+   //    half SubsurfaceMask;
+   //    half Thickness;
+   //    half CoatMask;
+   //    half CoatSmoothness;
+   //    half Anisotropy;
+   //    half IridescenceMask;
+   //    half IridescenceThickness;
+   //    int DiffusionProfileHash;
+   // must define _ENABLE_GEOMETRIC_SPECULAR_AA
+   //    float SpecularAAThreshold;
+   //    float SpecularAAScreenSpaceVariance;
+   //
+   // must define (_REFRACTION_PLANE || _REFRACTION_SPHERE || _REFRACTION_THIN)
+   //    float ior;
+   //    float3 transmittanceColor;
+   //    float atDistance;
+   //    float transmittanceMask;
+
+   // requires _OVERRIDE_BAKEDGI to be defined, but is mapped in all pipelines
+   //    float3 DiffuseGI;
+   //    float3 BackDiffuseGI;
+   //    float3 SpecularGI;
+
+   // The SurfaceData function contains common data you might want, precomputed
+   // for you. Note the system strips unused elements from the structures automatically,
+   // so there is no cost to unused stuff.
+
+   // ShaderData :
+   //    float3 localSpacePosition;
+   //    float3 localSpaceNormal;
+   //    float3 localSpaceTangent;
+   //    float3 worldSpacePosition;
+   //    float3 worldSpaceNormal;
+   //    float3 worldSpaceTangent;
+   //    float  tangentSign; // tangent.w
+   //    float3 worldSpaceViewDir;
+   //    float3 tangentSpaceViewDir;
+   //    bool  isFrontFace; // when used, SV_IsFrontFace semantic is used in the shader.
+   //    float4 texcoord0;
+   //    float4 texcoord1;
+   //    float4 texcoord2;
+   //    float4 texcoord3;
+   //    float2 screenUV;     // 0-1 UVs for screen coordinates
+   //    float4 screenPos;
+   //    float4 vertexColor;
+   //    float3x3 TBNMatrix;  // world to tangent and tangent to world matrix. Can also use TransformWorldToTangent(ShaderData, normal) and the inverse
+   //    float4 extraV2F0;    // extra data across the v2f bus
+   //    etc..
+   //    float4 extraV2F7;
+   //    float4 clipPos;     // clip position, SV_POSITION
+ 
+
+
+	void SurfaceFunction(inout Surface o, ShaderData d)
+	{
+		o.Albedo = _Color.rgb * tex2D (_MainTex, ;
+		o.Alpha = _Color.a;
+	}
+
+
+   // (optional)modify final color of shader output, after lighting
+   // void FinalColorForward(Surface o, ShaderData d, inout half4 color)
+   // {
+   // }
+
+
+   // (optional)modify final output of GBuffer data
+   // void FinalGBufferStandard(Surface o, ShaderData d,
+   //   inout half4 GBuffer0, inout half4 GBuffer1, inout half4 GBuffer2, inout half4 emission,
+   //   inout half4 shadowMask)
+   // {
+   // }
+
+
+END_CODE
+

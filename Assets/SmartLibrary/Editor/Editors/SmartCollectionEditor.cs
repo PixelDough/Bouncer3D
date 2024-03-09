@@ -21,7 +21,30 @@ namespace Bewildered.SmartLibrary.UI
         protected override void CreateGUIElements(VisualElement rootElement)
         {
             rootElement.Add(CreateFoldersElement());
-            
+
+#if UNITY_2021_1_OR_NEWER
+            var box = new HelpBox
+            {
+                messageType = HelpBoxMessageType.Warning,
+                text = "'Any Depth' search for folders is not currently supported in Unity 2021.3 and newer due to features Unity removed. Support will be re-enabled as soon as possible."
+            };
+            box.schedule.Execute(() =>
+            {
+                SerializedProperty foldersProperty = serializedObject.FindProperty("_folders");
+                for (int i = 0; i < foldersProperty.arraySize; i++)
+                {
+                    if (foldersProperty.GetArrayElementAtIndex(i).FindPropertyRelative("_matchOption").enumValueIndex == 0)
+                    {
+                        box.SetDisplay(true);
+                        return;
+                    }
+                }
+
+                box.SetDisplay(false);
+            }).Every(250);
+            rootElement.Add(box);
+#endif
+
             rootElement.Add(CreateRulesListElement());
             rootElement.Add(CreateMissingRulesFolderElement());
             rootElement.Add(CreateUpdateItemsButton());
@@ -33,6 +56,7 @@ namespace Bewildered.SmartLibrary.UI
             spinnerContainer.Add(spinner);
             rootElement.Add(spinnerContainer);
         }
+        
 
         private ReorderableList CreateFoldersElement()
         {

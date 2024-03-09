@@ -172,12 +172,32 @@ namespace Dreamteck.Splines.Editor
 
         void OnSetClipRangeDistance(float from, float to)
         {
+            int longest = 0;
+            float max = 0f;
             for (int i = 0; i < users.Length; i++)
             {
                 if (users[i].spline == null) continue;
-                users[i].clipFrom = users[i].spline.Travel(0.0, from);
-                users[i].clipTo = users[i].spline.Travel(0.0, to);
-                EditorUtility.SetDirty(users[i]);
+                float length = users[i].CalculateLength();
+                if(length > max)
+                {
+                    max = length;
+                    longest = i;
+                }
+            }
+            clipFromProperty = serializedObject.FindProperty("_clipFrom");
+            clipToProperty = serializedObject.FindProperty("_clipTo");
+            serializedObject.Update();
+            clipFromProperty.floatValue = (float)users[longest].spline.Travel(0.0, from);
+            clipToProperty.floatValue = (float)users[longest].spline.Travel(0.0, to);
+
+            serializedObject.ApplyModifiedProperties();
+
+            for (int i = 0; i < users.Length; i++)
+            {
+                if (users[i].spline == null) continue;
+                users[i].clipFrom = clipFromProperty.floatValue;
+                users[i].clipTo = clipToProperty.floatValue;
+                users[i].RebuildImmediate();
             }
         }
 
@@ -202,7 +222,7 @@ namespace Dreamteck.Splines.Editor
             EditorGUILayout.Space();
         }
 
-        protected virtual void OnSceneGUI()
+        protected virtual void DuringSceneGUI(SceneView currentSceneView)
         {
             if (doRebuild)
             {
@@ -311,6 +331,10 @@ namespace Dreamteck.Splines.Editor
                 }
             }
             SplineComputerEditor.hold = false;
+
+#if UNITY_2019_1_OR_NEWER
+            SceneView.duringSceneGui -= DuringSceneGUI;
+#endif
         }
 
         protected virtual void OnDelete()
@@ -319,22 +343,31 @@ namespace Dreamteck.Splines.Editor
 
         protected virtual void Awake()
         {
-#if UNITY_2018_OR_NEWER
-            foldoutHeader = EditorStyles.foldoutHeader;
-#else
             foldoutHeaderStyle = EditorStyles.foldout;
+#if UNITY_2019_1_OR_NEWER
+            SceneView.duringSceneGui += DuringSceneGUI;
 #endif
+            SplineUser user = (SplineUser)target;
+            user.EditorAwake();
         }
+
+#if !UNITY_2019_1_OR_NEWER
+        protected void OnSceneGUI()
+        {
+            DuringSceneGUI(SceneView.currentDrawingSceneView);
+        }
+#endif
+
 
         protected virtual void OnEnable()
         {
             SplineUser user = (SplineUser)target;
             
             settingsFoldout = EditorPrefs.GetBool("Dreamteck.Splines.Editor.SplineUserEditor.settingsFoldout", false);
-            rotationModifierEditor = new RotationModifierEditor(user, this, user.rotationModifier);
-            offsetModifierEditor = new OffsetModifierEditor(user, this, user.offsetModifier);
-            colorModifierEditor = new ColorModifierEditor(user, this, user.colorModifier);
-            sizeModifierEditor = new SizeModifierEditor(user, this, user.sizeModifier);
+            rotationModifierEditor = new RotationModifierEditor(user, this);
+            offsetModifierEditor = new OffsetModifierEditor(user, this);
+            colorModifierEditor = new ColorModifierEditor(user, this);
+            sizeModifierEditor = new SizeModifierEditor(user, this);
 
             updateMethodProperty = serializedObject.FindProperty("updateMethod");
             buildOnAwakeProperty = serializedObject.FindProperty("buildOnAwake");
@@ -350,10 +383,6 @@ namespace Dreamteck.Splines.Editor
             for (int i = 0; i < users.Length; i++)
             {
                 users[i] = (SplineUser)targets[i];
-                if (users[i].isActiveAndEnabled)
-                {
-                    user.EditorAwake();
-                }
             }
             Undo.undoRedoPerformed += OnUndoRedo;
         }

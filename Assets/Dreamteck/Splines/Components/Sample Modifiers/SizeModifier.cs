@@ -12,46 +12,44 @@
         {
             public float size = 0f;
 
-            public SizeKey(double f, double t, SizeModifier modifier) : base(f, t, modifier)
+            public SizeKey(double f, double t) : base(f, t)
             {
             }
         }
-        public List<SizeKey> keys = new List<SizeKey>();
+        public SizeKey[] keys = new SizeKey[0];
 
         public SizeModifier()
         {
-            keys = new List<SizeKey>();
+            keys = new SizeKey[0];
         }
 
         public override List<Key> GetKeys()
         {
-            List<Key> output = new List<Key>();
-            for (int i = 0; i < keys.Count; i++) output.Add(keys[i]);
-            return output;
+            return new List<Key>(keys);
         }
 
         public override void SetKeys(List<Key> input)
         {
-            keys = new List<SizeKey>();
+            keys = new SizeKey[input.Count];
             for (int i = 0; i < input.Count; i++)
             {
-                input[i].modifier = this;
-                keys.Add((SizeKey)input[i]);
+                keys[i] = (SizeKey)input[i];
             }
+            base.SetKeys(input);
         }
 
         public void AddKey(double f, double t)
         {
-            keys.Add(new SizeKey(f, t, this));
+            ArrayUtility.Add(ref keys, new SizeKey(f, t));
         }
 
-        public override void Apply(SplineSample result)
+        public override void Apply(ref SplineSample result)
         {
-            if (keys.Count == 0) return;
-            base.Apply(result);
-            for (int i = 0; i < keys.Count; i++)
+            if (keys.Length == 0) return;
+            base.Apply(ref result);
+            for (int i = 0; i < keys.Length; i++)
             {
-                result.size += keys[i].Evaluate(result.percent) * keys[i].size;
+                result.size += keys[i].Evaluate(result.percent) * keys[i].size * blend;
             }
         }
     }

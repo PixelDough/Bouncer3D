@@ -14,7 +14,7 @@
             public Color color = Color.white;
             public BlendMode blendMode = BlendMode.Lerp;
 
-            public ColorKey(double f, double t, ColorModifier modifier) : base(f, t, modifier)
+            public ColorKey(double f, double t) : base(f, t)
             {
             }
 
@@ -30,39 +30,40 @@
                 }
             }
         }
-        public List<ColorKey> keys = new List<ColorKey>();
+        public ColorKey[] keys = new ColorKey[0];
 
         public ColorModifier()
         {
-            keys = new List<ColorKey>();
+            keys = new ColorKey[0];
         }
 
         public override List<Key> GetKeys()
         {
-            List<Key> output = new List<Key>();
-            for (int i = 0; i < keys.Count; i++) output.Add(keys[i]);
-            return output;
+            return new List<Key>(keys);
         }
 
         public override void SetKeys(List<Key> input)
         {
-            keys = new List<ColorKey>();
-            for (int i = 0; i < input.Count; i++) keys.Add((ColorKey)input[i]);
+            keys = new ColorKey[input.Count];
+            for (int i = 0; i < input.Count; i++)
+            {
+                keys[i] = (ColorKey)input[i];
+            }
             base.SetKeys(input);
         }
 
         public void AddKey(double f, double t)
         {
-            keys.Add(new ColorKey(f, t, this));
+            ArrayUtility.Add(ref keys, new ColorKey(f, t));
         }
 
-        public override void Apply(SplineSample result)
+        public override void Apply(ref SplineSample result)
         {
-            if (keys.Count == 0) return;
-            base.Apply(result);
-            for (int i = 0; i < keys.Count; i++)
+            if (keys.Length == 0) return;
+            base.Apply(ref result);
+            for (int i = 0; i < keys.Length; i++)
             {
-                result.color = keys[i].Blend(result.color, keys[i].Evaluate(result.percent));
+                result.color = keys[i].Blend(result.color, keys[i].Evaluate(result.percent) * blend);
             }
         }
     }

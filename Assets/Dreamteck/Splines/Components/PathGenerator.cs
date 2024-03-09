@@ -43,6 +43,19 @@ namespace Dreamteck.Splines
             }
         }
 
+        public bool compensateCorners
+        {
+            get { return _compensateCorners; }
+            set
+            {
+                if (value != _compensateCorners)
+                {
+                    _compensateCorners = value;
+                    Rebuild();
+                }
+            }
+        }
+
         public float shapeExposure
         {
             get { return _shapeExposure; }
@@ -55,8 +68,6 @@ namespace Dreamteck.Splines
                 }
             }
         }
-
-
 
         public AnimationCurve shape
         {
@@ -87,9 +98,15 @@ namespace Dreamteck.Splines
             }
         }
 
+        protected override string meshName => "Path";
+
         [SerializeField]
         [HideInInspector]
         private int _slices = 1;
+        [SerializeField]
+        [HideInInspector]
+        [Tooltip("This will inflate sample sizes based on the angle between two samples in order to preserve geometry width")]
+        private bool _compensateCorners = false;
         [SerializeField]
         [HideInInspector]
         private bool _useShapeCurve = false;
@@ -104,13 +121,6 @@ namespace Dreamteck.Splines
         private float _shapeExposure = 1f;
 
 
-
-        protected override void Awake()
-        {
-            base.Awake();
-            mesh.name = "path";
-        }
-
         protected override void Reset()
         {
             base.Reset();
@@ -121,7 +131,7 @@ namespace Dreamteck.Splines
         {
            base.BuildMesh();
            GenerateVertices();
-           MeshUtility.GeneratePlaneTriangles(ref tsMesh.triangles, _slices, sampleCount, false);
+           MeshUtility.GeneratePlaneTriangles(ref _tsMesh.triangles, _slices, sampleCount, false);
         }
 
 
@@ -134,10 +144,17 @@ namespace Dreamteck.Splines
             ResetUVDistance();
 
             bool hasOffset = offset != Vector3.zero;
-
             for (int i = 0; i < sampleCount; i++)
             {
-                GetSample(i, evalResult);
+                if (_compensateCorners)
+                {
+                    GetSampleWithAngleCompensation(i, ref evalResult);
+                }
+                else
+                {
+                    GetSample(i, ref evalResult);
+                }
+
                 Vector3 center = Vector3.zero;
                 try
                 {
@@ -159,9 +176,9 @@ namespace Dreamteck.Splines
                     float slicePercent = ((float)n / _slices);
                     float shapeEval = 0f;
                     if (_useShapeCurve) shapeEval = _shape.Evaluate(slicePercent);
-                    tsMesh.vertices[vertexIndex] = center + rot * right * (fullSize * 0.5f) - rot * right * (fullSize * slicePercent) + rot * evalResult.up * (shapeEval * _shapeExposure);
+                    _tsMesh.vertices[vertexIndex] = center + rot * right * (fullSize * 0.5f) - rot * right * (fullSize * slicePercent) + rot * evalResult.up * (shapeEval * _shapeExposure);
                     CalculateUVs(evalResult.percent, 1f - slicePercent);
-                    tsMesh.uv[vertexIndex] = Vector2.one * 0.5f + (Vector2)(Quaternion.AngleAxis(uvRotation + 180f, Vector3.forward) * (Vector2.one * 0.5f - uvs));
+                    _tsMesh.uv[vertexIndex] = Vector2.one * 0.5f + (Vector2)(Quaternion.AngleAxis(uvRotation + 180f, Vector3.forward) * (Vector2.one * 0.5f - __uvs));
                     if (_slices > 1)
                     {
                         if (n < _slices)
@@ -170,23 +187,23 @@ namespace Dreamteck.Splines
                             shapeEval = 0f;
                             if (_useShapeCurve) shapeEval = _shape.Evaluate(forwardPercent);
                             Vector3 nextVertPos = center + rot * right * fullSize * 0.5f - rot * right * fullSize * forwardPercent + rot * evalResult.up * shapeEval * _shapeExposure;
-                            Vector3 cross1 = -Vector3.Cross(evalResult.forward, nextVertPos - tsMesh.vertices[vertexIndex]).normalized;
+                            Vector3 cross1 = -Vector3.Cross(evalResult.forward, nextVertPos - _tsMesh.vertices[vertexIndex]).normalized;
 
                             if (n > 0)
                             {
-                                Vector3 cross2 = -Vector3.Cross(evalResult.forward, tsMesh.vertices[vertexIndex] - lastVertPos).normalized;
-                                tsMesh.normals[vertexIndex] = Vector3.Slerp(cross1, cross2, 0.5f);
-                            } else tsMesh.normals[vertexIndex] = cross1;
+                                Vector3 cross2 = -Vector3.Cross(evalResult.forward, _tsMesh.vertices[vertexIndex] - lastVertPos).normalized;
+                                _tsMesh.normals[vertexIndex] = Vector3.Slerp(cross1, cross2, 0.5f);
+                            } else _tsMesh.normals[vertexIndex] = cross1;
                         }
-                        else   tsMesh.normals[vertexIndex] = -Vector3.Cross(evalResult.forward, tsMesh.vertices[vertexIndex] - lastVertPos).normalized;
+                        else   _tsMesh.normals[vertexIndex] = -Vector3.Cross(evalResult.forward, _tsMesh.vertices[vertexIndex] - lastVertPos).normalized;
                     }
                     else
                     {
-                        tsMesh.normals[vertexIndex] = evalResult.up;
-                        if (rotation != 0f) tsMesh.normals[vertexIndex] = rot * tsMesh.normals[vertexIndex];
+                        _tsMesh.normals[vertexIndex] = evalResult.up;
+                        if (rotation != 0f) _tsMesh.normals[vertexIndex] = rot * _tsMesh.normals[vertexIndex];
                     }
-                    tsMesh.colors[vertexIndex] = vertexColor;
-                    lastVertPos = tsMesh.vertices[vertexIndex];
+                    _tsMesh.colors[vertexIndex] = vertexColor;
+                    lastVertPos = _tsMesh.vertices[vertexIndex];
                     vertexIndex++;
                 }
             }

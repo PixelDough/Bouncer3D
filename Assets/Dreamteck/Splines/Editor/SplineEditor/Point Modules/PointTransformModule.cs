@@ -32,8 +32,7 @@ namespace Dreamteck.Splines.Editor
             scale = Vector3.one;
             matrix.SetTRS(origin, rotation, Vector3.one);
             inverseMatrix = matrix.inverse;
-            localPoints = new SplinePoint[points.Length];
-            points.CopyTo(localPoints, 0);
+            localPoints = editor.GetPointsArray();
             for (int i = 0; i < localPoints.Length; i++) InverseTransformPoint(ref localPoints[i]);
         }
 
@@ -51,7 +50,7 @@ namespace Dreamteck.Splines.Editor
                     }
                     if (selectedPoints.Count == 1)
                     {
-                        editor.evaluate((double)selectedPoints[0] / (points.Length - 1), evalResult);
+                        editor.evaluate((double)selectedPoints[0] / (points.Length - 1), ref evalResult);
                         rotation = evalResult.rotation;
                     }
                     else rotation = Quaternion.identity;
@@ -73,6 +72,7 @@ namespace Dreamteck.Splines.Editor
 
         protected void SetDirty()
         {
+            RegisterChange();
             _unapplied = true;
         }
 
@@ -83,26 +83,33 @@ namespace Dreamteck.Splines.Editor
 
         public virtual void Revert()
         {
-            points = originalPoints;
+            editor.SetPointsArray(originalPoints);
+            editor.ApplyModifiedProperties();
             _unapplied = false;
         }
 
         public virtual void Apply()
         {
-            GetOriginalPoints();
+            RegisterChange();
+            CacheOriginalPoints();
             _unapplied = false;
         }
 
         public override void Select()
         {
             base.Select();
-            GetOriginalPoints();
+            CacheOriginalPoints();
         }
 
-        void GetOriginalPoints()
+        public override void Deselect()
         {
-            originalPoints = new SplinePoint[points.Length];
-            points.CopyTo(originalPoints, 0);
+            base.Deselect();
+            _unapplied = false;
+        }
+
+        private void CacheOriginalPoints()
+        {
+            originalPoints = editor.GetPointsArray();
         }
 
         protected void PrepareTransform()
@@ -138,7 +145,10 @@ namespace Dreamteck.Splines.Editor
                 point.tangent = TransformPosition(point.tangent);
                 point.tangent2 = TransformPosition(point.tangent2);
             }
-            else point.SetPosition(TransformPosition(point.position));
+            else
+            {
+                point.SetPosition(TransformPosition(point.position));
+            }
             if(normals) point.normal = TransformDirection(point.normal).normalized;
             if (size)
             {

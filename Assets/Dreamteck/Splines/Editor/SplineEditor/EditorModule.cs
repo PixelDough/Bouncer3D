@@ -9,6 +9,15 @@
     {
         protected string prefPrefix = "";
 
+        private bool _changed = false;
+
+        public bool hasChanged { get { return _changed; } }
+
+        protected void RegisterChange()
+        {
+            _changed = true;
+        }
+
         public virtual void Select()
         {
             LoadState();
@@ -23,16 +32,23 @@
         {
         }
 
-        public virtual void DrawScene()
+        public void DrawScene()
         {
-
+            _changed = false;
+            OnDrawScene();
         }
 
-        public virtual void OnSceneDraw()
+        protected virtual void OnDrawScene()
         {
         }
 
-        public virtual void DrawInspector()
+        public void DrawInspector()
+        {
+            _changed = false;
+            OnDrawInspector();
+        }
+
+        protected virtual void OnDrawInspector()
         {
         }
 

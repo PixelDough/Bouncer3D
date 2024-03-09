@@ -1,11 +1,7 @@
 namespace Dreamteck.Splines.Editor
 {
     using UnityEngine;
-    using System.Collections;
     using System.IO;
-    using System.Runtime.Serialization;
-    using System.Runtime.Serialization.Formatters.Binary;
-    using System.Collections.Generic;
 
     [System.Serializable]
     public struct S_Vector3
@@ -46,12 +42,19 @@ namespace Dreamteck.Splines.Editor
     [System.Serializable]
     public class SplinePreset
     {
+        [SerializeField]
         private S_Vector3[] points_position = new S_Vector3[0];
+        [SerializeField]
         private S_Vector3[] points_tanget = new S_Vector3[0];
+        [SerializeField]
         private S_Vector3[] points_tangent2 = new S_Vector3[0];
+        [SerializeField]
         private S_Vector3[] points_normal = new S_Vector3[0];
+        [SerializeField]
         private S_Color[] points_color = new S_Color[0];
+        [SerializeField]
         private float[] points_size = new float[0];
+        [SerializeField]
         private SplinePoint.Type[] points_type = new SplinePoint.Type[0];
 
 
@@ -72,7 +75,7 @@ namespace Dreamteck.Splines.Editor
             get
             {
                 SplinePoint[] p = new SplinePoint[points_position.Length];
-                for(int i = 0; i < p.Length; i++)
+                for (int i = 0; i < p.Length; i++)
                 {
                     p[i].type = points_type[i];
                     p[i].position = points_position[i].vector;
@@ -86,7 +89,7 @@ namespace Dreamteck.Splines.Editor
             }
         }
 
-        public SplinePreset (SplinePoint[] p, bool closed, Spline.Type t)
+        public SplinePreset(SerializedSplinePoint[] p, bool closed, Spline.Type t)
         {
             points_position = new S_Vector3[p.Length];
             points_tanget = new S_Vector3[p.Length];
@@ -95,7 +98,7 @@ namespace Dreamteck.Splines.Editor
             points_color = new S_Color[p.Length];
             points_size = new float[p.Length];
             points_type = new SplinePoint.Type[p.Length];
-            for(int i = 0; i < p.Length; i++)
+            for (int i = 0; i < p.Length; i++)
             {
                 points_position[i] = new S_Vector3(p[i].position);
                 points_tanget[i] = new S_Vector3(p[i].tangent);
@@ -112,10 +115,13 @@ namespace Dreamteck.Splines.Editor
 
         public void Save(string name)
         {
-            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-            BinaryFormatter formatter = new BinaryFormatter();
-            FileStream file = File.Create(path + "/" + name + ".dsp");
-            formatter.Serialize(file, this);
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            FileStream file = File.Create(path + "/" + name + ".jsp");
+            byte[] bytes = System.Text.ASCIIEncoding.ASCII.GetBytes(JsonUtility.ToJson(this));
+            file.Write(bytes, 0, bytes.Length);
             file.Close();
         }
 
@@ -138,28 +144,19 @@ namespace Dreamteck.Splines.Editor
                 Debug.LogError("Directory " + path + " does not exist");
                 return null;
             }
-            string[] files = System.IO.Directory.GetFiles(path, "*.dsp");
+            string[] files = Directory.GetFiles(path, "*.jsp");
             SplinePreset[] presets = new SplinePreset[files.Length];
-            for(int i = 0; i < files.Length; i++)
+            for (int i = 0; i < files.Length; i++)
             {
-                BinaryFormatter bf = new BinaryFormatter();
-                bf.Binder = new DSP2Binder();
+
                 FileStream file = File.Open(files[i], FileMode.Open);
-                presets[i] = (SplinePreset)bf.Deserialize(file);
-                presets[i].filename = new FileInfo(files[i]).Name;
+                byte[] bytes = new byte[file.Length];
+                file.Read(bytes, 0, bytes.Length);
+                string json = System.Text.ASCIIEncoding.ASCII.GetString(bytes);
+                presets[i] = JsonUtility.FromJson<SplinePreset>(json);
                 file.Close();
             }
             return presets;
-        }
-    }
-
-    class DSP2Binder : SerializationBinder
-    {
-        public override System.Type BindToType(string assemblyName, string typeName)
-        {
-            typeName = typeName.Replace("Dreamteck.Splines", "Dreamteck.Splines.Editor");
-            assemblyName = assemblyName.Replace("Dreamteck.Splines", "Dreamteck.Splines.Editor");
-            return System.Type.GetType(string.Format("{0}, {1}", typeName, assemblyName));
         }
     }
 }

@@ -38,14 +38,14 @@ namespace Dreamteck.Splines.Editor
             SaveBool("rotateTangents", rotateTangents);
         }
 
-        public override void DrawInspector()
+        protected override void OnDrawInspector()
         {
             editSpace = (EditSpace)EditorGUILayout.EnumPopup("Edit Space", editSpace);
             rotateNormals = EditorGUILayout.Toggle("Rotate Normals", rotateNormals);
             rotateTangents = EditorGUILayout.Toggle("Rotate Tangents", rotateTangents);
         }
 
-        public override void DrawScene()
+        protected override void OnDrawScene()
         {
             if (selectedPoints.Count == 0) return;
             if (rotateNormals)
@@ -64,13 +64,14 @@ namespace Dreamteck.Splines.Editor
             rotation = Handles.RotationHandle(lastRotation, selectionCenter);
             if (lastRotation != rotation)
             {
-                RecordUndo("Rotate Points");
                 PrepareTransform();
                 for (int i = 0; i < selectedPoints.Count; i++)
                 {
-                    points[selectedPoints[i]] = localPoints[selectedPoints[i]];
-                    TransformPoint(ref points[selectedPoints[i]], rotateNormals, rotateTangents);
+                    var point = localPoints[selectedPoints[i]];
+                    TransformPoint(ref point, rotateNormals, rotateTangents);
+                    points[selectedPoints[i]].SetPoint(point);
                 }
+                RegisterChange();
                 SetDirty();
             }
         }

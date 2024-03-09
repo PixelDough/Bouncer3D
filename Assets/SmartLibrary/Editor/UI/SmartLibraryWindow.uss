@@ -56,42 +56,37 @@
     padding-right: 4px;
 }
 
-.bewildered-collection-tree-item > #collectionIcon {
+.bewildered-collection-tree-item__icon {
     width: 16px;
     height: 16px;
 }
 
-.bewildered-collection-tree-item > #collectionName {
+.bewildered-collection-tree-item__name {
     flex-grow: 1;
     overflow: hidden;
     white-space: nowrap;
 }
 
-.bewildered-collection-tree-item > #itemCount {
+.bewildered-collection-tree-item__count {
     padding-left: 3px;
 }
 
-.bewildered-library-collection-settings {
+.bewildered-collection-tree-item__settings {
     opacity: 0;
 }
 
-.bewildered-collection-tree-item:hover > .bewildered-library-collection-settings {
+.bewildered-collection-tree-item:hover > .bewildered-collection-tree-item__settings {
     opacity: 0.3;
 }
 
-.bewildered-collection-tree-item:hover > .bewildered-library-collection-settings:hover {
+.bewildered-collection-tree-item:hover > .bewildered-collection-tree-item__settings:hover {
     opacity: 0.75;
 }
 
-#allItemsCollection .bewildered-library-collection-settings {
+#allItemsCollection .bewildered-collection-tree-item__settings {
     opacity: 0;
 }
 
-
-
-.bewildered-library-items-container {
-    flex-grow: 1;
-}
 
 #overlayContainer {
     position: absolute;
@@ -137,6 +132,10 @@
     justify-content: center;
     margin-right: -2px;
     padding-top: 0;
+}
+
+.bewildered-library-items {
+    flex-grow: 1;
 }
 
 .bewildered-library-items__empty-overlay-container {

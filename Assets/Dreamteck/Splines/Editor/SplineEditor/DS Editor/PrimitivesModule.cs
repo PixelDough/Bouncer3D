@@ -63,34 +63,39 @@ namespace Dreamteck.Splines.Editor
         public override void Select()
         {
             base.Select();
-            lastClosed = editor.isClosed;
-            lastType = editor.splineType;
-            Apply();
+            lastClosed = editor.GetSplineClosed();
+            lastType = editor.GetSplineType();
             if(mode == 0) LoadPrimitives();
             else if(!createPresetMode) LoadPresets();
         }
 
         public override void Deselect()
         {
-            base.Deselect();
             ApplyDialog();
+            base.Deselect();
         }
         
         void ApplyDialog()
         {
             if (!IsDirty()) return;
-            if (EditorUtility.DisplayDialog("Unapplied Primitives", "There is an unapplied primitive. Do you want to apply the changes?", "Apply", "Revert")) Apply();
-            else Revert();
+            if (EditorUtility.DisplayDialog("Unapplied Primitives", "There is an unapplied primitive. Do you want to apply the changes?", "Apply", "Revert"))
+            {
+                Apply();
+            }
+            else
+            {
+                Revert();
+            }
         }
 
         public override void Revert()
         {
+            editor.SetSplineType(lastType);
+            editor.SetSplineClosed(lastClosed);
             base.Revert();
-            editor.splineType = lastType;
-            editor.isClosed = lastClosed;
         }
 
-        public override void DrawInspector()
+        protected override void OnDrawInspector()
         {
             EditorGUI.BeginChangeCheck();
             toolbar.Draw(ref mode);
@@ -123,9 +128,13 @@ namespace Dreamteck.Splines.Editor
                 primitiveEditors[selectedPrimitive].Update();
                 TransformPoints();
             }
+
             EditorGUI.BeginChangeCheck();
             primitiveEditors[selectedPrimitive].Draw();
-            if (EditorGUI.EndChangeCheck()) TransformPoints();
+            if (EditorGUI.EndChangeCheck())
+            {
+                TransformPoints();
+            }
         }
 
         void PresetsGUI()
@@ -188,12 +197,12 @@ namespace Dreamteck.Splines.Editor
                 editor.points[i].tangent2 = dsEditor.spline.transform.TransformPoint(editor.points[i].tangent2);
                 editor.points[i].normal = dsEditor.spline.transform.TransformDirection(editor.points[i].normal);
             }
+            RegisterChange();
             SetDirty();
         }
 
         void LoadPrimitives()
         {
-            RecordUndo("Spline Primitive");
             List<Type> types = FindDerivedClasses.GetAllDerivedClasses(typeof(PrimitiveEditor));
             primitiveEditors = new PrimitiveEditor[types.Count];
             int count = 0;
@@ -211,17 +220,19 @@ namespace Dreamteck.Splines.Editor
                 primitiveEditors[selectedPrimitive].Open(dsEditor);
                 primitiveEditors[selectedPrimitive].Update();
                 TransformPoints();
-                FramePoints();
+                SetDirty();
             }
         }
 
         void LoadPresets()
         {
             ApplyDialog();
-            RecordUndo("Spline Preset");
             presets = SplinePreset.LoadAll();
             presetNames = new string[presets.Length];
-            for (int i = 0; i < presets.Length; i++) presetNames[i] = presets[i].name;
+            for (int i = 0; i < presets.Length; i++)
+            {
+                presetNames[i] = presets[i].name;
+            }
             ClearSelection();
         }
 
@@ -229,24 +240,12 @@ namespace Dreamteck.Splines.Editor
         {
             if (index >= 0 && index < presets.Length)
             {
-                points = presets[index].points;
-                editor.isClosed = presets[index].isClosed;
-                editor.splineType = presets[index].type;
+                editor.SetPointsArray(presets[index].points);
+                editor.SetSplineClosed(presets[index].isClosed);
+                editor.SetSplineType(presets[index].type);
                 TransformPoints();
                 FramePoints();
             }
-        }
-
-        Vector3 GetOrigin(SplineComputer comp)
-        {
-            Vector3 avg = Vector3.zero;
-            SplinePoint[] points = comp.GetPoints(SplineComputer.Space.Local);
-            for (int i = 0; i < comp.pointCount; i++)
-            {
-                avg += points[i].position;
-            }
-            if (points.Length > 0) avg /= points.Length;
-            return avg;
         }
     }
 }

@@ -6,6 +6,13 @@ namespace Dreamteck
 {
     public static class LinearAlgebraUtility
     {
+        public enum Axis
+        {
+            X = 0,
+            Y = 1,
+            Z = 2
+        }
+
         public static Vector3 ProjectOnLine(Vector3 fromPoint, Vector3 toPoint, Vector3 project)
         {
             Vector3 projectedPoint = Vector3.Project((project - fromPoint), (toPoint - fromPoint)) + fromPoint;
@@ -44,6 +51,17 @@ namespace Dreamteck
             }
 
             return distance;
+        }
+
+        public static Vector3 FlattenVector(Vector3 input, Axis axis, float flatValue = 0f)
+        {
+            switch (axis)
+            {
+                case Axis.X: input.x = flatValue; break;
+                case Axis.Y: input.y = flatValue; break;
+                case Axis.Z: input.z = flatValue; break;
+            }
+            return input;
         }
     }
 }

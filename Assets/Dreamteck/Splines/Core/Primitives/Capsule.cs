@@ -18,7 +18,7 @@ namespace Dreamteck.Splines.Primitives
         {
             base.Generate();
             closed = true;
-            CreatePoints(7, SplinePoint.Type.SmoothMirrored);
+            CreatePoints(6, SplinePoint.Type.SmoothMirrored);
             points[0].position = Vector3.right / 2f * radius + Vector3.up * height * 0.5f;
             points[0].SetTangentPosition(points[0].position + Vector3.down * 2 * (Mathf.Sqrt(2f) - 1f) / 3f * radius);
             points[1].position = Vector3.up / 2f * radius + Vector3.up * height * 0.5f;
@@ -31,7 +31,6 @@ namespace Dreamteck.Splines.Primitives
             points[4].SetTangentPosition(points[4].position + Vector3.left * 2 * (Mathf.Sqrt(2f) - 1f) / 3f * radius);
             points[5].position = Vector3.right / 2f * radius + Vector3.down * height * 0.5f;
             points[5].SetTangentPosition(points[5].position + Vector3.down * 2 * (Mathf.Sqrt(2f) - 1f) / 3f * radius);
-            points[6] = points[0];
         }
     }
 }

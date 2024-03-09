@@ -336,12 +336,6 @@ namespace Dreamteck.Splines
 
         public void UpdateReferences()
         {
-#if UNITY_EDITOR
-#if !UNITY_2018_3_OR_NEWER
-            if (PrefabUtility.GetPrefabType(gameObject) == PrefabType.Prefab) return;
-#endif
-
-#endif
             if (!hasTransform)
             {
                 CacheTransform();
@@ -367,9 +361,9 @@ namespace Dreamteck.Splines
         {
             switch (axis)
             {
-                case Axis.X: Evaluate(percentage.x, evalResult); break;
-                case Axis.Y: Evaluate(percentage.y, evalResult); break;
-                case Axis.Z: Evaluate(percentage.z, evalResult); break;
+                case Axis.X: Evaluate(percentage.x, ref evalResult); break;
+                case Axis.Y: Evaluate(percentage.y, ref evalResult); break;
+                case Axis.Z: Evaluate(percentage.z, ref evalResult); break;
             }
             switch (_normalMode)
             {
@@ -377,7 +371,7 @@ namespace Dreamteck.Splines
                 case NormalMode.Custom: evalResult.up = _customNormal; break;
             }
             if (_forwardMode == ForwardMode.Custom) evalResult.forward = customForward;
-            ModifySample(evalResult);
+            ModifySample(ref evalResult);
             Vector3 right = evalResult.right;
 
             Quaternion axisRotation = Quaternion.identity;

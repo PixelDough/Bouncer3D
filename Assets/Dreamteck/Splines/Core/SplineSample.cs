@@ -3,13 +3,24 @@ using Dreamteck;
 
 namespace Dreamteck.Splines{
     [System.Serializable]
-	public class SplineSample {
-        public Vector3 position = Vector3.zero;
-        public Vector3 up = Vector3.up;
-        public Vector3 forward = Vector3.forward;
-        public Color color = Color.white;
-        public float size = 1f;
-        public double percent = 0.0;
+	public struct SplineSample {
+        public Vector3 position;
+        public Vector3 up;
+        public Vector3 forward;
+        public Color color;
+        public float size;
+        public double percent;
+
+        public void FastCopy(ref SplineSample sample)
+        {
+            position = sample.position;
+            up = sample.up;
+            forward = sample.forward;
+            color = sample.color;
+            size = sample.size;
+            percent = sample.percent;
+        }
+         
 
         public Quaternion rotation
         {
@@ -34,24 +45,24 @@ namespace Dreamteck.Splines{
         }
 
 
-        public static SplineSample Lerp(SplineSample a, SplineSample b, float t)
+        public static SplineSample Lerp(ref SplineSample a, ref SplineSample b, float t)
         {
             SplineSample result = new SplineSample();
-            Lerp(a, b, t, result);
+            Lerp(ref a, ref b, t, ref result);
             return result;
         }
 
-        public static SplineSample Lerp(SplineSample a, SplineSample b, double t)
+        public static SplineSample Lerp(ref SplineSample a, ref SplineSample b, double t)
         {
             SplineSample result = new SplineSample();
-            Lerp(a, b, t, result);
+            Lerp(ref a, ref b, t, ref result);
             return result;
         }
 
-        public static void Lerp(SplineSample a, SplineSample b, double t, SplineSample target)
+        public static void Lerp(ref SplineSample a, ref SplineSample b, double t, ref SplineSample target)
         {
             float ft = (float)t;
-            target.position = DMath.LerpVector3(a.position, b.position, t);
+            DMath.LerpVector3NonAlloc(a.position, b.position, t, ref target.position);
             target.forward = Vector3.Slerp(a.forward, b.forward, ft);
             target.up = Vector3.Slerp(a.up, b.up, ft);
             target.color = Color.Lerp(a.color, b.color, ft);
@@ -59,9 +70,9 @@ namespace Dreamteck.Splines{
             target.percent = DMath.Lerp(a.percent, b.percent, t);
         }
 
-        public static void Lerp(SplineSample a, SplineSample b, float t, SplineSample target)
+        public static void Lerp(ref SplineSample a, ref SplineSample b, float t, ref SplineSample target)
         {
-            target.position = DMath.LerpVector3(a.position, b.position, t);
+            DMath.LerpVector3NonAlloc(a.position, b.position, t, ref target.position);
             target.forward = Vector3.Slerp(a.forward, b.forward, t);
             target.up = Vector3.Slerp(a.up, b.up, t);
             target.color = Color.Lerp(a.color, b.color, t);
@@ -69,48 +80,24 @@ namespace Dreamteck.Splines{
             target.percent = DMath.Lerp(a.percent, b.percent, t);
         }
 
-        public void Lerp(SplineSample b, double t)
+        public void Lerp(ref SplineSample b, double t)
         {
-            Lerp(this, b, t, this);
+            Lerp(ref this, ref b, t, ref this);
         }
 
-        public void Lerp(SplineSample b, float t)
+        public void Lerp(ref SplineSample b, float t)
         {
-            Lerp(this, b, t, this);
-        }
-
-        public void CopyFrom(SplineSample input)
-        {
-            position = input.position;
-            forward = input.forward;
-            up = input.up;
-            color = input.color;
-            size = input.size;
-            percent = input.percent;
-        }
-
-        public SplineSample()
-        {
+            Lerp(ref this, ref b, t, ref this);
         }
 		
-        public SplineSample(Vector3 position, Vector3 normal, Vector3 direction, Color color, float size, double percent)
+        public SplineSample(Vector3 position, Vector3 up, Vector3 forward, Color color, float size, double percent)
         {
             this.position = position;
-            this.up = normal;
-            this.forward = direction;
+            this.up = up;
+            this.forward = forward;
             this.color = color;
             this.size = size;
             this.percent = percent;
-        }
-
-        public SplineSample(SplineSample input)
-        {
-            position = input.position;
-            up = input.up;
-            forward = input.forward;
-            color = input.color;
-            size = input.size;
-            percent = input.percent;
         }
 	}
 }

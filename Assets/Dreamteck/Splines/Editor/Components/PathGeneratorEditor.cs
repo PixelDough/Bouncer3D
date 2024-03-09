@@ -17,10 +17,13 @@ namespace Dreamteck.Splines.Editor
             SerializedProperty shape = serializedObject.FindProperty("_shape");
             SerializedProperty shapeExposure = serializedObject.FindProperty("_shapeExposure");
             SerializedProperty useShapeCurve = serializedObject.FindProperty("_useShapeCurve");
+            SerializedProperty compensateCorners = serializedObject.FindProperty("_compensateCorners");
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Geometry", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(slices, new GUIContent("Slices"));
+            EditorGUILayout.PropertyField(compensateCorners, new GUIContent("Compensate Corners"));
+
             EditorGUILayout.PropertyField(useShapeCurve, new GUIContent("Use Shape Curve"));
             if (useShapeCurve.boolValue)
             {

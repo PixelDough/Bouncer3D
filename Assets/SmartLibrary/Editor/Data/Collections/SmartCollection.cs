@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEditor.Search;
 using Object = UnityEngine.Object;
@@ -11,8 +12,8 @@ namespace Bewildered.SmartLibrary
     /// </summary>
     public class SmartCollection : LibraryCollection
     {
-        private SearchContext _context;
-        private bool _isSearching;
+        [NonSerialized] private SearchContext _context;
+        [NonSerialized] private bool _isSearching;
 
         [SerializeField] private List<FolderReference> _folders = new List<FolderReference>();
         
@@ -38,19 +39,15 @@ namespace Bewildered.SmartLibrary
             _context?.Dispose();
             _isSearching = true;
 
-            string query = string.Empty;
-            string folderQuery = GetFolderSearchQuery();
-            string ruleQuery = Rules.GetSearchQuery();
-
-            bool hasFolderQuery = !string.IsNullOrEmpty(folderQuery);
-            bool hasRuleQuery = !string.IsNullOrEmpty(ruleQuery);
-
-            if (hasFolderQuery && hasRuleQuery)
-                query = $"p: ({folderQuery}) and ({ruleQuery})";
-            else if (hasFolderQuery)
-                query = $"p: {folderQuery}";
-            else if (hasRuleQuery)
-                query = $"p: {ruleQuery}";
+            // Important! We have to move this out to a static class because for some reason,
+            // having a #if UNITY_2021_3_OR_NEWER in the method would cause the collection to serialize setting the `m_EditorClassIdentifier`
+            // and could not deseialize properly.
+            string query = SmartCollectionUtility.GetQuery(_folders, Rules);
+           
+            if (EditorPrefs.GetBool("DeveloperMode", false))
+            {
+                Debug.Log("SmartLibrary Query: " + query);
+            }
             
             _context = SearchService.CreateContext(query);
             SearchService.Request(_context, OnSearchComplete);
@@ -109,64 +106,6 @@ namespace Bewildered.SmartLibrary
             }
             
             NotifyItemsChanged(addedItems, LibraryItemsChangeType.Added);
-        }
-
-        private string GetFolderSearchQuery()
-        {
-            string includeQuery = string.Empty;
-            string excludeQuery = string.Empty;
-
-            foreach (FolderReference folder in _folders)
-            {
-                // We skip folder references that either have are not assigned a folder or is invalid.
-                if (string.IsNullOrEmpty(folder.Path))
-                    continue;
-
-                // We handle the include an exclude separately as it makes it easier to combine them.
-                if (folder.DoInclude)
-                    includeQuery = ModifyFolderQuery(includeQuery, folder, "or");
-                else
-                    excludeQuery = ModifyFolderQuery(excludeQuery, folder, "and");
-            }
-
-            string query = string.Empty;
-
-            bool hasIncludeQuery = !string.IsNullOrEmpty(includeQuery);
-            bool hasExcludeQuery = !string.IsNullOrEmpty(excludeQuery);
-
-            if (hasIncludeQuery && hasExcludeQuery)
-                query = $"({includeQuery}) and ({excludeQuery})";
-            else if (hasIncludeQuery)
-                query = $"{includeQuery}";
-            else if (hasExcludeQuery)
-                query = $"assets/ and ({excludeQuery})"; // Gives incorrect results if only has exclude paths.
-
-            return query;
-        }
-
-        private string ModifyFolderQuery(string currentQuery, FolderReference folder, string operand)
-        {
-            // We only include the operand if there are already other paths in the query.
-            // Otherwise it would show as " and some/folder/" instead of "some/folder/".
-            if (!string.IsNullOrEmpty(currentQuery))
-                currentQuery += $" {operand} "; // Add spaces so it is not combined with the paths.
-
-            // We add the prefix before the '"' otherwise it would be
-            // evaluated as part of the path instead of an exclude indicator.
-            if (!folder.DoInclude)
-                currentQuery += "-";
-
-            // We surround the path with '"' so it is read as a single 'absolute' string,
-            // otherwise paths with dashes or spaces would cause them to be evaluated separately.
-            currentQuery += $"{'"'}{folder.Path}/";
-
-            if (folder.MatchOption == FolderMatchOption.TopOnly)
-                currentQuery += "[^/]+$"; // Regex that only assets that are directly in the folder match.
-
-            // Add the closing '"', not added with the other one so that if the match is TopOnly, it will be between them.
-            currentQuery += '"';
-
-            return currentQuery;
         }
 
         private bool MatchesRequiredFolders(string path)

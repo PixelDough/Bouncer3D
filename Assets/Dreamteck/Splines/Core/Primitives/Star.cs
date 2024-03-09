@@ -19,7 +19,7 @@ namespace Dreamteck.Splines.Primitives
         {
             base.Generate();
             closed = true;
-            CreatePoints(sides * 2 + 1, SplinePoint.Type.SmoothMirrored);
+            CreatePoints(sides * 2, SplinePoint.Type.SmoothMirrored);
             float innerRadius = radius * depth;
             for (int i = 0; i < sides * 2; i++)
             {
@@ -27,7 +27,6 @@ namespace Dreamteck.Splines.Primitives
                 Vector3 pos = Quaternion.AngleAxis(180 + 360f * percent, Vector3.forward) * Vector3.up * ((float)i % 2f == 0 ? radius : innerRadius);
                 points[i].SetPosition(pos);
             }
-            points[points.Length - 1] = points[0];
         }
     }
 }

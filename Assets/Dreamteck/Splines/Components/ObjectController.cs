@@ -352,6 +352,71 @@ namespace Dreamteck.Splines
             }
         }
 
+        public float minObjectDistance
+        {
+            get { return _minObjectDistance; }
+            set
+            {
+                if (value != _minObjectDistance)
+                {
+                    _minObjectDistance = value;
+                    Rebuild();
+                }
+            }
+        }
+
+        public float maxObjectDistance
+        {
+            get { return _maxObjectDistance; }
+            set
+            {
+                if (value != _maxObjectDistance)
+                {
+                    _maxObjectDistance = value;
+                    Rebuild();
+                }
+            }
+        }
+
+        public ObjectControllerCustomRuleBase customOffsetRule
+        {
+            get { return _customOffsetRule; }
+            set
+            {
+                if (value != _customOffsetRule)
+                {
+                    _customOffsetRule = value;
+                    Rebuild();
+                }
+            }
+        }
+
+        public ObjectControllerCustomRuleBase customRotationRule
+        {
+            get { return _customRotationRule; }
+            set
+            {
+                if (value != _customRotationRule)
+                {
+                    _customRotationRule = value;
+                    Rebuild();
+                }
+            }
+        }
+
+        public ObjectControllerCustomRuleBase customScaleRule
+        {
+            get { return _customScaleRule; }
+            set
+            {
+                if (value != _customScaleRule)
+                {
+                    _customScaleRule = value;
+                    Rebuild();
+                }
+            }
+        }
+
         [SerializeField]
         [HideInInspector]
         private float _evaluateOffset = 0f;
@@ -431,6 +496,18 @@ namespace Dreamteck.Splines
         [HideInInspector]
         private float _maxObjectDistance = 0f;
 
+        [SerializeField]
+        [HideInInspector]
+        private ObjectControllerCustomRuleBase _customOffsetRule;
+
+        [SerializeField]
+        [HideInInspector]
+        private ObjectControllerCustomRuleBase _customRotationRule;
+
+        [SerializeField]
+        [HideInInspector]
+        private ObjectControllerCustomRuleBase _customScaleRule;
+
         System.Random offsetRandomizer, shellRandomizer, rotationRandomizer, scaleRandomizer, distanceRandomizer;
 
         public void Clear()
@@ -461,11 +538,6 @@ namespace Dreamteck.Splines
 
         private void Remove()
         {
-#if UNITY_EDITOR
-#if !UNITY_2018_3_OR_NEWER
-            if (PrefabUtility.GetPrefabType(gameObject) == PrefabType.Prefab) return;
-#endif
-#endif
             if (_spawnCount >= spawned.Length) return;
             for (int i = spawned.Length - 1; i >= _spawnCount; i--)
             {
@@ -517,11 +589,6 @@ namespace Dreamteck.Splines
 
         public void Spawn()
         {
-#if UNITY_EDITOR
-#if !UNITY_2018_3_OR_NEWER
-            if (PrefabUtility.GetPrefabType(gameObject) == PrefabType.Prefab) return;
-#endif
-#endif
             if (_objectMethod == ObjectMethod.Instantiate)
             {
                 if (delayedSpawn && Application.isPlaying)
@@ -603,6 +670,11 @@ namespace Dreamteck.Splines
             rotationRandomizer = new System.Random(_randomSeed + 2);
             scaleRandomizer = new System.Random(_randomSeed + 3);
             distanceRandomizer = new System.Random(_randomSeed + 4);
+
+            bool hasCustomOffset = _customOffsetRule != null;
+            bool hasCustomRotation = _customRotationRule != null;
+            bool hasCustomScale = _customScaleRule != null;
+
             bool randomScaleMultiplier = _minScaleMultiplier != _maxScaleMultiplier;
             double distancePercentAccum = 0.0;
             for (int i = 0; i < spawned.Length; i++)
@@ -616,19 +688,7 @@ namespace Dreamteck.Splines
                 float percent = 0f;
                 if (spawned.Length > 1)
                 {
-                    if (_useCustomObjectDistance)
-                    {
-                        if (objectPositioning == Positioning.Clip)
-                        {
-                            distancePercentAccum = spline.Travel(distancePercentAccum, Mathf.Lerp(_minObjectDistance, _maxObjectDistance, (float)distanceRandomizer.NextDouble()));
-                        }
-                        else
-                        {
-                            distancePercentAccum = Travel(distancePercentAccum, Mathf.Lerp(_minObjectDistance, _maxObjectDistance, (float)distanceRandomizer.NextDouble()));
-                        }
-                        percent = (float)distancePercentAccum;
-                    } 
-                    else
+                    if(!_useCustomObjectDistance)
                     {
                         if (spline.isClosed)
                         {
@@ -638,8 +698,10 @@ namespace Dreamteck.Splines
                         {
                             percent = (float)i / (spawned.Length - 1);
                         }
+                    } else
+                    {
+                        percent = (float)distancePercentAccum;
                     }
-                    
                 }
 
                 percent += _evaluateOffset;
@@ -654,45 +716,62 @@ namespace Dreamteck.Splines
                 
                 if (objectPositioning == Positioning.Clip)
                 {
-                    spline.Evaluate(percent, evalResult);
+                    spline.Evaluate(percent, ref evalResult);
                 }
                 else
                 {
-                    Evaluate(percent, evalResult);
+                    Evaluate(percent, ref evalResult);
                 }
 
-                ModifySample(evalResult);
+                ModifySample(ref evalResult);
                 spawned[i].position = evalResult.position;
 
                 if (_applyScale)
                 {
-                    Vector3 scale = spawned[i].baseScale * evalResult.size;
-                    Vector3 multiplier = _minScaleMultiplier;
-
-                    if (randomScaleMultiplier)
+                    if (hasCustomScale)
                     {
-                        
-                        if (_uniformScaleLerp)
+                        _customScaleRule.SetContext(this, evalResult, i, spawned.Length);
+                        spawned[i].scale = _customOffsetRule.GetScale();
+                    } 
+                    else
+                    {
+                        Vector3 scale = spawned[i].baseScale * evalResult.size;
+                        Vector3 multiplier = _minScaleMultiplier;
+
+                        if (randomScaleMultiplier)
                         {
-                            multiplier = Vector3.Lerp(new Vector3(_minScaleMultiplier.x, _minScaleMultiplier.y, _minScaleMultiplier.x), new Vector3(_maxScaleMultiplier.x, _maxScaleMultiplier.y, _maxScaleMultiplier.z), (float)scaleRandomizer.NextDouble());
-                        } 
-                        else
-                        {
-                            multiplier.x = Mathf.Lerp(_minScaleMultiplier.x, _maxScaleMultiplier.x, (float)scaleRandomizer.NextDouble());
-                            multiplier.y = Mathf.Lerp(_minScaleMultiplier.y, _maxScaleMultiplier.y, (float)scaleRandomizer.NextDouble());
-                            multiplier.z = Mathf.Lerp(_minScaleMultiplier.z, _maxScaleMultiplier.z, (float)scaleRandomizer.NextDouble());
-                        } 
+
+                            if (_uniformScaleLerp)
+                            {
+                                multiplier = Vector3.Lerp(new Vector3(_minScaleMultiplier.x, _minScaleMultiplier.y, _minScaleMultiplier.z), new Vector3(_maxScaleMultiplier.x, _maxScaleMultiplier.y, _maxScaleMultiplier.z), (float)scaleRandomizer.NextDouble());
+                            }
+                            else
+                            {
+                                multiplier.x = Mathf.Lerp(_minScaleMultiplier.x, _maxScaleMultiplier.x, (float)scaleRandomizer.NextDouble());
+                                multiplier.y = Mathf.Lerp(_minScaleMultiplier.y, _maxScaleMultiplier.y, (float)scaleRandomizer.NextDouble());
+                                multiplier.z = Mathf.Lerp(_minScaleMultiplier.z, _maxScaleMultiplier.z, (float)scaleRandomizer.NextDouble());
+                            }
+                        }
+                        scale.x *= multiplier.x;
+                        scale.y *= multiplier.y;
+                        scale.z *= multiplier.z;
+                        spawned[i].scale = scale;
                     }
-                    scale.x *= multiplier.x;
-                    scale.y *= multiplier.y;
-                    scale.z *= multiplier.z;
-                    spawned[i].scale = scale;
                 }
-                else spawned[i].scale = spawned[i].baseScale;
+                else
+                {
+                    spawned[i].scale = spawned[i].baseScale;
+                }
+
                 Vector3 right = Vector3.Cross(evalResult.forward, evalResult.up).normalized;
 
                 Vector3 posOffset = _minOffset;
-                if (_minOffset != _maxOffset)
+                if (hasCustomOffset)
+                {
+                    _customOffsetRule.SetContext(this, evalResult, i, spawned.Length);
+                    posOffset = _customOffsetRule.GetOffset();
+                } 
+                else if (_minOffset != _maxOffset)
                 {
                     if(_shellOffset)
                     {
@@ -713,20 +792,45 @@ namespace Dreamteck.Splines
                     }
                 }
 
-                if (_offsetUseWorldCoords) spawned[i].position += posOffset;
-                else spawned[i].position += right * posOffset.x * evalResult.size + evalResult.up * posOffset.y * evalResult.size;
+                if (_offsetUseWorldCoords)
+                {
+                    spawned[i].position += posOffset;
+                }
+                else
+                {
+                    spawned[i].position += right * posOffset.x * evalResult.size + evalResult.up * posOffset.y * evalResult.size;
+                }
 
                 if (_applyRotation)
                 {
-                    Quaternion offsetRot = Quaternion.Euler(Mathf.Lerp(_minRotation.x, _maxRotation.x, (float)rotationRandomizer.NextDouble()), Mathf.Lerp(_minRotation.y, _maxRotation.y, (float)rotationRandomizer.NextDouble()), Mathf.Lerp(_minRotation.z, _maxRotation.z, (float)rotationRandomizer.NextDouble()));
-                    if(_rotateByOffset) spawned[i].rotation = Quaternion.LookRotation(evalResult.forward, spawned[i].position - evalResult.position) * offsetRot;
-                    else spawned[i].rotation = evalResult.rotation* offsetRot;
+                    if (hasCustomRotation)
+                    {
+                        _customRotationRule.SetContext(this, evalResult, i, spawned.Length);
+                        spawned[i].rotation = _customRotationRule.GetRotation();
+                    }
+                    else
+                    {
+                        Quaternion offsetRot = Quaternion.Euler(Mathf.Lerp(_minRotation.x, _maxRotation.x, (float)rotationRandomizer.NextDouble()), Mathf.Lerp(_minRotation.y, _maxRotation.y, (float)rotationRandomizer.NextDouble()), Mathf.Lerp(_minRotation.z, _maxRotation.z, (float)rotationRandomizer.NextDouble()));
+                        if (_rotateByOffset) spawned[i].rotation = Quaternion.LookRotation(evalResult.forward, spawned[i].position - evalResult.position) * offsetRot;
+                        else spawned[i].rotation = evalResult.rotation * offsetRot;
+                    }
                 }
 
                 if (_objectPositioning == Positioning.Clip)
                 {
                     if (percent < clipFrom || percent > clipTo) spawned[i].active = false;
                     else spawned[i].active = true;
+                }
+                if (_useCustomObjectDistance)
+                {
+                    if (objectPositioning == Positioning.Clip)
+                    {
+                        distancePercentAccum = spline.Travel(distancePercentAccum, Mathf.Lerp(_minObjectDistance, _maxObjectDistance, (float)distanceRandomizer.NextDouble()));
+                    }
+                    else
+                    {
+                        distancePercentAccum = Travel(distancePercentAccum, Mathf.Lerp(_minObjectDistance, _maxObjectDistance, (float)distanceRandomizer.NextDouble()));
+                    }
                 }
             }
         }
