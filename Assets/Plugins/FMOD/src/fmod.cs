@@ -1,6 +1,6 @@
 /* ======================================================================================== */
 /* FMOD Core API - C# wrapper.                                                              */
-/* Copyright (c), Firelight Technologies Pty, Ltd. 2004-2022.                               */
+/* Copyright (c), Firelight Technologies Pty, Ltd. 2004-2023.                               */
 /*                                                                                          */
 /* For more detail visit:                                                                   */
 /* https://fmod.com/docs/2.02/api/core-api.html                                             */
@@ -19,7 +19,7 @@ namespace FMOD
     */
     public partial class VERSION
     {
-        public const int    number = 0x00020208;
+        public const int    number = 0x00020220;
 #if !UNITY_2019_4_OR_NEWER
         public const string dll    = "fmod";
 #endif
@@ -193,6 +193,8 @@ namespace FMOD
         WINSONIC,
         AAUDIO,
         AUDIOWORKLET,
+        PHASE,
+        OHAUDIO,
 
         MAX,
     }
@@ -262,7 +264,7 @@ namespace FMOD
 
         MAX,
     }
-     
+
     public enum SPEAKER : int
     {
         NONE = -1,
@@ -512,7 +514,15 @@ namespace FMOD
         public float    geometry;               /* Geometry engine CPU usage. */
         public float    update;                 /* System::update CPU usage. */
         public float    convolution1;           /* Convolution reverb processing thread #1 CPU usage */
-        public float    convolution2;           /* Convolution reverb processing thread #2 CPU usage */ 
+        public float    convolution2;           /* Convolution reverb processing thread #2 CPU usage */
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct DSP_DATA_PARAMETER_INFO
+    {
+        public IntPtr   data;
+        public uint     length;
+        public int      index;
     }
 
     [Flags]
@@ -534,6 +544,7 @@ namespace FMOD
         BUFFEREDNOMIX          = 0x00002000,
         DEVICEREINITIALIZE     = 0x00004000,
         OUTPUTUNDERRUN         = 0x00008000,
+        RECORDPOSITIONCHANGED  = 0x00010000,
         ALL                    = 0xFFFFFFFF,
     }
 
@@ -543,6 +554,7 @@ namespace FMOD
     public delegate RESULT DEBUG_CALLBACK           (DEBUG_FLAGS flags, IntPtr file, int line, IntPtr func, IntPtr message);
     public delegate RESULT SYSTEM_CALLBACK          (IntPtr system, SYSTEM_CALLBACK_TYPE type, IntPtr commanddata1, IntPtr commanddata2, IntPtr userdata);
     public delegate RESULT CHANNELCONTROL_CALLBACK  (IntPtr channelcontrol, CHANNELCONTROL_TYPE controltype, CHANNELCONTROL_CALLBACK_TYPE callbacktype, IntPtr commanddata1, IntPtr commanddata2);
+    public delegate RESULT DSP_CALLBACK             (IntPtr dsp, DSP_CALLBACK_TYPE type, IntPtr data);
     public delegate RESULT SOUND_NONBLOCK_CALLBACK  (IntPtr sound, RESULT result);
     public delegate RESULT SOUND_PCMREAD_CALLBACK   (IntPtr sound, IntPtr data, uint datalen);
     public delegate RESULT SOUND_PCMSETPOS_CALLBACK (IntPtr sound, int subsound, uint position, TIMEUNIT postype);
@@ -565,6 +577,13 @@ namespace FMOD
         LINEAR,
         CUBIC,
         SPLINE,
+
+        MAX,
+    }
+
+    public enum DSP_CALLBACK_TYPE : int
+    {
+        DATAPARAMETERRELEASE,
 
         MAX,
     }
@@ -819,6 +838,7 @@ namespace FMOD
         public uint                randomSeed;
         public int                 maxConvolutionThreads;
         public int                 maxOpusCodecs;
+        public int                 maxSpatialObjects;
     }
 
     [Flags]
@@ -842,7 +862,7 @@ namespace FMOD
         VERY_HIGH           = PLATFORM_MIN - 5,
         EXTREME             = PLATFORM_MIN - 6,
         CRITICAL            = PLATFORM_MIN - 7,
-        
+
         /* Thread defaults */
         MIXER               = EXTREME,
         FEEDER              = CRITICAL,
@@ -886,7 +906,7 @@ namespace FMOD
         GROUP_A             = 0x4000000000000001,
         GROUP_B             = 0x4000000000000002,
         GROUP_C             = 0x4000000000000003,
-        
+
         /* Thread defaults */
         MIXER               = GROUP_A,
         FEEDER              = GROUP_C,
@@ -901,7 +921,7 @@ namespace FMOD
         STUDIO_LOAD_SAMPLE  = GROUP_C,
         CONVOLUTION1        = GROUP_C,
         CONVOLUTION2        = GROUP_C,
-                
+
         /* Core mask, valid up to 1 << 61 */
         CORE_ALL            = 0,
         CORE_0              = 1 << 0,
@@ -1806,7 +1826,7 @@ namespace FMOD
         }
         public RESULT getTag(string name, int index, out TAG tag)
         {
-             using (StringHelper.ThreadSafeEncoding encoder = StringHelper.GetFreeHelper())
+            using (StringHelper.ThreadSafeEncoding encoder = StringHelper.GetFreeHelper())
             {
                 return FMOD5_Sound_GetTag(this.handle, encoder.byteFromStringUTF8(name), index, out tag);
             }
@@ -1815,6 +1835,15 @@ namespace FMOD
         {
             return FMOD5_Sound_GetOpenState(this.handle, out openstate, out percentbuffered, out starving, out diskbusy);
         }
+        public RESULT readData(byte[] buffer)
+        {
+            return FMOD5_Sound_ReadData(this.handle, buffer, (uint)buffer.Length, IntPtr.Zero);
+        }
+        public RESULT readData(byte[] buffer, out uint read)
+        {
+            return FMOD5_Sound_ReadData(this.handle, buffer, (uint)buffer.Length, out read);
+        }
+        [Obsolete("Use Sound.readData(byte[], out uint) or Sound.readData(byte[]) instead.")]
         public RESULT readData(IntPtr buffer, uint length, out uint read)
         {
             return FMOD5_Sound_ReadData(this.handle, buffer, length, out read);
@@ -1971,6 +2000,10 @@ namespace FMOD
         private static extern RESULT FMOD5_Sound_GetTag                  (IntPtr sound, byte[] name, int index, out TAG tag);
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD5_Sound_GetOpenState            (IntPtr sound, out OPENSTATE openstate, out uint percentbuffered, out bool starving, out bool diskbusy);
+        [DllImport(VERSION.dll)]
+        private static extern RESULT FMOD5_Sound_ReadData                (IntPtr sound, byte[] buffer, uint length, IntPtr zero);
+        [DllImport(VERSION.dll)]
+        private static extern RESULT FMOD5_Sound_ReadData                (IntPtr sound, byte[] buffer, uint length, out uint read);
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD5_Sound_ReadData                (IntPtr sound, IntPtr buffer, uint length, out uint read);
         [DllImport(VERSION.dll)]
@@ -3306,6 +3339,10 @@ namespace FMOD
         {
             return FMOD5_DSP_Reset(this.handle);
         }
+        public RESULT setCallback(DSP_CALLBACK callback)
+        {
+            return FMOD5_DSP_SetCallback(this.handle, callback);
+        }
 
         // DSP parameter control.
         public RESULT setParameterFloat(int index, float value)
@@ -3465,6 +3502,8 @@ namespace FMOD
         private static extern RESULT FMOD5_DSP_GetOutputChannelFormat    (IntPtr dsp, CHANNELMASK inmask, int inchannels, SPEAKERMODE inspeakermode, out CHANNELMASK outmask, out int outchannels, out SPEAKERMODE outspeakermode);
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD5_DSP_Reset                     (IntPtr dsp);
+        [DllImport(VERSION.dll)]
+        private static extern RESULT FMOD5_DSP_SetCallback               (IntPtr dsp, DSP_CALLBACK callback);
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD5_DSP_SetParameterFloat         (IntPtr dsp, int index, float value);
         [DllImport(VERSION.dll)]
@@ -3841,6 +3880,47 @@ namespace FMOD
             {
                 return encoder.stringFromNative(fstring.nativeUtf8Ptr);
             }
+        }
+
+        public bool StartsWith(byte[] prefix)
+        {
+            if (nativeUtf8Ptr == IntPtr.Zero)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < prefix.Length; i++)
+            {
+                if (Marshal.ReadByte(nativeUtf8Ptr, i) != prefix[i])
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public bool Equals(byte[] comparison)
+        {
+            if (nativeUtf8Ptr == IntPtr.Zero)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < comparison.Length; i++)
+            {
+                if (Marshal.ReadByte(nativeUtf8Ptr, i) != comparison[i])
+                {
+                    return false;
+                }
+            }
+
+            if (Marshal.ReadByte(nativeUtf8Ptr, comparison.Length) != 0)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 

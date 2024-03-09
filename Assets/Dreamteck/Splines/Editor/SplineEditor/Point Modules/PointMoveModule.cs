@@ -78,7 +78,7 @@ namespace Dreamteck.Splines.Editor
             Vector3 lastPos = c;
             if (surfaceMode)
             {
-                c = Handles.FreeMoveHandle(c, Quaternion.LookRotation(SceneView.currentDrawingSceneView.camera.transform.position - c), HandleUtility.GetHandleSize(c) * 0.2f, Vector3.zero, Handles.CircleHandleCap);
+                var fmh_81_47_638455202770551253 = Quaternion.LookRotation(SceneView.currentDrawingSceneView.camera.transform.position - c); c = Handles.FreeMoveHandle(c, HandleUtility.GetHandleSize(c) * 0.2f, Vector3.zero, Handles.CircleHandleCap);
                 if(lastPos != c)
                 {
                     Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);

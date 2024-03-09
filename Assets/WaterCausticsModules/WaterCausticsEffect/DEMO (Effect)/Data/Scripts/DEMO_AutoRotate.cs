@@ -4,6 +4,7 @@
 using UnityEngine;
 
 namespace MH.WaterCausticsModules {
+    [AddComponentMenu ("")]
     public class DEMO_AutoRotate : MonoBehaviour {
         public Vector3 m_Rotate = new Vector3 (0f, 0f, 0f);
 

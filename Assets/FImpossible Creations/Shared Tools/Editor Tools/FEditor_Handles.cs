@@ -138,7 +138,7 @@ public static class FEditor_TransformHandles
         if (freeHandle)
         {
             Handles.color = Handles.centerColor;
-            position = Handles.FreeMoveHandle(position, rotation, handleSize * 0.15f, Vector3.one * 0.001f, Handles.RectangleHandleCap);
+            position = Handles.FreeMoveHandle(position, handleSize * 0.15f, Vector3.one * 0.001f, Handles.RectangleHandleCap);
         }
 
         Handles.color = color;

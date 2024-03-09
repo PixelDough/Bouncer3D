@@ -1,27 +1,29 @@
 // WaterCausticsModules
 // Copyright (c) 2021 Masataka Hakozaki
 
-#ifndef WCE_CUSTOM_FUNCTION_FOR_SHADER_GRAPH_INCLUDED
-#define WCE_CUSTOM_FUNCTION_FOR_SHADER_GRAPH_INCLUDED
+#ifndef WCECF_FOR_SHADER_GRAPH_INCLUDED
+#define WCECF_FOR_SHADER_GRAPH_INCLUDED
 
-#include "../Common/WaterCausticsEmissionFunc_Common.hlsl"
+#include "../../Effect/Shaders/WaterCausticsEffectCommon.hlsl"
 
+// Custom Function (for ShaderGraph)
+void WCECF_Emission_float(float3 WorldPos, half3 NormalWS, float2 ScreenUV, UnityTexture2D CausticsTex, float2 TexRotSinCos, int3 TexChannels, bool UseTiling, int TilingSeed, float TilingRot, float TilingHard, float Density, float SurfaceY, float SurfFadeStart, float SurfFadeCoef, float DepthFadeStart, float DepthFadeCoef, half MainLitIntensity, half AddLitIntensity, half ShadowIntensity, float2 ColorShift, half LitSaturation, half NormalAtten, half NormalAttenRate, half TransparentBack, half BacksideShadow, out half3 EmissionColor) {
 
-// Custom Function with DepthAtten  (for ShaderGraph)
-void WCE_WaterCausticsEmission_float(float3 WorldPos, half3 NormalWS, UnityTexture2D CausticsTex,
-float Scale, float WaterSurfaceY, float WaterSurfaceAttenWidth, float WaterSurfaceAttenOffset, float DepthAttenCoef, half IntensityMainLit,
-half IntensityAddLit, float ColorShiftU, float ColorShiftV, half LitSaturation, half NormalAttenIntensity,
-half NormalAttenPower, half TransparentBack, out half3 EmissionColor) {
+    SurfFadeStart = max(SurfFadeStart, 0);
+    TilingSeed = UseTiling ? max(TilingSeed, 0) : - 1;
+    TilingHard = clamp(TilingHard, 0.75, 0.999);
 
-    float AxisYAttenCoef = 1 / max(WaterSurfaceAttenWidth, 0.000001);
-    EmissionColor = WCE_waterCausticsEmission(WorldPos, NormalWS, CausticsTex.tex, CausticsTex.samplerstate,
-    Scale, WaterSurfaceY, WaterSurfaceY + WaterSurfaceAttenOffset, AxisYAttenCoef, DepthAttenCoef, IntensityMainLit, IntensityAddLit,
-    float2(ColorShiftU, ColorShiftV) * 0.01, LitSaturation, NormalAttenIntensity, NormalAttenPower, TransparentBack);
+    half3 e = WCE_EffectCore(WorldPos, NormalWS, ScreenUV, CausticsTex.tex, CausticsTex.samplerstate, TexRotSinCos, TexChannels, TilingSeed, TilingRot, TilingHard, Density, SurfaceY, SurfFadeStart, SurfFadeCoef, DepthFadeStart, DepthFadeCoef, MainLitIntensity, AddLitIntensity, ShadowIntensity, ColorShift, LitSaturation, NormalAtten, NormalAttenRate, TransparentBack, BacksideShadow);
+
+    EmissionColor = e;
 }
 
-// Custom Function  Sync with effect script on the scene.  (for ShaderGraph)
-void WCE_WaterCausticsEmissionSync_float(float3 WorldPos, half3 NormalWS, half3 BaseColor, out half3 EmissionColor) {
-    EmissionColor = WCE_waterCausticsEmissionSync(WorldPos, NormalWS, BaseColor);
+// Custom Function Through
+void WCECF_EmissionThrough_float(float3 WorldPos, half3 NormalWS, float2 ScreenUV, UnityTexture2D CausticsTex, float2 TexRotSinCos, int3 TexChannels, int TilingSeed, float TilingRot, float TilingHard, float Density, float SurfaceY, float SurfFadeStart, float SurfFadeCoef, float DepthFadeStart, float DepthFadeCoef, half MainLitIntensity, half AddLitIntensity, half ShadowIntensity, float2 ColorShift, half LitSaturation, half NormalAtten, half NormalAttenRate, half TransparentBack, half BacksideShadow, out half3 EmissionColor) {
+
+    half3 e = WCE_EffectCore(WorldPos, NormalWS, ScreenUV, CausticsTex.tex, CausticsTex.samplerstate, TexRotSinCos, TexChannels, TilingSeed, TilingRot, TilingHard, Density, SurfaceY, SurfFadeStart, SurfFadeCoef, DepthFadeStart, DepthFadeCoef, MainLitIntensity, AddLitIntensity, ShadowIntensity, ColorShift, LitSaturation, NormalAtten, NormalAttenRate, TransparentBack, BacksideShadow);
+
+    EmissionColor = e;
 }
 
 #endif

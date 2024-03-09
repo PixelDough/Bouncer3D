@@ -1,93 +1,23 @@
-/* Configuration: UnityFog */
-
 //Set this to value to 1 through Shader.SetGlobalFloat to temporarily disable fog for water
 float _WaterFogDisabled;
 
 //Authors of third-party fog solutions can reach out to have their method integrated here
 
-/* start UnityFog */
-#define UnityFog
-/* end UnityFog */
-
-/* start Colorful */
-//#define Colorful
-/* end Colorful */
-
-/* start Enviro */
-//#define Enviro
-/* end Enviro */
-
-/* start Enviro3 */
-//#define Enviro3
-/* end Enviro3 */
-
-/* start Azure */
-//#define Azure
-/* end Azure */
-
-/* start AtmosphericHeightFog */
-//#define AtmosphericHeightFog
-/* end AtmosphericHeightFog */
-
-/* start SCPostEffects */
-//#define SCPostEffects
-/* end SCPostEffects */
-
-/* start COZY */
-//#define COZY
-/* end COZY */
-
-#ifdef Colorful
-/* include Colorful */
-#include "Assets/ColorfulSky/Shaders/Libraries/Fog.hlsl"
-#endif
-
-#ifdef Enviro
-/* include Enviro */
-#include "Assets/Enviro - Sky and Weather/Core/Resources/Shaders/Core/EnviroFogCore.hlsl"
-#endif
-
-#ifdef Enviro3
-/* include Enviro3 */
-#include "Assets/Enviro 3 - Sky and Weather/Resources/Shader/Includes/FogIncludeHLSL.hlsl"
-#endif
-
-#ifdef Azure
-/* include Azure */
-#include "Assets/Azure[Sky] Dynamic Skybox/Shaders/Transparent/AzureFogCore.cginc"
-#endif
-
-#ifdef AtmosphericHeightFog
-/* include AtmosphericHeightFog */
-#include "Assets/BOXOPHOBIC/Atmospheric Height Fog/Core/Includes/AtmosphericHeightFog.cginc"
-#endif
-
 #ifdef SCPostEffects
+//Macros normally used for cross-RP compatibility
+#define LINEAR_DEPTH(depth) Linear01Depth(depth, _ZBufferParams)
 
-#ifndef VERSION_2_2_1 //These macros are no longer needed. Kept in place for backwards compatibility
+//Legacy (pre v2.2.1)
 #define DECLARE_TEX(textureName) TEXTURE2D(textureName);
 #define DECLARE_RT(textureName) TEXTURE2D_X(textureName);
-SAMPLER(sampler_LinearClamp);
-SAMPLER(sampler_LinearRepeat);
-#define Clamp sampler_LinearClamp
-#define Repeat sampler_LinearRepeat
 #define SAMPLE_TEX(textureName, samplerName, uv) SAMPLE_TEXTURE2D_LOD(textureName, samplerName, uv, 0)
 #define SAMPLE_RT_LOD(textureName, samplerName, uv, mip) SAMPLE_TEXTURE2D_X_LOD(textureName, samplerName, uv, mip)
 #endif
 
-/* include SCPostEffects */
-#include "Assets/SC Post Effects/Runtime/Fog/Fog.hlsl"
+#ifdef AtmosphericHeightFog
+//For versions older than 3.2.0, uncomment this
+//bool AHF_Enabled;
 #endif
-
-#ifdef COZY
-/* include COZY */
-#include "Assets/Distant Lands/Cozy Weather/Contents/Materials/Shaders/Includes/StylizedFogIncludes.cginc"
-#endif
-
-//Executed in vertex stage
-float CalculateFogFactor(float3 positionCS) {
-	return ComputeFogFactor(positionCS.z);
-}
 
 //Fragment stage. Note: Screen position passed here is not normalized (divided by w-component)
 void ApplyFog(inout float3 color, float fogFactor, float4 screenPos, float3 positionWS, float vFace) 
@@ -99,15 +29,22 @@ void ApplyFog(inout float3 color, float fogFactor, float4 screenPos, float3 posi
 #endif
 
 #ifdef Colorful
-	foggedColor.rgb = ApplyFog(color.rgb, fogFactor, positionWS, screenPos.xy / screenPos.w);
+	if(_DensityParams.x > 0) foggedColor.rgb = ApplyFog(color.rgb, fogFactor, positionWS, screenPos.xy / screenPos.w);
 #endif
 	
 #ifdef Enviro
-	foggedColor.rgb = TransparentFog(float4(color.rgb, 1.0), positionWS, screenPos.xy / screenPos.w, fogFactor).rgb;
+	//Distance/height fog enabled?
+	if (_EnviroParams.y > 0 || _EnviroParams.z > 0)
+	{
+		foggedColor.rgb = TransparentFog(float4(color.rgb, 1.0), positionWS, screenPos.xy / screenPos.w, fogFactor).rgb;
+	}
 #endif
 
 #ifdef Enviro3
-	foggedColor.rgb = ApplyFogAndVolumetricLights(color.rgb, screenPos.xy / screenPos.w, positionWS, 0);
+	if(_EnviroFogParameters.x > 0)
+	{
+		foggedColor.rgb = ApplyFogAndVolumetricLights(color.rgb, screenPos.xy / screenPos.w, positionWS, 0);
+	}
 #endif
 	
 #ifdef Azure
@@ -115,18 +52,32 @@ void ApplyFog(inout float3 color, float fogFactor, float4 screenPos, float3 posi
 #endif
 
 #ifdef AtmosphericHeightFog
-	float4 fogParams = GetAtmosphericHeightFog(positionWS.xyz);
-	foggedColor.rgb = lerp(color.rgb, fogParams.rgb, fogParams.a);
+	if (AHF_Enabled)
+	{
+		float4 fogParams = GetAtmosphericHeightFog(positionWS.xyz);
+		foggedColor.rgb = lerp(color.rgb, fogParams.rgb, fogParams.a);
+	}
 #endif
 
 #ifdef SCPostEffects
-	float4 dummy;
-	screenPos.xy /= screenPos.w;
-	ApplyFog_float(positionWS, float3(0,1,0), screenPos, _TimeParameters.x, 0, color.rgb, dummy, foggedColor.rgb);
+	//Distance or height fog enabled
+	if(_DistanceParams.z == 1 || _DistanceParams.w == 1)
+	{
+		ApplyTransparencyFog(positionWS, screenPos.xy / screenPos.w, foggedColor.rgb);
+	}
 #endif
 
 #ifdef COZY
 	foggedColor = BlendStylizedFog(positionWS, float4(color.rgb, 1.0)).rgb;
+#endif
+
+#ifdef Buto
+	#if defined(BUTO_API_VERSION_2) //Buto 2022
+	float3 positionVS = TransformWorldToView(positionWS);
+	foggedColor = ButoFogBlend(screenPos.xy / screenPos.w, -positionVS.z, color.rgb);
+	#else //Buto 2021
+	foggedColor = ButoFogBlend(screenPos.xy / screenPos.w, color.rgb);
+	#endif
 #endif
 
 	#ifndef UnityFog

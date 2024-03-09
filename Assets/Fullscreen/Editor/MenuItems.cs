@@ -96,6 +96,12 @@ namespace FullscreenEditor {
                 .ToList();
 
             for (var i = 0; i < displays.Count && i < 8; i++) {
+                var targetDisplay = FullscreenPreferences.MosaicMapping.Value[i];
+
+                if (targetDisplay < 0) {
+                    continue; // -1 means none
+                }
+
                 var candidate = FindCandidateForFullscreen(Types.GameView, FullscreenUtility.GetMainGameView());
 
                 if (candidate) {
@@ -108,7 +114,6 @@ namespace FullscreenEditor {
                 fs.OpenWindow(rect, Types.GameView, candidate, true);
 
                 var gameView = fs.ActualViewPyramid.Window;
-                var targetDisplay = FullscreenPreferences.MosaicMapping.Value[i];
 
                 FullscreenUtility.SetGameViewDisplayTarget(gameView, targetDisplay);
 
@@ -128,10 +133,10 @@ namespace FullscreenEditor {
 
         [MenuItem(Shortcut.PREFERENCES_PATH, false, 1000)]
         private static void OpenPreferences() {
-            #if UNITY_2018_3_OR_NEWER
+#if UNITY_2018_3_OR_NEWER
             var windowType = ReflectionUtility.FindClass("UnityEditor.SettingsWindow");
             windowType.InvokeMethod("Show", SettingsScope.User, "Preferences/Fullscreen Editor");
-            #else
+#else
             var windowType = ReflectionUtility.FindClass("UnityEditor.PreferencesWindow");
             windowType.InvokeMethod("ShowPreferencesWindow");
             After.Frames(3, () => {
@@ -140,11 +145,11 @@ namespace FullscreenEditor {
                 var index = sections.FindIndex(section => section.GetFieldValue<GUIContent>("content").text == "Fullscreen");
                 window.SetPropertyValue("selectedSectionIndex", index);
             });
-            #endif
+#endif
         }
 
-        private static T FindCandidateForFullscreen<T>(T mainCandidate = null)where T : EditorWindow {
-            return FindCandidateForFullscreen(typeof(T), mainCandidate)as T;
+        private static T FindCandidateForFullscreen<T>(T mainCandidate = null) where T : EditorWindow {
+            return FindCandidateForFullscreen(typeof(T), mainCandidate) as T;
         }
 
         private static EditorWindow FindCandidateForFullscreen(Type type, EditorWindow mainCandidate = null) {

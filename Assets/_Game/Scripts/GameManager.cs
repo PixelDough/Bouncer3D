@@ -14,7 +14,7 @@ namespace PixelDough.Bouncer
         {
             get
             {
-                if (!_instance) _instance = FindObjectOfType<GameManager>();
+                if (!_instance) _instance = FindFirstObjectByType<GameManager>();
                 return _instance;
             }
             private set => _instance = value;

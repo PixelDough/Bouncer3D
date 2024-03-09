@@ -1,3 +1,191 @@
+1.6.1
+
+Fixed:
+- DWP2 integration, water level being fixed to a value of 0 in some cases.
+- Atmospheric Height Fog integration, shader error when using latest version (v3.2.0+)
+
+1.6.0
+Verified compatibility with Unity 2023.2.0
+
+Note: Unity packages cannot track moved/renamed/deleted files. It is recommended to delete the StylizedWater2 folder before updating!
+
+Added:
+- Generalized water render feature
+  * Screen Space Reflections (in preview)
+  * Water displacement prepass (advanced custom uses for the time being)
+  * Directional caustics option
+
+- Public static C# parameter: WaterObject.PositionOffset. Water shading and buoyancy will be offset by this value, for use with floating-origin systems.
+- Fog integration for Buto 2022 (v7.7.3+)
+- Render queue -/+ buttons in material UI
+- Lava flow river material
+
+Fixed:
+- Planar Reflections not composting correctly on Android when HDR was enabled
+- HDR information from reflection probes not correctly being used in the water material, making emissive surfaces appear dim.
+- Shader compile error when building for Android when using VR and OpenGLES (workaround for returning Unity bug).
+
+Changed:
+- Tiling parameters for Normals and Surface Foam now have an X & Y component. Allowing for width/length stretching.
+- Animation speed for texture-based effects now remain consistent when altering a tiling parameter.
+- "Floating Transform" component was renamed to "Align Transform To Waves", to clarify its functionality.
+- Surface Foam, normal map now also influences the Distortion parameter
+- Negative speed values are now allowed for Rivers
+- Buoyancy.SetCustomTime function deprecated. The static WaterObject.CustomTime parameter may now be used instead.
+- Dynamic effects (v1.1.0)
+  * Created curvature is no longer influenced by reflection distortion parameters. Effects always create visual distortions.
+  * Projected normals are now visible even when the Normals feature is disabled on the material.
+  * Vertex displacement now also applies to water materials with Tessellation disabled.
+
+Removed:
+- Obsolete buoyancy code functions
+- Support for code without the Mathematics package installed (it is required with URP anyway).
+
+1.5.5
+
+Fixed:
+- Shader error when using Curved World 2022, due to incorrect order of shader library compilation.
+- Water appearing completely black when Buto 2022 is installed (temporary fix until integration is available)
+
+1.5.4
+
+Fixed:
+- Material UI, the Dynamic Effects surface foam texture slot being linked to the regular Foam Mask slot.
+
+1.5.3
+
+Fixed:
+- Material UI, dropdown texture selection not working if the asset was installed as a package
+- Vertex color-based intersection foam not appearing if the "Disable Depth Texture" option was enabled.
+- Caustics not being visible if the "Disable Depth Texture" option was enabled.
+- Surface Foam added through vertex colors not contributing to river slopes
+
+1.5.2
+
+Added:
+- Material UI, dropdown menu next to foam/normal map texture slots, to quickly try out different textures.
+- River mode, parameters to control the minimum slope angle and falloff.
+- Translucency, parameter to control effect from direct light, simulates glacial or morene lakes.
+- Option to enable support for light cookies in the shader inspector
+
+Changed:
+- Improved calculation of light intensity for sun reflection and translucency, now more accurately responds to color.
+
+Fixed:
+- Box projected Reflection probes not appearing correctly on the water surface for orthographic cameras.
+- Caustics appearing in shadows underwater when using the Advanced shading mode (regression since v1.4.0)
+- Shader error when Light Probe Volumes was enabled in Unity 2023.1+
+
+1.5.1
+Minimum supported version is now Unity 2021.3.16f1 (URP 12.1.6).
+
+Added:
+- Planar Reflections UI, warning when using the default renderer. Added a button to automatically create and assign a new empty renderer.
+- Planar Reflections, option to enabled default fog for the render.
+- Frozen lake prefab material.
+- Extended support for the Rendering Debugger. Reflections, translucency and caustics can now also be inspected.
+
+Changed:
+- Revised some demo scene content.
+- Fog density is now calculated per pixel, as opposed to per vertex (standard as of Unity 2021.2).
+
+Fixed:
+- Water not rendering on Android VR if URP's "SH Evaluation" setting was set to 'Per vertex'.
+- Surface Foam tiling parameter not having any effect for foam drawn on slopes (regression since v1.5.0).
+- (Unity 2022.2+) Planar Reflections causing an error in URP's rendering loop when the scene hierarchy search functionality was used.
+- Planar Reflections, error thrown when using the Profiler and exiting Play mode.
+
+1.5.0
+Verified compatibility with Unity 2023.1f1. This is the last update supporting Unity 2020.
+
+Added:
+- Swamp water material
+- Improved refraction (Advanced shading mode only), taking the surface curvature more accurately into account + Exposed parameter to control chromatic aberration
+- Color absorption feature, darkens the underwater color based on its depth (Advanced shading mode only).
+- Surface Foam now dissipates based on a base amount of foam, and that added through waves
+  * Base Amount parameter, previously controlled by the foam color alpha channel
+  * Foam Distortion parameter, distorts the foam by the amount of vertical surface displacement (such as with waves).
+- Parameters to control the Tiling/Speed of the Normal Map and Surface Foam sub-layers.
+- Support for Light Layers in Unity 2022.2+
+- Global Illumination support when using Tessellation
+
+Changed:
+- Material UI, corrected unwanted indentation in Unity 2022.2+ due to parameter locking functionality.
+- Translucency shading, Curvature Mask parameter now acts as a mask for surface slopes
+- Increased maximum allowed amount of tessellation subdivisions from 16 to 32 (internally still limited to 15 on Xbox One and PS5).
+- Water Mesh asset utility now has a "Bounds padding" value exposed. Previously used a fixed value of 4, to add artificial height to the mesh for improved culling.
+- Improved consistency of Distance Depth (fog) appearance between perspective- and orthographic cameras.
+- Caustics no longer appear on the skybox behind water geometry
+- Refraction is no longer forced to be disabled if the Normals feature is.
+- Distance Normals tiling parameter is now decoupled from the base normal tiling
+- Updated fog integration for Atmospheric Height Fog (3.0.0).
+- Shader error message is now thrown should a fog asset cause a Built-in RP shader library to be compiled into it.
+- Fog shading now also applies to backfaces of the geometry used
+
+Fixed:
+- Inconsistent animation direction between Mesh UV and World Projected coordinate modes. 
+- Static lightmapping not having any effect in Unity 2022.3+ (GI now no longer supported in 2020.3)
+- Normals being incorrect if World XZ Projected UV was used, yet the water plane was rotated on the Y-axis.
+- Caustics no longer disappear when lightmaps are applied (no light was available to control the effect's intensity)
+- Default Unity fog integration not taking effect, when automatic integration detection was enabled.
+- Scaling a Water Grid component caused it to not create geometry correctly, nor display the grid gizmo accurately.
+- Auto-setup function for DWP2 in help window not working if no Flat Water Data Provider component was present anywhere.
+- Preventing Enviro (1 & 3) and Atmospheric Height Fog from shading the water if their settings are un-initialized.
+- Incorrect wave normals when geometry had a rotation, causing reflections to look incorrect.
+- Pre-emptive shader error fixes in Unity 2023.2+, due to API changes.
+
+Removed:
+- Surface Foam, Wave Mask Exponent parameter
+
+1.4.0
+Converted water shader to a new 'scriptable shader' framework. Integrations, extensions and version-specific hooks are now automatically incorporated.
+
+Added:
+- Material UI, added a "Toggle tooltips" button, which shows every parameter's tooltip below it.
+- Surface Foam slope parameter for River Mode. Controls how much foam is automatically drawn on slopes.
+- Waterfall foam texture.
+- Option to disable z-clipping of the water surface (Rendering tab).
+- Improved performance of Buoyancy API (roughly 20% faster).
+- Water Mesh + Water Grid inspector, option to preview the mesh as a wireframe in the scene view.
+- Options under "GameObject/3D Object/Water" to create a water object or grid.
+- Planar Reflection Renderer inspector, preview image of rendered reflection in the UI.
+- Planar Reflection Renderer, option to take the component's transform rotation into account. Making an upside-down/sideways reflection possible.
+
+Changed:
+- Material UI, "Advanced" section renamed to "Rendering".
+- River slope normal map now uses the same import settings as the base normal map (reduces the amount of samplers used).
+- Re-authored foam/caustics textures to double their scaling size, reducing visible tiling artefacts.
+- Caustics are no longer disabled if the "Disable Depth Texture" is enabled. Instead, they draw on the water surface itself.
+- Integration for Dynamic Water Physics 2 is now based on the "NWH_DWP2" scripting define symbol. No longer required to unlock the component.
+- WaterMesh class, improvements to make parameter changes non-destructive:
+  * Vertex noise is now consistent at any mesh scale
+  * UV scale is no longer influenced by scale
+  * No longer uses a fixed number of subdivisions, but rather a "vertex distance" value.
+
+Fixed:
+- Warnings about obsolete code in Unity 2023.1+ regarding OpenGLES 2.0 checks (now completely unsupported).
+- Reflection distortion for Planar Reflections not being equally strong as for reflection probes.
+- Refraction artifacts visible for geometry in front of the water in orthographic projections.
+- Refraction no longer being visible when the Disable Depth Texture option was enabled.
+
+Removed:
+- Public functions in Buoyancy class that were marked as obsolete since v1.1.4
+
+1.3.1
+
+Added:
+- Fog integration for Buto Volumetric Fog and Lighting
+
+Changed:
+- Reduced the amount of shader variants by 22%, decreasing build times.
+- Updated fog integration for SC Post Effects (v2.3.2+)
+- Reduced the file size of the StreamWaves normal map file by half (no quality loss).
+
+Fixed:
+- Wave tint parameter creating negative color values (it now merely brighten wave crest as intended).
+- Preemptive shader error fix for Unity 2023.1.0a26+
+- Materials not receiving shadows, or showing banding artefacts, when a single shadow cascade is used. (In Unity 2021.3.15+, or versions released after December 15th 2022)
+
 1.3.0
 - If in use, this version must be updated alongside of the Underwater Rendering extension v1.0.7.
 - Retired support for Unity 2019

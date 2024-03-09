@@ -36,17 +36,17 @@ namespace FullscreenEditor {
     [InitializeOnLoad]
     public static class FullscreenPreferences {
 
-        private const float LABEL_WIDTH = 200f;
-        private const string DEVELOPER_EMAIL = "samuelschultze@gmail.com";
+        private const float LABEL_WIDTH = 300f;
+        private const string DEVELOPER_EMAIL = "support@mukaschultze.dev";
         private const string ASSET_STORE_PAGE = "https://assetstore.unity.com/packages/tools/utilities/fullscreen-editor-69534";
         private const string CHANGE_LOG_LINK = ASSET_STORE_PAGE + "#releases";
         private const string REVIEWS_LINK = ASSET_STORE_PAGE + "#reviews";
         private const string FORUM_THREAD = "https://forum.unity.com/threads/released-fullscreen-editor.661519/";
 
-        /// <summary>Current version of the Fullscreen Editor plugin.</summary> 
-        public static readonly Version pluginVersion = new Version(2, 2, 6);
-        /// <summary>Release date of this version.</summary> 
-        public static readonly DateTime pluginDate = new DateTime(2022, 05, 15);
+        /// <summary>Current version of the Fullscreen Editor plugin.</summary>
+        public static readonly Version pluginVersion = new Version(2, 2, 8);
+        /// <summary>Release date of this version.</summary>
+        public static readonly DateTime pluginDate = new DateTime(2023, 09, 07);
 
         private static readonly GUIContent resetSettingsContent = new GUIContent("Use Defaults", "Reset all settings to default ones");
         private static readonly GUIContent versionContent = new GUIContent(string.Format("Version: {0} ({1:d})", pluginVersion, pluginDate));
@@ -59,7 +59,8 @@ namespace FullscreenEditor {
             new GUIContent("Readme", GetFilePath("Readme.pdf")),
         };
 
-        private static readonly string[] mosaicDropDownOptions = new [] {
+        private static readonly string[] mosaicDropDownOptions = new[] {
+            "nothing",
             "virtual display 1",
             "virtual display 2",
             "virtual display 3",
@@ -105,9 +106,8 @@ namespace FullscreenEditor {
         /// <summary>Do not attempt to use wmctrl's fullscreen on Linux environments.</summary>
         public static readonly PrefItem<bool> DoNotUseWmctrl;
 
-        internal static bool FullscreenOnPlayDeprecated {
-            get { return InternalEditorUtility.GetUnityVersion() >= new Version(2021, 2); }
-        }
+        /// <summary>Restore cursor lock and hide state after going in and out of fullscreen.</summary>
+        public static readonly PrefItem<bool> RestoreCursorLockAndHideState;
 
         [RuntimeInitializeOnLoadMethod]
         private static void SyncVersion() { // Sync for automation
@@ -132,11 +132,12 @@ namespace FullscreenEditor {
             KeepFullscreenBelow = new PrefItem<bool>("KeepFullscreenBelow", true, "Keep Utility Views Above", "Keep utility views on top of fullscreen views.\nThis is useful to integrate with assets that need to keep windows open, such as Peek by Ludiq.");
             DisableSceneViewRendering = new PrefItem<bool>("DisableSceneViewRendering", true, "Disable Scene View Rendering", "Increase Fullscreen Editor performance by not rendering SceneViews while there are open fullscreen views.");
             UseGlobalToolbarHiding = new PrefItem<bool>("UseGlobalToolbarHiding", FullscreenUtility.IsMacOS, "Use global toolbar hiding", "Changes toolbars of all windows at once. This option fixes the gray bar bug on MacOS.");
-            MosaicMapping = new PrefItem<int[]>("MosaicMapping", new [] { 0, 1, 2, 3, 4, 5, 6, 7 }, "Mosaic Screen Mapping", "Defines which display renders on each screen when using Mosaic.");
+            MosaicMapping = new PrefItem<int[]>("MosaicMapping", new[] { 0, 1, 2, 3, 4, 5, 6, 7 }, "Mosaic Screen Mapping", "Defines which display renders on each screen when using Mosaic.");
             DoNotUseWmctrl = new PrefItem<bool>("DoNotUseWmctrl", false, "Do not use wmctrl", "Avoid using 'wmctrl' helper when opening fullscreen windows");
+            RestoreCursorLockAndHideState = new PrefItem<bool>("RestoreCursorLockAndHideState", true, "Restore Cursor Lock and Hide State", "Restore cursor lock and hide state after going in and out of fullscreen.");
 
             onLoadDefaults += () => // Array won't revert automaticaly because it is changed as reference
-                MosaicMapping.Value = new [] { 0, 1, 2, 3, 4, 5, 6, 7 };
+                MosaicMapping.Value = new[] { 0, 1, 2, 3, 4, 5, 6, 7 };
 
             if (FullscreenUtility.MenuItemHasShortcut(Shortcut.TOOLBAR_PATH))
                 ToolbarVisible.Content.text += string.Format(" ({0})", FullscreenUtility.TextifyMenuItemShortcut(Shortcut.TOOLBAR_PATH));
@@ -144,7 +145,7 @@ namespace FullscreenEditor {
                 FullscreenOnPlayEnabled.Content.text += string.Format(" ({0})", FullscreenUtility.TextifyMenuItemShortcut(Shortcut.FULLSCREEN_ON_PLAY_PATH));
         }
 
-        #if UNITY_2018_3_OR_NEWER
+#if UNITY_2018_3_OR_NEWER
         [SettingsProvider]
         private static SettingsProvider RetrieveSettingsProvider() {
             var sp = new SettingsProvider("Preferences/Fullscreen Editor", SettingsScope.User, contents.Select(c => c.text));
@@ -167,7 +168,7 @@ namespace FullscreenEditor {
             return sp;
         }
 
-        #else
+#else
         [PreferenceItem("Fullscreen")]
         private static void OnPreferencesGUI() {
             scroll.Value = EditorGUILayout.BeginScrollView(scroll);
@@ -182,18 +183,12 @@ namespace FullscreenEditor {
             EditorGUILayout.EndScrollView();
             OnFooterGUI();
         }
-        #endif
+#endif
 
         private static void OnPreferencesGUI(string search) {
 
             ToolbarVisible.DoGUI();
-
-            using(new EditorGUI.DisabledGroupScope(FullscreenOnPlayDeprecated)) {
-                FullscreenOnPlayEnabled.DoGUI();
-            }
-
-            if (FullscreenOnPlayDeprecated)
-                EditorGUILayout.HelpBox("Fullscreen on play has changed\nStarting at Unity 2021.2.0 this option should be enabled on the game view window instead", MessageType.Info);
+            FullscreenOnPlayEnabled.DoGUI();
 
             EditorGUILayout.Separator();
             RectSource.DoGUI();
@@ -227,12 +222,13 @@ namespace FullscreenEditor {
             KeepFullscreenBelow.DoGUI();
 
             if (Patcher.IsSupported())
-            DisableSceneViewRendering.DoGUI();
+                DisableSceneViewRendering.DoGUI();
 
             UseGlobalToolbarHiding.DoGUI();
+            RestoreCursorLockAndHideState.DoGUI();
 
             if (FullscreenUtility.IsLinux) {
-                using(new EditorGUI.DisabledGroupScope(!FullscreenEditor.Linux.wmctrl.IsInstalled)) {
+                using (new EditorGUI.DisabledGroupScope(!FullscreenEditor.Linux.wmctrl.IsInstalled)) {
                     DoNotUseWmctrl.DoGUI();
                 }
                 if (!FullscreenEditor.Linux.wmctrl.IsInstalled) {
@@ -253,7 +249,7 @@ namespace FullscreenEditor {
                 var mosaicMapping = MosaicMapping.Value;
 
                 for (var i = 0; i < mosaicMapping.Length && i < FullscreenRects.ScreenCount; i++) {
-                    var val = EditorGUILayout.IntPopup(string.Format("Physical display {0} renders", i + 1), mosaicMapping[i], mosaicDropDownOptions, new [] { 0, 1, 2, 3, 4, 5, 6, 7 });
+                    var val = EditorGUILayout.IntPopup(string.Format("Physical display {0} renders", i + 1), mosaicMapping[i], mosaicDropDownOptions, new[] { -1, 0, 1, 2, 3, 4, 5, 6, 7 });
                     mosaicMapping[i] = val;
                 }
 
@@ -266,19 +262,19 @@ namespace FullscreenEditor {
         private static void OnFooterGUI() {
 
             Func<GUIContent, bool> linkLabel = (label) =>
-                typeof(EditorGUILayout).HasMethod("LinkLabel", new [] { typeof(string), typeof(GUILayoutOption[]) }) ? // Issue #100
+                typeof(EditorGUILayout).HasMethod("LinkLabel", new[] { typeof(string), typeof(GUILayoutOption[]) }) ? // Issue #100
                 typeof(EditorGUILayout).InvokeMethod<bool>("LinkLabel", label, new GUILayoutOption[0]) : // < 2020.1
                 typeof(EditorGUILayout).InvokeMethod<bool>("LinkButton", label, new GUILayoutOption[0]); // >= 2020.1
             ;
 
-            using(new EditorGUILayout.HorizontalScope()) {
+            using (new EditorGUILayout.HorizontalScope()) {
                 GUILayout.FlexibleSpace();
                 if (linkLabel(new GUIContent("Consider leaving a review if you're enjoying Fullscreen Editor!", REVIEWS_LINK)))
                     Application.OpenURL(REVIEWS_LINK);
                 GUILayout.FlexibleSpace();
             }
 
-            using(new EditorGUILayout.HorizontalScope()) {
+            using (new EditorGUILayout.HorizontalScope()) {
                 GUILayout.FlexibleSpace();
                 for (var i = 0; i < links.Length; i++) {
                     if (linkLabel(links[i]))
@@ -290,11 +286,11 @@ namespace FullscreenEditor {
 
             EditorGUILayout.Separator();
 
-            using(new EditorGUILayout.HorizontalScope()) {
+            using (new EditorGUILayout.HorizontalScope()) {
                 if (GUILayout.Button(resetSettingsContent, GUILayout.Width(120f)))
                     onLoadDefaults();
 
-                using(new EditorGUI.DisabledGroupScope(EditorApplication.isCompiling)) {
+                using (new EditorGUI.DisabledGroupScope(EditorApplication.isCompiling)) {
                     GUI.changed = false;
                     var enable = GUILayout.Toggle(Integration.IsDirectiveDefined("FULLSCREEN_DEBUG"), "Debug", "Button");
                     if (GUI.changed) {
@@ -355,11 +351,11 @@ namespace FullscreenEditor {
             var full = new StringBuilder();
             var body = new StringBuilder();
 
-            #if UNITY_2018_1_OR_NEWER
+#if UNITY_2018_1_OR_NEWER
             Func<string, string> EscapeURL = url => UnityEngine.Networking.UnityWebRequest.EscapeURL(url).Replace("+", "%20");
-            #else
+#else
             Func<string, string> EscapeURL = url => WWW.EscapeURL(url).Replace("+", "%20");
-            #endif
+#endif
 
             body.Append("\nDescribe your issue or make your request here");
             body.Append("\n\nAdditional Information:");

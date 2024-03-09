@@ -23,7 +23,9 @@ namespace FullscreenEditor {
         /// <summary>Aux windows. The ones that close the moment you move the mouse out of them.</summary>
         AuxWindow = 5,
         /// <summary>Like PopupMenu, but without keyboard focus.</summary>
-        Tooltip = 6
+        Tooltip = 6,
+        // Show as fullscreen window
+        Fullscreen = 8
     }
 
     /// <summary>Helper class for suppressing unity logs when calling a method that may show unwanted logs.</summary>
@@ -91,7 +93,7 @@ namespace FullscreenEditor {
             var lastUpdate = EditorApplication.timeSinceStartup;
 
             EditorApplication.update += () => {
-                if (EditorApplication.timeSinceStartup - lastUpdate > 0.5f && FullscreenPreferences.RectSource.Value == RectSourceMode.AtMousePosition) {
+                if(EditorApplication.timeSinceStartup - lastUpdate > 0.5f && FullscreenPreferences.RectSource.Value == RectSourceMode.AtMousePosition) {
                     EditorApplication.RepaintHierarchyWindow();
                     EditorApplication.RepaintProjectWindow();
                     lastUpdate = EditorApplication.timeSinceStartup;
@@ -148,7 +150,7 @@ namespace FullscreenEditor {
         /// <param name="window">The fullscreen window.</param>
         /// <param name="menuItemPath">The <see cref="MenuItem"/> path containing a shortcut.</param>
         internal static void ShowFullscreenExitNotification(EditorWindow window, string menuItemPath) {
-            if (FullscreenPreferences.DisableNotifications)
+            if(FullscreenPreferences.DisableNotifications)
                 return;
 
             var notification = string.Format("Press {0} to exit fullscreen", TextifyMenuItemShortcut(menuItemPath));
@@ -159,13 +161,13 @@ namespace FullscreenEditor {
         /// <param name="window">The host of the notification.</param>
         /// <param name="message">The message to show.</param>
         public static void ShowFullscreenNotification(EditorWindow window, string message) {
-            if (!window)
+            if(!window)
                 return;
 
             window.ShowNotification(new GUIContent(message, FullscreenIcon));
             window.Repaint();
 
-            if (EditorWindow.mouseOverWindow) // This definitely made sense when I made it, so I won't remove
+            if(EditorWindow.mouseOverWindow) // This definitely made sense when I made it, so I won't remove
                 EditorWindow.mouseOverWindow.Repaint();
         }
 
@@ -173,7 +175,7 @@ namespace FullscreenEditor {
         public static bool MenuItemHasShortcut(string menuItemPath) {
             var index = menuItemPath.LastIndexOf(" ");
 
-            if (index++ == -1)
+            if(index++ == -1)
                 return false;
 
             var shortcut = menuItemPath.Substring(index).Replace("_", "");
@@ -190,7 +192,7 @@ namespace FullscreenEditor {
         public static string TextifyMenuItemShortcut(string menuItemPath) {
             var index = menuItemPath.LastIndexOf(" ");
 
-            if (index++ == -1)
+            if(index++ == -1)
                 return "None";
 
             var shortcut = menuItemPath.Substring(index).Replace("_", "");
@@ -211,7 +213,7 @@ namespace FullscreenEditor {
 
         private static Texture2D LoadTexture(string base64) {
             try {
-                var texture = new Texture2D(0, 0, TextureFormat.ARGB32, false, true);
+                var texture = new Texture2D(1, 1, TextureFormat.ARGB32, false, true);
                 var bytes = Convert.FromBase64String(base64);
 
                 texture.name = base64;
@@ -219,7 +221,7 @@ namespace FullscreenEditor {
                 texture.LoadImage(bytes);
 
                 return texture;
-            } catch (Exception e) {
+            } catch(Exception e) {
                 Logger.Error("Failed to load texture: {0}", e);
                 return null;
             }
@@ -243,7 +245,7 @@ namespace FullscreenEditor {
         public static ScriptableObject GetMainView() {
             var containers = Resources.FindObjectsOfTypeAll(Types.MainView);
 
-            if (containers.Length > 0)
+            if(containers.Length > 0)
                 return containers[0] as ScriptableObject;
 
             throw new Exception("Couldn't find main view");
@@ -251,9 +253,9 @@ namespace FullscreenEditor {
 
         /// <summary>Get the main game view.</summary> 
         public static EditorWindow GetMainGameView() {
-            if (Types.GameView.HasMethod("GetMainGameView")) { // Removed in 2019.3 alpha
+            if(Types.GameView.HasMethod("GetMainGameView")) { // Removed in 2019.3 alpha
                 return Types.GameView.InvokeMethod<EditorWindow>("GetMainGameView");
-            } else if (Types.PreviewEditorWindow.HasMethod("GetMainPreviewWindow")) { // Removed in 2019.3 beta
+            } else if(Types.PreviewEditorWindow.HasMethod("GetMainPreviewWindow")) { // Removed in 2019.3 beta
                 return Types.PreviewEditorWindow.InvokeMethod<EditorWindow>("GetMainPreviewWindow");
             } else { // if (Types.PlayModeView.HasMethod("GetMainPlayModeView"))
                 return Types.PlayModeView.InvokeMethod<EditorWindow>("GetMainPlayModeView");
@@ -272,11 +274,11 @@ namespace FullscreenEditor {
         public static ScriptableObject GetFocusedViewOrWindow() {
             var mostSpecificView = Types.GUIView.GetPropertyValue<ScriptableObject>("focusedView");
 
-            if (!mostSpecificView)
+            if(!mostSpecificView)
                 return null;
 
             // The most specific obj is a window, open it instead of the view
-            if (mostSpecificView.IsOfType(Types.HostView, false))
+            if(mostSpecificView.IsOfType(Types.HostView, false))
                 return EditorWindow.focusedWindow;
 
             var viewHierarchy = GetViewHierarchy(mostSpecificView);
@@ -287,7 +289,7 @@ namespace FullscreenEditor {
             // So, we're alone on the container
             var alone = leastSpecificView.GetPropertyValue<Array>("allChildren").Length == viewHierarchy.Length;
 
-            if (alone && EditorWindow.focusedWindow.InvokeMethod<int>("GetNumTabs") > 1)
+            if(alone && EditorWindow.focusedWindow.InvokeMethod<int>("GetNumTabs") > 1)
                 alone = false; // But, we may not be the only tab on the host view
 
             // If the focused view is in the main view, or we are the only child on this view, then we open the window
@@ -298,7 +300,7 @@ namespace FullscreenEditor {
 
         /// <summary>Returns all the parents of a given view.</summary>
         public static ScriptableObject[] GetViewHierarchy(ScriptableObject view) {
-            if (!view)
+            if(!view)
                 return new ScriptableObject[0];
 
             view.EnsureOfType(Types.View);
@@ -306,7 +308,7 @@ namespace FullscreenEditor {
             var list = new List<ScriptableObject>() { view };
             var parent = view.GetPropertyValue<ScriptableObject>("parent");
 
-            while (parent) { // Get the least specific view
+            while(parent) { // Get the least specific view
                 view = parent;
                 list.Add(view);
                 parent = view.GetPropertyValue<ScriptableObject>("parent");
@@ -317,7 +319,7 @@ namespace FullscreenEditor {
 
         /// <summary>Get all the children view of a given view.</summary> 
         public static ScriptableObject[] GetAllViewChildren(ScriptableObject view) {
-            if (!view)
+            if(!view)
                 return new ScriptableObject[0];
 
             view.EnsureOfType(Types.View);
@@ -329,7 +331,7 @@ namespace FullscreenEditor {
 
         /// <summary>Returns wheter a given view is focused or not.</summary> 
         public static bool IsViewFocused(ScriptableObject view) {
-            if (!view)
+            if(!view)
                 return false;
 
             view.EnsureOfType(Types.View);
@@ -342,19 +344,19 @@ namespace FullscreenEditor {
 
         /// <summary>Focus a view.</summary> 
         public static void FocusView(ScriptableObject guiView) {
-            if (!guiView)
+            if(!guiView)
                 return;
 
             // guiView.EnsureOfType(Types.GUIView);
-            if (guiView.IsOfType(Types.GUIView))
+            if(guiView.IsOfType(Types.GUIView))
                 guiView.InvokeMethod("Focus");
             else {
                 var vp = new ViewPyramid(guiView);
                 var vc = vp.Container;
                 var methodName = "Internal_BringLiveAfterCreation";
 
-                if (vc) {
-                    if (vc.HasMethod(methodName, new Type[] { typeof(bool), typeof(bool), typeof(bool) }))
+                if(vc) {
+                    if(vc.HasMethod(methodName, new Type[] { typeof(bool), typeof(bool), typeof(bool) }))
                         // displayImmediately, setFocus, showMaximized
                         vc.InvokeMethod(methodName, false, true, false);
                     else
@@ -380,16 +382,16 @@ namespace FullscreenEditor {
         /// <summary>Get the default height of the editor toolbars.</summary>
         public static float GetToolbarHeight() {
             try {
-                if (typeof(EditorGUI).HasField("kWindowToolbarHeight")) {
+                if(typeof(EditorGUI).HasField("kWindowToolbarHeight")) {
                     var result = typeof(EditorGUI).GetFieldValue<object>("kWindowToolbarHeight");
-                    if (result is int)
+                    if(result is int)
                         return (int)result;
                     else
                         return result.GetPropertyValue<float>("value");
                 } else
                     return 17f; // Default on < 2019.3 versions
-            } catch (Exception e) {
-                if (FullscreenUtility.DebugModeEnabled)
+            } catch(Exception e) {
+                if(FullscreenUtility.DebugModeEnabled)
                     Debug.LogException(e);
                 return 17f;
             }
@@ -399,15 +401,15 @@ namespace FullscreenEditor {
         public static bool SetToolbarHeight(float value) {
             try {
                 // On Unity blow 2019.3 this is a const field and cannot be changed
-                if (typeof(EditorGUI).HasField("kWindowToolbarHeight")) {
+                if(typeof(EditorGUI).HasField("kWindowToolbarHeight")) {
                     var result = typeof(EditorGUI).GetFieldValue<object>("kWindowToolbarHeight");
                     result.SetFieldValue("m_Value", value);
                     return true;
                 } else {
                     return false;
                 }
-            } catch (Exception e) {
-                if (FullscreenUtility.DebugModeEnabled)
+            } catch(Exception e) {
+                if(FullscreenUtility.DebugModeEnabled)
                     Debug.LogException(e);
                 return false;
             }
@@ -417,9 +419,9 @@ namespace FullscreenEditor {
         public static void SetGameViewDisplayTarget(EditorWindow gameView, int display) {
             gameView.EnsureOfType(Types.GameView);
 
-            if (gameView.HasProperty("targetDisplay")) {
+            if(gameView.HasProperty("targetDisplay")) {
                 gameView.SetPropertyValue("targetDisplay", display);
-            } else if (gameView.HasField("m_TargetDisplay")) {
+            } else if(gameView.HasField("m_TargetDisplay")) {
                 gameView.SetFieldValue("m_TargetDisplay", display);
             } else {
                 Logger.Error("Could not set Game View target display");

@@ -369,7 +369,7 @@ namespace PixelDough.Bouncer
         [Command("goto-checkpoint", MonoTargetType.Single)]
         private void GoToCheckpoint(int index)
         {
-            foreach (var checkpointController in FindObjectsOfType<CheckpointController>())
+            foreach (var checkpointController in FindObjectsByType<CheckpointController>(FindObjectsSortMode.None))
             {
                 if (checkpointController.index == index)
                 {

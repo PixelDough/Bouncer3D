@@ -22,7 +22,8 @@ namespace PixelDough.Bouncer
             Instance = this;
 
             LevelProgress = new LevelProgress();
-            LevelProgress.Initialize(new List<CollectableController>(FindObjectsOfType<CollectableController>()));
+            LevelProgress.Initialize(
+                new List<CollectableController>(FindObjectsByType<CollectableController>(FindObjectsSortMode.None)));
             
             foreach (var shell in LevelProgress.AllCollectables)
             {

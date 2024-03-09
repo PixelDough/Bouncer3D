@@ -73,7 +73,7 @@
             }
             Vector3 lastPos = evalResult.position;
             Handles.color = Color.clear;
-            evalResult.position = Handles.FreeMoveHandle(evalResult.position, Quaternion.LookRotation(cam.transform.position - evalResult.position), size * 0.2f * buttonSize, Vector3.zero, Handles.CircleHandleCap);
+            var fmh_76_79_638455202770553220 = Quaternion.LookRotation(cam.transform.position - evalResult.position); evalResult.position = Handles.FreeMoveHandle(evalResult.position, size * 0.2f * buttonSize, Vector3.zero, Handles.CircleHandleCap);
             if (evalResult.position != lastPos) percent = spline.Project(evalResult.position).percent;
             Handles.color = Color.white;
             return buttonClick;

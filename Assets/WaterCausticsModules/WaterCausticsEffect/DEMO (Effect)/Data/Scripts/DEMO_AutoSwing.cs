@@ -1,11 +1,10 @@
 // WaterCausticsModules
 // Copyright (c) 2021 Masataka Hakozaki
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace MH.WaterCausticsModules {
+    [AddComponentMenu ("")]
     public class DEMO_AutoSwing : MonoBehaviour {
         public Vector3 m_Axis = Vector3.right;
         public float m_Amplitude = 5f;
@@ -25,7 +24,6 @@ namespace MH.WaterCausticsModules {
             float r = Mathf.Sin (_t) * m_Amplitude;
             transform.localRotation = _initRot * Quaternion.AngleAxis (r, m_Axis);
         }
-
 
     }
 }
