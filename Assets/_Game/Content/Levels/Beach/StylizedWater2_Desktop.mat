@@ -19,7 +19,6 @@ Material:
   - _NORMALMAP
   - _REFRACTION
   - _SHARP_INERSECTION
-  - _SPECULARHIGHLIGHTS_OFF
   - _TRANSLUCENCY
   - _WAVES
   m_InvalidKeywords:
@@ -188,11 +187,11 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _HorizonDistance: 8
-    - _IntersectionClipping: 0.395
+    - _IntersectionClipping: 0.5
     - _IntersectionFalloff: 1
     - _IntersectionLength: 2.27
-    - _IntersectionRippleDist: 16
-    - _IntersectionRippleStrength: 0.125
+    - _IntersectionRippleDist: 15
+    - _IntersectionRippleStrength: 0.1
     - _IntersectionSize: 0.944
     - _IntersectionSource: 0
     - _IntersectionSpeed: 0.06999999
@@ -217,7 +216,7 @@ Material:
     - _PointSpotLightReflectionDistortion: 0.5
     - _PointSpotLightReflectionExp: 64
     - _PointSpotLightReflectionSize: 0
-    - _PointSpotLightReflectionStrength: 10
+    - _PointSpotLightReflectionStrength: 1
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _ReflectionBlur: 0
@@ -251,13 +250,13 @@ Material:
     - _SparkleIntensity: 0.15
     - _SparkleSize: 0.66
     - _SpecularHighlights: 1
-    - _SpecularReflectionsOn: 0
+    - _SpecularReflectionsOn: 1
     - _Speed: 1
     - _SrcBlend: 1
-    - _SunReflectionDistortion: 0.49
+    - _SunReflectionDistortion: 0.709
     - _SunReflectionPerturbance: 0.386
-    - _SunReflectionSize: 0.932
-    - _SunReflectionStrength: 10
+    - _SunReflectionSize: 0.656
+    - _SunReflectionStrength: 1
     - _Surface: 0
     - _TEXTURE_INTERSECTIONOn: 0
     - _TessMax: 15
@@ -279,7 +278,7 @@ Material:
     - _VertexColorWaveFlattening: 1
     - _WaveCount: 2
     - _WaveDistance: 0.775
-    - _WaveHeight: 0.1
+    - _WaveHeight: 0.2
     - _WaveNormalStr: 0.1
     - _WaveSpeed: 2.3999996
     - _WaveSteepness: 0
@@ -290,7 +289,7 @@ Material:
     - _ZClip: 0
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0, g: 0.16451614, b: 0.34, a: 1}
+    - _BaseColor: {r: 0, g: 0.1163448, b: 0.241, a: 1}
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _DepthMapBounds: {r: -402.3, g: -459.43, b: 0.0012693577, a: 0}
     - _Direction: {r: 1, g: 1, b: 0, a: 0}

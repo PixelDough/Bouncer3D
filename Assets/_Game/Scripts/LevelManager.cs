@@ -21,14 +21,11 @@ namespace PixelDough.Bouncer
         {
             Instance = this;
 
-            LevelProgress = new LevelProgress();
-            LevelProgress.Initialize(
-                new List<CollectableController>(FindObjectsByType<CollectableController>(FindObjectsSortMode.None)));
+            List<CollectableSpawner> collectableSpawners =
+                new List<CollectableSpawner>(FindObjectsByType<CollectableSpawner>(FindObjectsSortMode.None));
             
-            foreach (var shell in LevelProgress.AllCollectables)
-            {
-                if (zoneData) shell.SetMesh(zoneData.collectableMesh, zoneData.collectableMaterial);
-            }
+            LevelProgress = new LevelProgress();
+            LevelProgress.Initialize(collectableSpawners, zoneData);
 
             CountingTime = false;
             ResetTimer();

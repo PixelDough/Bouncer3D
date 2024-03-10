@@ -1,22 +1,28 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using PixelDough.Bouncer.LevelData;
 using UnityEngine;
 
 namespace PixelDough.Bouncer
 {
     public class LevelProgress
     {
-        private List<CollectableController> _allCollectables;
-        public List<CollectableController> AllCollectables => _allCollectables;
+        private List<CollectableSpawner> _allCollectables;
+        public List<CollectableSpawner> AllCollectables => _allCollectables;
         public int TotalCollectables => _allCollectables.Count;
         public int CurrentCollectables;
 
         public static Action OnCollectableCountChange;
 
-        public void Initialize(List<CollectableController> collectableControllers)
+        public void Initialize(List<CollectableSpawner> collectableSpawners, ZoneDataScriptableObject zoneData)
         {
-            _allCollectables = collectableControllers;
+            foreach (var collectableSpawner in collectableSpawners)
+            {
+                collectableSpawner.Spawn(zoneData.collectablePrefab);
+            }
+            
+            _allCollectables = collectableSpawners;
         }
         
         public void AddCollectable(CollectableController collectableController)
@@ -31,8 +37,8 @@ namespace PixelDough.Bouncer
             CurrentCollectables = 0;
             foreach (var collectable in _allCollectables)
             {
-                if (collectable.collectedState == CollectableController.CollectedStates.Held ||
-                    collectable.collectedState == CollectableController.CollectedStates.LockedIn)
+                if (collectable.spawnedCollectable.collectedState == CollectableController.CollectedStates.Held ||
+                    collectable.spawnedCollectable.collectedState == CollectableController.CollectedStates.LockedIn)
                 {
                     CurrentCollectables++;
                 }
@@ -43,10 +49,10 @@ namespace PixelDough.Bouncer
         {
             foreach (var collectable in _allCollectables)
             {
-                if (collectable.collectedState != CollectableController.CollectedStates.Held) continue;
+                if (collectable.spawnedCollectable.collectedState != CollectableController.CollectedStates.Held) continue;
 
-                collectable.collectedState = CollectableController.CollectedStates.None;
-                collectable.Activate();
+                collectable.spawnedCollectable.collectedState = CollectableController.CollectedStates.None;
+                collectable.spawnedCollectable.Activate();
             }
             
             RefreshCollectableCount();
@@ -57,9 +63,9 @@ namespace PixelDough.Bouncer
         {
             foreach (var collectable in _allCollectables)
             {
-                if (collectable.collectedState != CollectableController.CollectedStates.Held) continue;
+                if (collectable.spawnedCollectable.collectedState != CollectableController.CollectedStates.Held) continue;
 
-                collectable.collectedState = CollectableController.CollectedStates.LockedIn;
+                collectable.spawnedCollectable.collectedState = CollectableController.CollectedStates.LockedIn;
             }
         }
     }

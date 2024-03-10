@@ -47,8 +47,11 @@ namespace PixelDough.Bouncer.UI
             
             string str = "{size}";
             if (hasAllShells)
+            {
                 str += "<pastel>";
-            str += "<wave>" + _localShellCount;
+                str += "<wave>";
+            }
+            str += _localShellCount;
             if (!hasAllShells)
                 str += "</>{/}";
             str += "<size=18>/" + LevelManager.Instance.LevelProgress.TotalCollectables;

@@ -15,12 +15,7 @@ namespace PixelDough.Bouncer
 
         public ParticleSystem sandRollParticleSystem;
         public ParticleSystem sandBurstParticleSystem;
-
-        private void Start()
-        {
-            playerHudController.SetVisibility(false);
-        }
-
+        
         public void CutsceneBegin()
         {
             playerHudController.SetVisibility(false);
