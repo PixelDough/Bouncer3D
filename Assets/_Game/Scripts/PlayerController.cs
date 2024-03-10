@@ -37,6 +37,10 @@ namespace PixelDough.Bouncer
         [SerializeField] private ParticleSystem dampenParticle;
         [SerializeField] private Transform dampenBubble;
 
+        [SerializeField] private Transform eyesRoot;
+        private float _eyesTargetAngle = 0f;
+        private float _eyesCurrentAngle = 0f;
+
         [Header("Audio Event Emitters")] 
         [SerializeField] private FMODUnity.StudioEventEmitter bounceEventEmitter;
         [SerializeField] private FMODUnity.StudioEventEmitter rollEventEmitter;
@@ -159,6 +163,21 @@ namespace PixelDough.Bouncer
                 emissionModule.rateOverDistance = rigidbody.velocity.magnitude / 2;
                 playerStuffManager.sandRollParticleSystem.transform.forward = -rigidbody.velocity.normalized;
             }
+        }
+
+        private void LateUpdate()
+        {
+            _eyesCurrentAngle = Mathf.LerpAngle(_eyesCurrentAngle, _eyesTargetAngle, 10f * Time.deltaTime);
+            Vector3 targetAngleVector = Vector3.up * _eyesCurrentAngle;
+
+            float eyeMovementDot = Vector3.Dot(Quaternion.Euler(targetAngleVector) * Vector3.forward,
+                Vector3.ProjectOnPlane(Vector3.ClampMagnitude(rigidbody.velocity, 1f), Vector3.up));
+            Vector3 targetTiltVector = Vector3.right * (15 * eyeMovementDot);
+            eyesRoot.rotation = Quaternion.Euler(targetAngleVector) *
+                                Quaternion.Euler(targetTiltVector);
+            if (_inputMovement.sqrMagnitude < 0.01) return;
+            
+            _eyesTargetAngle = Vector3.SignedAngle(Vector3.back, _inputMovement, Vector3.up);
         }
 
         private void FixedUpdate()
