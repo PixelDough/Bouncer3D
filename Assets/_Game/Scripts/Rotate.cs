@@ -70,7 +70,7 @@ public class Rotate : MonoBehaviour
         {
             case Space.World:
                 rigidbodyOptional.MoveRotation(
-                    rigidbodyOptional.rotation * Quaternion.Euler((speed * deltaTime) * axis));
+                    Quaternion.Euler((speed * deltaTime) * axis) * rigidbodyOptional.rotation);
                 break;
             case Space.Self:
                 rigidbodyOptional.MoveRotation(
