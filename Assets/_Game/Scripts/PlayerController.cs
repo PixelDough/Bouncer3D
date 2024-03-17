@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using QFSW.QC;
 using UnityEngine;
 
@@ -46,6 +47,7 @@ namespace PixelDough.Bouncer
         [SerializeField] private FMODUnity.StudioEventEmitter rollEventEmitter;
         [SerializeField] private FMODUnity.StudioEventEmitter windFastEventEmitter;
 
+        public CheckpointController currentCheckpoint = null;
         private Vector3 _respawnPoint = Vector3.zero;
         private Vector3 _respawnForward = Vector3.forward;
 
@@ -161,7 +163,10 @@ namespace PixelDough.Bouncer
             else
             {
                 emissionModule.rateOverDistance = rigidbody.velocity.magnitude / 2;
-                playerStuffManager.sandRollParticleSystem.transform.forward = -rigidbody.velocity.normalized;
+                if (rigidbody.velocity.normalized.sqrMagnitude > 0.001f)
+                {
+                    playerStuffManager.sandRollParticleSystem.transform.forward = -rigidbody.velocity.normalized;
+                }
             }
         }
 
@@ -344,10 +349,12 @@ namespace PixelDough.Bouncer
             return Quaternion.Euler( 0, _camera.transform.rotation.eulerAngles.y, 0) * input;
         }
 
-        public void SetRespawnPoint(Vector3 position, Vector3 direction)
+        public void SetRespawnPoint(Vector3 position, Vector3 direction, [CanBeNull] CheckpointController checkpointController = null)
         {
             _respawnPoint = position;
             _respawnForward = direction;
+
+            currentCheckpoint = checkpointController;
             
             LevelManager.Instance.LevelProgress.LockInCollectables();
         }
