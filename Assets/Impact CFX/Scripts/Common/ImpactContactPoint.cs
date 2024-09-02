@@ -203,7 +203,7 @@ namespace ImpactCFX
         {
             if (physicsType == PhysicsType.Physics3D && thisCollider3D != null)
             {
-                PhysicMaterial physicMaterial = thisCollider3D.sharedMaterial;
+                PhysicsMaterial physicMaterial = thisCollider3D.sharedMaterial;
                 if (physicMaterial != null)
                 {
                     return physicMaterial.GetInstanceID();
@@ -229,7 +229,7 @@ namespace ImpactCFX
         {
             if (physicsType == PhysicsType.Physics3D && otherCollider3D != null)
             {
-                PhysicMaterial physicMaterial = otherCollider3D.sharedMaterial;
+                PhysicsMaterial physicMaterial = otherCollider3D.sharedMaterial;
                 if (physicMaterial != null)
                 {
                     return physicMaterial.GetInstanceID();

@@ -3,7 +3,7 @@ using System.Collections;
 #if UNITY_EDITOR
 using UnityEditor;
 
-public class LeanTweenDocumentationEditor : Editor {
+public class LeanTweenDocumentationEditor : UnityEditor.Editor {
 
 	[MenuItem ("Help/LeanTween Documentation")]
 	static void openDocumentation()

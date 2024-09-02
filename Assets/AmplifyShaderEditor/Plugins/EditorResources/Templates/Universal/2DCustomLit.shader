@@ -183,7 +183,7 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
 				InitializeInputData(positionWS.xy, half2(IN.texCoord0.xy), inputData);
 				half4 debugColor = 0;
 
-				SETUP_DEBUG_DATA_2D(inputData, IN.positionWS);
+				SETUP_DEBUG_DATA_2D(inputData, positionWS, positionCS);
 
 				if (CanDebugOverrideOutputColor(surfaceData, inputData, debugColor))
 				{
@@ -714,7 +714,7 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
 				InitializeInputData(positionWS.xy, half2(IN.texCoord0.xy), inputData);
 				half4 debugColor = 0;
 
-				SETUP_DEBUG_DATA_2D(inputData, IN.positionWS);
+				SETUP_DEBUG_DATA_2D(inputData, positionWS, positionCS);
 
 				if (CanDebugOverrideOutputColor(surfaceData, inputData, debugColor))
 				{

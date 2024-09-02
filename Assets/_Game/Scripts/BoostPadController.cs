@@ -13,7 +13,7 @@ namespace PixelDough.Bouncer
             if (other.attachedRigidbody.CompareTag("Player"))
             {
                 other.attachedRigidbody.transform.position = transform.position + (transform.up * 0.25f);
-                other.attachedRigidbody.velocity = transform.forward * boostAmount;
+                other.attachedRigidbody.linearVelocity = transform.forward * boostAmount;
                 other.attachedRigidbody.angularVelocity = Vector3.zero;
             }
         }

@@ -12,7 +12,7 @@ namespace PixelDough.Bouncer
         
         [SerializeField] private new Rigidbody rigidbody;
         [SerializeField] private new Collider collider;
-        private PhysicMaterial _colliderMaterial;
+        private PhysicsMaterial _colliderMaterial;
         
         private Vector3 _inputMovement;
 
@@ -67,8 +67,8 @@ namespace PixelDough.Bouncer
             
             _colliderMaterial = collider.material;
             _defaultBounciness = _colliderMaterial.bounciness;
-            _defaultAngularDrag = rigidbody.angularDrag;
-            _defaultDrag = rigidbody.drag;
+            _defaultAngularDrag = rigidbody.angularDamping;
+            _defaultDrag = rigidbody.linearDamping;
 
             _respawnPoint = transform.position;
             _respawnForward = Vector3.forward;
@@ -83,12 +83,12 @@ namespace PixelDough.Bouncer
             HandleNoclipMovement();
             //HandleDampen();
 
-            windFastEventEmitter.EventInstance.setParameterByName("AirSpeed", rigidbody.velocity.magnitude / 30f);
+            windFastEventEmitter.EventInstance.setParameterByName("AirSpeed", rigidbody.linearVelocity.magnitude / 30f);
             
             if (_isGrounded)
             {
                 rollEventEmitter.EventInstance.setParameterByName("BallRollSpeed",
-                    Vector3.ProjectOnPlane(rigidbody.velocity, Physics.gravity).magnitude / 30f);
+                    Vector3.ProjectOnPlane(rigidbody.linearVelocity, Physics.gravity).magnitude / 30f);
             }
             else
             {
@@ -111,9 +111,9 @@ namespace PixelDough.Bouncer
             collider.material = _colliderMaterial;
 
             if (_inputMovement.sqrMagnitude < 0.1f)
-                rigidbody.angularDrag = 2f;
+                rigidbody.angularDamping = 2f;
             else
-                rigidbody.angularDrag = _defaultAngularDrag;
+                rigidbody.angularDamping = _defaultAngularDrag;
 
             // Move the jump buffer towards 0
             _jumpBuffer = Mathf.MoveTowards(_jumpBuffer, 0f, Time.deltaTime);
@@ -162,10 +162,10 @@ namespace PixelDough.Bouncer
             }
             else
             {
-                emissionModule.rateOverDistance = rigidbody.velocity.magnitude / 2;
-                if (rigidbody.velocity.normalized.sqrMagnitude > 0.001f)
+                emissionModule.rateOverDistance = rigidbody.linearVelocity.magnitude / 2;
+                if (rigidbody.linearVelocity.normalized.sqrMagnitude > 0.001f)
                 {
-                    playerStuffManager.sandRollParticleSystem.transform.forward = -rigidbody.velocity.normalized;
+                    playerStuffManager.sandRollParticleSystem.transform.forward = -rigidbody.linearVelocity.normalized;
                 }
             }
         }
@@ -176,7 +176,7 @@ namespace PixelDough.Bouncer
             Vector3 targetAngleVector = Vector3.up * _eyesCurrentAngle;
 
             float eyeMovementDot = Vector3.Dot(Quaternion.Euler(targetAngleVector) * Vector3.forward,
-                Vector3.ProjectOnPlane(Vector3.ClampMagnitude(rigidbody.velocity, 1f), Vector3.up));
+                Vector3.ProjectOnPlane(Vector3.ClampMagnitude(rigidbody.linearVelocity, 1f), Vector3.up));
             Vector3 targetTiltVector = Vector3.right * (15 * eyeMovementDot);
             eyesRoot.rotation = Quaternion.Euler(targetAngleVector) *
                                 Quaternion.Euler(targetTiltVector);
@@ -194,7 +194,7 @@ namespace PixelDough.Bouncer
             if (_isGrounded)
             {
                 float reverseMultiplier = 1f;
-                Vector3 flattenedVelocity = new Vector3(rigidbody.velocity.x, 0f, rigidbody.velocity.z);
+                Vector3 flattenedVelocity = new Vector3(rigidbody.linearVelocity.x, 0f, rigidbody.linearVelocity.z);
                 if (Vector3.Angle(flattenedVelocity.normalized, _inputMovement) > 90) reverseMultiplier = 2f;
                     
                 Vector3 inputConvertedToTorque = Quaternion.Euler(0, 90, 0) * _inputMovement;
@@ -206,7 +206,7 @@ namespace PixelDough.Bouncer
             else
             {
                 float reverseMultiplier = 1f;
-                Vector3 flattenedVelocity = new Vector3(rigidbody.velocity.x, 0f, rigidbody.velocity.z);
+                Vector3 flattenedVelocity = new Vector3(rigidbody.linearVelocity.x, 0f, rigidbody.linearVelocity.z);
                 if (Vector3.Angle(flattenedVelocity.normalized, _inputMovement) > 90) reverseMultiplier = 2f;
                 rigidbody.AddForce(_inputMovement * (10 * reverseMultiplier * Time.fixedDeltaTime), ForceMode.VelocityChange);
             }
@@ -215,10 +215,10 @@ namespace PixelDough.Bouncer
 
             //rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, 30);
 
-            float projectedMagnitude = Vector3.ProjectOnPlane(rigidbody.velocity, Vector3.up).magnitude;
-            rigidbody.drag = Mathf.Lerp(rigidbody.drag, (1f / (Mathf.Max(projectedMagnitude, 1) * 2)), Time.fixedDeltaTime);
+            float projectedMagnitude = Vector3.ProjectOnPlane(rigidbody.linearVelocity, Vector3.up).magnitude;
+            rigidbody.linearDamping = Mathf.Lerp(rigidbody.linearDamping, (1f / (Mathf.Max(projectedMagnitude, 1) * 2)), Time.fixedDeltaTime);
             
-            _pastVelocity = rigidbody.velocity;
+            _pastVelocity = rigidbody.linearVelocity;
         }
 
         private void OnCollisionEnter(Collision other)
@@ -227,7 +227,7 @@ namespace PixelDough.Bouncer
             {
                 if (Vector3.Angle(pointGround.normal, -Physics.gravity) < 15f)
                 {
-                    if (Vector3.Project(rigidbody.velocity, Physics.gravity).sqrMagnitude > 2)
+                    if (Vector3.Project(rigidbody.linearVelocity, Physics.gravity).sqrMagnitude > 2)
                         playerStuffManager.sandBurstParticleSystem.Play();
                     _isGrounded = true;
                 }
@@ -335,8 +335,8 @@ namespace PixelDough.Bouncer
 
         private void Jump()
         {
-            if (Mathf.Abs(rigidbody.velocity.y) < 10f)
-                rigidbody.velocity = new Vector3(rigidbody.velocity.x, 10f, rigidbody.velocity.z);
+            if (Mathf.Abs(rigidbody.linearVelocity.y) < 10f)
+                rigidbody.linearVelocity = new Vector3(rigidbody.linearVelocity.x, 10f, rigidbody.linearVelocity.z);
             _jumpBuffer = 0f;
             _coyoteTime = 0f;
             
@@ -378,7 +378,7 @@ namespace PixelDough.Bouncer
                 transform.position = _respawnPoint;
                 transform.forward = _respawnForward;
                 playerStuffManager.SetCameraForward(_respawnForward);
-                rigidbody.velocity = Vector3.zero;
+                rigidbody.linearVelocity = Vector3.zero;
                 rigidbody.angularVelocity = Vector3.zero;
                 
                 LevelManager.Instance.LevelProgress.LoseCollectables();

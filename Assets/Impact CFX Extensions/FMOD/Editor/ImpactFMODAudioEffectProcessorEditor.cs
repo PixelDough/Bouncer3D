@@ -3,7 +3,7 @@ using UnityEditor;
 namespace ImpactCFX.FMOD.EditorScripts
 {
     [CustomEditor(typeof(ImpactFMODAudioEffectProcessor))]
-    public class ImpactFMODAudioEffectProcessorEditor : Editor
+    public class ImpactFMODAudioEffectProcessorEditor : UnityEditor.Editor
     {
         private SerializedProperty queueCapacityProperty;
         private SerializedProperty objectPoolConfigProperty;

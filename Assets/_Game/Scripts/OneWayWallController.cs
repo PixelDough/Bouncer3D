@@ -31,7 +31,7 @@ namespace PixelDough.Bouncer
                 
                 Physics.IgnoreCollision(other, collider, true);
 
-                if (Vector3.Dot(other.attachedRigidbody.velocity, -transform.forward) < 5f && !_hasHitPlayerOnThisFrame)
+                if (Vector3.Dot(other.attachedRigidbody.linearVelocity, -transform.forward) < 5f && !_hasHitPlayerOnThisFrame)
                 {
                     other.attachedRigidbody.AddForce(-transform.forward * 6f, ForceMode.VelocityChange);
                     _hasHitPlayerOnThisFrame = true;

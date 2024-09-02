@@ -345,12 +345,12 @@ namespace SquashAndStretchKit
       if (rb != null)
       {
         m_hasRigidBody = true;
-        m_rigidBodyVelocity = rb.velocity;
+        m_rigidBodyVelocity = rb.linearVelocity;
       }
       else if (rb2 != null)
       {
         m_hasRigidBody = true;
-        m_rigidBodyVelocity = rb2.velocity;
+        m_rigidBodyVelocity = rb2.linearVelocity;
       }
 
       // save position

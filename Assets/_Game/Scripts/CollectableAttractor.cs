@@ -37,7 +37,7 @@ namespace PixelDough.Bouncer
             if (other.attachedRigidbody.gameObject.CompareTag("Player"))
             {
                 float distanceCheckMax = sphereCollider.radius;
-                float distanceModifier = Mathf.InverseLerp(0, 20, other.attachedRigidbody.velocity.magnitude);
+                float distanceModifier = Mathf.InverseLerp(0, 20, other.attachedRigidbody.linearVelocity.magnitude);
                 if (direction.magnitude > Mathf.Lerp(0.75f, distanceCheckMax, distanceModifier)) return;
                 
                 _targetTransform = other.attachedRigidbody.transform;

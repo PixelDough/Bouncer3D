@@ -13,7 +13,7 @@ namespace ImpactCFX
         /// The PhysicMaterial to map from.
         /// </summary>
         [Tooltip("The PhysicMaterial to map from.")]
-        public PhysicMaterial PhysicMaterial;
+        public PhysicsMaterial PhysicMaterial;
         /// <summary>
         /// The Impact Material to map to.
         /// </summary>

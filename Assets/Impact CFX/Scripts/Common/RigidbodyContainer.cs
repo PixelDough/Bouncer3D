@@ -19,9 +19,9 @@ namespace ImpactCFX
             get
             {
                 if (physicsType == PhysicsType.Physics2D)
-                    return rigidbody2D.velocity;
+                    return rigidbody2D.linearVelocity;
                 else if (physicsType == PhysicsType.Physics3D)
-                    return rigidbody3D.velocity;
+                    return rigidbody3D.linearVelocity;
 
                 ImpactCFXLogger.LogMissingRigidbody(gameObject);
                 return Vector3.zero;

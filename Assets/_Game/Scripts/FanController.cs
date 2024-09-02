@@ -27,7 +27,7 @@ namespace PixelDough.Bouncer
             _rigidbodies.Add(other.attachedRigidbody);
             if (instant)
             {
-                other.attachedRigidbody.velocity = transform.up * force;
+                other.attachedRigidbody.linearVelocity = transform.up * force;
             }
         }
 

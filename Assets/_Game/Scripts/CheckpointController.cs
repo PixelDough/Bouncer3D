@@ -50,7 +50,7 @@ public class CheckpointController : MonoBehaviour
 
             Vector3 dir = Random.onUnitSphere;
             Vector3 dirFlat = new Vector3(dir.x, 0f, dir.z).normalized;
-            float angleAmount = Mathf.Clamp(other.attachedRigidbody.velocity.magnitude, 5f, 25f);
+            float angleAmount = Mathf.Clamp(other.attachedRigidbody.linearVelocity.magnitude, 5f, 25f);
             flagRoot.transform.rotation *= Quaternion.AngleAxis(angleAmount, dirFlat);
             DOTween.Kill(flagRoot);
             flagRoot.DORotate(Vector3.zero, 2.5f)

@@ -195,7 +195,7 @@ Shader /*ase_name*/ "Hidden/Universal/2D Lit" /*end*/
 				InitializeSurfaceData(Color.rgb, Color.a, Mask, surfaceData);
 				InputData2D inputData;
 				InitializeInputData(IN.texCoord0.xy, half2(IN.screenPosition.xy / IN.screenPosition.w), inputData);
-				SETUP_DEBUG_DATA_2D(inputData, positionWS);
+				SETUP_DEBUG_DATA_2D(inputData, positionWS, positionCS);
 				return CombinedShapeLightShared(surfaceData, inputData);
 			}
 
@@ -449,7 +449,7 @@ Shader /*ase_name*/ "Hidden/Universal/2D Lit" /*end*/
 					InitializeInputData(positionWS.xy, half2(IN.texCoord0.xy), inputData);
 					half4 debugColor = 0;
 
-					SETUP_DEBUG_DATA_2D(inputData, positionWS);
+					SETUP_DEBUG_DATA_2D(inputData, positionWS, positionCS);
 
 					if (CanDebugOverrideOutputColor(surfaceData, inputData, debugColor))
 					{
