@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.47649616, g: 0.6387961, b: 0.98244226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1179,6 +1178,7 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1320,6 +1320,7 @@ GameObject:
   - component: {fileID: 307444094}
   - component: {fileID: 307444093}
   - component: {fileID: 307444092}
+  - component: {fileID: 307444095}
   m_Layer: 0
   m_Name: CutsceneCam
   m_TagString: Untagged
@@ -1356,17 +1357,18 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 307444091}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ExcludedPropertiesInInspector:
-  - m_Script
-  m_LockStageInInspector: 
+  Priority:
+    Enabled: 0
+    m_Value: 0
+  OutputChannel: 1
+  StandbyUpdate: 2
   m_StreamingVersion: 20170927
-  m_Priority: 11
-  m_StandbyUpdate: 2
+  m_LegacyPriority: 11
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
@@ -1376,18 +1378,31 @@ MonoBehaviour:
     FarClipPlane: 5000
     Dutch: 0
     ModeOverride: 0
-    LensShift: {x: 0, y: 0}
     GateFit: 2
-    FocusDistance: 10
     m_SensorSize: {x: 1, y: 1}
-  m_Transitions:
+    LensShift: {x: 0, y: 0}
+    FocusDistance: 10
+    Iso: 200
+    ShutterSpeed: 0.005
+    Aperture: 16
+    BladeCount: 5
+    Curvature: {x: 2, y: 11}
+    BarrelClipping: 0.25
+    Anamorphism: 0
+  BlendHint: 0
+  m_OnCameraLiveEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ExcludedPropertiesInInspector:
+  - m_Script
+  m_LockStageInInspector: 
+  m_LegacyTransitions:
     m_BlendHint: 0
     m_InheritPosition: 0
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
-  m_LegacyBlendHint: 0
-  m_ComponentOwner: {fileID: 1015320345}
+  m_ComponentOwner: {fileID: 0}
 --- !u!4 &307444094
 Transform:
   m_ObjectHideFlags: 0
@@ -1400,10 +1415,52 @@ Transform:
   m_LocalPosition: {x: 39.99, y: 0, z: 76.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1015320345}
+  m_Children: []
   m_Father: {fileID: 1193248286}
   m_LocalEulerAnglesHint: {x: 356.4726, y: 348.0774, z: 0.00000002673107}
+--- !u!114 &307444095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307444091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Priority:
+    Enabled: 0
+    m_Value: 0
+  OutputChannel: 1
+  StandbyUpdate: 2
+  m_StreamingVersion: 20170927
+  m_LegacyPriority: 11
+  Target:
+    TrackingTarget: {fileID: 0}
+    LookAtTarget: {fileID: 0}
+    CustomLookAtTarget: 0
+  Lens:
+    FieldOfView: 40
+    OrthographicSize: 5
+    NearClipPlane: 0.02
+    FarClipPlane: 5000
+    Dutch: 0
+    ModeOverride: 0
+    PhysicalProperties:
+      GateFit: 2
+      SensorSize: {x: 1, y: 1}
+      LensShift: {x: 0, y: 0}
+      FocusDistance: 10
+      Iso: 200
+      ShutterSpeed: 0.005
+      Aperture: 16
+      BladeCount: 5
+      Curvature: {x: 2, y: 11}
+      BarrelClipping: 0.25
+      Anamorphism: 0
+  BlendHint: 0
 --- !u!1001 &312062843
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1792,6 +1849,7 @@ GameObject:
   - component: {fileID: 413240370}
   - component: {fileID: 413240371}
   - component: {fileID: 413240372}
+  - component: {fileID: 413240373}
   m_Layer: 0
   m_Name: CutsceneCam
   m_TagString: Untagged
@@ -1811,8 +1869,7 @@ Transform:
   m_LocalPosition: {x: 39.99, y: 0, z: 76.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1002090093}
+  m_Children: []
   m_Father: {fileID: 1193248286}
   m_LocalEulerAnglesHint: {x: 356.4726, y: 348.0774, z: 0.00000002673107}
 --- !u!114 &413240371
@@ -1822,17 +1879,18 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 413240369}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ExcludedPropertiesInInspector:
-  - m_Script
-  m_LockStageInInspector: 
+  Priority:
+    Enabled: 0
+    m_Value: 0
+  OutputChannel: 1
+  StandbyUpdate: 2
   m_StreamingVersion: 20170927
-  m_Priority: 11
-  m_StandbyUpdate: 2
+  m_LegacyPriority: 11
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
@@ -1842,18 +1900,31 @@ MonoBehaviour:
     FarClipPlane: 5000
     Dutch: 0
     ModeOverride: 0
-    LensShift: {x: 0, y: 0}
     GateFit: 2
-    FocusDistance: 10
     m_SensorSize: {x: 1, y: 1}
-  m_Transitions:
+    LensShift: {x: 0, y: 0}
+    FocusDistance: 10
+    Iso: 200
+    ShutterSpeed: 0.005
+    Aperture: 16
+    BladeCount: 5
+    Curvature: {x: 2, y: 11}
+    BarrelClipping: 0.25
+    Anamorphism: 0
+  BlendHint: 0
+  m_OnCameraLiveEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ExcludedPropertiesInInspector:
+  - m_Script
+  m_LockStageInInspector: 
+  m_LegacyTransitions:
     m_BlendHint: 0
     m_InheritPosition: 0
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
-  m_LegacyBlendHint: 0
-  m_ComponentOwner: {fileID: 1002090093}
+  m_ComponentOwner: {fileID: 0}
 --- !u!95 &413240372
 Animator:
   serializedVersion: 7
@@ -1876,6 +1947,49 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &413240373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413240369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Priority:
+    Enabled: 0
+    m_Value: 0
+  OutputChannel: 1
+  StandbyUpdate: 2
+  m_StreamingVersion: 20170927
+  m_LegacyPriority: 11
+  Target:
+    TrackingTarget: {fileID: 0}
+    LookAtTarget: {fileID: 0}
+    CustomLookAtTarget: 0
+  Lens:
+    FieldOfView: 40
+    OrthographicSize: 5
+    NearClipPlane: 0.02
+    FarClipPlane: 5000
+    Dutch: 0
+    ModeOverride: 0
+    PhysicalProperties:
+      GateFit: 2
+      SensorSize: {x: 1, y: 1}
+      LensShift: {x: 0, y: 0}
+      FocusDistance: 10
+      Iso: 200
+      ShutterSpeed: 0.005
+      Aperture: 16
+      BladeCount: 5
+      Curvature: {x: 2, y: 11}
+      BarrelClipping: 0.25
+      Anamorphism: 0
+  BlendHint: 0
 --- !u!1001 &438043261
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2193,8 +2307,12 @@ Light:
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
+  m_ForceVisible: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+  m_LightUnit: 1
+  m_LuxAtDistance: 1
+  m_EnableSpotReflector: 1
 --- !u!4 &460780306
 Transform:
   m_ObjectHideFlags: 0
@@ -2657,6 +2775,7 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2698,6 +2817,7 @@ GameObject:
   - component: {fileID: 602536610}
   - component: {fileID: 602536609}
   - component: {fileID: 602536608}
+  - component: {fileID: 602536611}
   m_Layer: 0
   m_Name: CutsceneCam
   m_TagString: Untagged
@@ -2734,17 +2854,18 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 602536607}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ExcludedPropertiesInInspector:
-  - m_Script
-  m_LockStageInInspector: 
+  Priority:
+    Enabled: 0
+    m_Value: 0
+  OutputChannel: 1
+  StandbyUpdate: 2
   m_StreamingVersion: 20170927
-  m_Priority: 11
-  m_StandbyUpdate: 2
+  m_LegacyPriority: 11
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
@@ -2754,18 +2875,31 @@ MonoBehaviour:
     FarClipPlane: 5000
     Dutch: 0
     ModeOverride: 0
-    LensShift: {x: 0, y: 0}
     GateFit: 2
-    FocusDistance: 10
     m_SensorSize: {x: 1, y: 1}
-  m_Transitions:
+    LensShift: {x: 0, y: 0}
+    FocusDistance: 10
+    Iso: 200
+    ShutterSpeed: 0.005
+    Aperture: 16
+    BladeCount: 5
+    Curvature: {x: 2, y: 11}
+    BarrelClipping: 0.25
+    Anamorphism: 0
+  BlendHint: 0
+  m_OnCameraLiveEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ExcludedPropertiesInInspector:
+  - m_Script
+  m_LockStageInInspector: 
+  m_LegacyTransitions:
     m_BlendHint: 0
     m_InheritPosition: 0
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
-  m_LegacyBlendHint: 0
-  m_ComponentOwner: {fileID: 929450406}
+  m_ComponentOwner: {fileID: 0}
 --- !u!4 &602536610
 Transform:
   m_ObjectHideFlags: 0
@@ -2778,10 +2912,52 @@ Transform:
   m_LocalPosition: {x: 39.99, y: 0, z: 76.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 929450406}
+  m_Children: []
   m_Father: {fileID: 1193248286}
   m_LocalEulerAnglesHint: {x: 356.4726, y: 348.0774, z: 0.00000002673107}
+--- !u!114 &602536611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 602536607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Priority:
+    Enabled: 0
+    m_Value: 0
+  OutputChannel: 1
+  StandbyUpdate: 2
+  m_StreamingVersion: 20170927
+  m_LegacyPriority: 11
+  Target:
+    TrackingTarget: {fileID: 0}
+    LookAtTarget: {fileID: 0}
+    CustomLookAtTarget: 0
+  Lens:
+    FieldOfView: 40
+    OrthographicSize: 5
+    NearClipPlane: 0.02
+    FarClipPlane: 5000
+    Dutch: 0
+    ModeOverride: 0
+    PhysicalProperties:
+      GateFit: 2
+      SensorSize: {x: 1, y: 1}
+      LensShift: {x: 0, y: 0}
+      FocusDistance: 10
+      Iso: 200
+      ShutterSpeed: 0.005
+      Aperture: 16
+      BladeCount: 5
+      Curvature: {x: 2, y: 11}
+      BarrelClipping: 0.25
+      Anamorphism: 0
+  BlendHint: 0
 --- !u!1 &625678825
 GameObject:
   m_ObjectHideFlags: 0
@@ -3144,6 +3320,7 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -3921,50 +4098,6 @@ MonoBehaviour:
   startRandom: 0
   ignoreTimeScale: 0
   speed: 25
---- !u!1 &929450405
-GameObject:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 929450406}
-  - component: {fileID: 929450407}
-  m_Layer: 0
-  m_Name: cm
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &929450406
-Transform:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 929450405}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.20050451, y: 0.41833156, z: -0.095170915, w: -0.8807606}
-  m_LocalPosition: {x: 51.97965, y: -34.855675, z: 124.92748}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 602536610}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &929450407
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 929450405}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &932172792
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4410,6 +4543,7 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -4443,94 +4577,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 983959700}
   m_Mesh: {fileID: -7426298497591329568, guid: c00b59fae45cf1a49a4a94b3e3d1a66b, type: 3}
---- !u!1 &1002090092
-GameObject:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1002090093}
-  - component: {fileID: 1002090096}
-  m_Layer: 0
-  m_Name: cm
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1002090093
-Transform:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1002090092}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.20050451, y: 0.41833156, z: -0.095170915, w: -0.8807606}
-  m_LocalPosition: {x: 51.97965, y: -34.855675, z: 124.92748}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 413240370}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1002090096
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1002090092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &1015320344
-GameObject:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1015320345}
-  - component: {fileID: 1015320346}
-  m_Layer: 0
-  m_Name: cm
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1015320345
-Transform:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1015320344}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.20050451, y: 0.41833156, z: -0.095170915, w: -0.8807606}
-  m_LocalPosition: {x: 51.97965, y: -34.855675, z: 124.92748}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 307444094}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1015320346
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1015320344}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1030460894
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4895,6 +4941,7 @@ ParticleSystemRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -9721,16 +9768,16 @@ MonoBehaviour:
   _autoUpdate: 1
   _rotationModifier:
     blend: 1
+    useClippedPercent: 0
     keys: []
   _offsetModifier:
     blend: 1
+    useClippedPercent: 0
     keys:
     - _featherStart: 0
       _featherEnd: 1
       _centerStart: 0.36819013953208923
       _centerEnd: 0.5799750685691833
-      modifier:
-        blend: 1
       interpolation:
         serializedVersion: 2
         m_Curve:
@@ -9759,85 +9806,20 @@ MonoBehaviour:
       offset: {x: 0, y: 25}
   _colorModifier:
     blend: 1
+    useClippedPercent: 0
     keys: []
   _sizeModifier:
     blend: 1
+    useClippedPercent: 0
     keys: []
-  sampleCollection:
-    samples:
-    - position: {x: -44.5, y: -4.5, z: 143.5}
-      up: {x: 0, y: 1, z: 0}
-      forward: {x: 0.9998919, y: 0, z: -0.014704292}
-      color: {r: 1, g: 1, b: 1, a: 1}
-      size: 1
-      percent: 0
-    - position: {x: -29.38889, y: -4.5, z: 143.27777}
-      up: {x: 0, y: 1, z: 0}
-      forward: {x: 0.9998919, y: 0, z: -0.014704337}
-      color: {r: 1, g: 1, b: 1, a: 1}
-      size: 1
-      percent: 0.1111111111111111
-    - position: {x: -14.277777, y: -4.5, z: 143.05556}
-      up: {x: 0, y: 1, z: 0}
-      forward: {x: 0.9998919, y: 0, z: -0.014704275}
-      color: {r: 1, g: 1, b: 1, a: 1}
-      size: 1
-      percent: 0.2222222222222222
-    - position: {x: 0.8333359, y: -4.5, z: 142.83333}
-      up: {x: 0, y: 1, z: 0}
-      forward: {x: 0.9998919, y: 0, z: -0.014704331}
-      color: {r: 1, g: 1, b: 1, a: 1}
-      size: 1
-      percent: 0.3333333333333333
-    - position: {x: 15.944447, y: -4.5, z: 142.61111}
-      up: {x: 0, y: 1, z: 0}
-      forward: {x: 0.9998919, y: 0, z: -0.014704275}
-      color: {r: 1, g: 1, b: 1, a: 1}
-      size: 1
-      percent: 0.4444444444444444
-    - position: {x: 31.055557, y: -4.5, z: 142.38889}
-      up: {x: 0, y: 1, z: 0}
-      forward: {x: 0.9998919, y: 0, z: -0.014704337}
-      color: {r: 1, g: 1, b: 1, a: 1}
-      size: 1
-      percent: 0.5555555555555556
-    - position: {x: 46.16667, y: -4.5, z: 142.16667}
-      up: {x: 0, y: 1, z: 0}
-      forward: {x: 0.9998919, y: 0, z: -0.014704292}
-      color: {r: 1, g: 1, b: 1, a: 1}
-      size: 1
-      percent: 0.6666666666666666
-    - position: {x: 61.27778, y: -4.5, z: 141.94444}
-      up: {x: 0, y: 1, z: 0}
-      forward: {x: 0.9998919, y: 0, z: -0.0147043625}
-      color: {r: 1, g: 1, b: 1, a: 1}
-      size: 1
-      percent: 0.7777777777777778
-    - position: {x: 76.38889, y: -4.5, z: 141.72223}
-      up: {x: 0, y: 1, z: 0}
-      forward: {x: 0.9998919, y: 0, z: -0.014704325}
-      color: {r: 1, g: 1, b: 1, a: 1}
-      size: 1
-      percent: 0.8888888888888888
-    - position: {x: 91.5, y: -4.5, z: 141.5}
-      up: {x: 0, y: 1, z: 0}
-      forward: {x: 0.9998919, y: 0, z: -0.014704292}
-      color: {r: 1, g: 1, b: 1, a: 1}
-      size: 1
-      percent: 1
-    optimizedIndices: 
-    sampleMode: 0
-    clipFrom: 0
-    clipTo: 1
-    loopSamples: 0
-  clipFromSample:
+  _clipFromSample:
     position: {x: -44.5, y: -4.5, z: 143.5}
     up: {x: 0, y: 1, z: 0}
     forward: {x: 0.9998919, y: 0, z: -0.014704292}
     color: {r: 1, g: 1, b: 1, a: 1}
     size: 1
     percent: 0
-  clipToSample:
+  _clipToSample:
     position: {x: 91.5, y: -4.5, z: 141.5}
     up: {x: 0, y: 1, z: 0}
     forward: {x: 0.9998919, y: 0, z: -0.014704292}
@@ -9849,15 +9831,15 @@ MonoBehaviour:
   _clipTo: 1
   animClipFrom: 0
   animClipTo: 1
-  _sampleCount: 10
-  startSampleIndex: 0
   multithreaded: 1
   buildOnAwake: 0
   buildOnEnable: 0
-  _isUpdated: 1
   _particleSystem: {fileID: 1083324588}
+  pauseWhenNotVisible: 0
+  offset: {x: 0, y: 0}
   volumetric: 1
   emitFromShell: 0
+  apply3DRotation: 0
   scale: {x: 25, y: 25}
   emitPoint: 0
   motionType: 2
@@ -9876,6 +9858,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 598e68924c9f6324bbfd049d3bae754c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  editorDrawPivot: 1
   editorPathColor: {r: 1, g: 1, b: 1, a: 1}
   editorAlwaysDraw: 1
   editorDrawThickness: 0
@@ -9883,10 +9866,9 @@ MonoBehaviour:
   isNewlyCreated: 0
   editorUpdateMode: 0
   multithreaded: 0
-  rebuildOnAwake: 0
   updateMode: 0
   triggerGroups: []
-  spline:
+  _spline:
     points:
     - _type: 0
       position: {x: -44.5, y: -4.5, z: 143.5}
@@ -9902,7 +9884,6 @@ MonoBehaviour:
       size: 1
       tangent: {x: 91.5, y: -4.5, z: 141.5}
       tangent2: {x: 91.5, y: -4.5, z: 141.5}
-    closed: 0
     type: 0
     linearAverageDirection: 1
     customValueInterpolation:
@@ -9918,6 +9899,16 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     sampleRate: 10
+    closed: 0
+    _knotParametrization: 0
+  _originalSamplePercents: []
+  _is2D: 0
+  hasSamples: 1
+  _optimizeAngleThreshold: 0.5
+  _space: 1
+  _sampleMode: 0
+  _subscribers:
+  - {fileID: 1083324589}
   _rawSamples:
   - position: {x: -44.5, y: -4.5, z: 143.5}
     up: {x: 0, y: 1, z: 0}
@@ -9979,145 +9970,7 @@ MonoBehaviour:
     color: {r: 1, g: 1, b: 1, a: 1}
     size: 1
     percent: 1
-  _transformedSamples:
-  - position: {x: -44.5, y: -4.5, z: 143.5}
-    up: {x: 0, y: 1, z: 0}
-    forward: {x: 0.9998919, y: 0, z: -0.014704292}
-    color: {r: 1, g: 1, b: 1, a: 1}
-    size: 1
-    percent: 0
-  - position: {x: -29.38889, y: -4.5, z: 143.27777}
-    up: {x: 0, y: 1, z: 0}
-    forward: {x: 0.9998919, y: 0, z: -0.014704337}
-    color: {r: 1, g: 1, b: 1, a: 1}
-    size: 1
-    percent: 0.1111111111111111
-  - position: {x: -14.277777, y: -4.5, z: 143.05556}
-    up: {x: 0, y: 1, z: 0}
-    forward: {x: 0.9998919, y: 0, z: -0.014704275}
-    color: {r: 1, g: 1, b: 1, a: 1}
-    size: 1
-    percent: 0.2222222222222222
-  - position: {x: 0.8333359, y: -4.5, z: 142.83333}
-    up: {x: 0, y: 1, z: 0}
-    forward: {x: 0.9998919, y: 0, z: -0.014704331}
-    color: {r: 1, g: 1, b: 1, a: 1}
-    size: 1
-    percent: 0.3333333333333333
-  - position: {x: 15.944447, y: -4.5, z: 142.61111}
-    up: {x: 0, y: 1, z: 0}
-    forward: {x: 0.9998919, y: 0, z: -0.014704275}
-    color: {r: 1, g: 1, b: 1, a: 1}
-    size: 1
-    percent: 0.4444444444444444
-  - position: {x: 31.055557, y: -4.5, z: 142.38889}
-    up: {x: 0, y: 1, z: 0}
-    forward: {x: 0.9998919, y: 0, z: -0.014704337}
-    color: {r: 1, g: 1, b: 1, a: 1}
-    size: 1
-    percent: 0.5555555555555556
-  - position: {x: 46.16667, y: -4.5, z: 142.16667}
-    up: {x: 0, y: 1, z: 0}
-    forward: {x: 0.9998919, y: 0, z: -0.014704292}
-    color: {r: 1, g: 1, b: 1, a: 1}
-    size: 1
-    percent: 0.6666666666666666
-  - position: {x: 61.27778, y: -4.5, z: 141.94444}
-    up: {x: 0, y: 1, z: 0}
-    forward: {x: 0.9998919, y: 0, z: -0.0147043625}
-    color: {r: 1, g: 1, b: 1, a: 1}
-    size: 1
-    percent: 0.7777777777777778
-  - position: {x: 76.38889, y: -4.5, z: 141.72223}
-    up: {x: 0, y: 1, z: 0}
-    forward: {x: 0.9998919, y: 0, z: -0.014704325}
-    color: {r: 1, g: 1, b: 1, a: 1}
-    size: 1
-    percent: 0.8888888888888888
-  - position: {x: 91.5, y: -4.5, z: 141.5}
-    up: {x: 0, y: 1, z: 0}
-    forward: {x: 0.9998919, y: 0, z: -0.014704292}
-    color: {r: 1, g: 1, b: 1, a: 1}
-    size: 1
-    percent: 1
-  sampleCollection:
-    samples:
-    - position: {x: -44.5, y: -4.5, z: 143.5}
-      up: {x: 0, y: 1, z: 0}
-      forward: {x: 0.9998919, y: 0, z: -0.014704292}
-      color: {r: 1, g: 1, b: 1, a: 1}
-      size: 1
-      percent: 0
-    - position: {x: -29.38889, y: -4.5, z: 143.27777}
-      up: {x: 0, y: 1, z: 0}
-      forward: {x: 0.9998919, y: 0, z: -0.014704337}
-      color: {r: 1, g: 1, b: 1, a: 1}
-      size: 1
-      percent: 0.1111111111111111
-    - position: {x: -14.277777, y: -4.5, z: 143.05556}
-      up: {x: 0, y: 1, z: 0}
-      forward: {x: 0.9998919, y: 0, z: -0.014704275}
-      color: {r: 1, g: 1, b: 1, a: 1}
-      size: 1
-      percent: 0.2222222222222222
-    - position: {x: 0.8333359, y: -4.5, z: 142.83333}
-      up: {x: 0, y: 1, z: 0}
-      forward: {x: 0.9998919, y: 0, z: -0.014704331}
-      color: {r: 1, g: 1, b: 1, a: 1}
-      size: 1
-      percent: 0.3333333333333333
-    - position: {x: 15.944447, y: -4.5, z: 142.61111}
-      up: {x: 0, y: 1, z: 0}
-      forward: {x: 0.9998919, y: 0, z: -0.014704275}
-      color: {r: 1, g: 1, b: 1, a: 1}
-      size: 1
-      percent: 0.4444444444444444
-    - position: {x: 31.055557, y: -4.5, z: 142.38889}
-      up: {x: 0, y: 1, z: 0}
-      forward: {x: 0.9998919, y: 0, z: -0.014704337}
-      color: {r: 1, g: 1, b: 1, a: 1}
-      size: 1
-      percent: 0.5555555555555556
-    - position: {x: 46.16667, y: -4.5, z: 142.16667}
-      up: {x: 0, y: 1, z: 0}
-      forward: {x: 0.9998919, y: 0, z: -0.014704292}
-      color: {r: 1, g: 1, b: 1, a: 1}
-      size: 1
-      percent: 0.6666666666666666
-    - position: {x: 61.27778, y: -4.5, z: 141.94444}
-      up: {x: 0, y: 1, z: 0}
-      forward: {x: 0.9998919, y: 0, z: -0.0147043625}
-      color: {r: 1, g: 1, b: 1, a: 1}
-      size: 1
-      percent: 0.7777777777777778
-    - position: {x: 76.38889, y: -4.5, z: 141.72223}
-      up: {x: 0, y: 1, z: 0}
-      forward: {x: 0.9998919, y: 0, z: -0.014704325}
-      color: {r: 1, g: 1, b: 1, a: 1}
-      size: 1
-      percent: 0.8888888888888888
-    - position: {x: 91.5, y: -4.5, z: 141.5}
-      up: {x: 0, y: 1, z: 0}
-      forward: {x: 0.9998919, y: 0, z: -0.014704292}
-      color: {r: 1, g: 1, b: 1, a: 1}
-      size: 1
-      percent: 1
-    optimizedIndices: 
-    sampleMode: 0
-    clipFrom: 0
-    clipTo: 1
-    loopSamples: 0
-  originalSamplePercents: []
-  _sampleCount: 10
-  _is2D: 0
-  hasSamples: 1
-  pointsDirty: 0000
-  _optimizeAngleThreshold: 0.5
-  _space: 1
-  _sampleMode: 0
-  _subscribers:
-  - {fileID: 1083324589}
-  nodes: []
+  _nodes: []
 --- !u!4 &1083324591
 Transform:
   m_ObjectHideFlags: 0
@@ -10972,6 +10825,7 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -12875,6 +12729,7 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

@@ -53,6 +53,7 @@
     <Compile Include="Assets/Rewired/Extras/Glyphs/UnityUI/Scripts/UnityUIPlayerControllerElementGlyphBase.cs" />
     <Compile Include="Assets/LeanTween/Framework/LeanTest.cs" />
     <Compile Include="Assets/Impact CFX Extensions/FMOD/Processing/ImpactFMODAudioEffectProcessor.cs" />
+    <Compile Include="Assets/Rewired/Integration/Cinemachine3/Scripts/IRewiredCinemachineInputAxisController.cs" />
     <Compile Include="Assets/Rewired/Examples/CustomPlatform/Scripts/CustomPlatformHardwareJoystickMapPlatformDataSet.cs" />
     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIElementInfo.cs" />
     <Compile Include="Assets/Rewired/Examples/CustomPlatform/Scripts/MyPlatformHardwareJoystickMapPlatformMap.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Assets/_Game/Scripts/CanvasMainCameraSelector.cs" />
     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ButtonInfo.cs" />
     <Compile Include="Assets/_Game/Scripts/Level Data/Zone Data/ZoneDataScriptableObject.cs" />
+    <Compile Include="Assets/Rewired/Integration/Cinemachine3/Scripts/RewiredCinemachineInputAxisControllerReaderBase.cs" />
     <Compile Include="Assets/Rewired/Examples/PressAnyButtonToJoin/Scripts/PressAnyButtonToJoinExample_Assigner.cs" />
     <Compile Include="Assets/Rewired/Examples/CustomPlatform/Scripts/MyPlatformControllerIdentifier.cs" />
     <Compile Include="Assets/Rewired/Extras/Glyphs/Scripts/GlyphProvider.cs" />
@@ -112,9 +114,11 @@
     <Compile Include="Assets/_Game/Scripts/CameraSelectiveRendering.cs" />
     <Compile Include="Assets/_Game/Scripts/BoostPadController.cs" />
     <Compile Include="Assets/Rewired/Extras/Glyphs/UnityUI/Scripts/UnityUIControllerElementGlyph.cs" />
+    <Compile Include="Assets/Rewired/Integration/Cinemachine3/Scripts/RewiredCinemachineInputAxisControllerBase.cs" />
     <Compile Include="Assets/_Game/Scripts/CollectableController.cs" />
     <Compile Include="Assets/3D Text/ChildAnimator.cs" />
     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/CustomButton.cs" />
+    <Compile Include="Assets/Rewired/Integration/Cinemachine3/Scripts/IRewiredCinemachineInputAxisControllerReader.cs" />
     <Compile Include="Assets/LeanTween/Framework/LeanTween.cs" />
     <Compile Include="Assets/LeanTween/Framework/LeanSmooth.cs" />
     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/ToggleInfo.cs" />
@@ -144,6 +148,7 @@
     <Compile Include="Assets/_Game/Scripts/FanController.cs" />
     <Compile Include="Assets/_Game/Scripts/KillZone.cs" />
     <Compile Include="Assets/PowerSpriteAnimator/Scripts/SpriteAnimNodes.cs" />
+    <Compile Include="Assets/Rewired/Integration/Cinemachine3/Scripts/Templates/CustomRewiredCinemachineInputAxisController.cs" />
     <Compile Include="Assets/3D Text/Font3DString.cs" />
     <Compile Include="Assets/Rewired/Examples/GamepadTemplateUI/Scripts/ControllerUIEffect.cs" />
     <Compile Include="Assets/3D Text/Font3DLetter.cs" />
@@ -179,9 +184,9 @@
     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/LanguageData.cs" />
     <Compile Include="Assets/Rewired/Examples/GamepadTemplateUI/Scripts/GamepadTemplateUI.cs" />
     <Compile Include="Assets/Impact CFX Extensions/FMOD/Processing/ImpactFMODParameters.cs" />
+    <Compile Include="Assets/Rewired/Integration/Cinemachine3/Scripts/RewiredCinemachineInputAxisControllerReader.cs" />
     <Compile Include="Assets/Rewired/Examples/CustomControllersTouch/Scripts/TouchJoystickExample.cs" />
     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/InputFieldInfo.cs" />
-    <Compile Include="Assets/Rewired/Integration/Cinemachine/RewiredCinemachineBridge.cs" />
     <Compile Include="Assets/Rewired/Internal/Scripts/Platforms/Ouya/OuyaInputSource.cs" />
     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/UIImageHelper.cs" />
     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/InputRow.cs" />
@@ -197,6 +202,7 @@
     <Compile Include="Assets/Impact CFX Extensions/FMOD/Processing/FMODAudioEffect.cs" />
     <Compile Include="Assets/_Game/Scripts/GameSceneManager.cs" />
     <Compile Include="Assets/Rewired/Examples/CustomControllersTouch/Scripts/TouchButtonExample.cs" />
+    <Compile Include="Assets/Rewired/Integration/Cinemachine3/Scripts/RewiredCinemachineInputAxisController.cs" />
     <Compile Include="Assets/Rewired/Examples/Shared/Scripts/Bullet.cs" />
     <Compile Include="Assets/Rewired/Examples/PressStartToJoin/Scripts/PressStartToJoinExample_GamePlayer.cs" />
     <Compile Include="Assets/_Game/Scripts/CutsceneController.cs" />
@@ -1100,9 +1106,6 @@
     <Reference Include="mscorlib">
       <HintPath>/Applications/Unity/Hub/Editor/6000.0.17f1/Unity.app/Contents/NetStandard/compat/2.1.0/shims/netfx/mscorlib.dll</HintPath>
     </Reference>
-    <Reference Include="com.unity.cinemachine.editor">
-      <HintPath>/Users/adamworrell/Documents/Unity Projects/Bouncer3D/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>/Users/adamworrell/Documents/Unity Projects/Bouncer3D/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
@@ -1117,6 +1120,9 @@
     </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Shaders">
       <HintPath>/Users/adamworrell/Documents/Unity Projects/Bouncer3D/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Cinemachine.Editor">
+      <HintPath>/Users/adamworrell/Documents/Unity Projects/Bouncer3D/Library/ScriptAssemblies/Unity.Cinemachine.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Runtime.Shared">
       <HintPath>/Users/adamworrell/Documents/Unity Projects/Bouncer3D/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.Shared.dll</HintPath>
@@ -1147,6 +1153,9 @@
     </Reference>
     <Reference Include="Unity.RenderPipelines.GPUDriven.Runtime">
       <HintPath>/Users/adamworrell/Documents/Unity Projects/Bouncer3D/Library/ScriptAssemblies/Unity.RenderPipelines.GPUDriven.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Cinemachine">
+      <HintPath>/Users/adamworrell/Documents/Unity Projects/Bouncer3D/Library/ScriptAssemblies/Unity.Cinemachine.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Collections">
       <HintPath>/Users/adamworrell/Documents/Unity Projects/Bouncer3D/Library/ScriptAssemblies/Unity.Collections.dll</HintPath>
@@ -1195,9 +1204,6 @@
     </Reference>
     <Reference Include="Unity.Mathematics">
       <HintPath>/Users/adamworrell/Documents/Unity Projects/Bouncer3D/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
-    </Reference>
-    <Reference Include="Cinemachine">
-      <HintPath>/Users/adamworrell/Documents/Unity Projects/Bouncer3D/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Editor">
       <HintPath>/Users/adamworrell/Documents/Unity Projects/Bouncer3D/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Editor.dll</HintPath>

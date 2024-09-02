@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
-using Cinemachine;
 using Rewired;
+using Unity.Cinemachine;
 using UnityEditor;
 using UnityEngine;
 

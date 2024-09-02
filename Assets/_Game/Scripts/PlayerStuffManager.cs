@@ -1,6 +1,6 @@
 ﻿using System;
-using Cinemachine;
 using PixelDough.Bouncer.UI;
+using Unity.Cinemachine;
 using UnityEngine;
 
 namespace PixelDough.Bouncer

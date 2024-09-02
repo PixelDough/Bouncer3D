@@ -12952,26 +12952,43 @@ PrefabInstance:
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2908350895322189895, guid: 9d13018b7d579354c84a87e4fe4eca71, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.034904815
+      objectReference: {fileID: 0}
+    - target: {fileID: 2908350895322189895, guid: 9d13018b7d579354c84a87e4fe4eca71, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.0665901
+      objectReference: {fileID: 0}
+    - target: {fileID: 2908350895322189895, guid: 9d13018b7d579354c84a87e4fe4eca71, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.8926073
+      objectReference: {fileID: 0}
+    - target: {fileID: 2908350895322189895, guid: 9d13018b7d579354c84a87e4fe4eca71, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9994891
+      value: 0.9994511
       objectReference: {fileID: 0}
     - target: {fileID: 2908350895322189895, guid: 9d13018b7d579354c84a87e4fe4eca71, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.031960778
+      value: 0.03195962
       objectReference: {fileID: 0}
     - target: {fileID: 2908350895322189895, guid: 9d13018b7d579354c84a87e4fe4eca71, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000034183152
+      value: 0.008652505
       objectReference: {fileID: 0}
     - target: {fileID: 2908350895322189895, guid: 9d13018b7d579354c84a87e4fe4eca71, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000002963056
+      value: 0.0011342971
+      objectReference: {fileID: 0}
+    - target: {fileID: 5378048569799017085, guid: 9d13018b7d579354c84a87e4fe4eca71, type: 3}
+      propertyPath: _userData.configVars.unityUsePhysicalKeys
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8598344176431822147, guid: 9d13018b7d579354c84a87e4fe4eca71, type: 3}
       propertyPath: queueCapacity.Value
       value: 64
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4092716910623118863, guid: 9d13018b7d579354c84a87e4fe4eca71, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
