@@ -37,7 +37,8 @@ public class CheckpointController : MonoBehaviour
         if (other.attachedRigidbody.CompareTag("Player"))
         {
             PlayerController playerController = other.attachedRigidbody.GetComponent<PlayerController>();
-            if (playerController.currentCheckpoint) playerController.currentCheckpoint.HideFlag();
+            if (playerController.currentCheckpoint && playerController.currentCheckpoint != this) 
+                playerController.currentCheckpoint.HideFlag();
             playerController.SetRespawnPoint(
                 respawnPointTransform.position,
                 respawnPointTransform.forward, 
@@ -50,8 +51,9 @@ public class CheckpointController : MonoBehaviour
             Vector3 dir = Random.onUnitSphere;
             Vector3 dirFlat = new Vector3(dir.x, 0f, dir.z).normalized;
             float angleAmount = Mathf.Clamp(other.attachedRigidbody.velocity.magnitude, 5f, 25f);
-            flagRoot.transform.rotation *= Quaternion.AngleAxis(angleAmount, dirFlat); 
-            flagRoot.DORotate(Vector3.zero, 1.5f)
+            flagRoot.transform.rotation *= Quaternion.AngleAxis(angleAmount, dirFlat);
+            DOTween.Kill(flagRoot);
+            flagRoot.DORotate(Vector3.zero, 2.5f)
                 .SetEase(Ease.OutElastic);
         }
     }

@@ -23,6 +23,9 @@ namespace PixelDough.Bouncer.UI
         [Header("Timer")] 
         [SerializeField] private TextMeshProUGUI timerText;
 
+        [SerializeField] private Transform uiItemIconTransform;
+        private float uiItemIconSpeed = 1f;
+
         private bool _isVisible = true;
         
         private void Start()
@@ -34,11 +37,14 @@ namespace PixelDough.Bouncer.UI
         private void Update()
         {
             shellAnimator.speed = Mathf.Lerp(shellAnimator.speed, 1f, Time.deltaTime);
+            uiItemIconSpeed = Mathf.Lerp(uiItemIconSpeed, 1f, Time.deltaTime);
 
             if (LevelManager.LevelTime.Hours > 0)
                 timerText.text = LevelManager.LevelTime.ToString(@"hh\:mm\:ss\.fff");
             else
                 timerText.text = LevelManager.LevelTime.ToString(@"mm\:ss\.fff");
+            
+            uiItemIconTransform.Rotate(Vector3.up * (360 * uiItemIconSpeed * Time.deltaTime));
         }
 
         private void UpdateShellCountText()
@@ -79,6 +85,7 @@ namespace PixelDough.Bouncer.UI
                         .setOnComplete(() =>
                         {
                             shellAnimator.speed += 1f;
+                            uiItemIconSpeed += 1f;
                             Destroy(shell.gameObject);
                         });
                     

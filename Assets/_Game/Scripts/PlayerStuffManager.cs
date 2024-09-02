@@ -30,6 +30,7 @@ namespace PixelDough.Bouncer
         public void SetCameraForward(Vector3 forward)
         {
             cinemachineFreeLook.m_XAxis.Value = Vector3.SignedAngle(Vector3.forward, forward, Vector3.up);
+            cinemachineFreeLook.m_YAxis.Value = 0.5f;
         }
     }
 }
