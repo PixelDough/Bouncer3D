@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Dodgeball Material
   m_EditorClassIdentifier: 
   materialTags:
-    Value: 0
+    Value: 1
   effectSets:
   - Name: Dodgeball
     IncludeTags:
       TagMask:
-        Value: 0
+        Value: 1
       Exact: 0
     ExcludeTags:
       TagMask:
@@ -27,6 +27,6 @@ MonoBehaviour:
     Effects:
     - {fileID: 11400000, guid: ed4164594c69940c39e2ee2b534f2f64, type: 2}
   fallbackTags:
-    Value: 0
+    Value: 1
   materialID:
     ObjectIDMode: 0

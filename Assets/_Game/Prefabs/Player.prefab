@@ -52,6 +52,7 @@ TrailRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -287,6 +288,7 @@ GameObject:
   - component: {fileID: 3770457594252763632}
   - component: {fileID: 3770457594252763638}
   - component: {fileID: 4634390686957852523}
+  - component: {fileID: 3213112555589984907}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -380,6 +382,29 @@ MonoBehaviour:
   priority: 0
   impactMaterial: {fileID: 11400000, guid: 4602c218aa134455c9233ed71dc28564, type: 2}
   registerMaterialOnStart: 1
+--- !u!114 &3213112555589984907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3770457594252763637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bbb09bcbb97b184c998d09b122056cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerEnabled: 1
+  impactObject: {fileID: 4634390686957852523}
+  threshold: 0
+  contactMode: 0
+  triggerMaterialCount: 1
+  hitMaterialCount: 1
+  collisionNormalMode: 0
+  ignoreSameParents: 0
+  rootParent: {fileID: 0}
+  collisionVelocityMethod: 0
+  cooldown: 0
 --- !u!1 &3770457596032376563
 GameObject:
   m_ObjectHideFlags: 0
