@@ -18,6 +18,12 @@ namespace AmplifyShaderEditor
 			"instancing_options assumeuniformscaling nomatrices nolightprobe nolightmap forwardadd"
 		};
 
+		private readonly string[] InstancedPragmasSRP =
+		{
+			"multi_compile_instancing",
+			"instancing_options assumeuniformscaling nomatrices nolightprobe nolightmap"
+		};
+
 		private readonly string[] InstancedGlobalsSRP =
 		{
 			"#ifdef UNITY_INSTANCING_ENABLED//ASE Terrain Instancing",
@@ -124,9 +130,8 @@ namespace AmplifyShaderEditor
 			"\tfloat4 uvoffset = instanceData.xyxy * uvscale;\n" +
 			"\tuvoffset.xy += 0.5f * _TerrainHeightmapRecipSize.xy;\n" +
 			"\tfloat2 sampleCoords = (patchVertex.xy * uvscale.xy + uvoffset.xy);\n",
-
-			/* 0 - tex coords*/"\t{0} = float4( (patchVertex.xy * uvscale.zw + uvoffset.zw), 0, 0 );\n",
-			/* 0 - tex coords*/"\tfloat height = UnpackHeightmap( tex2Dlod( _TerrainHeightmapTexture, {0} ) );\n",
+			/* 0 - tex coords*/"\t{0} = float4(patchVertex.xy * uvscale.zw + uvoffset.zw, 0, 0);\n",
+			/* 0 - tex coords*/"\tfloat height = UnpackHeightmap( tex2Dlod( _TerrainHeightmapTexture, float4(sampleCoords, 0, 0) ) );\n",
 			/* 0 - vertex pos*/"\t{0}.xz = (patchVertex.xy + instanceData.xy) * _TerrainHeightmapScale.xz * instanceData.z;\n",
 			/* 0  - vertex pos*/"\t{0}.y = height * _TerrainHeightmapScale.y;\n",
 			/* 0 - normal 1 - tex coord*/"\t{0} = tex2Dlod( _TerrainNormalmapTexture, {1} ).rgb * 2 - 1;\n",
@@ -189,9 +194,10 @@ namespace AmplifyShaderEditor
 					dataCollector.AddUsePass( AdditionalUsePasses[ i ], false );
 				}
 
-				for( int i = 0; i < InstancedPragmas.Length; i++ )
+				string[] instancedPragmas = dataCollector.IsSRP ? InstancedPragmasSRP : InstancedPragmas;
+				for( int i = 0; i < instancedPragmas.Length; i++ )
 				{
-					dataCollector.AddToPragmas( -1, InstancedPragmas[ i ] );
+					dataCollector.AddToPragmas( -1, instancedPragmas[ i ] );
 				}
 
 				if( dataCollector.IsSRP )

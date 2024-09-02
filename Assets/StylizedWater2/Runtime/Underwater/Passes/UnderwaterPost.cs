@@ -33,6 +33,10 @@ namespace StylizedWater2.UnderwaterRendering
             renderer.EnqueuePass(this);
         }
         
+        #if UNITY_6000_0_OR_NEWER
+        #pragma warning disable CS0672
+        #pragma warning disable CS0618
+        #endif
         public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
         {
             base.Configure(cmd, cameraTextureDescriptor);
@@ -82,19 +86,27 @@ namespace StylizedWater2.UnderwaterRendering
             this.geoSphere = resources.geoSphere;
         }
 
+        #if UNITY_6000_0_OR_NEWER //Silence warning spam
+        public override void RecordRenderGraph(UnityEngine.Rendering.RenderGraphModule.RenderGraph renderGraph, ContextContainer frameData) { }
+        #endif
+        
+        #if UNITY_6000_0_OR_NEWER
+        #pragma warning disable CS0672
+        #pragma warning disable CS0618
+        #endif
         public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
         {
             cameraTextureDescriptor.colorFormat = RenderTextureFormat.R8;
             cameraTextureDescriptor.msaaSamples = 1;
             cameraTextureDescriptor.width /= 4;
             cameraTextureDescriptor.height /= 4;
-            cameraTextureDescriptor.dimension = TextureDimension.Tex2D;
+            //cameraTextureDescriptor.dimension = TextureDimension.Tex2D;
 
             if (RenderPass.RTHandleNeedsReAlloc(distortionSphereRT, cameraTextureDescriptor, _DistortionSphere))
             {
                 //Note: function does a null check, needed for the first allocation
                 if(distortionSphereRT != null) RTHandles.Release(distortionSphereRT);
-                distortionSphereRT = RTHandles.Alloc(cameraTextureDescriptor.width, cameraTextureDescriptor.height, cameraTextureDescriptor.volumeDepth, DepthBits.None, cameraTextureDescriptor.graphicsFormat, FilterMode.Point, TextureWrapMode.Clamp, cameraTextureDescriptor.dimension, name: _DistortionSphere);
+                distortionSphereRT = RTHandles.Alloc(cameraTextureDescriptor.width, cameraTextureDescriptor.height, cameraTextureDescriptor.volumeDepth, DepthBits.None, cameraTextureDescriptor.graphicsFormat, FilterMode.Bilinear, TextureWrapMode.Clamp, cameraTextureDescriptor.dimension, name: _DistortionSphere);
 
             }
             cmd.SetGlobalTexture(_DistortionSphereID, distortionSphereRT);

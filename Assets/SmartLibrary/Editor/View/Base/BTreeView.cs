@@ -7,44 +7,18 @@ using UnityEngine.UIElements;
 
 namespace Bewildered.SmartLibrary.UI
 {
+#if UNITY_6000_0_OR_NEWER
+    [UxmlElement]
+    internal partial class BTreeView : VisualElement
+#else
     internal class BTreeView : VisualElement
+#endif
     {
         internal struct ItemWrapper
         {
             public int depth;
             public BTreeViewItem item;
             public VisualElement element;
-        }
-
-        public new class UxmlFactory : UxmlFactory<BTreeView, UxmlTraits> { }
-
-        public new class UxmlTraits : VisualElement.UxmlTraits
-        {
-            private readonly UxmlIntAttributeDescription _itemHeight = new UxmlIntAttributeDescription { name = "item-height", obsoleteNames = new[] { "itemHeight" }, defaultValue = 24 };
-            private readonly UxmlEnumAttributeDescription<SelectionType> _selectionType = new UxmlEnumAttributeDescription<SelectionType> { name = "selection-type", defaultValue = SelectionType.Single };
-
-            public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
-            {
-                get { yield break; }
-            }
-
-            public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
-            {
-                base.Init(ve, bag, cc);
-                var itemHeight = 0;
-                var listView = (ListView)ve;
-                // Avoid setting itemHeight unless it's explicitly defined.
-                // Setting itemHeight property will activate inline property mode.
-                if (_itemHeight.TryGetValueFromBag(bag, cc, ref itemHeight))
-                {
-#if UNITY_2021_2_OR_NEWER
-                    listView.fixedItemHeight = itemHeight;
-#else
-                    listView.itemHeight = itemHeight;
-#endif
-                }
-                listView.selectionType = _selectionType.GetValueFromBag(bag, cc);
-            }
         }
 
         public static readonly string UssClassName = "bewildered-tree-view";
@@ -97,8 +71,8 @@ namespace Bewildered.SmartLibrary.UI
             }
         }
 
-        public Action<VisualElement, BTreeViewItem> UnbindItem 
-        { 
+        public Action<VisualElement, BTreeViewItem> UnbindItem
+        {
             get { return _unbindItem; }
             set
             {
@@ -118,7 +92,10 @@ namespace Bewildered.SmartLibrary.UI
                 Refresh();
             }
         }
-
+#if UNITY_6000_0_OR_NEWER
+        [UxmlAttribute("item-height")]
+#endif
+        
 #if UNITY_2021_2_OR_NEWER
         public float ItemHeight
         {
@@ -147,21 +124,20 @@ namespace Bewildered.SmartLibrary.UI
 
         public BTreeViewItem SelectedItem
         {
-            get 
-            {
-                return _itemWrappers[_listView.selectedIndex].item;
-            }
+            get { return _itemWrappers[_listView.selectedIndex].item; }
         }
 
         public IEnumerable<BTreeViewItem> SelectedItems
         {
-            get 
+            get
             {
                 foreach (int selectedIndex in _listView.selectedIndices)
                     yield return _itemWrappers[selectedIndex].item;
             }
         }
-
+#if UNITY_6000_0_OR_NEWER
+        [UxmlAttribute("selection-type")]
+#endif
         public SelectionType SelectionType
         {
             get { return _listView.selectionType; }
@@ -171,7 +147,7 @@ namespace Bewildered.SmartLibrary.UI
         public List<int> ExpandedIds
         {
             get { return _expandedIds; }
-            set 
+            set
             {
                 _expandedIds = value;
                 Refresh();
@@ -198,7 +174,7 @@ namespace Bewildered.SmartLibrary.UI
             _listView.unbindItem = UnbindTreeItem;
             _listView.style.flexGrow = 1;
             hierarchy.Add(_listView);
-            
+
 #if UNITY_2022_3_OR_NEWER
             _listView.selectionChanged += HandleOnSelectionChange;
             _listView.itemsChosen += HandleItemChosen;
@@ -209,9 +185,10 @@ namespace Bewildered.SmartLibrary.UI
             _listView.Q<ScrollView>().contentContainer.RegisterCallback<KeyDownEvent>(OnKeyDown);
         }
 
-        public BTreeView(IList<BTreeViewItem> rootItems, int itemHeight, Func<VisualElement> makeItem, Action<VisualElement, BTreeViewItem> bindItem) : this()
+        public BTreeView(IList<BTreeViewItem> rootItems, int itemHeight, Func<VisualElement> makeItem,
+            Action<VisualElement, BTreeViewItem> bindItem) : this()
         {
-            _rootItems = rootItems;        
+            _rootItems = rootItems;
 #if UNITY_2021_2_OR_NEWER
             _listView.fixedItemHeight = itemHeight;
 #else
@@ -251,7 +228,7 @@ namespace Bewildered.SmartLibrary.UI
 
         private void BindTreeItem(VisualElement element, int index)
         {
-            var itemWrapper =_itemWrappers[index];
+            var itemWrapper = _itemWrappers[index];
             itemWrapper.element = element;
             _itemWrappers[index] = itemWrapper;
 
@@ -310,7 +287,7 @@ namespace Bewildered.SmartLibrary.UI
             _listView.Refresh();
 #endif
             SetSelectionFromIds();
-            
+
         }
 
         protected int GetItemIndex(int id, bool expand)
@@ -330,6 +307,7 @@ namespace Bewildered.SmartLibrary.UI
                         _expandedIds.Add(itemParent.Id);
                         regenerateWrappers = true;
                     }
+
                     itemParent = itemParent.Parent;
                 }
 
@@ -431,10 +409,10 @@ namespace Bewildered.SmartLibrary.UI
             {
                 selectedIndices.Add(GetItemIndex(id, true));
             }
-            
+
             if (!selectedIndices.Any())
                 return;
-            
+
             if (selectedIndices.FirstOrDefault() == -1)
                 _listView.SetSelection(-1);
             else
@@ -497,7 +475,7 @@ namespace Bewildered.SmartLibrary.UI
                     return;
                 }
             }
-            
+
             if (_expandedIds.Contains(id))
                 return;
 
@@ -606,7 +584,7 @@ namespace Bewildered.SmartLibrary.UI
         {
             if (!_itemWrappers[index].item.HasChildren)
                 return;
-            
+
             _expandedIds.Remove(_itemWrappers[index].item.Id);
 
             int recursiveChildCount = 0;
@@ -692,5 +670,45 @@ namespace Bewildered.SmartLibrary.UI
             if (shouldStopPropagation)
                 evt.StopPropagation();
         }
+
+#if !UNITY_6000_0_OR_NEWER
+        public new class UxmlFactory : UxmlFactory<BTreeView, UxmlTraits>
+        {
+        }
+
+        public new class UxmlTraits : VisualElement.UxmlTraits
+        {
+            private readonly UxmlIntAttributeDescription _itemHeight = new UxmlIntAttributeDescription
+                { name = "item-height", obsoleteNames = new[] { "itemHeight" }, defaultValue = 24 };
+
+            private readonly UxmlEnumAttributeDescription<SelectionType> _selectionType =
+                new UxmlEnumAttributeDescription<SelectionType>
+                    { name = "selection-type", defaultValue = SelectionType.Single };
+
+            public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
+            {
+                get { yield break; }
+            }
+
+            public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
+            {
+                base.Init(ve, bag, cc);
+                var itemHeight = 0;
+                var listView = (ListView)ve;
+                // Avoid setting itemHeight unless it's explicitly defined.
+                // Setting itemHeight property will activate inline property mode.
+                if (_itemHeight.TryGetValueFromBag(bag, cc, ref itemHeight))
+                {
+#if UNITY_2021_2_OR_NEWER
+                    listView.fixedItemHeight = itemHeight;
+#else
+                    listView.itemHeight = itemHeight;
+#endif
+                }
+
+                listView.selectionType = _selectionType.GetValueFromBag(bag, cc);
+            }
+        }
+#endif
     }
 }

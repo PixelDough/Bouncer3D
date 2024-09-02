@@ -66,9 +66,24 @@ namespace Bewildered.SmartLibrary.UI
 
         private static readonly Type[] _commonTypes = new Type[]
         {
-            typeof(GameObject), typeof(Texture), typeof(Material), typeof(Sprite), typeof(Shader), typeof(AnimationClip),
-            typeof(UnityEditor.Animations.AnimatorController), typeof(AudioClip), typeof(AudioMixer), typeof(SceneAsset),
-            typeof(PhysicMaterial), typeof(Font), typeof(StyleSheet), typeof(MonoScript)
+            typeof(GameObject),
+            typeof(Texture), 
+            typeof(Material),
+            typeof(Sprite),
+            typeof(Shader),
+            typeof(AnimationClip),
+            typeof(UnityEditor.Animations.AnimatorController),
+            typeof(AudioClip),
+            typeof(AudioMixer), 
+            typeof(SceneAsset),
+#if UNITY_6000_0_OR_NEWER
+            typeof(PhysicsMaterial),
+#else
+            typeof(PhysicMaterial),
+#endif            
+            typeof(Font), 
+            typeof(StyleSheet),
+            typeof(MonoScript)
         };
 
         private static readonly Type[] _types = TypeCache.GetTypesDerivedFrom<UnityObject>()

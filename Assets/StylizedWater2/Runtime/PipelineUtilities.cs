@@ -258,6 +258,13 @@ namespace StylizedWater2
             }
         }
 
+        public static ScriptableRendererFeature[] GetDefaultRenderFeatures()
+        {
+            ScriptableRendererData renderer = GetDefaultRenderer();
+
+            return renderer.rendererFeatures.ToArray();
+        }
+
         /// <summary>
         /// Retrieves the given render feature from the default renderer
         /// </summary>
@@ -642,6 +649,15 @@ namespace StylizedWater2
             return XRSRPSettings.enabled;
             #else
             return XRGraphics.enabled;
+            #endif
+        }
+
+        public static bool RenderGraphEnabled()
+        {
+            #if UNITY_6000_0_OR_NEWER
+            return UnityEngine.Rendering.GraphicsSettings.GetRenderPipelineSettings<RenderGraphSettings>().enableRenderCompatibilityMode == false;
+            #else
+            return false;
             #endif
         }
 #endif

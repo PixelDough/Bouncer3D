@@ -6,13 +6,19 @@ using UnityEditor;
 
 namespace Bewildered.SmartLibrary.UI
 {
+    
+#if UNITY_6000_0_OR_NEWER
+    [UxmlElement]
+    internal partial class CollectionsTreeView : BTreeView
+#else
     internal class CollectionsTreeView : BTreeView
+#endif
     {
         internal static event System.Action<LibraryCollection, string> OnCollectionRenamed;
 
         private LibraryCollection _rootCollection;
         private int _nextId = 0;
-
+        
         public CollectionsTreeView()
         {
             _rootCollection = LibraryDatabase.RootCollection;
@@ -168,6 +174,10 @@ namespace Bewildered.SmartLibrary.UI
             {
                 DeleteSelection();
             }
+            else if (evt.keyCode == KeyCode.D && evt.ctrlKey)
+            {
+                DuplicateSelection();
+            }
         }
         
         private void OnLibraryHierarchyChanged(LibraryHierarchyChangedEventArgs evt)
@@ -260,12 +270,17 @@ namespace Bewildered.SmartLibrary.UI
             
             DropdownMenuAction.Status status = isCollection ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled;
             
-            evt.menu.AppendAction("Delete _delete", a => DeleteSelection(), status);
             evt.menu.AppendAction("Rename", a => selectedElement.Q<CollectionTreeItemElement>().Label.BeginRenaming(), status);
+            evt.menu.AppendAction("Duplicate _%D", a => DuplicateSelection(), status);
+            evt.menu.AppendAction("Delete _delete", a => DeleteSelection(), status);
             evt.menu.AppendAction("Settings", a => Selection.activeObject = ((CollectionTreeViewItem)SelectedItem).Collection, status);
             evt.menu.AppendSeparator();
             LibraryUtility.BuildCreateCollectionMenu(evt.menu, this, isCollection);
             evt.menu.AppendSeparator();
+            
+            if (SelectedItem is CollectionTreeViewItem collectionSelectedItem)
+                SmartLibraryWindow.HandleContextualCollectionMenu(evt.menu, collectionSelectedItem.Collection);
+            
             evt.menu.AppendAction("Properties... _&P", a => LibraryUtility.OpenPropertyEditor(((CollectionTreeViewItem)SelectedItem).Collection), status);
         }
 
@@ -277,11 +292,22 @@ namespace Bewildered.SmartLibrary.UI
             }
         }
 
+        private void DuplicateSelection()
+        {
+            if (SelectedItem is CollectionTreeViewItem collectionTreeItem)
+            {
+                LibraryCollection newCollection = LibraryCollection.DuplicateCollection(collectionTreeItem.Collection, collectionTreeItem.Collection.Parent);
+                
+                SetCollectionSelection(newCollection);
+                BeginRenamingCollection(newCollection);
+            }
+        }
+
         private int NextId()
         {
             return _nextId++;
         }
-        
+#if !UNITY_6000_0_OR_NEWER
         public new class UxmlFactory : UxmlFactory<CollectionsTreeView, UxmlTraits> { }
 
         public new class UxmlTraits : VisualElement.UxmlTraits
@@ -306,5 +332,6 @@ namespace Bewildered.SmartLibrary.UI
                 treeView.SelectionType = _selectionType.GetValueFromBag(bag, cc);
             }
         }
+#endif
     }
 }

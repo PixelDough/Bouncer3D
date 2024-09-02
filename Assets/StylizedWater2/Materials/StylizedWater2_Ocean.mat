@@ -22,6 +22,7 @@ Material:
   - ADVANCED_LIGHTING
   - _DEPTHEXP_ON
   - _DEPTH_TEX
+  - _RECEIVEDYNAMICEFFECTS_ON
   - _SIMPLE_LIGHTING
   - _WORLDSPACEUV_ON
   - _ZCLIP_ON
@@ -40,7 +41,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 88908a7c7a1f0ed418d1048378c17411, type: 3}
+        m_Texture: {fileID: 2800000, guid: b8b8d6f606fb01f4d85ec095b78f8c32, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMapLarge:
@@ -68,7 +69,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FoamTexDynamic:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: e91f048fea6b6b94eb864b2124843ce9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _IntersectionNoise:
@@ -139,6 +140,7 @@ Material:
     - _BumpScale: 1
     - _CROSSPAN_INTERSECTIONOn: 1
     - _CausticsBrightness: 2
+    - _CausticsChromance: 1
     - _CausticsDistortion: 0.23
     - _CausticsOn: 0
     - _CausticsSpeed: 0.1
@@ -184,6 +186,7 @@ Material:
     - _GlossyReflections: 0
     - _HorizonDistance: 32
     - _IntersectionClipping: 0.583
+    - _IntersectionDistortion: 0.2
     - _IntersectionFalloff: 1
     - _IntersectionLength: 1
     - _IntersectionRippleDist: 20
@@ -201,8 +204,8 @@ Material:
     - _NORMALMAPOn: 1
     - _NormalMap: 1
     - _NormalMapOn: 1
-    - _NormalSpeed: 0.5
-    - _NormalStrength: 0.165
+    - _NormalSpeed: 1
+    - _NormalStrength: 0.274
     - _NormalSubSpeed: 0.01
     - _NormalSubTiling: 1
     - _NormalTiling: 0.16000009
@@ -214,6 +217,7 @@ Material:
     - _PointSpotLightReflectionSize: 0
     - _PointSpotLightReflectionStrength: 10
     - _QueueOffset: 0
+    - _ReceiveDynamicEffects: 1
     - _ReceiveShadows: 1
     - _ReflectionBlur: 0
     - _ReflectionDistortion: 0.274
@@ -261,12 +265,12 @@ Material:
     - _Texture_IntersectionOn: 1
     - _Tiling: 0.5
     - _Translucency: 1
-    - _TranslucencyCurvatureMask: 0.869
+    - _TranslucencyCurvatureMask: 0.8
     - _TranslucencyExp: 2
     - _TranslucencyOn: 1
     - _TranslucencyReflectionMask: 0
     - _TranslucencyStrength: 2
-    - _TranslucencyStrengthDirect: 0
+    - _TranslucencyStrengthDirect: 0.019
     - _UnderwaterRefractionOffset: 0.2
     - _UnderwaterSurfaceSmoothness: 0.8
     - _VertexColorDepth: 0
@@ -275,7 +279,7 @@ Material:
     - _WaveCount: 5
     - _WaveDistance: 0.97
     - _WaveHeight: 1.7
-    - _WaveNormalStr: 2
+    - _WaveNormalStr: 9.4
     - _WaveSpeed: 1.5
     - _WaveSteepness: 1.76
     - _WaveTint: 0.057

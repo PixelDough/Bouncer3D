@@ -7,8 +7,12 @@ namespace AmplifyShaderEditor
 	{
 		public const string VertexBlendWeightsStr = "ase_blendWeights";
 		public const string VertexBlendIndicesStr = "ase_blendIndices";
+		public const string ObjectPositionStr = "ase_objectPosition";
 		public const string ObjectScaleStr = "ase_objectScale";
 		public const string ParentObjectScaleStr = "ase_parentObjectScale";
+		public const string ObjectBoundsMinStr = "ase_objectBoundsMin";
+		public const string ObjectBoundsMaxStr = "ase_objectBoundsMax";
+		public const string ObjectBoundsSizeStr = "ase_objectBoundsSize";
 		public const string ScreenDepthStr = "ase_screenDepth";
 		public const string ViewPositionStr = "ase_viewPos";
 		public const string WorldViewDirectionStr = "ase_worldViewDir";
@@ -69,6 +73,16 @@ namespace AmplifyShaderEditor
 			return Identity4x4;
 		}
 
+		// OBJECT POSITION
+		static public string GenerateObjectPosition( ref MasterNodeDataCollector dataCollector, int uniqueId )
+		{
+			if ( dataCollector.IsTemplate )
+				return dataCollector.TemplateDataCollectorInstance.GenerateObjectPosition( ref dataCollector, uniqueId );
+
+			string value = "UNITY_MATRIX_M._m03_m13_m23";
+			dataCollector.AddLocalVariable( uniqueId, PrecisionType.Float, WirePortDataType.FLOAT3, ObjectPositionStr, value );
+			return ObjectPositionStr;
+		}
 
 		// OBJECT SCALE
 		static public string GenerateObjectScale( ref MasterNodeDataCollector dataCollector , int uniqueId )

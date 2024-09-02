@@ -188,7 +188,11 @@ namespace Bewildered.SmartLibrary
             {
                 if (_defaultParentRef == null)
                 {
-                    var defaultParents = GameObject.FindObjectsOfType<CollectionDefaultParent>();
+#if UNITY_6000_0_OR_NEWER
+                    var defaultParents = FindObjectsByType<CollectionDefaultParent>(FindObjectsSortMode.None);
+#else
+                    var defaultParents = FindObjectsOfType<CollectionDefaultParent>();
+#endif                    
                     foreach (var collectionDefaultParent in defaultParents)
                     {
                         if (collectionDefaultParent.CollectionIds.Contains(ID))
@@ -201,59 +205,6 @@ namespace Bewildered.SmartLibrary
 
                 return _defaultParentRef;
             }
-        }
-        
-        public static LibraryCollection CreateCollection<T>()
-        {
-            return CreateCollection(typeof(T));
-        }
-
-        public static LibraryCollection CreateCollection(Type collectionType)
-        {
-            if (!collectionType.IsSubclassOf(typeof(LibraryCollection)))
-                return null;
-
-            var collection = (LibraryCollection)CreateInstance(collectionType);
-
-            collection._id = UniqueID.NewUniqueId();
-            collection.CollectionName = ObjectNames.NicifyVariableName(collectionType.Name);
-            collection.hideFlags = HideFlags.DontSave;
-
-            return collection;
-        }
-
-        /// <summary>
-        /// Destroys the specified <see cref="LibraryCollection"/> along with all
-        /// of its subcollections and records an undo operation.
-        /// </summary>
-        /// <param name="collection">The <see cref="LibraryCollection"/> to destroy.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        public static void DestroyCollection(LibraryCollection collection)
-        {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
-            
-            int undoGroup = Undo.GetCurrentGroup();
-
-            // We need to destroy all of the subcollections as well or when we undo they will not be reconnected properly.
-            // Additionally, they would just float in memory and cause problems when reading the files again.
-            for (int i = collection._subcollections.Count - 1; i >= 0; i--)
-            {
-                DestroyCollection(collection._subcollections[i]);
-            }
-            
-            // It is important to remove the collection from its parent after we remove and destroy the children.
-            // This way the change events will be collect in the correct order.
-            if (collection.Parent != null)
-                collection.Parent.RemoveSubcollection(collection);
-
-            CollectionUndoService.RegisterUndo();
-            CollectionUndoService.RegisterOperation(new DestroyCollectionOperation(collection));
-            LibraryUtility.DeleteCollectionFile(collection);
-            Undo.DestroyObjectImmediate(collection);
-
-            Undo.CollapseUndoOperations(undoGroup);
-            Undo.IncrementCurrentGroup();
         }
 
         /// <summary>
@@ -590,6 +541,94 @@ namespace Bewildered.SmartLibrary
             return GetEnumerator();
         }
 
-      
+       public static LibraryCollection CreateCollection<T>()
+        {
+            return CreateCollection(typeof(T));
+        }
+
+        public static LibraryCollection CreateCollection(Type collectionType)
+        {
+            if (!collectionType.IsSubclassOf(typeof(LibraryCollection)))
+                return null;
+
+            var collection = (LibraryCollection)CreateInstance(collectionType);
+
+            collection._id = UniqueID.NewUniqueId();
+            collection.CollectionName = ObjectNames.NicifyVariableName(collectionType.Name);
+            collection.hideFlags = HideFlags.DontSave;
+
+            return collection;
+        }
+
+        /// <summary>
+        /// Destroys the specified <see cref="LibraryCollection"/> along with all
+        /// of its subcollections and records an undo operation.
+        /// </summary>
+        /// <param name="collection">The <see cref="LibraryCollection"/> to destroy.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static void DestroyCollection(LibraryCollection collection)
+        {
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+            
+            int undoGroup = Undo.GetCurrentGroup();
+
+            // We need to destroy all of the subcollections as well or when we undo they will not be reconnected properly.
+            // Additionally, they would just float in memory and cause problems when reading the files again.
+            for (int i = collection._subcollections.Count - 1; i >= 0; i--)
+            {
+                DestroyCollection(collection._subcollections[i]);
+            }
+            
+            // It is important to remove the collection from its parent after we remove and destroy the children.
+            // This way the change events will be collect in the correct order.
+            if (collection.Parent != null)
+                collection.Parent.RemoveSubcollection(collection);
+
+            CollectionUndoService.RegisterUndo();
+            CollectionUndoService.RegisterOperation(new DestroyCollectionOperation(collection));
+            LibraryUtility.DeleteCollectionFile(collection);
+            Undo.DestroyObjectImmediate(collection);
+
+            Undo.CollapseUndoOperations(undoGroup);
+            Undo.IncrementCurrentGroup();
+        }
+
+        public static LibraryCollection DuplicateCollection(LibraryCollection collection, LibraryCollection parent)
+        {
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+            
+            if (parent == null)
+                throw new ArgumentNullException(nameof(parent));
+
+            int undoGroup = Undo.GetCurrentGroup();
+            
+            LibraryCollection copy = Instantiate(collection);
+            
+            copy._id = UniqueID.NewUniqueId();
+            copy.name = collection.name; // The Instantiate() method appends "(Instantiated)" to the end, so we reset the name.
+            
+            // We clear the collection so we can add new duplicated subcollections
+            copy._subcollections.Clear();
+            copy._subcollectionIDs.Clear();
+            copy._root = null;
+
+            copy._parent = null;
+            copy._parentID = UniqueID.Empty;
+
+            if (parent != null)
+                parent.AddSubcollection(copy);
+            
+            for (int i = 0; i < collection._subcollections.Count; i++)
+            {
+                DuplicateCollection(collection._subcollections[i], copy);
+            }
+       
+            Undo.CollapseUndoOperations(undoGroup);
+            Undo.IncrementCurrentGroup();
+
+            return copy;
+        }
     } 
 }

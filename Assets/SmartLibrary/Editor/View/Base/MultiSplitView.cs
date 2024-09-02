@@ -6,8 +6,13 @@ using UnityEngine.UIElements;
 namespace Bewildered.SmartLibrary.UI
 {
     public enum PaneOrientation { Vertical, Horizontal }
-    
+
+#if UNITY_6000_0_OR_NEWER
+    [UxmlElement]
+    public partial class MultiSplitView : VisualElement
+#else
     public class MultiSplitView : VisualElement
+#endif
     {
         public static readonly string UssClassName = "bewildered-multi-split-view";
         
@@ -23,27 +28,19 @@ namespace Bewildered.SmartLibrary.UI
         private VisualElement _dividersContainer;
         private PaneOrientation _paneOrientation;
 
-        public new class UxmlFactory : UxmlFactory<MultiSplitView, UxmlTraits> { }
-
-        public new class UxmlTraits : VisualElement.UxmlTraits
+#if UNITY_6000_0_OR_NEWER
+        [UxmlAttribute("orientation")]
+#endif
+        public PaneOrientation Orientation
         {
-            private UxmlEnumAttributeDescription<PaneOrientation> _orientation = new UxmlEnumAttributeDescription<PaneOrientation> { name = "orientation", defaultValue = PaneOrientation.Horizontal };
-            
-            public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
+            get { return _paneOrientation; }
+            set
             {
-                get { yield break; }
-            }
-
-            public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
-            {
-                base.Init(ve, bag, cc);
-                var orientation = _orientation.GetValueFromBag(bag, cc);
-
-                ((MultiSplitView) ve).IsVertical = orientation == PaneOrientation.Vertical;
-                ((MultiSplitView) ve).Refresh();
+                _paneOrientation = value;
+                UpdateLayoutDirection();
             }
         }
-
+        
         public bool IsVertical
         {
             get { return _paneOrientation == PaneOrientation.Vertical; }
@@ -227,5 +224,28 @@ namespace Bewildered.SmartLibrary.UI
                 UpdateDividerLayoutDirection(divider);
             }
         }
+        
+#if !UNITY_6000_0_OR_NEWER
+        public new class UxmlFactory : UxmlFactory<MultiSplitView, UxmlTraits> { }
+
+        public new class UxmlTraits : VisualElement.UxmlTraits
+        {
+            private UxmlEnumAttributeDescription<PaneOrientation> _orientation = new UxmlEnumAttributeDescription<PaneOrientation> { name = "orientation", defaultValue = PaneOrientation.Horizontal };
+            
+            public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
+            {
+                get { yield break; }
+            }
+
+            public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
+            {
+                base.Init(ve, bag, cc);
+                var orientation = _orientation.GetValueFromBag(bag, cc);
+
+                ((MultiSplitView) ve).IsVertical = orientation == PaneOrientation.Vertical;
+                ((MultiSplitView) ve).Refresh();
+            }
+        }
+#endif
     }
 }

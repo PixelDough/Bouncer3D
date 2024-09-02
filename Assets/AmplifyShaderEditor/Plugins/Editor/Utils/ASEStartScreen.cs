@@ -117,7 +117,7 @@ namespace AmplifyShaderEditor
 			rt = new RenderTexture( 16, 16, 0 );
 			rt.Create();
 
-			m_startup = (Preferences.ShowOption)EditorPrefs.GetInt( Preferences.PrefStartUp, 0 );
+			m_startup = (Preferences.ShowOption)EditorPrefs.GetInt( Preferences.User.Keys.StartUp, 0 );
 
 			if( textIcon == null )
 			{
@@ -387,7 +387,7 @@ namespace AmplifyShaderEditor
 				EditorGUIUtility.labelWidth = cache;
 				if( EditorGUI.EndChangeCheck() )
 				{
-					EditorPrefs.SetInt( Preferences.PrefStartUp, (int)m_startup );
+					EditorPrefs.SetInt( Preferences.User.Keys.StartUp, (int)m_startup );
 				}
 			}
 			EditorGUILayout.EndHorizontal();

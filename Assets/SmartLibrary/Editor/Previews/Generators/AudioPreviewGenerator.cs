@@ -10,6 +10,8 @@ namespace Bewildered.SmartLibrary
         
         private Type _audioUtilType = typeof(EditorWindow).Assembly.GetType("UnityEditor.AudioUtil");
         private Func<AudioImporter, float[]> _getAudioMinMaxData;
+
+        private AudioImporter _previousImporter;
         
         public AudioPreviewGenerator(PreviewRenderer renderer) : base(renderer)
         {
@@ -17,12 +19,19 @@ namespace Bewildered.SmartLibrary
                 .CreateDelegate<Func<AudioImporter, float[]>>();
         }
 
-        protected override bool BeforeRender(AudioClip target)
+        protected override bool InitializeRenderTarget(AudioClip target, bool isLive)
+        {
+            _previousImporter = (AudioImporter) AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(target));
+
+            return true;
+        }
+
+        protected override void OnRender(AudioClip target)
         {
             // We get the width and height separately to improve the code readability. 
             // I don't know why we need to divide by 2. But it works...
-            int width = (int)LibraryPreferences.PreviewResolution / 2;
-            int height = (int)LibraryPreferences.PreviewResolution / 2;
+            int width = (int)Renderer.Resolution / 2;
+            int height = (int)Renderer.Resolution / 2;
             Rect previewRect = new Rect(0, 0, width, height);
             
              // Audio preview
@@ -31,11 +40,9 @@ namespace Bewildered.SmartLibrary
                 0.05f * width * EditorGUIUtility.pixelsPerPoint, 
                 1.9f * width * EditorGUIUtility.pixelsPerPoint, 
                 1.9f * height * EditorGUIUtility.pixelsPerPoint);
-
-            var import = (AudioImporter) AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(target));
             
             float scaleFactor = 1.0f * 0.95f; // Reduce amplitude slightly to make highly compressed signals fit.
-            float[] minMaxData = import == null ? null : _getAudioMinMaxData(import);
+            float[] minMaxData = _previousImporter == null ? null : _getAudioMinMaxData(_previousImporter);
             int channelsCount = target.channels;
             int samplesCount = minMaxData == null ? 0 : minMaxData.Length / (2 * channelsCount);
             float perChannelHeight = previewRect.height / target.channels;
@@ -69,8 +76,6 @@ namespace Bewildered.SmartLibrary
                     };
                 AudioCurveRendering.DrawMinMaxFilledCurve(channelRect, eval);
             }
-
-            return true;
         }
     }
 }

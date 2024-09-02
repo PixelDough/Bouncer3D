@@ -102,6 +102,8 @@ namespace StylizedWater2.UnderwaterRendering
             #if URP
             DrawNotifications();
             
+            if(UnderwaterRenderer.EnableRendering == false) EditorGUILayout.HelpBox($"Rendering has been disabled by an external script, such as an Underwater Trigger component", MessageType.Warning);
+
             EditorGUI.BeginChangeCheck();
             serializedObject.Update();
 
@@ -142,7 +144,12 @@ namespace StylizedWater2.UnderwaterRendering
                     EditorGUILayout.PropertyField(waterLevelTransform);
                 }
                 EditorGUILayout.PropertyField(waterLevelPadding);
-
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    GUILayout.Space(EditorGUIUtility.labelWidth);
+                    UnderwaterRenderer.VisualizeWaterLevel = GUILayout.Toggle(UnderwaterRenderer.VisualizeWaterLevel , new GUIContent("  Display Gizmo", EditorGUIUtility.IconContent((UnderwaterRenderer.VisualizeWaterLevel ? "animationvisibilitytoggleon" : "animationvisibilitytoggleoff")).image), "Button");
+                }
+                
                 EditorGUILayout.Space();
                 EditorGUILayout.LabelField("Settings", EditorStyles.boldLabel);
                 
@@ -264,6 +271,31 @@ namespace StylizedWater2.UnderwaterRendering
                 PipelineUtilities.ToggleRenderFeature<UnderwaterRenderFeature>(true);
                 renderFeatureEnabled = true; 
             }, MessageType.Warning);
+            
+            #if UNITY_6000_0_OR_NEWER && URP
+            if (GraphicsSettings.GetRenderPipelineSettings<RenderGraphSettings>().enableRenderCompatibilityMode == false)
+            {
+                EditorGUILayout.HelpBox("Using Render Graph in Unity 6+ is not supported." +
+                                        "\n\nBackwards compatibility mode must be enabled.", MessageType.Error);
+                
+                GUILayout.Space(-32);
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    GUILayout.FlexibleSpace();
+                    if (GUILayout.Button(new GUIContent("Enable", EditorGUIUtility.IconContent("d_tab_next").image), GUILayout.Width(60)))
+                    {
+                        GraphicsSettings.GetRenderPipelineSettings<RenderGraphSettings>().enableRenderCompatibilityMode = true;
+
+                        EditorUtility.DisplayDialog($"Underwater Rendering v{UnderwaterRenderer.Version}", 
+                            "Please note that this option will be removed in a future Unity version, this version of the asset will no longer be functional then." +
+                            "\n\n" +
+                            "A license upgrade for Unity 6+ support may be available on the asset store, please check the documentation for current information.", "OK");
+                    }
+                    GUILayout.Space(8);
+                }
+                GUILayout.Space(11);
+            }
+            #endif
             #endif
         }
 

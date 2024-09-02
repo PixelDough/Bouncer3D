@@ -52,7 +52,7 @@ namespace Bewildered.SmartLibrary
             _camera.clearFlags = CameraClearFlags.Depth;
             _camera.fieldOfView = 15f;
             _camera.farClipPlane = 10f;
-            _camera.nearClipPlane = 2f;
+            _camera.nearClipPlane = 0.1f;
             _camera.renderingPath = RenderingPath.Forward;
             _camera.useOcclusionCulling = false;
             _camera.scene = _scene;
@@ -91,6 +91,11 @@ namespace Bewildered.SmartLibrary
             
             _gameObjects.Add(go);
             SceneManager.MoveGameObjectToScene(go, _scene);
+        }
+
+        public void RemoveGameObject(GameObject go)
+        {
+            _gameObjects.Remove(go);
         }
 
         ~PreviewStage()

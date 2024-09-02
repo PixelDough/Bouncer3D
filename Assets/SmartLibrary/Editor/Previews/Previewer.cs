@@ -13,6 +13,7 @@ namespace Bewildered.SmartLibrary
     {
         private static PreviewRenderer _renderer;
         private static Dictionary<Type, IPreviewGenerator> _generators = new Dictionary<Type, IPreviewGenerator>();
+        private static Dictionary<Type, Type> _generatorTypes = new Dictionary<Type, Type>();
         private static List<Type> _supportedTypes = new List<Type>();
 
         public static ReadOnlyCollection<Type> SupportedTypes
@@ -39,22 +40,23 @@ namespace Bewildered.SmartLibrary
 
             var types = TypeCache.GetTypesDerivedFrom<IPreviewGenerator>();
             
-            foreach (Type type in types)
+            foreach (Type previewType in types)
             {
-                if (type.IsAbstract)
+                if (previewType.IsAbstract)
                     continue;
                 
-                if (type.BaseType == null)
+                if (previewType.BaseType == null)
                     continue;
                 
-                if (type.BaseType.GenericTypeArguments.Length != 1)
+                if (previewType.BaseType.GenericTypeArguments.Length != 1)
                 {
                     continue;
                 }
 
-                Type objectType = type.BaseType.GenericTypeArguments[0];
-                _generators[objectType] = (IPreviewGenerator)Activator.CreateInstance(type, new object[] { _renderer });
+                Type objectType = previewType.BaseType.GenericTypeArguments[0];
+                _generators[objectType] = (IPreviewGenerator)Activator.CreateInstance(previewType, new object[] { _renderer });
                 _supportedTypes.Add(objectType);
+                _generatorTypes[objectType] = previewType;
             }
             
             AssemblyReloadEvents.beforeAssemblyReload += Cleanup;
@@ -92,6 +94,35 @@ namespace Bewildered.SmartLibrary
             return null;
         }
 
+        public static IPreviewGenerator CreateGeneratorForTarget(Object target, PreviewRenderer renderer)
+        {
+            if (target == null)
+                return null;
+            
+            if (_generatorTypes.TryGetValue(target.GetType(), out Type generatorType))
+            {
+                return (IPreviewGenerator)Activator.CreateInstance(generatorType, new object[] { renderer });
+            }
+
+            return null;
+        }
+
+        public static bool HasSupportedGenerator(Object target)
+        {
+            if (target == null)
+                return false;
+            
+            return HasSupportedGenerator(target.GetType());
+        }
+
+        public static bool HasSupportedGenerator(Type targetType)
+        {
+            if (targetType == null)
+                return false;
+            
+            return _generatorTypes.ContainsKey(targetType);
+        }
+        
         private static void Cleanup()
         {
             _renderer.Cleanup();

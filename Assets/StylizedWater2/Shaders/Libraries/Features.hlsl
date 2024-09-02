@@ -74,35 +74,31 @@ float3 SampleNormals(float2 uv, float2 tiling, float subTiling, float3 wPos, flo
 	return blendedNormals;
 }
 
-float SampleIntersection(float2 uv, float gradient, float2 time)
+float SampleIntersection(float2 uv, float tiling, float gradient, float falloff, float2 time)
 {
-	float inter = 0;
-	float dist = 0;
+	float intersection = 0;
+	float dist = saturate(gradient / falloff);
+	
+	float2 nUV = uv * tiling;
+	float noise = SAMPLE_TEXTURE2D(_IntersectionNoise, sampler_IntersectionNoise, nUV + time.xy).r;
 	
 #if _SHARP_INERSECTION
 	float sine = sin(time.y * 10.0 - (gradient * _IntersectionRippleDist)) * _IntersectionRippleStrength;
-	float2 nUV = float2(uv.x, uv.y) * _IntersectionTiling;
-	float noise = SAMPLE_TEXTURE2D(_IntersectionNoise, sampler_IntersectionNoise, nUV + time.xy).r;
 
-	dist = saturate(gradient / _IntersectionFalloff);
 	noise = saturate((noise + sine) * dist + dist);
-	inter = step(_IntersectionClipping, noise);
-#endif
-
-#if _SMOOTH_INTERSECTION
-	float noise1 = SAMPLE_TEXTURE2D(_IntersectionNoise, sampler_IntersectionNoise, (float2(uv.x, uv.y) * _IntersectionTiling) + (time.xy )).r;
-	float noise2 = SAMPLE_TEXTURE2D(_IntersectionNoise, sampler_IntersectionNoise, (float2(uv.x, uv.y) * (_IntersectionTiling * 1.5)) - (time.xy )).r;
+	intersection = step(_IntersectionClipping, noise);
+#elif _SMOOTH_INTERSECTION
+	float noise2 = SAMPLE_TEXTURE2D(_IntersectionNoise, sampler_IntersectionNoise, (nUV * 1.5) - (time.xy )).r;
 
 	#if UNITY_COLORSPACE_GAMMA
-	noise1 = SRGBToLinear(noise1);
+	noise = SRGBToLinear(noise);
 	noise2 = SRGBToLinear(noise2);
 	#endif
 	
-	dist = saturate(gradient / _IntersectionFalloff);
-	inter = saturate(noise1 + noise2 + dist) * dist;
+	intersection = saturate(noise + noise2 + dist) * dist;
 #endif
 
-	return saturate(inter);
+	return intersection;
 }
 
 float ScreenEdgeMask(float2 screenPos, float length)

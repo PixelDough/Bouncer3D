@@ -82,6 +82,7 @@ CBUFFER_START(UnityPerMaterial)
 	half _IntersectionLength;
 	half _IntersectionFalloff;
 	half _IntersectionTiling;
+	half _IntersectionDistortion;
 	half _IntersectionRippleDist;
 	half _IntersectionRippleStrength;
 	half _IntersectionClipping;
@@ -102,6 +103,7 @@ CBUFFER_START(UnityPerMaterial)
 
 	//Underwater
 	half _CausticsBrightness;
+	half _CausticsChromance;
 	float _CausticsTiling;
 	half _CausticsSpeed;
 	half _RefractionStrength;
@@ -114,6 +116,8 @@ CBUFFER_START(UnityPerMaterial)
 	half _VertexColorDepth;
 	half _VertexColorWaveFlattening;
 	half _VertexColorFoam;
+
+	bool _ReceiveDynamicEffects;
 
 	half _WaveTint;
 #ifdef TESSELLATION_ON	

@@ -80,7 +80,6 @@ MonoBehaviour:
     probeSamplingDebugMesh: {fileID: -3555484719484374845, guid: 57d7c4c16e2765b47a4d2069b311bffe, type: 3}
     probeSamplingDebugTexture: {fileID: 2800000, guid: 24ec0e140fb444a44ab96ee80844e18e, type: 3}
   m_RendererFeatures:
-  - {fileID: 4248420732224138743}
   - {fileID: -1670428713111615512}
   - {fileID: -8997176906264847642}
   m_RendererFeatureMap: f7ed9f98256cf53ae65abcd8459b2383
@@ -122,19 +121,6 @@ MonoBehaviour:
   m_CopyDepthMode: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 0
---- !u!114 &4248420732224138743
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63239fdff9bcf7545bae0204cba6eb96, type: 3}
-  m_Name: WaterCausticsEffect
-  m_EditorClassIdentifier: 
-  m_Active: 1
 --- !u!114 &5356137853066372288
 MonoBehaviour:
   m_ObjectHideFlags: 0

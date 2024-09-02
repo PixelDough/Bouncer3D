@@ -4,22 +4,13 @@ using UnityEngine.UIElements;
 
 namespace Bewildered.SmartLibrary.UI
 {
+#if UNITY_6000_0_OR_NEWER
+    [UxmlElement]
+    internal partial class IconButton : VisualElement
+#else
     internal class IconButton : VisualElement
+#endif
     {
-        /// <summary>
-        /// Instantiates a Button using the data read from a UXML file.
-        /// </summary>
-        public new class UxmlFactory : UxmlFactory<IconButton, IconButton.UxmlTraits>
-        {
-        }
-
-        /// <summary>
-        /// Defines UxmlTraits for the Button.
-        /// </summary>
-        public new class UxmlTraits : VisualElement.UxmlTraits
-        {
-        }
-        
         /// <summary>
         /// USS class name of elements of this type.
         /// </summary>
@@ -73,5 +64,22 @@ namespace Bewildered.SmartLibrary.UI
             _image.AddToClassList("bewildered-library-icon");
             Add(_image);
         }
+        
+#if !UNITY_6000_0_OR_NEWER
+        /// <summary>
+        /// Instantiates a Button using the data read from a UXML file.
+        /// </summary>
+        public new class UxmlFactory : UxmlFactory<IconButton, IconButton.UxmlTraits>
+        {
+        }
+
+        /// <summary>
+        /// Defines UxmlTraits for the Button.
+        /// </summary>
+        public new class UxmlTraits : VisualElement.UxmlTraits
+        {
+        }
+#endif
+
     }
 }

@@ -99,6 +99,28 @@ namespace AmplifyShaderEditor
 			EditorGUIUtility.labelWidth = currWidth;
 		}
 
+		private InputPort MatchInputPortForTemplateAction( TemplateMultiPassMasterNode passMasterNode, TemplateActionItem action )
+		{
+			InputPort port;
+			if ( action.ActionDataIdx > -1 )
+			{
+				port = passMasterNode.GetInputPortByUniqueId( action.ActionDataIdx );
+			}
+			else
+			{
+				// @diogo: hacky.. but it'll have to do, for crude backwards compatibility
+				if ( action.ActionData.StartsWith( "_" ) )
+				{
+					port = passMasterNode.GetInputPortByExternalLinkId( action.ActionData );
+				}
+				else
+				{
+					port = passMasterNode.GetInputPortByName( action.ActionData );
+				}
+			}
+			return port;
+		}
+
 		public void OnCustomOptionSelected( bool actionFromUser, bool isRefreshing, bool invertAction, TemplateMultiPassMasterNode owner, TemplateOptionUIItem uiItem, params TemplateActionItem[] validActions )
 		{
 			uiItem.CheckOnExecute = false;
@@ -196,9 +218,7 @@ namespace AmplifyShaderEditor
 
 						if( passMasterNode != null )
 						{
-							InputPort port = validActions[ i ].ActionDataIdx > -1 ?
-								passMasterNode.GetInputPortByUniqueId( validActions[ i ].ActionDataIdx ) :
-								passMasterNode.InputPorts.Find( x => x.Name.Equals( validActions[ i ].ActionData ) );
+							InputPort port = MatchInputPortForTemplateAction( passMasterNode, validActions[ i ] );
 							if( port != null )
 							{
 								if( isRefreshing )
@@ -237,9 +257,7 @@ namespace AmplifyShaderEditor
 
 						if( passMasterNode != null )
 						{
-							InputPort port = validActions[ i ].ActionDataIdx > -1 ?
-								passMasterNode.GetInputPortByUniqueId( validActions[ i ].ActionDataIdx ) :
-								passMasterNode.InputPorts.Find( x => x.Name.Equals( validActions[ i ].ActionData ) );
+							InputPort port = MatchInputPortForTemplateAction( passMasterNode, validActions[ i ] );
 							if( port != null )
 							{
 								if( isRefreshing )
@@ -275,15 +293,15 @@ namespace AmplifyShaderEditor
 
 						if( passMasterNode != null )
 						{
-							InputPort port = passMasterNode.GetInputPortByUniqueId( validActions[ i ].ActionDataIdx );
+							InputPort port = MatchInputPortForTemplateAction( passMasterNode, validActions[ i ] );
 							if( port != null )
 							{
-								port.Name = validActions[ i ].ActionData;
+								port.Name = validActions[ i ].ActionData2;
 								passMasterNode.SizeIsDirty = true;
 							}
 							else
 							{
-								Debug.LogFormat( "Could not find port {0},{1} for action '{2}' on template {3}", validActions[ i ].ActionDataIdx, validActions[ i ].ActionType, validActions[ i ].ActionData, owner.CurrentTemplate.DefaultShaderName );
+								Debug.LogFormat( "Could not find port {0},{1} for action '{2}' on template {3}", validActions[ i ].ActionData, validActions[ i ].ActionType, validActions[ i ].ActionData, owner.CurrentTemplate.DefaultShaderName );
 							}
 						}
 						else

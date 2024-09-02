@@ -14,7 +14,12 @@ namespace StylizedWater2
         private static readonly ProfilingSampler profilerSampler = new ProfilingSampler(profilerTag);
 
         public const string KEYWORD = "WATER_DISPLACEMENT_PASS";
-
+        /// <summary>
+        /// Using this as a value comparison in shader code to determine if not water is being hit
+        /// </summary>
+        public const float VOID_THRESHOLD = -1000f;
+        private Color targetClearColor = new Color(VOID_THRESHOLD, 0, 0, 0);
+        
         [Serializable]
         public class Settings
         {
@@ -115,7 +120,15 @@ namespace StylizedWater2
 
             cmd.SetGlobalVector(_WaterDisplacementCoords, rendererCoords);
         }
+        
+        #if UNITY_6000_0_OR_NEWER //Silence warning spam
+        public override void RecordRenderGraph(UnityEngine.Rendering.RenderGraphModule.RenderGraph renderGraph, ContextContainer frameData) { }
+        #endif
 
+        #if UNITY_6000_0_OR_NEWER
+        #pragma warning disable CS0672
+        #pragma warning disable CS0618
+        #endif
         public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
         {
             if (resolution != m_resolution || renderTarget == null)
@@ -136,7 +149,7 @@ namespace StylizedWater2
             cmd.EnableShaderKeyword(KEYWORD);
             
             ConfigureTarget(renderTarget);
-            ConfigureClear(ClearFlag.Color, Color.clear);
+            ConfigureClear(ClearFlag.Color, targetClearColor);
         }
         
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)

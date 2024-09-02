@@ -138,7 +138,6 @@ namespace Bewildered.SmartLibrary.UI
 
         public event Action<IEnumerable<object>> OnSelectionChange;
         public event Action<IEnumerable<object>> OnItemsChosen;
-
       
         public void DrawLayout()
         {

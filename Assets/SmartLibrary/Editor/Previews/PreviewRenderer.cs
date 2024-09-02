@@ -55,7 +55,7 @@ namespace Bewildered.SmartLibrary
             _colorSpace = QualitySettings.activeColorSpace;
         }
 
-        public void BeginStaticRender()
+        public void BeginRender()
         {
             InitPreview();
             
@@ -144,6 +144,16 @@ namespace Bewildered.SmartLibrary
             return texture2D;
         }
 
+        public RenderTexture EndLivePreview()
+        {
+            if (!EditorApplication.isUpdating)
+                Unsupported.RestoreOverrideLightingSettings();
+            
+            FinishFrame();
+
+            return _renderTexture;
+        }
+
         public void FinishFrame()
         {
             _renderTargetState.Restore();
@@ -161,6 +171,11 @@ namespace Bewildered.SmartLibrary
         public void AddGameObject(GameObject go)
         {
             _stage.AddGameObject(go);
+        }
+
+        public void RemoveGameObject(GameObject go)
+        {
+            _stage.RemoveGameObject(go);
         }
     }
 

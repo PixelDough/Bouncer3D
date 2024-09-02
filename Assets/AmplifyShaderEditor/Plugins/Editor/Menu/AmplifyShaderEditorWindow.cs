@@ -1120,7 +1120,7 @@ namespace AmplifyShaderEditor
 					Material mat = selection as Material;
 					if( mat != null )
 					{
-						if( IOUtils.IsASEShader( mat.shader ) )
+						if( !Preferences.User.DisableMaterialMode && IOUtils.IsASEShader( mat.shader ) )
 						{
 							ASEPackageManagerHelper.SetupLateMaterial( mat );
 							return true;
@@ -1156,7 +1156,7 @@ namespace AmplifyShaderEditor
 					Material mat = selection as Material;
 					if( mat != null )
 					{
-						if( IOUtils.IsASEShader( mat.shader ) )
+						if( !Preferences.User.DisableMaterialMode && IOUtils.IsASEShader( mat.shader ) )
 						{
 							LoadMaterialToASE( mat );
 							return true;
@@ -1728,7 +1728,7 @@ namespace AmplifyShaderEditor
 			}
 
 			timer.Stop();
-			if ( Preferences.GlobalLogShaderCompile )
+			if ( Preferences.User.LogShaderCompile )
 			{
 				FinishedShaderCompileLog( timer.Elapsed.TotalSeconds );
 			}
@@ -1764,13 +1764,13 @@ namespace AmplifyShaderEditor
 				case ToolButtonType.Options: { } break;
 				case ToolButtonType.Update:
 				{
-					if( Preferences.GlobalClearLog )
+					if( Preferences.User.ClearLog )
 					{
 						m_consoleLogWindow.ClearMessages();
 					}
 					SaveToDisk( false );
 					
-					if ( Preferences.GlobalClearLog )
+					if ( Preferences.User.ClearLog )
 					{
 						m_consoleLogWindow.ClearMessages();
 					}					
@@ -2420,7 +2420,7 @@ namespace AmplifyShaderEditor
 			{
 				if( m_mouseDownOnValidArea && m_insideEditorWindow )
 				{
-					if( m_currentEvent.control || Preferences.GlobalAlwaysSnapToGrid )
+					if( m_currentEvent.control || Preferences.User.AlwaysSnapToGrid )
 					{
 						m_mainGraphInstance.MoveSelectedNodes( m_cameraZoom * m_currentEvent.delta, true );
 					}
@@ -5305,7 +5305,7 @@ namespace AmplifyShaderEditor
 							EditorPrefs.DeleteKey( ASEFileList );
 
 							m_batchTimer.Stop();
-							if ( Preferences.GlobalLogBatchCompile )
+							if ( Preferences.User.LogBatchCompile )
 							{
 								Debug.Log( "[AmplifyShaderEditor] Finished batch compilation in " + m_batchTimer.Elapsed.TotalSeconds.ToString( "0.00" ) + " seconds." );
 							}

@@ -5,12 +5,11 @@ using UnityEngine.Rendering;
 namespace StylizedWater2.UnderwaterRendering
 {
 #if URP
-    [Serializable, VolumeComponentMenu("Stylized Water2/Underwater")]
+    [Serializable, VolumeComponentMenu("Stylized Water 2/Underwater")]
     public class UnderwaterSettings : VolumeComponent
     {
         [Header("Fog (distance from camera)")]
         public FloatParameter startDistance = new FloatParameter(0f);
-        [UnityEngine.Serialization.FormerlySerializedAs("horizontalDensity")]
         [Min(0f)]
         public FloatParameter fogDensity = new FloatParameter(20f);
         
@@ -29,7 +28,7 @@ namespace StylizedWater2.UnderwaterRendering
         [Min(0f)]
         public FloatParameter fogBrightness = new FloatParameter(1f);
         [Min(0f)]
-        public FloatParameter subsurfaceStrength = new FloatParameter(1f);
+        public FloatParameter subsurfaceStrength = new FloatParameter(0.35f);
         [Min(0f)]
         public FloatParameter causticsStrength = new FloatParameter(1f);
         

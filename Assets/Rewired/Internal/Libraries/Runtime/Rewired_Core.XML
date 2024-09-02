@@ -1008,6 +1008,12 @@
         <member name="M:Rewired.Utils.Classes.Data.KeyedGetSetValueStore`1.#ctor(System.Boolean)">
             <param name="isReadOnlyCollection">If true, the collection is read-only and cannot be modified. Values can still be set.</param>
         </member>
+        <member name="T:Rewired.Utils.Classes.Data.InspectorValue`1">
+            <exclude></exclude>
+        </member>
+        <member name="T:Rewired.Utils.Classes.Data.InspectorListValue`1">
+            <exclude></exclude>
+        </member>
         <member name="T:Rewired.Utils.Classes.SerializedMethod">
             <exclude></exclude>
         </member>
@@ -2004,21 +2010,21 @@
             Memory allocations!
             </summary>
         </member>
-        <member name="M:Rewired.Utils.UnityTools.GetComponentsInChildren``1(UnityEngine.Transform,System.Boolean)">
+        <member name="M:Rewired.Utils.UnityTools.GetComponentsInChildren``1(UnityEngine.Transform,Rewired.Utils.UnityTools.GetComponentFlags)">
             <summary>
             Gets all Components in the object's children.
             Also works with Interfaces on Components.
             Memory allocations!
             </summary>
         </member>
-        <member name="M:Rewired.Utils.UnityTools.GetComponentsInChildren``1(UnityEngine.Component,System.Boolean)">
+        <member name="M:Rewired.Utils.UnityTools.GetComponentsInChildren``1(UnityEngine.Component,Rewired.Utils.UnityTools.GetComponentFlags)">
             <summary>
             Gets all Components or Interfaces in the object's children.
             Also works with Interfaces on Components.
             Memory allocations!
             </summary>
         </member>
-        <member name="M:Rewired.Utils.UnityTools.GetComponentsInChildren``1(UnityEngine.GameObject,System.Boolean)">
+        <member name="M:Rewired.Utils.UnityTools.GetComponentsInChildren``1(UnityEngine.GameObject,Rewired.Utils.UnityTools.GetComponentFlags)">
             <summary>
             Gets all Components or Interfaces in the object's children.
             Also works with Interfaces on Components.
@@ -2229,7 +2235,7 @@
             Warning: Memory allocations in Unity 4.x!
             </summary>
         </member>
-        <member name="M:Rewired.Utils.UnityTools.GetComponentsInSelfAndChildren``1(UnityEngine.Transform,System.Boolean,System.Collections.Generic.List{``0},System.Boolean)">
+        <member name="M:Rewired.Utils.UnityTools.GetComponentsInSelfAndChildren``1(UnityEngine.Transform,Rewired.Utils.UnityTools.GetComponentFlags,System.Collections.Generic.List{``0},System.Boolean)">
             <summary>
             Gets all Components in this object and all children.
             Also works with Interfaces on Components.
@@ -2237,7 +2243,7 @@
             Warning: Memory allocations in Unity 4.x!
             </summary>
         </member>
-        <member name="M:Rewired.Utils.UnityTools.GetComponentsInSelfAndChildren``1(UnityEngine.Component,System.Boolean,System.Collections.Generic.List{``0},System.Boolean)">
+        <member name="M:Rewired.Utils.UnityTools.GetComponentsInSelfAndChildren``1(UnityEngine.Component,Rewired.Utils.UnityTools.GetComponentFlags,System.Collections.Generic.List{``0},System.Boolean)">
             <summary>
             Gets all Components in this object and all children.
             Also works with Interfaces on Components.
@@ -2245,7 +2251,7 @@
             Warning: Memory allocations in Unity 4.x!
             </summary>
         </member>
-        <member name="M:Rewired.Utils.UnityTools.GetComponentsInSelfAndChildren``1(UnityEngine.GameObject,System.Boolean,System.Collections.Generic.List{``0},System.Boolean)">
+        <member name="M:Rewired.Utils.UnityTools.GetComponentsInSelfAndChildren``1(UnityEngine.GameObject,Rewired.Utils.UnityTools.GetComponentFlags,System.Collections.Generic.List{``0},System.Boolean)">
             <summary>
             Gets all Components in this object and all children.
             Also works with Interfaces on Components.
@@ -2277,7 +2283,7 @@
             Warning: Memory allocations in Unity 4.x!
             </summary>
         </member>
-        <member name="M:Rewired.Utils.UnityTools.GetComponentsInChildren``1(UnityEngine.Transform,System.Boolean,System.Collections.Generic.List{``0},System.Boolean)">
+        <member name="M:Rewired.Utils.UnityTools.GetComponentsInChildren``1(UnityEngine.Transform,Rewired.Utils.UnityTools.GetComponentFlags,System.Collections.Generic.List{``0},System.Boolean)">
             <summary>
             Gets all Components in the object's children.
             Also works with Interfaces on Components.
@@ -2285,7 +2291,7 @@
             Warning: Memory allocations in Unity 4.x!
             </summary>
         </member>
-        <member name="M:Rewired.Utils.UnityTools.GetComponentsInChildren``1(UnityEngine.Component,System.Boolean,System.Collections.Generic.List{``0},System.Boolean)">
+        <member name="M:Rewired.Utils.UnityTools.GetComponentsInChildren``1(UnityEngine.Component,Rewired.Utils.UnityTools.GetComponentFlags,System.Collections.Generic.List{``0},System.Boolean)">
             <summary>
             Gets all Components or Interfaces in the object's children.
             Also works with Interfaces on Components.
@@ -2293,7 +2299,7 @@
             Warning: Memory allocations in Unity 4.x!
             </summary>
         </member>
-        <member name="M:Rewired.Utils.UnityTools.GetComponentsInChildren``1(UnityEngine.GameObject,System.Boolean,System.Collections.Generic.List{``0},System.Boolean)">
+        <member name="M:Rewired.Utils.UnityTools.GetComponentsInChildren``1(UnityEngine.GameObject,Rewired.Utils.UnityTools.GetComponentFlags,System.Collections.Generic.List{``0},System.Boolean)">
             <summary>
             Gets all Components or Interfaces in the object's children.
             Also works with Interfaces on Components.
@@ -6188,6 +6194,21 @@
             Updates in the OnGUI loop.
             </summary>
         </member>
+        <member name="T:Rewired.Config.UpdateMode">
+            <summary>
+            Rewired update mode.
+            </summary>
+        </member>
+        <member name="F:Rewired.Config.UpdateMode.Automatic">
+            <summary>
+            Update is called automatically.
+            </summary>
+        </member>
+        <member name="F:Rewired.Config.UpdateMode.Manual">
+            <summary>
+            Update must be called manually.
+            </summary>
+        </member>
         <member name="T:Rewired.Config.ThrottleCalibrationMode">
             <summary>
             Throttle calibration mode.
@@ -6355,7 +6376,10 @@
         </member>
         <member name="P:Rewired.Controller.name">
             <summary>
-            The name of the controller. This is drawn from the controller definition for recognized controllers. For unrecognized controllers, the name returned by the hardware is used instead.
+            The name of the controller.
+            This is drawn from the controller definition for recognized controllers.
+            For unrecognized controllers, the name returned by the hardware is used instead.
+            The returned value will be localized if localization is in use.
             </summary>
         </member>
         <member name="P:Rewired.Controller.tag">
@@ -6458,8 +6482,16 @@
             <param name="elementIdentifierId">The element identifier id.</param>
             <returns>The Element with the specified element idenfitier id. Returns null if not found.</returns>
         </member>
+        <member name="M:Rewired.Controller.GetCompoundElementById(System.Int32)">
+            <summary>
+            Gets the Compound Element with the specified element identifier id.
+            </summary>
+            <param name="elementIdentifierId">The element identifier id.</param>
+            <returns>The Compound Element with the specified element idenfitier id. Returns null if not found.</returns>
+        </member>
         <member name="M:Rewired.Controller.GetCompundElementById(System.Int32)">
             <summary>
+            OBSOLETE: This method is deprecated. Use <see cref="M:Rewired.Controller.GetCompoundElementById(System.Int32)"/> instead.
             Gets the Compound Element with the specified element identifier id.
             </summary>
             <param name="elementIdentifierId">The element identifier id.</param>
@@ -7094,7 +7126,7 @@
             <summary>
             Axis 2D is a combination of values from two individual Axes. This is primarily used for analog sticks.
             A radial deadzone is applied to the combined values. The deazone is the larger of the two deadzones set in the individual axes.
-            Axis 2D cannot be mapped with an ActionElementMap. Instead, the component axes are each mapped individually.
+            Axis 2D cannot be mapped with an ActionElementMap. Instead, the component Axes are each mapped individually.
             When two Axes are combined into an Axis2D, the values of the individual Axes are changed to reflect the radial deadzone applied by the parent Axis2D.
             </summary>
         </member>
@@ -7206,6 +7238,44 @@
         <member name="P:Rewired.Controller.Hat.buttonUpLeft">
             <summary>
             The button for the up-left direction. This value may be null if no button is assigned.
+            </summary>
+        </member>
+        <member name="T:Rewired.Controller.DirectionalPad">
+            <summary>
+            A directional pad is a compound element made up of 4 individual buttons.
+            </summary>
+        </member>
+        <member name="P:Rewired.Controller.DirectionalPad.elementCapacity">
+            <summary>
+            The maximum number of member Buttons.
+            </summary>
+        </member>
+        <member name="P:Rewired.Controller.DirectionalPad.Buttons">
+            <summary>
+            Gets the list of member buttons.
+            There is one entry for each possible direction button.
+            Entries may be null if no button is assigned to a direction.
+            The order of the buttons starts at up and rotates clockwise.
+            </summary>
+        </member>
+        <member name="P:Rewired.Controller.DirectionalPad.buttonUp">
+            <summary>
+            The button for the up direction. This value may be null if no button is assigned.
+            </summary>
+        </member>
+        <member name="P:Rewired.Controller.DirectionalPad.buttonRight">
+            <summary>
+            The button for the right direction. This value may be null if no button is assigned.
+            </summary>
+        </member>
+        <member name="P:Rewired.Controller.DirectionalPad.buttonDown">
+            <summary>
+            The button for the down direction. This value may be null if no button is assigned.
+            </summary>
+        </member>
+        <member name="P:Rewired.Controller.DirectionalPad.buttonLeft">
+            <summary>
+            The button for the left direction. This value may be null if no button is assigned.
             </summary>
         </member>
         <member name="T:Rewired.Controller.Extension">
@@ -7551,6 +7621,35 @@
             Clears the Button value.
             </summary>
             <param name="elementId">The id of the Button. The id can be found in the Rewired Input Manager Custom Controller properties.</param>
+        </member>
+        <member name="T:Rewired.ControllerExtensions.CustomControllerExtension">
+            <summary>
+            Base class for a user-defined controller extension.
+            </summary>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.CustomControllerExtension.OnUpdateData(Rewired.UpdateLoopType)">
+            <summary>
+            Called when data is updated.
+            </summary>
+            <param name="updateLoop">The current update loop type.</param>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.CustomControllerExtension.OnSourceUpdated(Rewired.Interfaces.IControllerExtensionSource)">
+            <summary>
+            Called when the source is updated.
+            </summary>
+            <param name="source">The source.</param>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.CustomControllerExtension.GetSource">
+            <summary>
+            Get the Controller Extension source.
+            </summary>
+            <returns>Controller Extension source</returns>
+        </member>
+        <member name="M:Rewired.ControllerExtensions.CustomControllerExtension.ShallowCopy">
+            <summary>
+            Makes a shallow copy of the object.
+            </summary>
+            <returns>Shallow copy of the object.</returns>
         </member>
         <member name="T:Rewired.ControllerExtensions.IDualSenseExtension">
             <summary>
@@ -8794,6 +8893,11 @@
             Battery level as a percentage. [0 - 100]
             </summary>
         </member>
+        <member name="P:Rewired.ControllerExtensions.DualShock4Extension.batteryCharging">
+            <summary>
+            Is the battery charging?
+            </summary>
+        </member>
         <member name="P:Rewired.ControllerExtensions.DualShock4Extension.Rewired#ControllerExtensions#IHIDControllerExtension#vendorId">
             <summary>
             The vendor id of the device.
@@ -9444,6 +9548,16 @@
             List of Hats in this controller.
             </summary>
         </member>
+        <member name="P:Rewired.Joystick.directionalPadCount">
+            <summary>
+            The number of D-Pads in this controller.
+            </summary>
+        </member>
+        <member name="P:Rewired.Joystick.DirectionalPads">
+            <summary>
+            List of D-Pads in this controller.
+            </summary>
+        </member>
         <member name="M:Rewired.Joystick.IsType(Rewired.JoystickType)">
             <summary>
             Checks whether this Joystick matches a specific type.
@@ -9560,6 +9674,132 @@
             </summary>
             <param name="keyCode">The KeyCode of the key.</param>
             <returns>Controller Element Identifier. Null if not found.</returns>
+        </member>
+        <member name="M:Rewired.Keyboard.KeyCodeToModifierKey(UnityEngine.KeyCode)">
+            <summary>
+            Gets the modifier key for the specified key code.
+            For example, KeyCode.LeftShift will return ModifierKey.Shift.
+            </summary>
+            <param name="key">The key code of the key.</param>
+            <returns>The modifier key for the specified key code. If the key code does not represent a modifier key, ModifierKey.None will be returned.</returns>
+        </member>
+        <member name="M:Rewired.Keyboard.KeyCodeToModifierKeyFlags(UnityEngine.KeyCode)">
+            <summary>
+            Gets the modifier key flags for the specified key code.
+            For example, KeyCode.LeftShift will return ModifierKeyFlags.LeftShift.
+            </summary>
+            <param name="key">The key code of the key.</param>
+            <returns>The modifier key flags for the specified key code. If the key code does not represent a modifier key, ModifierKeyFlags.None will be returned.</returns>
+        </member>
+        <member name="M:Rewired.Keyboard.ModifierKeyFlagsContain(Rewired.ModifierKeyFlags,Rewired.ModifierKey)">
+            <summary>
+            Determines if the modifier key flags contains a specific modifier key.
+            </summary>
+            <param name="flags">Modifier key flags.</param>
+            <param name="key">The key code of the modifier key.</param>
+            <returns>True if the modifier key flags contains a specific modifier key, false if not.</returns>
+        </member>
+        <member name="M:Rewired.Keyboard.ModifierKeyFlagsContain(Rewired.ModifierKeyFlags,UnityEngine.KeyCode)">
+            <summary>
+            Determines if the modifier key flags contains a specific key.
+            </summary>
+            <param name="flags">Modifier key flags.</param>
+            <param name="key">The key code of the key.</param>
+            <returns>True if the modifier key flags contains a specific key, false if not.</returns>
+        </member>
+        <member name="M:Rewired.Keyboard.ModifierKeyFlagsToModifierKey(Rewired.ModifierKeyFlags)">
+            <summary>
+            Converts modifier key flags to a modifier key.
+            </summary>
+            <param name="flags">The modifier key flags. Only one modifier key flag value should be passed at a time.</param>
+            <returns>Modifier key equivalent of the modifier key flags. If none, returns ModifierKey.None.</returns>
+        </member>
+        <member name="M:Rewired.Keyboard.ModifierKeyFlagsToKeyCode(Rewired.ModifierKeyFlags)">
+            <summary>
+            Converts modifier key flags to a key code.
+            </summary>
+            <param name="flags">The modifier key flags. Only one modifier key flag value should be passed at a time.</param>
+            <returns>Key code equivalent of the modifier key flags. If none, returns KeyCode.None.</returns>
+        </member>
+        <member name="M:Rewired.Keyboard.ModifierKeyToModifierKeyFlags(Rewired.ModifierKey)">
+            <summary>
+            Converts a modifier key to modifier key flags.
+            </summary>
+            <param name="key">The key code of the key.</param>
+            <returns>Modifier key flags equivalent of the modifier key. If none, returns ModifierKeyFlags.None.</returns>
+        </member>
+        <member name="M:Rewired.Keyboard.GetKeyName(UnityEngine.KeyCode)">
+            <summary>
+            Gets the display name for the specified key code.
+            This may return words and/or symbols for some keys. Example: "Keypad 0", ";", "Back Quote".
+            The returned value will be localized if localization is in use.
+            </summary>
+            <param name="key">The key code of the key.</param>
+            <returns>The display name for the specified key code. The returned value will be localized if localization is in use.</returns>
+        </member>
+        <member name="M:Rewired.Keyboard.GetKeyName(UnityEngine.KeyCode,Rewired.ModifierKeyFlags)">
+            <summary>
+            Creates a string containing all display names for a key and modifier key combination.
+            This may return words and/or symbols for some keys. Example: "Keypad 0", ";", "Back Quote".
+            Modifier keys will precede the primary key.
+            Each key will be separated by the + character.
+            If you need RTL support, you must build the string yourself using
+            <see cref="M:Rewired.Keyboard.GetModifierKeyName(Rewired.ModifierKey)"/> and <see cref="M:Rewired.Keyboard.GetKeyName(UnityEngine.KeyCode)"/>.
+            The returned value will be localized if localization is in use.
+            </summary>
+            <param name="key">The key code of the key.</param>
+            <param name="flags">The modifier key flags.</param>
+            <returns>A string containing all display names for a key and modifier key combination. The returned value will be localized if localization is in use.</returns>
+        </member>
+        <member name="M:Rewired.Keyboard.GetModifierKeyName(Rewired.ModifierKey)">
+            <summary>
+            Gets the display name for the specified modifier key.
+            This will return the long name for modifier keys (Control instead of Ctrl).
+            To get the short name, use the <see cref="M:Rewired.Keyboard.ModifierKeyFlagsToString(Rewired.ModifierKeyFlags,System.Boolean)"/> overload.
+            The returned value will be localized if localization is in use.
+            </summary>
+            <param name="modifierKey">The modifier key.</param>
+            <returns>The the display name for the specified modifier key. The returned value will be localized if localization is in use.</returns>
+        </member>
+        <member name="M:Rewired.Keyboard.GetModifierKeyName(Rewired.ModifierKey,System.Boolean)">
+            <summary>
+            Gets the display name for the specified modifier key.
+            The returned value will be localized if localization is in use.
+            </summary>
+            <param name="modifierKey">The modifier key.</param>
+            <param name="getShortName">If true, the short name will be returned (Ctrl). If false, the long name will be returned (Control).</param>
+            <returns>The the display name for the specified modifier key. The returned value will be localized if localization is in use.</returns>
+        </member>
+        <member name="M:Rewired.Keyboard.ModifierKeyFlagsToString(Rewired.ModifierKeyFlags,System.Boolean)">
+            <summary>
+            Creates a string containing all display names for a modifier key combination.
+            Each key will be separated by the + character.
+            If you need RTL support, you must build the string yourself using <see cref="M:Rewired.Keyboard.GetModifierKeyName(Rewired.ModifierKey)"/>.
+            The returned value will be localized if localization is in use.
+            </summary>
+            <param name="flags">The modifier key flags.</param>
+            <param name="getShortName">If true, the short name will be returned (Ctrl). If false, the long name will be returned (Control)..</param>
+            <returns>A string containing all display names for a modifier key combination. The returned value will be localized if localization is in use.</returns>
+        </member>
+        <member name="M:Rewired.Keyboard.ModifierKeyFlagsToString(Rewired.ModifierKeyFlags)">
+            <summary>
+            Creates a string containing all display names for a modifier key combination.
+            Each key will be separated by the + character.
+            This will return the long name for modifier keys (Control instead of Ctrl).
+            To get the short name, use the <see cref="M:Rewired.Keyboard.ModifierKeyFlagsToString(Rewired.ModifierKeyFlags,System.Boolean)"/> overload.
+            If you need RTL support, you must build the string yourself using <see cref="M:Rewired.Keyboard.GetModifierKeyName(Rewired.ModifierKey)"/>.
+            The returned value will be localized if localization is in use.
+            </summary>
+            <param name="flags">The modifier key flags.</param>
+            <returns>A string containing all display names for a modifier key combination. The returned value will be localized if localization is in use.</returns>
+        </member>
+        <member name="M:Rewired.Keyboard.GetModifierKeyGlyph(Rewired.ModifierKey)">
+            <summary>
+            Gets the glyph for the specified modifier key.
+            This will only return a glyph if a glyph provider is in use and a glyph has been defined for this element identifier.
+            </summary>
+            <param name="modifierKey">The modifier key.</param>
+            <returns>The the glyph for the specified modifier key. This will only return a glyph if a glyph provider is in use and a glyph has been defined for this element identifier.</returns>
         </member>
         <member name="T:Rewired.Mouse">
             <summary>
@@ -9678,6 +9918,29 @@
             </summary>
             <exclude></exclude>
         </member>
+        <member name="M:Rewired.Data.Mapping.HardwareJoystickMap.GetElementIdentifierNames">
+            <summary>
+            Gets the list of element identifier names.
+            </summary>
+            <returns>Array of element identifier names.</returns>
+        </member>
+        <member name="M:Rewired.Data.Mapping.HardwareJoystickMap.GetElementIdentifierInfo(Rewired.ControllerElementType,System.String[]@,System.Int32[]@)">
+            <summary>
+            Gets the list of names and ids for element identifiers of a particular type.
+            </summary>
+            <param name="type">Element identifier type.</param>
+            <param name="names">The names.</param>
+            <param name="ids">The ids.</param>
+            <returns>The number of results returned.</returns>
+        </member>
+        <member name="M:Rewired.Data.Mapping.HardwareJoystickMap.GetMappableElementIdentifierInfo(System.String[]@,System.Int32[]@)">
+            <summary>
+            Gets the mappable element identifier names and ids.
+            </summary>
+            <param name="names">The names.</param>
+            <param name="ids">The ids.</param>
+            <returns>The number of results returned.</returns>
+        </member>
         <member name="M:Rewired.Data.Mapping.HardwareJoystickMap.GetSpecificPlatformMap(Rewired.HardwareControllerMapIdentifier)">
             <summary>
             Get a specific Platform map at the location pointed to by HardwareControllerMapIdentifier.
@@ -9698,7 +9961,7 @@
             DOES check whether any buttons or axes have been assigned though.
             </summary>
         </member>
-        <member name="P:Rewired.Data.Mapping.HardwareJoystickMap.Platform.variants_base">
+        <member name="M:Rewired.Data.Mapping.HardwareJoystickMap.Platform.GetVariants">
             <summary>
             Gets a list of all Variants. NOT NULL FILTERED! Safe to use to get varaint index.
             </summary>
@@ -9713,6 +9976,26 @@
         </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.MatchingCriteria_Base">
             <exclude></exclude>
+        </member>
+        <member name="F:Rewired.Data.Mapping.HardwareJoystickMap.MatchingCriteria_Base.axisCount">
+            <summary>
+            The number of axes reported by the controller. If the value reported by the controller differs from this value, the controller is not a match. [-1 to match to any number of axes]
+            </summary>
+        </member>
+        <member name="F:Rewired.Data.Mapping.HardwareJoystickMap.MatchingCriteria_Base.buttonCount">
+            <summary>
+            The number of buttons reported by the controller. If the value reported by the controller differs from this value, the controller is not a match. [-1 to match to any number of buttons]
+            </summary>
+        </member>
+        <member name="F:Rewired.Data.Mapping.HardwareJoystickMap.MatchingCriteria_Base.disabled">
+            <summary>
+            If checked, this entire platform map will be skipped and will not match to any controller.
+            </summary>
+        </member>
+        <member name="F:Rewired.Data.Mapping.HardwareJoystickMap.MatchingCriteria_Base.tag">
+            <summary>
+            User-defined string. May have functionality on some input sources but not on others.
+            </summary>
         </member>
         <member name="P:Rewired.Data.Mapping.HardwareJoystickMap.MatchingCriteria_Base.isAllowed">
             <summary>
@@ -9901,6 +10184,11 @@
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Custom.MatchingCriteria">
             <exclude></exclude>
         </member>
+        <member name="F:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Custom.MatchingCriteria.alwaysMatch">
+            <summary>
+            If enabled, this will match to every controller regardless of other matching criteria.
+            </summary>
+        </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Custom.Elements">
             <exclude></exclude>
         </member>
@@ -9968,24 +10256,6 @@
             <exclude></exclude>
         </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_NintendoSwitch">
-            <exclude></exclude>
-        </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Stadia_Base">
-            <exclude></exclude>
-        </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Stadia_Base.MatchingCriteria">
-            <exclude></exclude>
-        </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Stadia_Base.Elements">
-            <exclude></exclude>
-        </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Stadia_Base.Button">
-            <exclude></exclude>
-        </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Stadia_Base.Axis">
-            <exclude></exclude>
-        </member>
-        <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_Stadia">
             <exclude></exclude>
         </member>
         <member name="T:Rewired.Data.Mapping.HardwareJoystickMap.Platform_GameCore_Base">
@@ -10180,6 +10450,28 @@
             </summary>
             <exclude></exclude>
         </member>
+        <member name="M:Rewired.Data.Mapping.HardwareJoystickTemplateMap.GetElementIdentifierNames">
+            <summary>
+            Gets the element identifier names.
+            </summary>
+            <returns>Array of element identfier names.</returns>
+        </member>
+        <member name="M:Rewired.Data.Mapping.HardwareJoystickTemplateMap.GetMappableElementIdentifierInfo(System.String[]@,System.Int32[]@)">
+            <summary>
+            Gets the mappable element identifier names and ids.
+            </summary>
+            <param name="names">The names.</param>
+            <param name="ids">The ids.</param>
+            <returns>The number of results returned.</returns>
+        </member>
+        <member name="M:Rewired.Data.Mapping.HardwareJoystickTemplateMap.GetNonMappableElementIdentifierInfo(System.String[]@,System.Int32[]@)">
+            <summary>
+            Gets the non-mappable element identifier names and ids.
+            </summary>
+            <param name="names">The names.</param>
+            <param name="ids">The ids.</param>
+            <returns>The number of results returned.</returns>
+        </member>
         <member name="T:Rewired.Data.Mapping.HardwareElementSourceType">
             <summary>
             The type of this hardware element.
@@ -10359,6 +10651,22 @@
             </summary>
             <exclude></exclude>
         </member>
+        <member name="F:Rewired.Data.ConfigVars.PlatformVars.disableKeyboard">
+            <summary>
+            Determines if the Keyboard is disabled on start.
+            </summary>
+        </member>
+        <member name="F:Rewired.Data.ConfigVars.PlatformVars.disableMouse">
+            <summary>
+            Determines if the Mouse is disabled on start.
+            </summary>
+        </member>
+        <member name="F:Rewired.Data.ConfigVars.PlatformVars.ignoreInputWhenAppNotInFocus">
+            <summary>
+            Determines if input should be ignored when the application is not in focus.
+            This may have no effect on some platforms.
+            </summary>
+        </member>
         <member name="T:Rewired.Data.ConfigVars.EditorVars">
             <summary>
             Editor configuration variables for the Input Manager.
@@ -10376,6 +10684,20 @@
             Custom Controller data stored in the InputManager.
             </summary>
             <exclude></exclude>
+        </member>
+        <member name="M:Rewired.Data.CustomController_Editor.GetElementIdentifierNames">
+            <summary>
+            Gets the element identifier names.
+            These names are not localized.
+            </summary>
+            <returns>Array of element identfier names.</returns>
+        </member>
+        <member name="M:Rewired.Data.CustomController_Editor.GetElementIdentifierNamesTypeSorted">
+            <summary>
+            Gets the element identifier names sorted by type.
+            These names are not localized.
+            </summary>
+            <returns>Array of element identfier names sorted by type.</returns>
         </member>
         <member name="T:Rewired.Data.EditorSettings">
             <summary>
@@ -10758,7 +11080,7 @@
         </member>
         <member name="P:Rewired.ControllerElementTarget.descriptiveName">
             <summary>
-            Gets the name of the target elementr.
+            Gets the name of the target element.
             For split axes, this will return the Positive or Negative name or the Descriptive Name with a +/- suffix.
             </summary>
         </member>
@@ -10857,6 +11179,7 @@
         <member name="P:Rewired.IControllerTemplate.name">
             <summary>
             Display name of the Controller Template.
+            The returned value will be localized if localization is in use.
             </summary>
         </member>
         <member name="P:Rewired.IControllerTemplate.typeGuid">
@@ -10910,6 +11233,7 @@
         <member name="P:Rewired.IControllerTemplateElement.descriptiveName">
             <summary>
             Display name of the Controller Template Element.
+            The returned value will be localized if localization is in use.
             </summary>
         </member>
         <member name="P:Rewired.IControllerTemplateElement.type">
@@ -10989,16 +11313,22 @@
         <member name="P:Rewired.IControllerTemplateAxis.positiveDescriptiveName">
             <summary>
             Display name of the Controller Template Element for the positive axis.
+            This will return the Positive or Negative Descriptive Name or the Descriptive Name with a +/- suffix.
+            The returned value will be localized if localization is in use.
             </summary>
         </member>
         <member name="P:Rewired.IControllerTemplateAxis.negativeDescriptiveName">
             <summary>
             Display name of the Controller Template Element for the negative axis.
+            This will return the Positive or Negative Descriptive Name or the Descriptive Name with a +/- suffix.
+            The returned value will be localized if localization is in use.
             </summary>
         </member>
         <member name="M:Rewired.IControllerTemplateAxis.GetDescriptiveName(Rewired.AxisRange)">
             <summary>
             Gets the display name of the Controller Template Element for the specified axis range.
+            For one pole of the axis, this will return the Positive or Negative Descriptive Name or the Descriptive Name with a +/- suffix.
+            The returned value will be localized if localization is in use.
             </summary>
             <param name="axisRange">The axis range for which to get the descriptiveName</param>
             <returns>Returns the display name of the Controller Template Element for the specified axis range</returns>
@@ -12378,22 +12708,759 @@
             </summary>
         </member>
         <member name="T:Rewired.Platforms.Custom.CustomInputSource">
-            <exclude></exclude>
+            <summary>
+            Custom input source base class.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomInputSource.#ctor(System.Int32)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="inputSource">Input source id.</param>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomInputSource.#ctor(System.Int32,Rewired.Interfaces.IUnifiedKeyboardSource,Rewired.Interfaces.IUnifiedMouseSource)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="inputSource">Input source id.</param>
+            <param name="unifiedKeyboardSource">Unified keyboard source. If null, UnityEngine.Input will be used for keyboard input.</param>
+            <param name="unifiedMouseSource">Unified mouse source.  If null, UnityEngine.Input will be used for mouse input.</param>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomInputSource.OnInitialize">
+            <summary>
+            This is called once automatically during Rewired initialization.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomInputSource.AddJoystick(Rewired.Platforms.Custom.CustomInputSource.Joystick)">
+            <summary>
+            Adds a joystick to the list of joysticks.
+            </summary>
+            <param name="joystick">The joystick to add.</param>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomInputSource.RemoveJoystick(Rewired.Platforms.Custom.CustomInputSource.Joystick)">
+            <summary>
+            Removes a joystick from the list of joysticks.
+            </summary>
+            <param name="joystick">The joystick to remove.</param>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomInputSource.GetJoysticks">
+            <summary>
+            Gets a read-only list of all joysticks.
+            </summary>
+            <returns>Read-only list of all joysticks.</returns>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomInputSource.OnJoystickConnected">
+            <summary>
+            Event to call when a joystick is connected.
+            This must be called by a subclass when a joystick is disconnected.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomInputSource.OnJoystickDisconnected">
+            <summary>
+            Event to call when a joystick is disconnected.
+            This must be called by a subclass when a joystick is disconnected.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomInputSource.Dispose">
+            <summary>
+            Dispose.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomInputSource.Finalize">
+            <summary>
+            Destructor.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomInputSource.Dispose(System.Boolean)">
+            <summary>
+            Dispose.
+            </summary>
+            <param name="disposing">Value that determines if dispose was called by Dispose or by the destructor.</param>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.CustomInputSource.isReady">
+            <summary>
+            Determines if the input source is ready.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomInputSource.Update">
+            <summary>
+            Called once per enabled update loop frame.
+            </summary>
         </member>
         <member name="T:Rewired.Platforms.Custom.CustomInputSource.Controller">
-            <exclude></exclude>
+            <summary>
+            Custom input source Controller base class.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.CustomInputSource.Controller.customName">
+            <summary>
+            Custom name for this controller, if any.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.CustomInputSource.Controller.isConnected">
+            <summary>
+            Determines if the controller is connected.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.CustomInputSource.Controller.deviceName">
+            <summary>
+            The device name of the controller.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.CustomInputSource.Controller.customIdentifier">
+            <summary>
+            A user-defined object containing identifying information for this controller.
+            This can be used to match to a controller definition.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.CustomInputSource.Controller.deviceInstanceGuid">
+            <summary>
+            Unique persistent device guid of the controller.
+            Only set this if controllers can be uniquely identified on this platform across application sessions and system power cycles.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomInputSource.Controller.#ctor(System.String)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="deviceName">The name of this device.</param>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomInputSource.Controller.Disconnect">
+            <summary>
+            Disconnect the controller.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomInputSource.Controller.Connect">
+            <summary>
+            Connect the controller.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomInputSource.Controller.Update">
+            <summary>
+            Update function. Called when input should be updated.
+            </summary>
         </member>
         <member name="T:Rewired.Platforms.Custom.CustomInputSource.Joystick">
-            <exclude></exclude>
+            <summary>
+            Joystick base class.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.CustomInputSource.Joystick.systemId">
+            <summary>
+            The system id of the joystick.
+            This value represents a unique device identifier, either assigned directly by the system or
+            a derived value based on some unique system-defined identifier.
+            Example: If the system provides a string path for a particular device, a long value can be
+            derived from the path by assigining an id to each unique path string.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.CustomInputSource.Joystick.unityId">
+            <summary>
+            The UnityEngine.Input joystick id (1-based index) of this joystick, if any.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.CustomInputSource.Joystick.Axes">
+            <summary>
+            The list of Axes. Generally this should not be used.
+            Use <see cref="M:Rewired.Platforms.Custom.CustomInputSource.Joystick.GetAxisValue(System.Int32)"/> and <see cref="M:Rewired.Platforms.Custom.CustomInputSource.Joystick.SetAxisValue(System.Int32,System.Single)"/> instead.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.CustomInputSource.Joystick.Buttons">
+            <summary>
+            The list of Buttons. Generally this should not be used.
+            Use <see cref="M:Rewired.Platforms.Custom.CustomInputSource.Joystick.GetButtonValue(System.Int32)"/> and <see cref="M:Rewired.Platforms.Custom.CustomInputSource.Joystick.SetButtonValue(System.Int32,System.Boolean)"/> instead.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.CustomInputSource.Joystick.supportsVibration">
+            <summary>
+            Determines whether this joystick supports vibration.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.CustomInputSource.Joystick.extension">
+            <summary>
+            The Controller Extension.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.CustomInputSource.Joystick.buttonCount">
+            <summary>
+            The number of buttons.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.CustomInputSource.Joystick.axisCount">
+            <summary>
+            The number of axes.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomInputSource.Joystick.#ctor(System.String,System.Int64,System.Int32,System.Int32)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="deviceName">The name of the controller.</param>
+            <param name="systemId">The system id.</param>
+            <param name="axisCount">The number of axes.</param>
+            <param name="buttonCount">The number of buttons.</param>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomInputSource.Joystick.#ctor(System.String,System.Nullable{System.Int64},System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Constructor.
+            For UnityEngine.Input joystick input source.
+            </summary>
+            <param name="deviceName">The name of the controller.</param>
+            <param name="systemId">The system id.</param>
+            <param name="unityId">The unity joystick id, if any.</param>
+            <param name="axisCount">The number of axes.</param>
+            <param name="buttonCount">The number of buttons.</param>
         </member>
         <member name="T:Rewired.Platforms.Custom.CustomInputSource.Element">
-            <exclude></exclude>
+            <summary>
+            Controller element base class.
+            </summary>
         </member>
         <member name="T:Rewired.Platforms.Custom.CustomInputSource.Axis">
-            <exclude></exclude>
+            <summary>
+            Controller axis element.
+            </summary>
         </member>
         <member name="T:Rewired.Platforms.Custom.CustomInputSource.Button">
-            <exclude></exclude>
+            <summary>
+            Controller button element.
+            </summary>
+        </member>
+        <member name="F:Rewired.Platforms.Custom.CustomInputSource.Button.value">
+            <summary>
+            The current value.
+            Deprecated. Use <see cref="P:Rewired.Platforms.Custom.CustomInputSource.Button.boolValue"/> instead.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.CustomInputSource.Button.boolValue">
+            <summary>
+            Gets or sets the value.
+            This can be called multiple times per update if processing a queue of input events.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.CustomInputSource.Button.floatValue">
+            <summary>
+            Floating-point value of the button.
+            This is only used if the button type is Pressure Sensitive.
+            </summary>
+        </member>
+        <member name="T:Rewired.Platforms.Custom.CustomPlatformInitOptions">
+            <summary>
+            Options required to configure a custom platform.
+            </summary>
+        </member>
+        <member name="F:Rewired.Platforms.Custom.CustomPlatformInitOptions.platformId">
+            <summary>
+            (Required) A value that identifies the custom plaform. This is returned in callbacks so the platform can be identified by your code.
+            All values are valid except -1.
+            </summary>
+        </member>
+        <member name="F:Rewired.Platforms.Custom.CustomPlatformInitOptions.platformIdentifierString">
+            <summary>
+            (Required) String value used to identify the platform in hardware identifier strings most commonly used for saving Controller Maps for unrecognized controllers.
+            </summary>
+        </member>
+        <member name="F:Rewired.Platforms.Custom.CustomPlatformInitOptions.inputSource">
+            <summary>
+            (Required) The custom input source implementation.
+            </summary>
+        </member>
+        <member name="F:Rewired.Platforms.Custom.CustomPlatformInitOptions.hardwareJoystickMapCustomPlatformMapProvider">
+            <summary>
+            (Required) An object that gets the controller definition platform map. When a controller is detected, the controller definitions will be searched to find
+            a matching definition. This delegate provides the hardware matching criteria to determine if the device matches and the element mapping information
+            to map from hardware elements to Element Identifiers.
+            </summary>
+        </member>
+        <member name="F:Rewired.Platforms.Custom.CustomPlatformInitOptions.configVars">
+            <summary>
+            (Required) Various configuration variables for the current platform.
+            If no value is set, default values will be used.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomPlatformInitOptions.#ctor">
+            <summary>
+            Contstructor.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomPlatformInitOptions.#ctor(Rewired.Platforms.Custom.CustomPlatformInitOptions)">
+            <summary>
+            Copy constructor.
+            </summary>
+            <param name="other">Options to copy.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if other is null.</exception>
+        </member>
+        <member name="T:Rewired.Platforms.Custom.CustomPlatformConfigVars">
+            <summary>
+            Platform vars for a custom platform
+            </summary>
+        </member>
+        <member name="F:Rewired.Platforms.Custom.CustomPlatformConfigVars.useNativeKeyboard">
+            <summary>
+            Should native keyboard input be used, if available.
+            If false, fallback keyboard input handling will be used.
+            </summary>
+        </member>
+        <member name="F:Rewired.Platforms.Custom.CustomPlatformConfigVars.useNativeMouse">
+            <summary>
+            Should native mouse input be used, if available.
+            If false, fallback mouse input handling will be used.
+            </summary>
+        </member>
+        <member name="T:Rewired.Platforms.Custom.ICustomPlatformInitializer">
+            <summary>
+            Interface for initializing a custom platform.
+            Add a Component on the Rewired Input Manager GameObject that implements this interface
+            to initialize custom platforms.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.ICustomPlatformInitializer.GetCustomPlatformInitOptions">
+            <summary>
+            Gets custom platform initialization options.
+            </summary>
+            <returns>Custom platform initialization options</returns>
+        </member>
+        <member name="T:Rewired.Platforms.Custom.CustomPlatformInputSource">
+            <summary>
+            Custom platform input source base class.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomPlatformInputSource.#ctor(Rewired.Platforms.Custom.CustomPlatformConfigVars,Rewired.Platforms.Custom.CustomPlatformInputSource.InitOptions)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="configVars">Config vars</param>
+            <param name="initOptions">Initialization options for the custom platform input source.</param>
+        </member>
+        <member name="T:Rewired.Platforms.Custom.CustomPlatformInputSource.Joystick">
+            <summary>
+            Joystick base class.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomPlatformInputSource.Joystick.#ctor(System.String,System.Int64,System.Int32,System.Int32)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="deviceName">The name of the controller.</param>
+            <param name="systemId">The system id.</param>
+            <param name="axisCount">The number of axes.</param>
+            <param name="buttonCount">The number of buttons.</param>
+        </member>
+        <member name="T:Rewired.Platforms.Custom.CustomPlatformInputSource.InitOptions">
+            <summary>
+            Initialization options for the custom platform input source.
+            </summary>
+        </member>
+        <member name="F:Rewired.Platforms.Custom.CustomPlatformInputSource.InitOptions.unifiedKeyboardSource">
+            <summary>
+            Unified keyboard input source. If null, UnityEngine.Input will be used for keyboard input.
+            </summary>
+        </member>
+        <member name="F:Rewired.Platforms.Custom.CustomPlatformInputSource.InitOptions.unifiedMouseSource">
+            <summary>
+            Unified mouse input source.  If null, UnityEngine.Input will be used for mouse input.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomPlatformUnifiedControllerSource.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="axisCount">Number of axes.</param>
+            <param name="buttonCount">Number of buttons.</param>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomPlatformUnifiedControllerSource.Update">
+            <summary>
+            Called once per enabled update loop frame.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.CustomPlatformUnifiedControllerSource.axisCount">
+            <summary>
+            Number of axes.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.CustomPlatformUnifiedControllerSource.buttonCount">
+            <summary>
+            Number of buttons / keys.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.CustomPlatformUnifiedControllerSource.controllerExtension">
+            <summary>
+            Controller extension.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomPlatformUnifiedControllerSource.OnInitialize">
+            <summary>
+            This is called once automatically during Rewired initialization.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomPlatformUnifiedControllerSource.Clear">
+            <summary>
+            Clears input values.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomPlatformUnifiedControllerSource.GetAxisValue(System.Int32)">
+            <summary>
+            Gets the axis value at the index.
+            </summary>
+            <param name="index">Axis index</param>
+            <returns>Axis value at the index</returns>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomPlatformUnifiedControllerSource.GetButtonValue(System.Int32)">
+            <summary>
+            Gets the button value at the index.
+            </summary>
+            <param name="index">Button index</param>
+            <returns>Button value at the index</returns>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomPlatformUnifiedControllerSource.SetAxisValue(System.Int32,System.Single)">
+            <summary>
+            Sets the axis value at the index.
+            </summary>
+            <param name="index">Axis index</param>
+            <param name="value">Axis value</param>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomPlatformUnifiedControllerSource.SetAxisValues(System.Collections.Generic.IList{System.Single})">
+            <summary>
+            Sets all axis values at once.
+            </summary>
+            <param name="values">Axis values</param>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomPlatformUnifiedControllerSource.SetButtonValue(System.Int32,System.Boolean)">
+            <summary>
+            Sets the button value at the index.
+            This can be called multiple times per update if processing a queue of input events.
+            </summary>
+            <param name="index">Button index</param>
+            <param name="value">Button value</param>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomPlatformUnifiedControllerSource.SetButtonValues(System.Collections.Generic.IList{System.Boolean})">
+            <summary>
+            Sets all button values at once.
+            This can be called multiple times per update if processing a queue of input events.
+            </summary>
+            <param name="values">Button values</param>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomPlatformUnifiedMouseSource.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.CustomPlatformUnifiedMouseSource.mousePosition">
+            <summary>
+            Mouse screen position in pixels.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomPlatformUnifiedKeyboardSource.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.CustomPlatformUnifiedKeyboardSource.keyPropertyMap">
+            <summary>
+            Gets or sets the current key property map.
+            </summary>
+            <returns>The current key property map.</returns>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomPlatformUnifiedKeyboardSource.SetKeyValue(Rewired.KeyboardKeyCode,System.Boolean)">
+            <summary>
+            Sets a key value.
+            </summary>
+            <param name="keyCode">KeyCode of the key.</param>
+            <param name="value">Value</param>
+        </member>
+        <member name="T:Rewired.Platforms.Custom.CustomPlatformUnifiedKeyboardSource.KeyPropertyMap">
+            <summary>
+            A map of key properties.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomPlatformUnifiedKeyboardSource.KeyPropertyMap.#ctor">
+            <summary>
+            Constructor.
+            Creates a default key property map.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomPlatformUnifiedKeyboardSource.KeyPropertyMap.#ctor(Rewired.Platforms.Custom.CustomPlatformUnifiedKeyboardSource.KeyPropertyMap)">
+            <summary>
+            Copy constructor.
+            </summary>
+            <param name="other">KeyPropertyMap to copy.</param>
+            <exception cref="T:System.ArgumentNullException">other is null</exception>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomPlatformUnifiedKeyboardSource.KeyPropertyMap.Get(Rewired.KeyboardKeyCode)">
+            <summary>
+            Get properties for the specified key.
+            </summary>
+            <param name="keyCode">Key code of the key.</param>
+            <returns>Properties for the specified key.</returns>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomPlatformUnifiedKeyboardSource.KeyPropertyMap.Set(Rewired.Platforms.Custom.CustomPlatformUnifiedKeyboardSource.KeyPropertyMap.Key)">
+            <summary>
+            Set properties for the specified key.
+            </summary>
+            <param name="key">Keys.</param>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomPlatformUnifiedKeyboardSource.KeyPropertyMap.Get">
+            <summary>
+            Gets all key properties.
+            </summary>
+            <returns>Array of all key properties</returns>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomPlatformUnifiedKeyboardSource.KeyPropertyMap.Set(System.Collections.Generic.ICollection{Rewired.Platforms.Custom.CustomPlatformUnifiedKeyboardSource.KeyPropertyMap.Key})">
+            <summary>
+            Set key properties in bulk.
+            </summary>
+            <param name="keys">Collection of key properties.</param>
+            <exception cref="T:System.ArgumentNullException">keys is null</exception>
+        </member>
+        <member name="T:Rewired.Platforms.Custom.IHardwareJoystickMapCustomPlatformMapProvider">
+            <summary>
+            User-defined joystick platform map provider.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.IHardwareJoystickMapCustomPlatformMapProvider.GetPlatformMap(System.Int32,System.Guid)">
+            <summary>
+            Get the HardwareJoysickMap platform map for a specific controller on a custom platform.
+            </summary>
+            <param name="customPlatformId">The custom platform id.</param>
+            <param name="hardwareTypeGuid">The hardware type guid of the joystick.</param>
+            <returns>HardwareJoystickMap Platform map</returns>
+        </member>
+        <member name="T:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMap">
+            <summary>
+            Base class for HardwareJoystickMap custom platform map.
+            </summary>
+        </member>
+        <member name="F:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMap.elements">
+            <summary>
+            The elements object.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMap.assignedButtonCount">
+            <summary>
+            Gets the number of assigned buttons.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMap.assignedAxisCount">
+            <summary>
+            Gets the number of assigned axes.
+            </summary>
+        </member>
+        <member name="T:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMap.Elements">
+            <summary>
+            Contains controller element maps.
+            </summary>
+        </member>
+        <member name="T:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMap.Button">
+            <summary>
+            A button element.
+            Maps from device element to a Rewired Controller button.
+            </summary>
+        </member>
+        <member name="T:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMap.Axis">
+            <summary>
+            An axis element.
+            Maps from device element to a Rewired Controller axis.
+            </summary>
+        </member>
+        <member name="T:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMap.MatchingCriteria">
+            <summary>
+            Base class for HardwareJoystickMap custom platform Matching Criteria.
+            Determines if a controller matches.
+            </summary>
+        </member>
+        <member name="F:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMap.MatchingCriteria.nameUseRegex">
+            <summary>
+            If enabled, name strings can contain regular expressions for matching.
+            </summary>
+        </member>
+        <member name="F:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMap.MatchingCriteria.name">
+            <summary>
+            A list of string names to match on. If defined, any matching name will result in a match.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMap.MatchingCriteria.Matches(System.Object)">
+            <summary>
+            Determines if the controller matches to this platform map based on user-defined identifying information.
+            Override this function to match on custom matching criteria.
+            </summary>
+            <param name="customIdentifier">User-defined identifying information supplied to the Controller on creation.</param>
+            <returns>True if identifying information matches, false if not.</returns>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMap.MatchingCriteria.hasData">
+            <summary>
+            Determines if any matching criteria has been defined.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMap.MatchingCriteria.isAllowed">
+            <summary>
+            Determines if this is allowed to match to any controllers.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMap.MatchingCriteria.CreateInstance">
+            <summary>
+            Creates a new instance of this object.
+            Every subclass class must implement this.
+            </summary>
+            <returns>A new instance of this object.</returns>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMap.MatchingCriteria.DeepClone(System.Object)">
+            <summary>
+            Called when object is deep cloned.
+            Override this function to clone local data the class, if any.
+            </summary>
+            <param name="destination">The object which will receive the cloned data.</param>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMap.MatchingCriteria.CopyVars(Rewired.Data.Mapping.HardwareJoystickMap.MatchingCriteria_Base)">
+            <summary>
+            Deep-copies data to destination.
+            </summary>
+            <param name="destination">The destination to which data will be copied.</param>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMap.CreateInstance">
+            <summary>
+            Creates a new instance of this object.
+            Every subclass class must implement this.
+            </summary>
+            <returns>A new instance of this object.</returns>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMap.DeepClone(System.Object)">
+            <summary>
+            Called when object is deep cloned.
+            Override this function to clone local data the class, if any.
+            </summary>
+            <param name="destination">The object which will receive the cloned data.</param>
+        </member>
+        <member name="T:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMap`1">
+            <summary>
+            Base class for HardwareJoystickMap custom platform map.
+            </summary>
+            <typeparam name="TMatchingCriteria">The user-defined matching criteria type. Must be serializable and inherit from HardwareJoystickMapCustomPlatformMatchingCriteria&lt;TCustomData&gt;.</typeparam>
+        </member>
+        <member name="F:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMap`1.matchingCriteria">
+            <summary>
+            The user-defined matching criteria object.
+            Determines whether this platform map matches to a particular controller.
+            </summary>
+        </member>
+        <member name="T:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMapSimpleBase">
+            <summary>
+            Platform map interim base class required to support variants in subclasses.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMapSimpleBase.CreateInstance">
+            <summary>
+            Creates a new instance of this object.
+            Every subclass class must implement this.
+            </summary>
+            <returns>A new instance of this object.</returns>
+        </member>
+        <member name="T:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMapSimpleBase.MatchingCriteria">
+            <summary>
+            Determines if a controller matches.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMapSimpleBase.MatchingCriteria.CreateInstance">
+            <summary>
+            Creates a new instance of this object.
+            Every subclass class must implement this.
+            </summary>
+            <returns>A new instance of this object.</returns>
+        </member>
+        <member name="T:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMapSimple">
+            <summary>
+            A simple HardwareJoystickMap platform map implementation
+            that matches on the device name string.
+            Use this if you do not need to match on other user-defined properties.
+            </summary>
+        </member>
+        <member name="F:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMapSimple.variants">
+            <summary>
+            Platform map variants.
+            Each variant defines an independent set of matching criteria and a list of axes and buttons.
+            This allows matching multiple different controllers or variants of controller hardware to the same Rewired Joystick type.
+            Example: You may want to match other controller types to the Xbox One controller definition.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMapSimple.GetVariants">
+            <summary>
+            Gets the list of variants.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMapSimple.CreateInstance">
+            <summary>
+            Creates a new instance of this object.
+            Every subclass class must implement this.
+            </summary>
+            <returns>A new instance of this object.</returns>
+        </member>
+        <member name="T:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMapSO">
+            <summary>
+            Base class for custom platform map serialized data.
+            </summary>
+        </member>
+        <member name="F:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMapSO.hardwareJoystickMap">
+            <summary>
+            The joystick to which this platform map belongs.
+            This must be assigned a HardwareJoystickMap (controller definition).
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMapSO.Matches(System.Guid)">
+            <summary>
+            Determines if the platform map matches the hardware type guid.
+            </summary>
+            <param name="hardwareTypeGuid">Hardware type guid of the Controller.</param>
+            <returns>True on match, otherwise false.</returns>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMapSO.GetPlatformMap">
+            <summary>
+            Gets the platform map.
+            </summary>
+            <returns>Platform map</returns>
+        </member>
+        <member name="T:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMapSimpleSO">
+            <summary>
+            The simplest implementation of custom platform map serialized data.
+            Matches to devices on the device name string.
+            Use this if you do not need to match on other user-defined properties.
+            </summary>
+        </member>
+        <member name="F:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMapSimpleSO.platformMap">
+            <summary>
+            The platform map.
+            This contains all the serialized data.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMapSimpleSO.GetPlatformMap">
+            <summary>
+            Returns the Platform Map.
+            </summary>
+            <returns>Platform Map</returns>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.CustomPlatform.platformId">
+            <summary>
+            Gets the current custom platform id.
+            Returns -1 if custom platform is not in use.
+            </summary>
+        </member>
+        <member name="P:Rewired.Platforms.Custom.CustomPlatform.isCustomPlatform">
+            <summary>
+            Determines if custom platform is in use.
+            </summary>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomPlatform.Initialize(Rewired.Platforms.Custom.CustomPlatformInitOptions)">
+            <summary>
+            Sets the current platform to a custom platform based on options.
+            This value must be set before Rewired is initialized.
+            This is a static value and is not cleared when Rewired is reset.
+            </summary>
+            <param name="options"></param>
+        </member>
+        <member name="M:Rewired.Platforms.Custom.CustomPlatform.Clear">
+            <summary>
+            Clears custom platform settings.
+            This can only be called when Rewired is not initialized.
+            </summary>
         </member>
         <member name="T:Rewired.Platforms.Platform">
             <exclude></exclude>
@@ -12538,11 +13605,6 @@
         <member name="T:Rewired.Platforms.WebGLPrimaryInputSource">
             <summary>
             WebGL input sources.
-            </summary>
-        </member>
-        <member name="T:Rewired.Platforms.StadiaPrimaryInputSource">
-            <summary>
-            Stadia input sources.
             </summary>
         </member>
         <member name="T:Rewired.Platforms.DirectInputAxis">
@@ -13517,6 +14579,34 @@
             Returns the object to its pool if it is a member of one.
             </summary>
         </member>
+        <member name="T:Rewired.Interfaces.ILocalizedStringProvider">
+            <summary>
+            Interface for localization provider.
+            Used to localize strings.
+            </summary>
+        </member>
+        <member name="M:Rewired.Interfaces.ILocalizedStringProvider.TryGetLocalizedString(System.String,System.String@)">
+            <summary>
+            Try to get the localized string for the specified key.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="result">The localized string.</param>
+            <returns>True if the input string was localized, false if not.</returns>
+        </member>
+        <member name="T:Rewired.Interfaces.IGlyphProvider">
+            <summary>
+            Interface for glyph provider.
+            Used to localize strings.
+            </summary>
+        </member>
+        <member name="M:Rewired.Interfaces.IGlyphProvider.TryGetGlyph(System.String,System.Object@)">
+            <summary>
+            Try to get the glyph for the specified key.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="result">The localized string.</param>
+            <returns>True if the glyph was found, false if not.</returns>
+        </member>
         <member name="T:Rewired.InputManager_Base">
             <exclude></exclude>
         </member>
@@ -14207,6 +15297,40 @@
             <param name="map">The ActionElementMap</param>
             <returns></returns>
         </member>
+        <member name="M:Rewired.ActionElementMap.TryGetCombinedElementIdentifierName(System.Collections.Generic.IList{Rewired.ActionElementMap},System.String@)">
+            <summary>
+            Gets the combined descriptive name of the element identifiers bound to the Action if available.
+            This can be used to get a descriptive name of an element that doesn't actually exist but is a sub-set of element members of a Compound Element.
+            For example, when passing in two Action Element Maps that are bound buttons D-Pad Left and D-Pad Right, "D-Pad Horizontal" will be returned.
+            When passing in four Action Element Maps that are bound to all four buttons of a D-Pad, "D-Pad" will be returned.
+            The returned value will be localized if localization is in use.
+            </summary>
+            <param name="actionElementMaps">The list of Action Element Maps. All Action Element Maps must be from the same Controller Map. Result will only be returned if all Action Element Maps combined match to a known name.</param>
+            <param name="result">The combined element identifier name result.</param>
+            <returns>True if a result was found, false if not.</returns>
+        </member>
+        <member name="M:Rewired.ActionElementMap.TryGetCombinedElementIdentifierGlyph(System.Collections.Generic.IList{Rewired.ActionElementMap},System.Object@)">
+            <summary>
+            Gets the combined glyph of the element identifiers bound to the Action if available.
+            This can be used to get a glyph for an element that doesn't actually exist but is a sub-set of element members of a Compound Element.
+            For example, when passing in two Action Element Maps that are bound buttons D-Pad Left and D-Pad Right, the glyph for D-Pad Horizontal will be returned if available.
+            When passing in four Action Element Maps that are bound to all four buttons of a D-Pad, the glyph for D-Pad will be returned if available.
+            </summary>
+            <param name="actionElementMaps">The list of Action Element Maps. All Action Element Maps must be from the same Controller Map. Result will only be returned if all Action Element Maps combined match to a known glyph.</param>
+            <param name="result">The combined element identifier glyph result.</param>
+            <returns>True if a result was found, false if not.</returns>
+        </member>
+        <member name="M:Rewired.ActionElementMap.TryGetCombinedElementIdentifierFinalGlyphKey(System.Collections.Generic.IList{Rewired.ActionElementMap},System.String@)">
+            <summary>
+            Gets the combined final full glyph key path of the element identifiers bound to the Action if available.
+            This can be used to get the key for an element that doesn't actually exist but is a sub-set of element members of a Compound Element.
+            For example, when passing in two Action Element Maps that are bound buttons D-Pad Left and D-Pad Right, the glyph for D-Pad Horizontal will be returned if available.
+            When passing in four Action Element Maps that are bound to all four buttons of a D-Pad, the key for D-Pad will be returned if available.
+            </summary>
+            <param name="actionElementMaps">The list of Action Element Maps. All Action Element Maps must be from the same Controller Map. Result will only be returned if all Action Element Maps combined match to a known glyph.</param>
+            <param name="result">The combined element identifier glyph key result.</param>
+            <returns>True if a result was found, false if not.</returns>
+        </member>
         <member name="P:Rewired.ActionElementMap.actionId">
             <summary>
             Gets the id of the Action to which the element is bound.
@@ -14258,21 +15382,25 @@
         <member name="P:Rewired.ActionElementMap.modifierKey1">
             <summary>
             The first keyboard modifier key.
+            Modifier keys should be set in ascending order because the modifier key list will be collapsed after a value is set.
             </summary>
         </member>
         <member name="P:Rewired.ActionElementMap.modifierKey2">
             <summary>
             The second keyboard modifier key.
+            Modifier keys should be set in ascending order because the modifier key list will be collapsed after a value is set.
             </summary>
         </member>
         <member name="P:Rewired.ActionElementMap.modifierKey3">
             <summary>
             The third keyboard modifier key.
+            Modifier keys should be set in ascending order because the modifier key list will be collapsed after a value is set.
             </summary>
         </member>
         <member name="P:Rewired.ActionElementMap.axisType">
             <summary>
             The axis type.
+            If this is an axis binding, this determines if it is full or split axis binding.
             </summary>
         </member>
         <member name="P:Rewired.ActionElementMap.modifierKeyFlags">
@@ -14287,12 +15415,13 @@
         </member>
         <member name="P:Rewired.ActionElementMap.hasModifiers">
             <summary>
-            Does this use any keyboard modfiier keys?
+            Determines if any keyboard modifier keys are set.
+            This only applies to keyboard bindings.
             </summary>
         </member>
         <member name="P:Rewired.ActionElementMap.controllerMap">
             <summary>
-            The parent Controller Map that contains this ActionElementMap.
+            The parent Controller Map that contains this Action Element Map.
             </summary>
         </member>
         <member name="P:Rewired.ActionElementMap.enabled">
@@ -14304,12 +15433,14 @@
             <summary>
             Gets the descriptive name of the element identifier bound to the Action.
             For split axes, this will return the Positive or Negative Descriptive Name or the Descriptive Name with a +/- suffix.
+            The returned value will be localized if localization is in use.
             </summary>
         </member>
         <member name="P:Rewired.ActionElementMap.actionDescriptiveName">
             <summary>
             Gets the descriptive name of the Action.
             For split axes, this will return the Positive or Negative Descriptive Name or the Descriptive Name with a +/- suffix.
+            The returned value will be localized if localization is in use.
             </summary>
         </member>
         <member name="P:Rewired.ActionElementMap.elementIndex">
@@ -14320,6 +15451,22 @@
         <member name="P:Rewired.ActionElementMap.id">
             <summary>
             Gets the unique runtime id of this ActionElementMap. This value is not consistent between game sessions, so do not store it.
+            </summary>
+        </member>
+        <member name="P:Rewired.ActionElementMap.elementIdentifierGlyph">
+            <summary>
+            The primary glyph for the element bound to the Action.
+            If this is a keyboard binding, modifier keys may be in use, therefore you should use
+            <see cref="M:Rewired.ActionElementMap.GetElementIdentifierGlyphs(System.Collections.Generic.ICollection{System.Object})"/> instead to get the modifier key glyphs as well.
+            You can check <see cref="P:Rewired.ActionElementMap.elementIdentifierGlyphCount"/> to determine if this binding has more than one glyph to display.
+            This will only return a glyph if a glyph provider is in use and a glyph has been defined for this element identifier.
+            </summary>
+        </member>
+        <member name="P:Rewired.ActionElementMap.elementIdentifierGlyphCount">
+            <summary>
+            The number of glyphs for the element bound to the Action.
+            If this is a keyboard binding and modifier keys are in use, the returned count will include the modifier key glyphs.
+            This will only return a non-zero value if a glyph provider is in use and a glyph has been defined for this element identifier.
             </summary>
         </member>
         <member name="M:Rewired.ActionElementMap.#ctor(System.Int32,Rewired.ControllerElementType,Rewired.Pole,Rewired.KeyboardKeyCode,Rewired.ModifierKey,Rewired.ModifierKey,Rewired.ModifierKey)">
@@ -14369,6 +15516,43 @@
             </summary>
             <param name="elementTarget">The Controller Element target</param>
             <returns>True if the the Controller Element target is mapped by this ActionElementMap, false if it is not.</returns>
+        </member>
+        <member name="M:Rewired.ActionElementMap.GetElementIdentifierGlyphs(System.Collections.Generic.ICollection{System.Object})">
+            <summary>
+            Get glyphs for the element identfier(s) bound to the Action.
+            If this is a keyboard binding and modifier keys are in use, modifier key glyphs will be
+            returned first in the results and the primary key will be returned at the end of the list.
+            If using modifier keys and any glyph is missing for either modifier keys or the primary key, no results will be returned.
+            Glyphs will be added to the incoming results collection, so the results collection should normally be cleared before passing to this function.
+            This will only return a glyph if a glyph provider is in use and a glyph has been defined for this element identifier.
+            </summary>
+            <param name="results">A collection to receive the results. Results will be added to the collection.</param>
+            <returns>The number of glyphs returned.</returns>
+        </member>
+        <member name="M:Rewired.ActionElementMap.GetElementIdentifierGlyphs``1(System.Collections.Generic.ICollection{``0})">
+            <summary>
+            Get glyphs for the element bound to the Action.
+            If this is a keyboard binding and modifier keys are in use, modifier key glyphs will be
+            returned first in the results and the primary key will be returned at the end of the list.
+            If using modifier keys and any glyph is missing for either modifier keys or the primary key, no results will be returned.
+            Glyphs will be added to the incoming results collection, so the results collection should normally be cleared before passing to this function.
+            This will only return a glyph if a glyph provider is in use and a glyph has been defined for this element identifier.
+            </summary>
+            <param name="results">A collection to receive the results. Results will be added to the collection.</param>
+            <typeparam name="T">Glyph type.</typeparam>
+            <returns>The number of glyphs returned.</returns>
+        </member>
+        <member name="M:Rewired.ActionElementMap.GetElementIdentifierFinalGlyphKeys(System.Collections.Generic.ICollection{System.String})">
+            <summary>
+            Get final full glyph key paths for the element identfier(s) bound to the Action.
+            If this is a keyboard binding and modifier keys are in use, modifier key glyphs will be
+            returned first in the results and the primary key will be returned at the end of the list.
+            If using modifier keys and any glyph is missing for either modifier keys or the primary key, no results will be returned.
+            Glyphs will be added to the incoming results collection, so the results collection should normally be cleared before passing to this function.
+            This will only return a glyph if a glyph provider is in use and a glyph has been defined for this element identifier.
+            </summary>
+            <param name="results">A collection to receive the results. Results will be added to the collection.</param>
+            <returns>The number of glyph keys returned.</returns>
         </member>
         <member name="T:Rewired.CalibrationMapSaveData">
             <summary>
@@ -14631,9 +15815,87 @@
             Represents a single element on a controller. Used to identify physical elements on controllers by type and name.
             </summary>
         </member>
+        <member name="P:Rewired.ControllerElementIdentifier.name">
+            <summary>
+            The name of the element identifier.
+            The returned value will be localized if localization is in use.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerElementIdentifier.positiveName">
+            <summary>
+            The name of the positive axis of the element identifier, if any.
+            If this is an axis element and no positive name was defined, <see cref="P:Rewired.ControllerElementIdentifier.name"/> will be returned with a + suffix appended.
+            The returned value will be localized if localization is in use.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerElementIdentifier.negativeName">
+            <summary>
+            The name of the negative axis of the element identifier, if any.
+            If this is an axis element and no negative name was defined, <see cref="P:Rewired.ControllerElementIdentifier.name"/> will be returned with a - suffix appended.
+            The returned value will be localized if localization is in use.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerElementIdentifier.elementType">
+            <summary>
+            The controller element type this element identifier represents.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerElementIdentifier.compoundElementType">
+            <summary>
+            If this element identifier is a compound element, the type of compound element it represents.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerElementIdentifier.glyph">
+            <summary>
+            The glyph for the element identifier.
+            This will only return a glyph if a glyph provider is in use and a glyph has been defined for this element identifier.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerElementIdentifier.positiveGlyph">
+            <summary>
+            The glyph for the positive axis of the element identifier.
+            This will only return a glyph if a glyph provider is in use and a glyph has been defined for this element identifier.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerElementIdentifier.negativeGlyph">
+            <summary>
+            The glyph for the negative axis of the element identifier.
+            This will only return a glyph if a glyph provider is in use and a glyph has been defined for this element identifier.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerElementIdentifier.key">
+            <summary>
+            The key of the element identifier.
+            This is used for localization and glyph lookup.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerElementIdentifier.positiveKey">
+            <summary>
+            The key of the positive axis of the element identifier, if any.
+            This is used for localization and glyph lookup.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerElementIdentifier.negativeKey">
+            <summary>
+            The key of the negative axis of the element identifier, if any.
+            This is used for localization and glyph lookup.
+            </summary>
+        </member>
+        <member name="M:Rewired.ControllerElementIdentifier.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:Rewired.ControllerElementIdentifier.#ctor(Rewired.ControllerElementIdentifier)">
+            <summary>
+            Copy constructor.
+            </summary>
+            <param name="source">A copy of the object.</param>
+        </member>
         <member name="M:Rewired.ControllerElementIdentifier.GetDisplayName(Rewired.ControllerElementType,Rewired.AxisRange)">
             <summary>
             Gets the display name for the specified element type and range.
+            The returned value will be localized if localization is in use.
             </summary>
             <param name="actualElementType">The element type of the actual Controller Element. This can differ from the element type of the Element Identifier.</param>
             <param name="axisRange">The range.</param>
@@ -14642,14 +15904,111 @@
         <member name="M:Rewired.ControllerElementIdentifier.GetDisplayName(Rewired.AxisRange)">
             <summary>
             Gets the display name for the specified range.
+            The returned value will be localized if localization is in use.
             </summary>
             <param name="axisRange">The range.</param>
-            <returns>Returns the display name for the specified range.</returns>
+            <returns>The display name for the specified range.</returns>
+        </member>
+        <member name="M:Rewired.ControllerElementIdentifier.GetGlyph(Rewired.ControllerElementType,Rewired.AxisRange)">
+            <summary>
+            Gets the glyph for the specified element type and range.
+            </summary>
+            <param name="actualElementType">The element type of the actual Controller Element. This can differ from the element type of the Element Identifier.</param>
+            <param name="axisRange">The range.</param>
+            <returns>The glyph for the specified element type and range.</returns>
+        </member>
+        <member name="M:Rewired.ControllerElementIdentifier.GetGlyph(Rewired.AxisRange)">
+            <summary>
+            Gets the glyph for the specified range.
+            </summary>
+            <param name="axisRange">The range.</param>
+            <returns>The glyph for the specified range.</returns>
+        </member>
+        <member name="M:Rewired.ControllerElementIdentifier.GetFinalGlyphKey(Rewired.ControllerElementType,Rewired.AxisRange)">
+            <summary>
+            Gets the full glyph key path for the specified element type and range.
+            This will only return a value if a glyph was found.
+            </summary>
+            <param name="actualElementType">The element type of the actual Controller Element. This can differ from the element type of the Element Identifier.</param>
+            <param name="axisRange">The range.</param>
+            <returns>The full glyph key for the specified element type and range.</returns>
+        </member>
+        <member name="M:Rewired.ControllerElementIdentifier.GetFinalGlyphKey(Rewired.AxisRange)">
+            <summary>
+            Gets the full glyph key path for the specified range.
+            This will only return a value if a glyph was found.
+            </summary>
+            <param name="axisRange">The range.</param>
+            <returns>The full glyph key path for the specified range.</returns>
         </member>
         <member name="T:Rewired.ControllerTemplateElementIdentifier">
             <summary>
             Represents a single element on a controller template. Used to identify physical elements on controller templates by type and name.
             </summary>
+        </member>
+        <member name="P:Rewired.ControllerTemplateElementIdentifier.name">
+            <summary>
+            The name of the element identifier.
+            The returned value will be localized if localization is in use.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerTemplateElementIdentifier.positiveName">
+            <summary>
+            The name of the positive axis of the element identifier, if any.
+            If this is an axis element and no positive name was defined, <see cref="P:Rewired.ControllerTemplateElementIdentifier.name"/> will be returned with a + suffix appended.
+            The returned value will be localized if localization is in use.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerTemplateElementIdentifier.negativeName">
+            <summary>
+            The name of the negative axis of the element identifier, if any.
+            If this is an axis element and no negative name was defined, <see cref="P:Rewired.ControllerTemplateElementIdentifier.name"/> will be returned with a - suffix appended.
+            The returned value will be localized if localization is in use.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerTemplateElementIdentifier.glyph">
+            <summary>
+            The glyph for the element identifier.
+            This will only return a glyph if a glyph provider is in use and a glyph has been defined for this element identifier.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerTemplateElementIdentifier.positiveGlyph">
+            <summary>
+            The glyph for the positive axis of the element identifier.
+            This will only return a glyph if a glyph provider is in use and a glyph has been defined for this element identifier.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerTemplateElementIdentifier.negativeGlyph">
+            <summary>
+            The glyph for the negative axis of the element identifier.
+            This will only return a glyph if a glyph provider is in use and a glyph has been defined for this element identifier.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerTemplateElementIdentifier.key">
+            <summary>
+            The key of the element identifier.
+            This is used for localization and glyph lookup.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerTemplateElementIdentifier.positiveKey">
+            <summary>
+            The key of the positive axis of the element identifier, if any.
+            This is used for localization and glyph lookup.
+            </summary>
+        </member>
+        <member name="P:Rewired.ControllerTemplateElementIdentifier.negativeKey">
+            <summary>
+            The key of the negative axis of the element identifier, if any.
+            This is used for localization and glyph lookup.
+            </summary>
+        </member>
+        <member name="M:Rewired.ControllerTemplateElementIdentifier.#ctor(Rewired.ControllerTemplateElementIdentifier)">
+            Do not use the copy constructor on a runtime initialized object.
+            If runtime initialized, the element name localizer will NOT be copied and the copy will need to be runtime initialized.
+        </member>
+        <member name="M:Rewired.ControllerTemplateElementIdentifier.#ctor(Rewired.ControllerTemplateElementIdentifier,Rewired.ControllerTemplateElementType,System.Boolean)">
+            Do not use the copy constructor on a runtime initialized object.
+            If runtime initialized, the element name localizer will NOT be copied and the copy will need to be runtime initialized.
         </member>
         <member name="M:Rewired.ControllerTemplateElementIdentifier.GetDisplayName(Rewired.AxisRange)">
             <summary>
@@ -14657,6 +16016,21 @@
             </summary>
             <param name="axisRange">The range.</param>
             <returns>Returns the display name for the specified axis range.</returns>
+        </member>
+        <member name="M:Rewired.ControllerTemplateElementIdentifier.GetGlyph(Rewired.AxisRange)">
+            <summary>
+            Gets the glyph for the specified axis range.
+            </summary>
+            <param name="axisRange">The range.</param>
+            <returns>Returns the glyph for the specified axis range.</returns>
+        </member>
+        <member name="M:Rewired.ControllerTemplateElementIdentifier.GetFinalGlyphKey(Rewired.AxisRange)">
+            <summary>
+            Gets the full glyph key path for the specified range.
+            This will only return a value if a glyph was found.
+            </summary>
+            <param name="axisRange">The range.</param>
+            <returns>The full glyph key path for the specified range.</returns>
         </member>
         <member name="T:Rewired.ControllerMapEnabler">
             <summary>
@@ -16866,14 +18240,15 @@
             DO NOT USE ControllerMap or ControllerMapWithAxes!
             </summary>
         </member>
-        <member name="M:Rewired.HardwareControllerMap_Game.#ctor(System.String,System.Int32,Rewired.ControllerElementIdentifier[],System.Int32[],System.Int32[],Rewired.AxisCalibrationData[],Rewired.AxisRange[],Rewired.Data.Mapping.HardwareAxisInfo[],Rewired.Data.Mapping.HardwareButtonInfo[],Rewired.Data.Mapping.HardwareJoystickMap.CompoundElement[])">
+        <member name="M:Rewired.HardwareControllerMap_Game.#ctor(System.String,Rewired.Internal.Localization.DeviceLocalizationInfo,System.Int32,Rewired.ControllerElementIdentifier[],System.Int32[],System.Int32[],Rewired.AxisCalibrationData[],Rewired.AxisRange[],Rewired.Data.Mapping.HardwareAxisInfo[],Rewired.Data.Mapping.HardwareButtonInfo[],Rewired.Data.Mapping.HardwareJoystickMap.CompoundElement[])">
             <summary>
             Overload for Custom Controllers.
             </summary>
         </member>
-        <member name="M:Rewired.HardwareControllerMap_Game.#ctor(System.String,Rewired.HardwareControllerMapIdentifier,Rewired.JoystickType[],Rewired.ControllerElementIdentifier[],System.Int32[],System.Int32[],Rewired.AxisCalibrationData[],Rewired.AxisRange[],Rewired.Data.Mapping.HardwareAxisInfo[],Rewired.Data.Mapping.HardwareButtonInfo[],Rewired.Data.Mapping.HardwareJoystickMap.CompoundElement[])">
+        <member name="M:Rewired.HardwareControllerMap_Game.#ctor(System.String,Rewired.Internal.Localization.DeviceLocalizationInfo,Rewired.HardwareControllerMapIdentifier,Rewired.JoystickType[],Rewired.ControllerElementIdentifier[],System.Int32[],System.Int32[],Rewired.AxisCalibrationData[],Rewired.AxisRange[],Rewired.Data.Mapping.HardwareAxisInfo[],Rewired.Data.Mapping.HardwareButtonInfo[],Rewired.Data.Mapping.HardwareJoystickMap.CompoundElement[])">
             <summary>
             Overload for Joysticks.
+            Also called by Keyboard/Mouse overload.
             </summary>
         </member>
         <member name="M:Rewired.HardwareControllerMap_Game.#ctor(System.String,Rewired.HardwareControllerMapIdentifier,Rewired.ControllerElementIdentifier[],System.Int32[],System.Int32[],Rewired.AxisCalibrationData[],Rewired.AxisRange[],Rewired.Data.Mapping.HardwareAxisInfo[],Rewired.Data.Mapping.HardwareButtonInfo[],Rewired.Data.Mapping.HardwareJoystickMap.CompoundElement[])">
@@ -16893,7 +18268,8 @@
         </member>
         <member name="P:Rewired.InputAction.name">
             <summary>
-            The scripting name.
+            The scripting name of the action.
+            Use <see cref="P:Rewired.InputAction.descriptiveName"/> instead for the localizable display name.
             </summary>
         </member>
         <member name="P:Rewired.InputAction.type">
@@ -16904,16 +18280,21 @@
         <member name="P:Rewired.InputAction.descriptiveName">
             <summary>
             The descripive name. This can be shown to users.
+            The returned value will be localized if localization is in use.
             </summary>
         </member>
         <member name="P:Rewired.InputAction.positiveDescriptiveName">
             <summary>
             The positive descriptive name. This can be shown to users.
+            If no positive name was defined, <see cref="P:Rewired.InputAction.descriptiveName"/> will be returned with a + suffix appended.
+            The returned value will be localized if localization is in use.
             </summary>
         </member>
         <member name="P:Rewired.InputAction.negativeDescriptiveName">
             <summary>
             The negative descriptive name. This can be shown to users.
+            If no negative name was defined, <see cref="P:Rewired.InputAction.descriptiveName"/> will be returned with a - suffix appended.
+            The returned value will be localized if localization is in use.
             </summary>
         </member>
         <member name="P:Rewired.InputAction.behaviorId">
@@ -16947,6 +18328,14 @@
             <summary>
             Makes a copy of an InputAction.
             </summary>
+        </member>
+        <member name="M:Rewired.InputAction.GetDisplayName(Rewired.AxisRange)">
+            <summary>
+            Gets the display name for the specified range.
+            The returned value will be localized if localization is in use.
+            </summary>
+            <param name="axisRange">The range.</param>
+            <returns>Returns the display name for the specified range.</returns>
         </member>
         <member name="T:Rewired.InputBehavior">
             <summary>
@@ -17137,6 +18526,23 @@
             A category for organizing input-related data.
             </summary>
         </member>
+        <member name="P:Rewired.InputCategory.name">
+            <summary>
+            The scripting name of the category.
+            Use <see cref="P:Rewired.InputCategory.descriptiveName"/> instead for the localizable display name.
+            </summary>
+        </member>
+        <member name="P:Rewired.InputCategory.descriptiveName">
+            <summary>
+            The descriptive name of the category.
+            The returned value will be localized if localization is in use.
+            </summary>
+        </member>
+        <member name="T:Rewired.InputActionCategory">
+            <summary>
+            A category for organizing Actions.
+            </summary>
+        </member>
         <member name="T:Rewired.InputMapCategory">
             <summary>
             A category for organizing controller maps.
@@ -17150,6 +18556,18 @@
         <member name="T:Rewired.InputLayout">
             <summary>
             A layout for organizing input maps.
+            </summary>
+        </member>
+        <member name="P:Rewired.InputLayout.name">
+            <summary>
+            The scripting name of the layout.
+            Use <see cref="P:Rewired.InputLayout.descriptiveName"/> instead for the localizable display name.
+            </summary>
+        </member>
+        <member name="P:Rewired.InputLayout.descriptiveName">
+            <summary>
+            The descriptive name of the layout.
+            The returned value will be localized if localization is in use.
             </summary>
         </member>
         <member name="T:Rewired.InputMapper">
@@ -17626,11 +19044,13 @@
         <member name="P:Rewired.Player.name">
             <summary>
             The scripting name of the Player.
+            Use <see cref="P:Rewired.Player.descriptiveName"/> instead for the localizable display name.
             </summary>
         </member>
         <member name="P:Rewired.Player.descriptiveName">
             <summary>
             The descriptive name of the Player.
+            The returned value will be localized if localization is in use.
             </summary>
         </member>
         <member name="P:Rewired.Player.isPlaying">
@@ -22126,6 +23546,16 @@
             Gets an object that provides access to configuration-related data.
             </summary>
         </member>
+        <member name="P:Rewired.ReInput.localization">
+            <summary>
+            Gets an object that provides access to localization-related data.
+            </summary>
+        </member>
+        <member name="P:Rewired.ReInput.glyphs">
+            <summary>
+            Gets an object that provides access to glyph-related data.
+            </summary>
+        </member>
         <member name="P:Rewired.ReInput.programVersion">
             <summary>
             Gets the current Rewired version number as a string.
@@ -22145,6 +23575,47 @@
             <summary>
             Is the input system ready?
             </summary>
+        </member>
+        <member name="M:Rewired.ReInput.Update">
+             <summary>
+             This can be used to update the system state manually.
+             Controller input values will be updated, Action values updated, button frame events reset and recalculated,
+             and various other events triggered (controller connect / disconnect, etc.)
+             The Manual update must be enabled in the Rewired Input Manager settings for this function to have any effect.
+             Each time this function is called, a new input frame will begin.
+             Input and button events will remain valid until the next input frame.
+             Button up/down events of all types (double click, etc) and axis delta values (mouse axes, etc.) are frame values. That is, they exist
+             for one input frame and then are cleared on the next frame. Because of this, when and how often Update is called is
+             very important for consumers of input using the polling method. Input should be updated on a 1:1 ratio with polling consumers of input,
+             and update should occur in the loop before input is consumed.
+             Automatic mode  allows you to choose multiple update loops and each will track frame values independently, but when using Manual update mode,
+             it is only possible to track these values for one input update loop. This means you cannot reliably consume input in multiple loops
+             that may update at different rates, such as consuming input in both MonoBehaviour.Update and MonoBehaviour.FixedUpdate.
+             Calling this function immediately before consuming input will have no effect on input latency on those platforms,
+             input sources, or devices that do not support multi-threaded input or those for which Rewired doesn't have a
+             multi-threaded implementation.
+             
+             NOTE: If you are attempting to update input manually in order to reduce input latency, realize that not all platforms,
+             input sources, or devices can be updated at an arbitrary time.
+            
+             WARNING: This must be called only from the main thread!
+            
+             WARNING: All Rewired addons (integrations, RewiredStandaloneInputModule, Control Mapper, Touch Controls, Player Mouse, etc.) require
+             input to be calculated correctly in the MonoBehaviour.Update loop. Specifically, button up/down events, and for some, mouse axis delta values, must be available
+             for the entire Update frame in order for these addons to read button events correctly. When you choose to manually handle
+             updating, Rewired cannot run the normal update in the Update loop when Manual update mode is used, so these addons may not function correctly depending on when or
+             how often you choose to update input. If you update input multiple times in a Unity frame, for example, button up/down events
+             may be reset before the MonoBehaviour.Update is called in these various addons, causing missed button events and incorrect axis delta values.
+             Because of this, addons may not function correctly if you choose to use manual updating.
+             
+             WARNING: Rewired has different dependencies for input on different platforms depending on the input sources in use and the devices in use.
+             If the input API in use for the device in question is unable to provide new input values by the time you call ReInput.Update, there will
+             be at least a 1-frame lag in input. This depends entirely on when you choose to update input and the specific input API in use for connected
+             input devices. For example, if you are using this to support updating input in an ECS System that you have set to run before UnityEngine.Input's
+             update executes, any devices on platforms that rely on UnityEngine.Input will retrieve an outdated value from UnityEngine.Input because it hasn't updated yet.
+             Whether this is an issue is dependent on order of execution. Unity has exposed low level functionality (PlayerLoop) that allows changing execution
+             order of various events. You must know exactly what you are doing if you intend to run the Rewired update manually any earlier than MonoBehaviour.Update.
+             </summary>
         </member>
         <member name="M:Rewired.ReInput.Reset">
             <summary>
@@ -22238,6 +23709,48 @@
             This should only be called by TimeManager.
             </summary>
         </member>
+        <member name="T:Rewired.ReInput.LocalizationHelper">
+            <summary>
+            Provides access to all localization-related members.
+            </summary>
+        </member>
+        <member name="P:Rewired.ReInput.LocalizationHelper.localizedStringProvider">
+            <summary>
+            Assign an object that implements <see cref="T:Rewired.Interfaces.ILocalizedStringProvider"/>
+            to handle localized string lookups.
+            </summary>
+        </member>
+        <member name="P:Rewired.ReInput.LocalizationHelper.prefetch">
+            <summary>
+            Determines if strings should be localized immediately in bulk when available.
+            If false, strings will be localized when queried.
+            </summary>
+        </member>
+        <member name="M:Rewired.ReInput.LocalizationHelper.Reload">
+            <summary>
+            Clears localization cache.
+            Call this when strings need to be localized again,
+            such as after changing languages in the localization provider.
+            </summary>
+        </member>
+        <member name="T:Rewired.ReInput.GlyphHelper">
+            <summary>
+            Provides access to all glyph-related members.
+            </summary>
+        </member>
+        <member name="P:Rewired.ReInput.GlyphHelper.prefetch">
+            <summary>
+            Determines if glyphs should be fetched immediately in bulk when available.
+            If false, strings will be fetched when queried.
+            </summary>
+        </member>
+        <member name="M:Rewired.ReInput.GlyphHelper.Reload">
+            <summary>
+            Clears localization cache.
+            Call this when strings need to be localized again,
+            such as after changing languages in the localization provider.
+            </summary>
+        </member>
         <member name="T:Rewired.ReInput.ConfigHelper">
             <summary>
             Provides access to time-related data. This is mostly for accurate unscaled time comparisons for button and axis times.
@@ -22251,6 +23764,12 @@
         <member name="P:Rewired.ReInput.ConfigHelper.useWindowsGamingInput">
             <summary>
             Toggles the use of WindowsGamingInput in Windows Standalone and Windows UWP during runtime. Rewired will be completely reset if this value is changed.
+            </summary>
+        </member>
+        <member name="P:Rewired.ReInput.ConfigHelper.updateMode">
+            <summary>
+            Changes the Update Mode setting during runtime.
+            Rewired will be completely reset if this value is changed.
             </summary>
         </member>
         <member name="P:Rewired.ReInput.ConfigHelper.updateLoop">
@@ -23927,9 +25446,8 @@
         <member name="M:Rewired.ReInput.MappingHelper.GetFirstJoystickTemplateElementIdentifier(Rewired.Joystick,System.Int32)">
             <summary>
             Gets the first template Element Identifier on the first joystick template found that maps to the joystick's Element Identifier.
-            NOTE: It is discouraged to use this method as the mapping template system wasn't designed for this use. This method has been added
-            as a short-term solution to the problem of trying to identify controller elements as generic Gamepad elements for use in displaying
-            visual help to users. A better solution will be available in the future and this method will be deprecated at that time.
+            NOTE: This method was added as a short-term solution to the problem of trying to identify controller elements as generic Gamepad elements for use in displaying
+            visual help to users. Use the runtime Controller Template system instead.
             </summary>
             <param name="joystick">The joystick</param>
             <param name="joystickElementIdentifierId">The joystick element identifier id.</param>
@@ -24127,116 +25645,6 @@
         <member name="M:Rewired.ReInput.UnityVariableWatcher.Update">
             <summary>
             Called in the first of either Update or FixedUpdate every thread frame.
-            </summary>
-        </member>
-        <member name="F:Rewired.InputSources.SDL2.SDL.SDL_EventType.SDL_USEREVENT">
-            Events ::SDL_USEREVENT through ::SDL_LASTEVENT are for your use,
-            and should be allocated with SDL_RegisterEvents()
-        </member>
-        <member name="F:Rewired.InputSources.SDL2.SDL.SDL_EventType.SDL_LASTEVENT">
-            This last event is only for bounding internal arrays
-        </member>
-        <member name="T:Rewired.InputSources.SDL2.SDL.SDL_CommonEvent">
-            \brief Fields shared by every event
-        </member>
-        <member name="T:Rewired.InputSources.SDL2.SDL.SDL_WindowEvent">
-            \brief Window state change event data (event.window.*)
-        </member>
-        <member name="T:Rewired.InputSources.SDL2.SDL.SDL_KeyboardEvent">
-            \brief Keyboard button event structure (event.key.*)
-        </member>
-        <member name="T:Rewired.InputSources.SDL2.SDL.SDL_TextEditingEvent">
-            \brief Keyboard text editing event structure (event.edit.*)
-        </member>
-        <member name="T:Rewired.InputSources.SDL2.SDL.SDL_MouseMotionEvent">
-            \brief Mouse motion event structure (event.motion.*)
-        </member>
-        <member name="T:Rewired.InputSources.SDL2.SDL.SDL_MouseButtonEvent">
-            \brief Mouse button event structure (event.button.*)
-        </member>
-        <member name="T:Rewired.InputSources.SDL2.SDL.SDL_MouseWheelEvent">
-            \brief Mouse wheel event structure (event.wheel.*)
-        </member>
-        <member name="T:Rewired.InputSources.SDL2.SDL.SDL_JoyAxisEvent">
-            \brief Joystick axis motion event structure (event.jaxis.*)
-        </member>
-        <member name="T:Rewired.InputSources.SDL2.SDL.SDL_JoyBallEvent">
-            \brief Joystick trackball motion event structure (event.jball.*)
-        </member>
-        <member name="T:Rewired.InputSources.SDL2.SDL.SDL_JoyHatEvent">
-            \brief Joystick hat position change event structure (event.jhat.*)
-        </member>
-        <member name="T:Rewired.InputSources.SDL2.SDL.SDL_JoyButtonEvent">
-            \brief Joystick button event structure (event.jbutton.*)
-        </member>
-        <member name="T:Rewired.InputSources.SDL2.SDL.SDL_JoyDeviceEvent">
-            \brief Joystick device event structure (event.jdevice.*)
-        </member>
-        <member name="T:Rewired.InputSources.SDL2.SDL.SDL_ControllerAxisEvent">
-            \brief Game controller axis motion event structure (event.caxis.*)
-        </member>
-        <member name="T:Rewired.InputSources.SDL2.SDL.SDL_ControllerButtonEvent">
-            \brief Game controller button event structure (event.cbutton.*)
-        </member>
-        <member name="T:Rewired.InputSources.SDL2.SDL.SDL_ControllerDeviceEvent">
-            \brief Controller device event structure (event.cdevice.*)
-        </member>
-        <member name="T:Rewired.InputSources.SDL2.SDL.SDL_TouchFingerEvent">
-            \brief Touch finger event structure (event.tfinger.*)
-        </member>
-        <member name="T:Rewired.InputSources.SDL2.SDL.SDL_MultiGestureEvent">
-            \brief Multiple Finger Gesture Event (event.mgesture.*)
-        </member>
-        <member name="T:Rewired.InputSources.SDL2.SDL.SDL_DollarGestureEvent">
-            \brief Dollar Gesture Event (event.dgesture.*)
-        </member>
-        <member name="T:Rewired.InputSources.SDL2.SDL.SDL_DropEvent">
-            \brief An event used to request a file open by the system (event.drop.*)
-                   This event is disabled by default, you can enable it with SDL_EventState()
-            \note If you enable this event, you must free the filename in the event.
-        </member>
-        <member name="T:Rewired.InputSources.SDL2.SDL.SDL_QuitEvent">
-            \brief The "quit requested" event
-        </member>
-        <member name="T:Rewired.InputSources.SDL2.SDL.SDL_OSEvent">
-            \brief OS Specific event
-        </member>
-        <member name="T:Rewired.InputSources.SDL2.SDL.SDL_UserEvent">
-            \brief A user-defined event type (event.user.*)
-        </member>
-        <member name="T:Rewired.InputSources.SDL2.SDL.SDL_SysWMEvent">
-              \brief A video driver dependent system event (event.syswm.*)
-                     This event is disabled by default, you can enable it with SDL_EventState()
-            
-              \note If you want to use this event, you should include SDL_syswm.h.
-        </member>
-        <member name="T:Rewired.InputSources.SDL2.SDL.SDL_Event">
-            \brief General event structure
-        </member>
-        <member name="F:Rewired.InputSources.SDL2.SDL.SDL_Scancode.SDL_SCANCODE_A">
-              \name Usage page 0x07
-            
-              These values are from usage page 0x07 (USB keyboard page).
-        </member>
-        <member name="F:Rewired.InputSources.SDL2.SDL.SDL_Scancode.SDL_SCANCODE_AUDIONEXT">
-              \name Usage page 0x0C
-            
-              These values are mapped from usage page 0x0C (USB consumer page).
-        </member>
-        <member name="F:Rewired.InputSources.SDL2.SDL.SDL_Scancode.SDL_SCANCODE_BRIGHTNESSDOWN">
-              \name Walther keys
-            
-              These are values that Christian Walther added (for mac keyboard?).
-        </member>
-        <member name="M:Rewired.InputSources.SDL2.SDL2InputSource.GetGameControllerCount">
-            <summary>
-            The value returned cannot be used to iterate! Always use GetJoystickCount!
-            </summary>
-            <returns>Number of Game Controllers</returns>
-        </member>
-        <member name="M:Rewired.InputSources.SDL2.SDL2Joystick.ProcessAxisValue(System.Int32)">
-            <summary>
-            Convert from +/- 32768 to +/- 1.0f
             </summary>
         </member>
     </members>

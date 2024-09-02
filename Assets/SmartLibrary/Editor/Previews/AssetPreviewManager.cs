@@ -23,6 +23,10 @@ namespace Bewildered.SmartLibrary
         private static readonly Queue<(string guid, Texture2D preview)> _unsavedPreviews = new Queue<(string guid, Texture2D preview)>();
         private static bool _isLoadingPreviews = false;
 
+        private static double _lastTimeSinceStartup;
+        
+        public static float DeltaTime { get; private set; }
+
         /// <summary>
         /// <c>true</c> if previews have been requested and is loading them; otherwise, <c>fasle</c>.
         /// </summary>
@@ -36,6 +40,18 @@ namespace Bewildered.SmartLibrary
             GetAndSetupSavePath();
 
             EditorApplication.update += PreviewTask;
+            EditorApplication.update += DeltaTimeTask;
+        }
+
+        private static void DeltaTimeTask()
+        {
+            if (_lastTimeSinceStartup == 0f)
+            {
+                _lastTimeSinceStartup = EditorApplication.timeSinceStartup;
+            }
+            // For some reason the delta time seems to be twice as fast as expected, so we divide it in half.
+            DeltaTime = (float)(EditorApplication.timeSinceStartup - _lastTimeSinceStartup) * 0.5f;
+            _lastTimeSinceStartup = EditorApplication.timeSinceStartup;
         }
 
         public static Texture2D GetAssetPreview(string guid)

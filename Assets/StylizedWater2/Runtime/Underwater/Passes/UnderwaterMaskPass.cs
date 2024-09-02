@@ -37,7 +37,14 @@ namespace StylizedWater2.UnderwaterRendering
             
             renderer.EnqueuePass(this);
         }
+        
+        #if UNITY_6000_0_OR_NEWER //Silence warning spam
+        public override void RecordRenderGraph(UnityEngine.Rendering.RenderGraphModule.RenderGraph renderGraph, ContextContainer frameData) { }
+        #endif
 
+
+        #pragma warning disable CS0672
+        #pragma warning disable CS0618
         public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
         {
             cameraTextureDescriptor.width /= DOWNSAMPLES;

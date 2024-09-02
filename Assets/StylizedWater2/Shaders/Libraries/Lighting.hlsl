@@ -201,6 +201,11 @@ float3 ApplyLighting(inout SurfaceData surfaceData, inout float3 sceneColor, Lig
 	#if _LIGHT_LAYERS && UNITY_VERSION >= 202220
 	uint meshRenderingLayers = GetMeshRenderingLayer();
 	#endif
+
+	#if _TRANSLUCENCY
+	float translucencyStrength = translucencyData.strength;
+	float translucencyExp = translucencyData.exponent;
+	#endif
 	
 	LIGHT_LOOP_BEGIN(pixelLightCount)
 		#if UNITY_VERSION >= 202110 //URP 11+
@@ -220,14 +225,17 @@ float3 ApplyLighting(inout SurfaceData surfaceData, inout float3 sceneColor, Lig
 			#endif
 			
 			#if _TRANSLUCENCY
-			//Keep settings from main light pass, override these
+			//Keep settings from main light pass, but override these
 			translucencyData.directionalLight = false;
-			translucencyData.lightDir = light.direction;
-			translucencyData.lightColor = light.color * light.distanceAttenuation;
-			translucencyData.strength *= light.shadowAttenuation;
-			translucencyData.exponent *= light.distanceAttenuation;
+			if(water.vFace > 0)
+			{
+				translucencyData.lightDir = light.direction;
+				translucencyData.lightColor = light.color * light.distanceAttenuation;
+				translucencyData.strength = translucencyStrength * light.shadowAttenuation;
+				translucencyData.exponent = translucencyExp * light.distanceAttenuation;
 				
-			ApplyTranslucency(translucencyData, surfaceData.emission.rgb);
+				ApplyTranslucency(translucencyData, surfaceData.emission.rgb);
+			}
 			#endif
 			#endif
 

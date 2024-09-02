@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b78e46fc2c87a104ebb16a27f8dbd947, type: 3}
+  m_Name: Dodgeball FMOD Effect
+  m_EditorClassIdentifier: 
+  effectID:
+    ObjectIDMode: 0
+  collisionEvent:
+    Guid:
+      Data1: 1493563949
+      Data2: 1258664008
+      Data3: 1650638783
+      Data4: 1738768608
+    Path: event:/SFX/PLAYER/BEACH BALL/BounceBeachBall
+  slideEvent:
+    Guid:
+      Data1: -1420815804
+      Data2: 1139822497
+      Data3: -12934257
+      Data4: 845964480
+    Path: event:/SFX/PLAYER/BallRoll
+  rollEvent:
+    Guid:
+      Data1: -1420815804
+      Data2: 1139822497
+      Data3: -12934257
+      Data4: 845964480
+    Path: event:/SFX/PLAYER/BallRoll
+  velocityReferenceRange:
+    Min: 1
+    Max: 10
+  collisionNormalInfluence: 1

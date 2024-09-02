@@ -88,26 +88,27 @@ Varyings LitPassVertex(Attributes input)
 	float2 uv = GetSourceUV(input.uv.xy, positionWS.xz, _WorldSpaceUV);
 
 	//Vertex animation
-	WaveInfo waves = GetWaveInfo(uv, TIME_VERTEX * _WaveSpeed, _WaveHeight, lerp(1, 0, vertexColor.b), _WaveFadeDistance.x, _WaveFadeDistance.y);
+	WaveInfo waves = GetWaveInfo(uv, positionWS, TIME_VERTEX * _WaveSpeed, _WaveHeight, lerp(1, 0, vertexColor.b), _WaveFadeDistance.x, _WaveFadeDistance.y);
 	//Offset in direction of normals (only when using mesh uv)
 	if(_WorldSpaceUV == 0) waves.position *= normalInput.normalWS.xyz;
 	
 	offset += waves.position.xyz;
 #endif
 
-	//SampleWaveSimulationVertex(positionWS, positionWS.y);
-
 	#if DYNAMIC_EFFECTS_ENABLED
-	float4 effectsData = SampleDynamicEffectsData(positionWS.xyz + offset.xyz);
+	if(_ReceiveDynamicEffects)
+	{
+		float4 effectsData = SampleDynamicEffectsData(positionWS.xyz + offset.xyz);
 
-	half falloff = 1.0;
-	#if defined(TESSELLATION_ON)
-	falloff = saturate(1.0 - (distance(positionWS.xyz, GetCurrentViewPosition() - _TessMin)) / (_TessMax - _TessMin));
-	#endif
+		half falloff = 1.0;
+		#if defined(TESSELLATION_ON)
+		falloff = saturate(1.0 - (distance(positionWS.xyz, GetCurrentViewPosition() - _TessMin)) / (_TessMax - _TessMin));
+		#endif
 	
-	offset.y += effectsData[DE_DISPLACEMENT_CHANNEL] * falloff;
+		offset.y += effectsData[DE_DISPLACEMENT_CHANNEL] * falloff;
+	}
 	#endif
-	#endif
+	#endif //!defined(SHADERPASS_DISPLACEMENT)
 	
 	//Apply vertex displacements
 	positionWS += offset;
@@ -138,8 +139,10 @@ Varyings LitPassVertex(Attributes input)
 	#ifdef DYNAMICLIGHTMAP_ON
 	output.dynamicLightmapUV = input.dynamicLightmapUV.xy * unity_DynamicLightmapST.xy + unity_DynamicLightmapST.zw;
 	#endif
-	
-	#if UNITY_VERSION >= 202320 //Note: actually available from 2023.1.7+ (URP 15.0.8)
+
+	#if UNITY_VERSION >= 600009
+	OUTPUT_SH4(positionWS, output.normalWS.xyz, GetWorldSpaceNormalizeViewDir(positionWS), output.vertexSH, 1);
+	#elif UNITY_VERSION >= 202320 //Note: actually available from 2023.1.7+ (URP 15.0.8)
 	OUTPUT_SH4(positionWS, output.normalWS.xyz, GetWorldSpaceNormalizeViewDir(positionWS), output.vertexSH);
 	#else
 	OUTPUT_SH(output.normalWS.xyz, output.vertexSH);

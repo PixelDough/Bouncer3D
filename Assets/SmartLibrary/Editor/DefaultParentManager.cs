@@ -113,7 +113,11 @@ namespace Bewildered.SmartLibrary
             
             if (!parentLink.CollectionIds.Contains(collectionId))
             {
+#if UNITY_6000_0_OR_NEWER
+                var parentLinks = Object.FindObjectsByType<CollectionDefaultParent>(FindObjectsSortMode.None);
+#else                
                 var parentLinks = GameObject.FindObjectsOfType<CollectionDefaultParent>();
+#endif
                 foreach (var defaultParentLink in parentLinks)
                 {
                     if (defaultParentLink.CollectionIds.Contains(collectionId))

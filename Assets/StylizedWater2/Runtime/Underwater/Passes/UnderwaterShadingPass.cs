@@ -29,6 +29,10 @@ namespace StylizedWater2.UnderwaterRendering
             renderer.EnqueuePass(this);
         }
         
+        #if UNITY_6000_0_OR_NEWER
+        #pragma warning disable CS0672
+        #pragma warning disable CS0618
+        #endif
         public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
         {
             base.Configure(cmd, cameraTextureDescriptor);

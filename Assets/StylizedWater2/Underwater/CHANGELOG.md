@@ -1,3 +1,36 @@
+1.2.6
+
+Added:
+- Scene view gizmo to display the current water level on both the Underwater Renderer and Underwater Trigger components.
+
+Changed:
+- Underwater Trigger now constantly sets the water level/material whilst inside the trigger (avoids other triggers that spawn in to interfere)
+
+Fixed:
+- Unfogged part of the underwater surface not being affected by directional light and ambient light.
+
+1.2.5
+
+Changed:
+- Implemented proper error handling for Unity 6.
+
+Fixed:
+- Indirect lighting and reflections being black in demo scene in Unity 2023.2+.
+- "Speed" parameter on the water material not affecting the underwater caustics animation speed
+
+1.2.4
+
+Fixed:
+- Right eye rendering black on Android VR in Unity 2022.3.21+
+
+1.2.3
+
+Added:
+- A warning to the Underwater Renderer UI if rendering was disabled by an external script.
+
+Fixed:
+- Camera-space distortion not having any effect when using VR.
+
 1.2.2
 
 Fixed:

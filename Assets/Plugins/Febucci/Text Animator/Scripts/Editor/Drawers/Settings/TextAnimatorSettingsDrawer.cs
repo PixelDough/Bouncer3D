@@ -74,6 +74,9 @@ namespace Febucci.UI
                     }
                 }
             }
+
+            if (serializedObject.hasModifiedProperties)
+                serializedObject.ApplyModifiedProperties();
         }
     }
 }

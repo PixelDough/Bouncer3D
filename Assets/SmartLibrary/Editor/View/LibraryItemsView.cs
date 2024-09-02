@@ -4,7 +4,9 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
+using UnityEditor.AnimatedValues;
 using UnityEditor.Search;
+using UnityEngine.Events;
 
 namespace Bewildered.SmartLibrary.UI
 {
@@ -20,7 +22,12 @@ namespace Bewildered.SmartLibrary.UI
     
     public enum ItemsViewStyle { Grid, List }
 
+#if UNITY_6000_0_OR_NEWER
+    [UxmlElement]
+    internal partial class LibraryItemsView : VisualElement
+#else
     internal class LibraryItemsView : VisualElement
+#endif
     {
         public static readonly string ussClassName = "bewildered-library-items";
         public static readonly string emptyOverlayContainerUssClassName = ussClassName + "__empty-overlay-container";
@@ -60,6 +67,11 @@ namespace Bewildered.SmartLibrary.UI
         private Dictionary<string, string> _cachedNames = new Dictionary<string, string>();
         private List<LibraryItem> _lastDrawnAssetItems = new List<LibraryItem>();
         private List<int> _lastDrawnAssetDirtyCounts = new List<int>();
+        
+        private LibraryItem _lastHoveredItem;
+        private LibraryItem _currentHoveredItem;
+        private AnimFloat _hoverItemDelay = new AnimFloat(0);
+        private LivePreviewer.PreviewInstance _livePreviewInstance;
 
         private bool UseCollectionSettings
         {
@@ -260,6 +272,9 @@ namespace Bewildered.SmartLibrary.UI
         /// </summary>
         private void DrawItemsView()
         {
+            if (Event.current.type == EventType.Layout || Event.current.type == EventType.Repaint)
+                _currentHoveredItem = null;
+            
             if (Event.current.type == EventType.Repaint)
                 ClearDirtyStateTracking();
 
@@ -273,6 +288,41 @@ namespace Bewildered.SmartLibrary.UI
             // The +30 is something that Unity does internally, so we do it too since they have a good reason to most likely...
             if (Event.current.type == EventType.Repaint)
                 AssetPreviewManager.SetPreviewCacheSize(_currentView.MaxVisibleItems * 2 + 30, _ownerId);
+
+            UpdateHoverItemStatus();
+        }
+
+        private void UpdateHoverItemStatus()
+        {
+            if (!LibraryPreferences.ShowLivePreviews)
+            {
+                _livePreviewInstance?.Dispose();
+                _livePreviewInstance = null;
+                return;
+            }
+            
+            // Hovered item has changed.
+            if (_currentHoveredItem != _lastHoveredItem)
+            {
+                _hoverItemDelay.value = 0;
+                _livePreviewInstance?.Dispose();
+                _livePreviewInstance = null;
+                
+                if (_currentHoveredItem != null)
+                {
+                    _hoverItemDelay.target = LibraryPreferences.LivePreviewDelay;
+                }
+            }
+            
+            _lastHoveredItem = _currentHoveredItem;
+
+            if (_lastHoveredItem != null && LivePreviewer.SupportedTypes.Contains(_lastHoveredItem.Type))
+            {
+                if (_hoverItemDelay.value >= LibraryPreferences.LivePreviewDelay && _livePreviewInstance == null)
+                {
+                    _livePreviewInstance = LivePreviewer.GetPreviewInstanceFromGuid(_lastHoveredItem.GUID);
+                }
+            }
         }
 
         /// <summary>
@@ -398,6 +448,11 @@ namespace Bewildered.SmartLibrary.UI
         {
             var item = _filteredItems[index].Item;
             AddDirtyStateTracking(item);
+            
+            if (isHovering && item != _currentHoveredItem)
+            {
+                _currentHoveredItem = item;
+            }
 
             Rect iconRect = DrawPreview(rect, item);
             DrawMiniTypeIcon(iconRect, item, isActive, isHovering, isFocused);
@@ -438,11 +493,16 @@ namespace Bewildered.SmartLibrary.UI
             if (LibraryPreferences.ShowNamesInGridView || (!LibraryPreferences.ShowNamesInGridView && isHovering))
                 GUI.Label(labelRect, itemName, labelStyle);
         }
-
+        
         private void DrawListItem(Rect rect, int index, bool isActive, bool isHovering, bool isFocused)
         {
             var item = _filteredItems[index].Item;
             AddDirtyStateTracking(item);
+            
+            if (isHovering && item != _currentHoveredItem)
+            {
+                _currentHoveredItem = item;
+            }
             
             Rect iconRect = Rect.zero;
             if (_listView.UseCompactSize)
@@ -506,15 +566,32 @@ namespace Bewildered.SmartLibrary.UI
                 height = iconSize
             };
 
-            var icon = AssetPreviewManager.GetAssetPreview(item.GUID, _ownerId, out bool generated);
-            if (icon == null)
-                icon = (Texture2D)LibraryConstants.FallbackAssetIcon;
+            Texture preview = null;
+            bool generated = false;
+            
+            if (_livePreviewInstance != null && item == _lastHoveredItem &&  _hoverItemDelay.value >= _hoverItemDelay.target)
+            {
+                preview = _livePreviewInstance.GenerateLive();
+                generated = true;
+                if (preview == null)
+                    preview = (Texture2D)LibraryConstants.FallbackAssetIcon;
+                
+                if (EditorWindow.mouseOverWindow != null)
+                    EditorWindow.mouseOverWindow.Repaint();
+            }
+            else
+            {
+                preview = AssetPreviewManager.GetAssetPreview(item.GUID, _ownerId, out generated);
+                if (preview == null)
+                    preview = (Texture2D)LibraryConstants.FallbackAssetIcon;
+            }
+            
 
             // None generated textures look very bad and pixely when rendered with the previewMaterial in DrawPreviewTexture, so we need render them normally with DrawTexture instead.
             if (generated)
-                EditorGUI.DrawPreviewTexture(iconRect, icon, LibraryUtility.PreviewGUIMaterial);
+                EditorGUI.DrawPreviewTexture(iconRect, preview, LibraryUtility.PreviewGUIMaterial);
             else
-                GUI.DrawTexture(iconRect, icon, ScaleMode.ScaleToFit);
+                GUI.DrawTexture(iconRect, preview, ScaleMode.ScaleToFit);
 
             return iconRect;
         }
@@ -754,6 +831,8 @@ namespace Bewildered.SmartLibrary.UI
             _ownerId = 0;
             LibraryDatabase.ItemsChanged -= OnLibraryItemsChanged;
             Undo.undoRedoPerformed -= Refresh;
+            
+            _livePreviewInstance?.Dispose();
         }
 
         private void OnLibraryItemsChanged(LibraryItemsChangedEventArgs args)
@@ -884,9 +963,11 @@ namespace Bewildered.SmartLibrary.UI
             return index > -1 && index < _filteredItems.Count ? _filteredItems[index].Item : null;
         }
         
+#if !UNITY_6000_0_OR_NEWER
         public new class UxmlFactory : UxmlFactory<LibraryItemsView, UxmlTraits> { }
 
         public new class UxmlTraits : VisualElement.UxmlTraits { }
+#endif
         
         private class DragAndDropDelay
         {

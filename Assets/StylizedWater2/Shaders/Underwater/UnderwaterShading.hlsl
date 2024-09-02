@@ -141,10 +141,11 @@ float3 ShadeUnderwaterSurface(in float3 albedo, float3 emission, float3 specular
 	//Fade out into fog
 	shadowMask = lerp(shadowMask, 1.0, density);
 	
-	//Apply lighting to the albedo fog color
-	ApplyUnderwaterLighting(volumeColor, shadowMask, normalWS, viewDir);
-
 	color = lerp(color, volumeColor, density);
+	
+	//Apply direct- and indirect lighting to the albedo water+fog color
+	ApplyUnderwaterLighting(color, shadowMask, normalWS, viewDir);
+
 	//Re-apply translucency
 	color.rgb += emission.rgb * (1-heightDensity);
 	//Specular reflection (unknown why point lights don't carry over)

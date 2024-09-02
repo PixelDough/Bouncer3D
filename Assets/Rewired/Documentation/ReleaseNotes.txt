@@ -1,3 +1,200 @@
+1.1.57.2:
+
+    Changes:
+      - Glyphs pack:
+        - Added Steam Contoller glyph set (re-uses Xbox One glyphs).
+        - Glyph Provider now sets itself back as the glyph provider when Rewired is reset.
+      - Localized String Provider now sets itself back as the localized string provider when Rewired is reset.
+
+    Controller Definition Changes:
+      - MacOS, Native: Added variant to Xbox One Controller definition for Xbox Elite Series 2 controller.
+    
+    Bug Fixes:
+      - Desktop Platforms, Enhanced Device Support, Nintendo Switch controllers: Vibration with duration works correctly now.
+
+1.1.57.1:
+
+     Bug Fixes:
+      - Windows Standalone, Windows Gaming Input: Fix exception thrown if no Tag is present.
+
+1.1.57.0:
+    
+    Changes:
+      - Removed Glyph system from base Rewired package and moved it into an optional pack that must be installed by the user.
+      - Removed editor script that set up scripting defines used for detecting Text Mesh Pro presence and version.
+
+    Bug Fixes:
+      - Windows Standalone, Windows Gaming Input: Prevent controller definition matching without Tag if Tag is supplied by definition.
+
+1.1.56.3:
+
+    Bug Fixes:
+      - Workaround for Sprite Glyph Set inspector glyph list clipping not working correctly on Unity 2019+ due to Unity editor GUI Layout inconsistencies.
+
+1.1.56.2:
+
+    Bug Fixes:
+      - Fixed exception thrown when ReInput is set to run in Edit mode and then entering Play mode directly.
+
+1.1.56.1:
+    
+    Bug Fixes:
+      - Fixed exception thrown in Rewired Editor when editing keyboard maps.
+
+1.1.56.0:
+
+    Changes:
+      - Added string localization system.
+      - Added glyph system.
+      - Added key fields to most objects in Rewired Input Manager and Controller and Controller Template definitions.
+      - Added Cinemachine 3 integration. (Unity 6+)
+      - Control Mapper:
+        - Added glyph support.
+        - Added support of localization system.
+        - Theme can now be changed at runtime.
+        - Dropped support in Unity 4.x.
+      - Removed Stadia platform support.
+
+    API Changes:
+      - Added Rewired.Interfaces.ILocalizedStringProvider interface.
+      - Added Rewired.Interfaces.IGlyphProvider interface.
+      - Added Rewired.ReInput.LocalizationHelper class.
+      - Added Rewired.ReInput.GlyphHelper class.
+      - Added Rewired.ReInput.localization property.
+      - Added Rewired.ReInput.glyphs property.
+      - Added Rewired.Keyboard.GetModifierKeyName method.
+      - Added Rewired.Keyboard.GetModifierKeyGlyph method.
+      - Added Rewired.ControllerElementIdentifier.key property.
+      - Added Rewired.ControllerElementIdentifier.positiveKey property.
+      - Added Rewired.ControllerElementIdentifier.negativeKey property.
+      - Added Rewired.ControllerElementIdentifier.glyph property.
+      - Added Rewired.ControllerElementIdentifier.positiveGlyph property.
+      - Added Rewired.ControllerElementIdentifier.negativeGlyph property.
+      - Added Rewired.ControllerElementIdentifier.GetGlyph method.
+      - Added Rewired.ControllerElementIdentifier.GetFinalGlyphKey method.
+      - Added Rewired.ControllerTemplateElementIdentifier.key property.
+      - Added Rewired.ControllerTemplateElementIdentifier.positiveKey property.
+      - Added Rewired.ControllerTemplateElementIdentifier.negativeKey property.
+      - Added Rewired.ControllerTemplateElementIdentifier.glyph property.
+      - Added Rewired.ControllerTemplateElementIdentifier.positiveGlyph property.
+      - Added Rewired.ControllerTemplateElementIdentifier.negativeGlyph property.
+      - Added Rewired.ControllerTemplateElementIdentifier.GetGlyph method.
+      - Added Rewired.ControllerTemplateElementIdentifier.GetFinalGlyphKey method.
+      - Added Rewired.ActionElementMap.elementIdentifierGlyph property.
+      - Added Rewired.ActionElementMap.elementIdentifierGlyphCount property.
+      - Added Rewired.ActionElementMap.GetElementIdentifierFinalGlyphKeys method.
+      - Added Rewired.ActionElementMap.GetElementIdentifierGlyphs method.
+      - Added Rewired.ActionElementMap.TryGetCombinedElementIdentifierName function.
+      - Added Rewired.ActionElementMap.TryGetCombinedElementIdentifierGlyph function.
+      - Added Rewired.ActionElementMap.TryGetCombinedElementIdentifierFinalGlyphKey function.
+      - Added Rewired.Controller.DirectionalPad class.
+      - Added Rewired.Joystick.directionalPadCount property.
+      - Added Rewired.Joystick.DirectionalPads property.
+      - Added Rewired.CompoundControllerElementType.DPad value.
+      - Added Rewired.InputAction.GetDisplayName method.
+      - Added Rewired.UI.ControlMapper.themeSettings property.
+      - Added Rewired.UI.ControlMapper.showGlyphs property.
+      - Added Rewired.Glyphs.ControllerElementGlyphProvider class.
+      - Added Rewired.Glyphs.ControllerElementGlyphSelectorOptions class.
+      - Added Rewired.Glyphs.ControllerElementGlyphSelectorOptionsSO class.
+      - Added Rewired.Glyphs.ControllerElementGlyphSelectorOptionsSOBase class.
+      - Added Rewired.Glyphs.ControllerElementGlyphSetCollectionSO class.
+      - Added Rewired.Glyphs.ControllerElementGlyphSetSO class.
+      - Added Rewired.Glyphs.ControllerElementSpriteGlyphSetSO class.
+      - Added Rewired.Glyphs.UnityUI.GlobalUnityUIControllerElementGlyphSettings
+      - Added Rewired.Glyphs.UnityUI.UnityUIControllerElementGlyph
+      - Added Rewired.Glyphs.UnityUI.UnityUIControllerElementGlyphBase
+      - Added Rewired.Glyphs.UnityUI.UnityUIGlyphOrText
+      - Added Rewired.Glyphs.UnityUI.UnityUIGlyphOrTextBase
+      - Added Rewired.Glyphs.UnityUI.UnityUIGlyphOrTextTMPro
+      - Added Rewired.Glyphs.UnityUI.UnityUIPlayerControllerElementGlyphBase
+      - Bug fix: Added Controller.GetCompoundElementById method and deprecated Controller.GetCompundElementById method.
+      - Bug fix: Changed Rewired.Platforms.XInputDeviceSubType.FlightSick to FlightStick.
+      - Removed all Stadia-related members.
+    
+    Controller Definition Changes:
+      - Changed Left Stick Button and Right Stick Button names to L3 / R3 on all Sony controllers.
+      - Added element identifier keys to all controllers and controller templates.
+      - Added D-Pad compound elements to all controllers with D-Pads.
+      - Changed Lever 1-3 lever press element identifier string from "Lever # Down" to "Lever # Press" to avoid conflicts with lever axis names on Saitek Pro Flight Quadrant and Saitek Pro Flight Yoke.
+      - Removed redundant R2 element identifier on Stadia Controller.
+    
+    Bug Fixes:
+      - Controller.Element.compoundElement property now returns the parent Controller.CompoundElement instead of null.
+   
+1.1.55.0:
+
+   Changes:
+      - Added Update Mode option.
+      - Removed DualSense Edge Enhanced Device Support due to not functioning correctly.
+
+   API Changes:
+      - Added Rewired.ReInput.Update function.
+      - Added Rewired.ReInput.ConfigHelper.updateMode property.
+      - Added Rewired.Config.UpdateMode enum.
+      - Added Rewired.ControllerExtensions.DualShock4Extension.batteryCharging property.
+   
+   Bug Fixes:
+      - Sony Dual Shock 4, Enhanced Device Support: Fixed incorrect battery level.
+      - Sony Dual Sense, Enhanced Device Support: Fixed incorrect battery charging state and battery level.
+
+1.1.54.1:
+
+   Bug Fixes: 
+      - New Custom Platform Hardware Joystick Map Platform Map axis values are now set to the correct default values when adding an axis.
+
+1.1.54.0:
+
+    Changes:
+      - Added variants to Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMapSimple.
+    
+    API Changes:
+      - Added Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMapSimpleBase class.
+      - Moved Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMapSimple.MatchingCriteria class to Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMapSimpleBase.MatchingCriteria.
+
+    Bug Fixes:
+      - Added detection of initial application focused state with Application.isFocused (Unity 2017+) to eliminate edge case of application incorrectly responding to input events in builds if window is defocused during initial application loading while Application.runInBackground is true and Rewired is not initialized on Awake in the first scene of the application on certain platforms using certain input sources.
+
+1.1.53.0:
+
+    Changes:
+      - Added editor inspector support for Custom Platform Hardware Joystick Map Platform Map variants.
+      - Updated Custom Platform example to illustrate variants and HardwareJoystickMapCustomPlatformMapSimpleSO.
+      
+    API Changes:
+      - Added Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMapSimple class.
+      - Added Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMapSimple.MatchingCriteria class.
+      - Added HardwareJoystickMapCustomPlatformMapSimpleSO class.
+
+1.1.52.0:
+
+    Changes:
+      - Added Custom Platforms: Developers can now add support for platforms not supported natively by Rewired.
+      - Added Custom Platform example.
+      - Updated Unity version check handling for Unity 6 in preparation for Unity 6 support. (Unity 6 support has not been added in this release.)
+  
+    API Changes:
+      - Added Rewired.Platforms.Custom.CustomPlatformConfigVars class.
+      - Added Rewired.Platforms.Custom.CustomPlatformInitOptions class.
+      - Added Rewired.Platforms.Custom.CustomPlatformInputSource class.
+      - Added Rewired.Platforms.Custom.CustomPlatformInputSource.InitOptions class.
+      - Added Rewired.Platforms.Custom.CustomPlatformInputSource.Joystick class.
+      - Added Rewired.Platforms.Custom.CustomPlatformUnifiedControllerSource class.
+      - Added Rewired.Platforms.Custom.CustomPlatformUnifiedKeyboardSource class.
+      - Added Rewired.Platforms.Custom.CustomPlatformUnifiedMouseSource class.
+      - Added Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMap class.
+      - Added Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMap.Axis class.
+      - Added Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMap.Button class.
+      - Added Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMap.Elements class.    
+      - Added Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMap.MatchingCriteria class.
+      - Added Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMap<TMatchingCriteria> class.
+      - Added Rewired.Platforms.Custom.HardwareJoystickMapCustomPlatformMapSO class.
+      - Added Rewired.Platforms.Custom.ICustomPlatformInitializer interface.
+      - Added Rewired.Platforms.Custom.IHardwareJoystickMapCustomPlatformMapProvider interface.
+  
+    Bug Fixes:
+      - Updated editor code to handle recently changed Xbox Game Core build target strings when automatically setting Rewired_Core.dll build targets.
+
 1.1.51.0:
 
   Changes:

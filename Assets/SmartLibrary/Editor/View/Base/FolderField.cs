@@ -52,10 +52,15 @@ namespace Bewildered.SmartLibrary.UI
                 _folderLabel.text = AssetDatabase.GUIDToAssetPath(_folderField.value);
             }
 
+#if UNITY_6000_0_OR_NEWER
+            protected override void HandleEventBubbleUp(EventBase evt)
+            {
+                base.HandleEventBubbleUp(evt);
+#else
             protected override void ExecuteDefaultActionAtTarget(EventBase evt)
             {
                 base.ExecuteDefaultActionAtTarget(evt);
-
+#endif
                 if (evt == null)
                     return;
 
@@ -127,10 +132,16 @@ namespace Bewildered.SmartLibrary.UI
                 AddToClassList("unity-object-field__selector");
             }
 
+#if UNITY_6000_0_OR_NEWER
+            protected override void HandleEventBubbleUp(EventBase evt)
+            {
+                base.HandleEventBubbleUp(evt);
+#else
             protected override void ExecuteDefaultAction(EventBase evt)
             {
                 base.ExecuteDefaultAction(evt);
-
+#endif
+   
                 if ((evt as MouseDownEvent)?.button == (int)MouseButton.LeftMouse)
                     _folderField.ShowFolderSelector();
             }

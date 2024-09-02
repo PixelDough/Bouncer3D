@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEngine.UI;
 
 namespace Bewildered.SmartLibrary
@@ -12,6 +13,9 @@ namespace Bewildered.SmartLibrary
         private GameObject _targetInstance;
         private GameObject _canvasGameObject;
         private CanvasScaler _scaler;
+        private float _sampleTime = 0;
+        private AnimationClip _clip;
+        private ParticleSystem _particleSystem;
 
         private List<MonoBehaviour> _components = new List<MonoBehaviour>();
         private List<bool> _cachedComponentStates = new List<bool>();
@@ -28,19 +32,19 @@ namespace Bewildered.SmartLibrary
             _scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         }
 
-        protected override bool BeforeRender(GameObject target)
+        protected override bool InitializeRenderTarget(GameObject target, bool isLive)
         {
             if (target.transform is RectTransform)
             {
-                return BeforeRenderGUI(target);
+                return InitializeRenderGUI(target);
             }
             else
             {
-                return BeforeRenderObject(target);
+                return InitializeRenderObject(target, isLive);
             }
         }
 
-        private bool BeforeRenderGUI(GameObject target)
+        private bool InitializeRenderGUI(GameObject target)
         {
             // Note: We don't need to add the target instance to the renderer scene
             // because it is instantiated as a child of the canvas.
@@ -71,7 +75,7 @@ namespace Bewildered.SmartLibrary
             return true;
         }
 
-        private bool BeforeRenderObject(GameObject target)
+        private bool InitializeRenderObject(GameObject target, bool isLive)
         {
             CacheAndDisableComponents(target);
             
@@ -79,29 +83,65 @@ namespace Bewildered.SmartLibrary
             // of a particle system it needs to be played, and cannot be played on prefab assets.
             _targetInstance = Object.Instantiate(target, Vector3.zero, Quaternion.identity);
             Renderer.AddGameObject(_targetInstance);
+            
+            RevertComponentsFromCache();
 
             Bounds bounds = PreviewEditorUtility.GetRenderableBounds(_targetInstance, out bool has2DRenderer);
 
             if (bounds.size == Vector3.zero)
                 return false;
 
+            float distance = 7.5f;
+
             if (EditorSettings.defaultBehaviorMode == EditorBehaviorMode.Mode2D && has2DRenderer)
-                PreviewEditorUtility.PositionCamera2D(Renderer.Camera, bounds, 7.5f);
+                PreviewEditorUtility.PositionCamera2D(Renderer.Camera, bounds, distance);
             else
-                PreviewEditorUtility.PositionCamera3D(Renderer.Camera, bounds, 7.5f);
+                PreviewEditorUtility.PositionCamera3D(Renderer.Camera, bounds, distance);
+            
+            if (isLive)
+            {
+                _clip = AssetDatabase.LoadAssetAtPath<AnimationClip>(AssetDatabase.GetAssetPath(target));
+                Renderer.Camera.nearClipPlane = 0.1f;
+                
+                _particleSystem = _targetInstance.GetComponentInChildren<ParticleSystem>();
+                if (_particleSystem != null)
+                {
+                    _particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+                    _particleSystem.randomSeed = 1; // Force set seed or it will change each step of the simulation.
+                }
+            }
 
             return true;
         }
 
-        protected override void AfterRender()
+        protected override void CleanupRenderTarget()
         {
             Renderer.Camera.cameraType = CameraType.Preview;
             _canvasGameObject.SetActive(false);
-
-            RevertComponentsFromCache();
             
             if (_targetInstance != null)
+            {
+                Renderer.RemoveGameObject(_targetInstance);
                 Object.DestroyImmediate(_targetInstance);
+            }
+        }
+
+        protected override void OnRender(GameObject target)
+        {
+            if (_clip != null)
+            {
+                _sampleTime += 1 * AssetPreviewManager.DeltaTime;
+                _sampleTime = Mathf.Repeat(_sampleTime, _clip.length);
+                _clip.SampleAnimation(_targetInstance, _sampleTime);
+            }
+
+            if (_particleSystem != null)
+            {
+                _sampleTime += 1 * AssetPreviewManager.DeltaTime;
+                _sampleTime = Mathf.Repeat(_sampleTime, _particleSystem.main.duration);
+                
+                _particleSystem.Simulate(_sampleTime);
+            }
         }
 
         public override void Cleanup()

@@ -64,7 +64,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FoamTexDynamic:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 6a4aa5aa1ed7b9e4e9204a95f56f4d29, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _IntersectionNoise:
@@ -135,6 +135,7 @@ Material:
     - _BumpScale: 1
     - _CROSSPAN_INTERSECTIONOn: 1
     - _CausticsBrightness: 1
+    - _CausticsChromance: 1
     - _CausticsDistortion: 0
     - _CausticsOn: 0
     - _CausticsSpeed: 0.07000001
@@ -171,7 +172,7 @@ Material:
     - _FoamSubTiling: 0.5
     - _FoamSubTilingDynamic: 2
     - _FoamTiling: 0.06999986
-    - _FoamTilingDynamic: 0.1
+    - _FoamTilingDynamic: 0.5
     - _FoamWaveAmount: 0
     - _FoamWaveMask: 0
     - _FoamWaveMaskExp: 1
@@ -180,6 +181,7 @@ Material:
     - _GlossyReflections: 0
     - _HorizonDistance: 8
     - _IntersectionClipping: 0.395
+    - _IntersectionDistortion: 0.2
     - _IntersectionFalloff: 1
     - _IntersectionLength: 1.38
     - _IntersectionRippleDist: 16

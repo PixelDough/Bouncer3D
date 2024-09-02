@@ -567,6 +567,9 @@ namespace Febucci.UI.Core
         TextAnimatorSettings settings;
         void ConvertText(string textToParse, ShowTextMode showTextMode)
         {
+            if (textToParse is null) // prevents error along the method if text is passed as null
+                textToParse = string.Empty;
+            
             #region Local Methods
             void PopulateCharacters(bool resetVisibility)
             {
@@ -966,19 +969,19 @@ namespace Febucci.UI.Core
             bool previousResettingTime = isResettingTimeOnNewText;
             isResettingTimeOnNewText = false;
             
-            int currentMax = maxVisibleCharacters;
+            int previousMaximum = maxVisibleCharacters;
             int currentFirst = firstVisibleCharacter;
             SetText(textFull + appendedText, hideText);
 
             //restores visibility
             isResettingTimeOnNewText = previousResettingTime;
-            maxVisibleCharacters = currentMax;
             firstVisibleCharacter = currentFirst;
-            for (int i = firstVisibleCharacter; i < maxVisibleCharacters; i++)
+            for (int i = firstVisibleCharacter; i < previousMaximum; i++)
             {
                 characters[i].isVisible = true;
                 characters[i].passedTime = characters[i].info.appearancesMaxDuration;
             }
+            maxVisibleCharacters = CharactersCount;
         }
 
         void SetTypewriterText(string text)

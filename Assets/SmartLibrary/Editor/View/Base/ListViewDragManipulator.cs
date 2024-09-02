@@ -57,7 +57,7 @@ namespace Bewildered.SmartLibrary.UI
             targetScrollView.RegisterCallback<MouseLeaveEvent>(OnMouseLeave);
 
             targetListView.RegisterCallback<DragEnterEvent>(OnDragEnter);
-            targetListView.RegisterCallback<DragUpdatedEvent>(OnDragUpdate);
+            targetListView.RegisterCallback<DragUpdatedEvent>(OnDragUpdate, TrickleDown.TrickleDown);
             targetListView.RegisterCallback<DragPerformEvent>(OnDragPerform);
 
             targetListView.bindItem += BindIndex;
@@ -124,6 +124,7 @@ namespace Bewildered.SmartLibrary.UI
         {
             _canStart = false;
             _isDragging = false;
+            target.ReleaseMouse();
         }
 
         private void OnMouseMove(MouseMoveEvent evt)
@@ -142,6 +143,7 @@ namespace Bewildered.SmartLibrary.UI
 
             _canStart = false;
             _isDragging = true;
+            target.CaptureMouse();
         }
 
         private void OnMouseLeave(MouseLeaveEvent evt)
@@ -181,6 +183,8 @@ namespace Bewildered.SmartLibrary.UI
             }
 
             DragAndDrop.visualMode = GetDraggingVisualMode(evt.mousePosition, evt.actionKey, evt.altKey, evt.ctrlKey, evt.shiftKey);
+            
+            evt.StopPropagation();
         }
 
         /// <summary>
@@ -343,6 +347,7 @@ namespace Bewildered.SmartLibrary.UI
         {
             _canStart = false;
             _isDragging = false;
+            target.ReleaseMouse();
 
             if (_dragBarElement != null)
                 _dragBarElement.style.visibility = Visibility.Hidden;

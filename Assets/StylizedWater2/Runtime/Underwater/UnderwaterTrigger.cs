@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace StylizedWater2.UnderwaterRendering
 {
@@ -29,6 +30,8 @@ namespace StylizedWater2.UnderwaterRendering
 			if (changeWaterLevel) UnderwaterRenderer.SetCurrentWaterLevel(-999f);
 		}
 
+		private float GetWaterLevel() => useTransformForWaterlevel ? this.transform.position.y : waterLevel;
+
 		private void OnTriggerEnter(Collider other)
 		{
 			//Note that in order for the camera to react to triggers it also needs to have a trigger on its GameObject, as well as a RigidBody component (with Kinematic enabled, so it doesn't fall)
@@ -36,17 +39,14 @@ namespace StylizedWater2.UnderwaterRendering
 
 			if (toggleRendering) UnderwaterRenderer.EnableRendering = true;
 			
-			if(!useTransformForWaterlevel)
-			{
-				UnderwaterRenderer.SetCurrentWaterLevel(waterLevel);
-			}
-			//Or use the transform's Y-position
-			else
-			{        	
-				UnderwaterRenderer.SetCurrentWaterLevel(this.transform);
-			}
-
+			UnderwaterRenderer.SetCurrentWaterLevel(GetWaterLevel());
+			
 			if (waterMaterial) UnderwaterRenderer.SetCurrentWaterMaterial(waterMaterial);
+		}
+
+		private void OnTriggerStay(Collider other)
+		{
+			OnTriggerEnter(other);
 		}
 
 		private void OnTriggerExit(Collider other)
@@ -54,6 +54,16 @@ namespace StylizedWater2.UnderwaterRendering
 			if (!other.CompareTag(triggerTag)) return;
 
 			if (toggleRendering) UnderwaterRenderer.EnableRendering = false;
+		}
+
+		private void OnDrawGizmosSelected()
+		{
+			BoxCollider boxCollider = GetComponent<BoxCollider>();
+
+			if (boxCollider)
+			{
+				UnderwaterRenderer.DrawWaterLevelGizmo(this.transform.TransformPoint(boxCollider.center), boxCollider.size, GetWaterLevel());
+			}
 		}
 	}
 }

@@ -43,10 +43,16 @@ namespace Bewildered.SmartLibrary.UI
             visualInput.Add(arrow);
         }
 
+#if UNITY_6000_0_OR_NEWER
+        protected override void HandleEventBubbleUp(EventBase evt)
+        {
+            base.HandleEventBubbleUp(evt);
+#else
         protected override void ExecuteDefaultActionAtTarget(EventBase evt)
         {
             base.ExecuteDefaultActionAtTarget(evt);
-
+#endif
+            
             if (evt == null)
                 return;
 

@@ -183,7 +183,7 @@ namespace AmplifyShaderEditor
 
 		public static void StartImporting( string packagePath )
 		{
-			if ( !Preferences.GlobalAutoSRP )
+			if ( !Preferences.Project.AutoSRP )
 			{
 				m_importingPackage = ASEImportFlags.None;
 				return;

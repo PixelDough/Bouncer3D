@@ -2067,6 +2067,15 @@ namespace AmplifyShaderEditor
 			set { m_masterNodeCategory = value; }
 		}
 
+		public string CurrentPassName
+		{ 
+			get 
+			{
+				var multiPassMasterNode = m_masterNode as TemplateMultiPassMasterNode;
+				return ( multiPassMasterNode != null ) ? multiPassMasterNode.PassName : string.Empty;
+			}
+		}
+
 		/// <summary>
 		/// Forces write to Normal output when the output is not connected
 		/// </summary>

@@ -94,7 +94,7 @@ float4 _WaterSSRParams;
 //Z: Thickness
 
 #define SSR_SAMPLES 12
-#define SSR_STEPSIZE 0.5
+#define SSR_STEPSIZE 0.75
 #define SSR_MAX_DISTANCE 100
 #define SSR_THICKNESS 1.0
 

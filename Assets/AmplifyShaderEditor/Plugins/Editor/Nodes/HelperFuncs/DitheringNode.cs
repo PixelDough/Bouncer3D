@@ -219,7 +219,7 @@ namespace AmplifyShaderEditor
 					}
 				}
 			}
-			string surfInstruction = varName + ".xy * _ScreenParams.xy";
+			string surfInstruction = string.Format( "abs( {0}.xy ) * _ScreenParams.xy", varName );
 			m_showErrorMessage = false;
 			string functionResult = "";
 			string noiseTex = string.Empty;

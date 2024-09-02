@@ -39,18 +39,33 @@ namespace Bewildered.SmartLibrary
         /// </summary>
         public static bool IsUsingSRP
         {
-            get { return GraphicsSettings.renderPipelineAsset != null; }
+            get
+            {
+#if UNITY_6000_0_OR_NEWER
+                return GraphicsSettings.defaultRenderPipeline != null;
+#else
+                return GraphicsSettings.renderPipelineAsset != null;
+#endif
+            }
         }
-
-#if HDRP_1_OR_NEWER
+        
         /// <summary>
         /// Determines whether the High-definition renderpipeline is actually
         /// being used for rendering or if hte package is simply present.
         /// </summary>
         internal static bool IsRenderingWithHDRP
         {
-            get { return GraphicsSettings.currentRenderPipeline is HDRenderPipelineAsset; }
+            get
+            {
+#if HDRP_1_OR_NEWER
+                return GraphicsSettings.currentRenderPipeline is HDRenderPipelineAsset;
+#else
+                return false;
+#endif
+            }
         }
+
+#if HDRP_1_OR_NEWER
         
         internal static bool DoesHDRPSupportAlpha
         {

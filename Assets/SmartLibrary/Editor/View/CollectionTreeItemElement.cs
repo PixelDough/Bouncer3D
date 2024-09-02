@@ -109,7 +109,12 @@ namespace Bewildered.SmartLibrary.UI
         {
             if (string.IsNullOrEmpty(evt.newValue))
             {
+#if UNITY_6000_0_OR_NEWER
+                focusController?.IgnoreEvent(evt);
+#else
                 evt.PreventDefault();
+#endif
+                
                 evt.StopPropagation();
             }
             else if (_treeItem != null)

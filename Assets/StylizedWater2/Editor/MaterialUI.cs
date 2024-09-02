@@ -59,6 +59,7 @@ namespace StylizedWater2
 
         private MaterialProperty _CausticsTex;
         private MaterialProperty _CausticsBrightness;
+        private MaterialProperty _CausticsChromance;
         private MaterialProperty _CausticsTiling;
         private MaterialProperty _CausticsSpeed;
         private MaterialProperty _CausticsDistortion;
@@ -76,6 +77,7 @@ namespace StylizedWater2
         private MaterialProperty _IntersectionClipping;
         private MaterialProperty _IntersectionFalloff;
         private MaterialProperty _IntersectionTiling;
+        private MaterialProperty _IntersectionDistortion;
         private MaterialProperty _IntersectionRippleDist;
         private MaterialProperty _IntersectionRippleStrength;
         private MaterialProperty _IntersectionSpeed;
@@ -134,6 +136,7 @@ namespace StylizedWater2
         private MaterialProperty _WaveCount;
         private MaterialProperty _WaveDirection;
 
+
         private MaterialProperty _TessValue;
         private MaterialProperty _TessMin;
         private MaterialProperty _TessMax;
@@ -167,6 +170,8 @@ namespace StylizedWater2
         private MaterialProperty _FoamOn;
         private MaterialProperty _RefractionOn;
         private MaterialProperty _WavesOn;
+        
+        private MaterialProperty _ReceiveDynamicEffects;
 
         private MaterialProperty _CurvedWorldBendSettings;
         
@@ -184,6 +189,7 @@ namespace StylizedWater2
 
         private List<Texture2D> foamTextures;
         private List<Texture2D> normalMapTextures;
+        private List<Texture2D> causticsTextures;
 
         private StylizedWaterRenderFeature renderFeature;
         
@@ -241,6 +247,7 @@ namespace StylizedWater2
             _CausticsOn = FindProperty("_CausticsOn", props);
             _CausticsTex = FindProperty("_CausticsTex", props);
             _CausticsBrightness = FindProperty("_CausticsBrightness", props);
+            _CausticsChromance = FindProperty("_CausticsChromance", props);
             _CausticsTiling = FindProperty("_CausticsTiling", props);
             _CausticsSpeed = FindProperty("_CausticsSpeed", props);
             _CausticsDistortion = FindProperty("_CausticsDistortion", props);
@@ -256,6 +263,7 @@ namespace StylizedWater2
             _IntersectionClipping = FindProperty("_IntersectionClipping", props);
             _IntersectionFalloff = FindProperty("_IntersectionFalloff", props);
             _IntersectionTiling = FindProperty("_IntersectionTiling", props);
+            _IntersectionDistortion = FindProperty("_IntersectionDistortion", props);
             _IntersectionRippleDist = FindProperty("_IntersectionRippleDist", props);
             _IntersectionRippleStrength = FindProperty("_IntersectionRippleStrength", props);
             _IntersectionSpeed = FindProperty("_IntersectionSpeed", props);
@@ -328,6 +336,8 @@ namespace StylizedWater2
             _NormalMapOn = FindProperty("_NormalMapOn", props);
             _DistanceNormalsOn = FindProperty("_DistanceNormalsOn", props);
             _WavesOn = FindProperty("_WavesOn", props);
+            
+            _ReceiveDynamicEffects = FindProperty("_ReceiveDynamicEffects", props);
 
             if(material.HasProperty("_CurvedWorldBendSettings")) _CurvedWorldBendSettings = FindProperty("_CurvedWorldBendSettings", props);
             
@@ -392,6 +402,7 @@ namespace StylizedWater2
             string rootFolder = AssetInfo.GetRootFolder();
             LoadTextures(rootFolder + "Materials/Textures/Foam", ref foamTextures);
             LoadTextures(rootFolder + "Materials/Textures/Normals", ref normalMapTextures);
+            LoadTextures(rootFolder + "Materials/Textures/Caustics", ref causticsTextures);
             
             renderFeature = StylizedWaterRenderFeature.GetDefault();
 
@@ -522,6 +533,14 @@ namespace StylizedWater2
                     StylizedWaterEditor.EnableOpaqueTexture,
                     MessageType.Error);
             }
+            
+            #if UNITY_6000_0_OR_NEWER
+            if (tesselationEnabled && UniversalRenderPipeline.asset.gpuResidentDrawerMode != GPUResidentDrawerMode.Disabled)
+            {
+                UI.DrawNotification(true, "[Unity 6+] Using the GPU Resident Drawer with Tessellation enabled is not supported!" +
+                                          "\n\nEither disable Tessellation (under the Rendering tab), or disable GPU Resident Drawer in your pipeline settings.", MessageType.Error);
+            }
+            #endif
             
             UI.DrawNotification(depthAfterTransparents && _ZWrite.floatValue > 0, "\nZWrite option (Rendering tab) is enabled & Depth Texture Mode is set to \'After Transparents\" on the default renderer\n\nWater can not render properly with this combination\n", MessageType.Error);
             
@@ -673,6 +692,8 @@ namespace StylizedWater2
 
                 UI.Material.DrawVector2(_Direction, "Direction");
                 UI.Material.DrawFloatField(_Speed, label:"Speed");
+                
+                UI.DrawNotification(WaterObject.CustomTime > 0, $"Shader animations are driven by a custom time value set through script ({WaterObject.CustomTime}).", MessageType.Info);
 
                 #if UNITY_2020_2_OR_NEWER
                 if (EditorWindow.focusedWindow && EditorWindow.focusedWindow.GetType() == typeof(SceneView))
@@ -847,8 +868,16 @@ namespace StylizedWater2
                     
                     UI.DrawNotification(material.enableInstancing, "Tessellation does not work correctly when GPU instancing is enabled", MessageType.Warning);
                 }
-
+                
                 EditorGUILayout.Space();
+
+                if (dynamicEffectsInstalled)
+                {
+                    DrawShaderProperty(_ReceiveDynamicEffects, new GUIContent(_ReceiveDynamicEffects.displayName, "Specify if this material should apply dynamic effects (displacement, foam + normals) to itself." +
+                                                                                                                  "\n\nThis functionality is specific to the Dynamic Effects extension"));
+
+                    EditorGUILayout.Space();
+                }
             }
             EditorGUILayout.EndFadeGroup();
         }
@@ -1045,10 +1074,12 @@ namespace StylizedWater2
                 
                 if (_CausticsOn.floatValue == 1 || _CausticsOn.hasMixedValue)
                 {
-                    materialEditor.TextureProperty(_CausticsTex, "Texture (Additively blended)");
+                    DrawTextureSelector(_CausticsTex, ref causticsTextures);
+
                     UI.Material.DrawFloatField(_CausticsBrightness, "Brightness", "The intensity of the incoming light controls how strongly the effect is visible. This parameter acts as a multiplier.");
                     if(!_CausticsBrightness.hasMixedValue) _CausticsBrightness.floatValue = Mathf.Max(0, _CausticsBrightness.floatValue);
-
+                    
+                    DrawShaderProperty(_CausticsChromance, new GUIContent(_CausticsChromance.displayName, "Blends between grayscale and RGB caustics"));
                     DrawShaderProperty(_CausticsDistortion, new GUIContent(_CausticsDistortion.displayName, "Distort the caustics based on the normal map"));
                     
                     EditorGUILayout.Space();
@@ -1058,13 +1089,16 @@ namespace StylizedWater2
                         EditorGUILayout.LabelField("Render feature settings", EditorStyles.boldLabel);
                         DrawRenderFeatureNotification();
 
-                        if (renderFeature)
+                        using (new EditorGUI.DisabledGroupScope((_DisableDepthTexture.floatValue == 1f && _CausticsOn.floatValue == 1f)))
                         {
-                            EditorGUI.BeginChangeCheck();
-                            renderFeature.directionalCaustics = EditorGUILayout.Toggle("Directional Caustics", renderFeature.directionalCaustics);
-                            if (EditorGUI.EndChangeCheck())
+                            if (renderFeature)
                             {
-                                EditorUtility.SetDirty(renderFeature);
+                                EditorGUI.BeginChangeCheck();
+                                renderFeature.directionalCaustics = EditorGUILayout.Toggle("Directional Caustics", renderFeature.directionalCaustics);
+                                if (EditorGUI.EndChangeCheck())
+                                {
+                                    EditorUtility.SetDirty(renderFeature);
+                                }
                             }
                         }
                     }
@@ -1269,6 +1303,13 @@ namespace StylizedWater2
                         DrawShaderProperty(_IntersectionClipping, new GUIContent(_IntersectionClipping.displayName, "Clips the effect based on the texture's gradient."));
                         UI.Material.DrawFloatTicker(_IntersectionRippleDist, _IntersectionRippleDist.displayName, "Distance between each ripples over the total intersection length");
                         DrawShaderProperty(_IntersectionRippleStrength, new GUIContent(_IntersectionRippleStrength.displayName, "Sets how much the ripples should be blended in with the effect"));
+                    }
+                    
+                    EditorGUILayout.Space();
+
+                    if (_NormalMapOn.floatValue > 0 || _NormalMapOn.hasMixedValue)
+                    {
+                        DrawShaderProperty(_IntersectionDistortion, new GUIContent("Distortion", "Offset the texture sample by the normal map"));
                     }
                 }
 

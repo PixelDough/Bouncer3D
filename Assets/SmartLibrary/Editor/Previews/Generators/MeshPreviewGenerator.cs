@@ -17,7 +17,7 @@ namespace Bewildered.SmartLibrary
             
         }
 
-        protected override bool BeforeRender(Mesh target)
+        protected override bool InitializeRenderTarget(Mesh target, bool isLive)
         {
             if (_wireframeMaterial == null)
                 _wireframeMaterial = CreateWireframeMaterial();
@@ -44,7 +44,7 @@ namespace Bewildered.SmartLibrary
             return true;
         }
 
-        protected override void AfterRender()
+        protected override void CleanupRenderTarget()
         {
             GL.wireframe = false;
             Renderer.AllowScriptableRenderPipeline = _cachedAllowScriptableRenderPipeline;

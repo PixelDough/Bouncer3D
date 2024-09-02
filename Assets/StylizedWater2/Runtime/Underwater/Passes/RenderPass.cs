@@ -59,14 +59,28 @@ namespace StylizedWater2.UnderwaterRendering
 
             if(shader) Material = CoreUtils.CreateEngineMaterial(shader);
         }
+        
+        #if UNITY_6000_0_OR_NEWER //Silence warning spam
+        public override void RecordRenderGraph(UnityEngine.Rendering.RenderGraphModule.RenderGraph renderGraph, ContextContainer frameData) { }
+        #endif
 
+        #if UNITY_6000_0_OR_NEWER
+        #pragma warning disable CS0672
+        #pragma warning disable CS0618
+        #endif
         public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
         {
             if (RenderPass.RTHandleNeedsReAlloc(cameraColorSource, cameraTextureDescriptor, "_SourceTex"))
             {
                 //Note: function does a null check, needed for the first allocation
                 if(cameraColorSource != null) RTHandles.Release(cameraColorSource);
-                cameraColorSource = RTHandles.Alloc(cameraTextureDescriptor.width, cameraTextureDescriptor.height, cameraTextureDescriptor.volumeDepth, DepthBits.None, cameraTextureDescriptor.graphicsFormat, FilterMode.Point, TextureWrapMode.Clamp, cameraTextureDescriptor.dimension, name: "_SourceTex");
+                cameraColorSource = RTHandles.Alloc(cameraTextureDescriptor.width, cameraTextureDescriptor.height, cameraTextureDescriptor.volumeDepth, 
+                    DepthBits.None, cameraTextureDescriptor.graphicsFormat, FilterMode.Point, TextureWrapMode.Clamp, cameraTextureDescriptor.dimension, 
+                    cameraTextureDescriptor.enableRandomWrite, useMipMap:false, msaaSamples:(MSAASamples)cameraTextureDescriptor.msaaSamples, useDynamicScale:cameraTextureDescriptor.useDynamicScale
+                    #if UNITY_2022_3_OR_NEWER
+                    , vrUsage:cameraTextureDescriptor.vrUsage
+                    #endif
+                    );
             }
 
             cmd.SetGlobalTexture(sourceTexID, cameraColorSource);
