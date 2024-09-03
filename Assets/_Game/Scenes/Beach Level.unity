@@ -46899,20 +46899,32 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2908350895322189895, guid: 9d13018b7d579354c84a87e4fe4eca71, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.034904815
+      objectReference: {fileID: 0}
+    - target: {fileID: 2908350895322189895, guid: 9d13018b7d579354c84a87e4fe4eca71, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.0665901
+      objectReference: {fileID: 0}
+    - target: {fileID: 2908350895322189895, guid: 9d13018b7d579354c84a87e4fe4eca71, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.8926073
+      objectReference: {fileID: 0}
+    - target: {fileID: 2908350895322189895, guid: 9d13018b7d579354c84a87e4fe4eca71, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9994891
+      value: 0.9994511
       objectReference: {fileID: 0}
     - target: {fileID: 2908350895322189895, guid: 9d13018b7d579354c84a87e4fe4eca71, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.031960793
+      value: 0.03195966
       objectReference: {fileID: 0}
     - target: {fileID: 2908350895322189895, guid: 9d13018b7d579354c84a87e4fe4eca71, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000034863504
+      value: 0.008652461
       objectReference: {fileID: 0}
     - target: {fileID: 2908350895322189895, guid: 9d13018b7d579354c84a87e4fe4eca71, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00000000457042
+      value: 0.0011342908
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -47189,6 +47201,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1418251017472426230, guid: eb09773bcb19d48138dfde0bcb17b051, type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7448676952608527145, guid: eb09773bcb19d48138dfde0bcb17b051, type: 3}
       propertyPath: m_LocalPosition.x
       value: -475.85
