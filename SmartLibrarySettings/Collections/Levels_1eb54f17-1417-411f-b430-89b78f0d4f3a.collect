@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1f6edf7219569c4ca5c598f8a320068, type: 3}
+  m_Name: Levels
+  m_EditorClassIdentifier: 
+  _root: {fileID: 0}
+  _parent: {fileID: 0}
+  _parentID:
+    _serializedGuid: a0354f20c5c3654989b34a9cbe17c6ff
+  _subcollections: []
+  _subcollectionIDs: []
+  _collectionName: Levels
+  _id:
+    _serializedGuid: 174fb51e17141f41b43089b78f0d4f3a
+  _icon: {fileID: 0}
+  _rules:
+    _rules:
+    - rid: 4297555652803559654
+  _items:
+    _hashSetList:
+    - e855aef70700a0e44824e686df8b7160
+    - 5e5efc06bbdd1e24697e1667c81a4c24
+    - 9fc0d4010bbf28b4594072e72b8655ab
+    - d8583a58f87d4c147b38cbac80974878
+    - de398122403784d34b745edad87e702b
+    - d1e744066b6ed7941a513f804f5e9365
+    - e7259a5f02ac9e844801621c9af48842
+    - a584d5321163f2248804c56aa9e35dd0
+    - 57033ff037cc24695a5d0d8d111eeaa7
+  _itemDisplaySize: 100
+  _viewStyle: 0
+  _useCollectionViewSettings: 0
+  _folders:
+  - _matchOption: 0
+    _folderGuid: 88bab2096a097034387116d6c2e6b7a5
+    _doInclude: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 4297555652803559654
+      type: {class: TypeRule, ns: Bewildered.SmartLibrary, asm: Bewildered.SmartLibrary}
+      data:
+        _operand: 2
+        _scopeState: 0
+        _type:
+          _typeName: UnityEditor.SceneAsset, UnityEditor.CoreModule, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
