@@ -10,8 +10,10 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Sisus.HierarchyFolders.Prefabs;
-#if UNITY_2018_3_OR_NEWER
-
+#if UNITY_2021_2_OR_NEWER
+using UnityEditor.SceneManagement;
+#elif UNITY_2018_3_OR_NEWER
+using UnityEditor.Experimental.SceneManagement;
 #endif
 
 namespace Sisus.HierarchyFolders
@@ -29,7 +31,7 @@ namespace Sisus.HierarchyFolders
 			if(!prefabsAllowed)
 			{
 				#if UNITY_2018_3_OR_NEWER
-				if(UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage() != null)
+				if(PrefabStageUtility.GetCurrentPrefabStage() != null)
 				{
 					Debug.LogWarning(HierarchyFolderMessages.PrefabNotAllowed);
 					return false;
@@ -45,11 +47,6 @@ namespace Sisus.HierarchyFolders
 						return false;
 					}
 				}
-				//else if(Selection.activeTransform != null && Selection.activeTransform.parent != null && Selection.activeTransform.parent.gameObject.IsConnectedPrefabInstance())
-    //            {
-				//	Debug.LogWarning(HierarchyFolderMessages.PrefabInstanceNotAllowed);
-				//	return false;
-				//}
 			}
 
 			if(Selection.transforms.Length > 1)
@@ -77,7 +74,7 @@ namespace Sisus.HierarchyFolders
 			bool prefabsNotAllowed = HierarchyFolderPreferences.Get().foldersInPrefabs == HierachyFoldersInPrefabs.NotAllowed;
 
 			#if UNITY_2018_3_OR_NEWER
-			if(prefabsNotAllowed && UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage() != null)
+			if(prefabsNotAllowed && PrefabStageUtility.GetCurrentPrefabStage() != null)
 			{
 				Debug.LogWarning(HierarchyFolderMessages.PrefabNotAllowed);
 				return;
@@ -112,21 +109,6 @@ namespace Sisus.HierarchyFolders
 			}
 			else
 			{
-				//if(prefabsNotAllowed)
-				//{
-				//	var selectedSceneTransform = Selection.activeTransform;
-
-				//	#if DEV_MODE
-				//	Debug.Assert(selectedSceneTransform == null || !selectedSceneTransform.gameObject.IsPrefabAsset());
-				//	#endif
-
-				//	if(selectedSceneTransform != null && selectedSceneTransform.parent != null && selectedSceneTransform.parent.gameObject.IsConnectedPrefabInstance())
-				//	{
-				//		Debug.LogWarning(HierarchyFolderMessages.PrefabInstanceNotAllowed);
-				//		return;
-				//	}
-				//}
-
 				// If creating HierarchyFolder from context menu, add it as child of right-clicked GameObject.
 				// This is how most existing context menu items in Unity function.
 				var rightClickedGameObject = command.context as GameObject;
@@ -161,7 +143,7 @@ namespace Sisus.HierarchyFolders
 			}
 
 			#if UNITY_2018_3_OR_NEWER
-			if(UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage() != null)
+			if(PrefabStageUtility.GetCurrentPrefabStage() != null)
 			{
 				return false;
 			}
@@ -183,7 +165,6 @@ namespace Sisus.HierarchyFolders
 				return true;
 			}
 
-			//return Selection.activeTransform == null || !Selection.activeTransform.gameObject.IsConnectedPrefabInstance();
 			return true;
 		}
 		#endif
@@ -274,7 +255,7 @@ namespace Sisus.HierarchyFolders
 			int moveToIndex = -1;
 
 			#if UNITY_2018_3_OR_NEWER
-			var prefabStage = UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage();
+			var prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
 			if(prefabStage != null)
 			{
 				if(placeBelow == null || placeBelow.gameObject.scene != prefabStage.scene || placeBelow.gameObject == prefabStage.prefabContentsRoot)

@@ -37,7 +37,13 @@ namespace Sisus.HierarchyFolders
 
 		private void Test()
 		{
-			var hierarchyFolders = FindObjectsOfType<HierarchyFolder>();
+			HierarchyFolder[] hierarchyFolders =
+				#if UNITY_2023_1_OR_NEWER
+				FindObjectsByType<HierarchyFolder>(FindObjectsSortMode.None);
+				#else
+				FindObjectsOfType<HierarchyFolder>();
+				#endif
+
 			int count = hierarchyFolders.Length;
 			var scene = SceneManager.GetActiveScene();
 
@@ -45,7 +51,7 @@ namespace Sisus.HierarchyFolders
 			if(count > 0)
 			{
 				var playModeBehaviour = HierarchyFolderPreferences.Get().playModeBehaviour;
-				if(count > 0 && playModeBehaviour != StrippingType.None && playModeBehaviour != StrippingType.FlattenHierarchy)
+				if(playModeBehaviour != StrippingType.None && playModeBehaviour != StrippingType.FlattenHierarchy)
 				{
 					Debug.LogError(string.Format("Number of Hierarchy Folders in scene: {0}\nScene name: \"{1}\"", count, scene.name), this);
 				}
@@ -76,6 +82,7 @@ namespace Sisus.HierarchyFolders
 				sb.Append('\n');
 				sb.Append(rootObject.name);
 			}
+
 			Debug.Log(string.Format("{0} root GameObjects: {1}", scene.name, sb.ToString()));
 			#endif
 		}

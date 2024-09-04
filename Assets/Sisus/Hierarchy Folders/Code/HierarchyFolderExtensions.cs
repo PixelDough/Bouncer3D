@@ -39,16 +39,25 @@ public static class HierarchyFolderExtensions
 	public static bool IsHierarchyFolder([NotNull]this GameObject gameObject)
 	{
 		#if UNITY_2019_2_OR_NEWER
-		HierarchyFolder hierarchyFolder;
-		return gameObject.TryGetComponent(out hierarchyFolder);
+		return gameObject.TryGetComponent<HierarchyFolder>(out _);
 		#else
-		return gameObject.GetComponent<HierarchyFolder>() != null;
+		return gameObject.GetComponent<HierarchyFolder>();
+		#endif
+	}
+
+	private static bool IsHierarchyFolder([NotNull]this Transform transform)
+	{
+		#if UNITY_2019_2_OR_NEWER
+		return transform.TryGetComponent<HierarchyFolder>(out _);
+		#else
+		return transform.GetComponent<HierarchyFolder>();
 		#endif
 	}
 
 	/// <summary>
+	/// <para>
 	/// Gets next Transform up the parent chain that is not a Hierarchy Folder.
-	/// 
+	/// </para>
 	/// In builds Hierarchy Folders will not be skipped, because we assume that all of them have been stripped
 	/// from the build, or if not, that there is no reason to skip them.
 	/// </summary>
@@ -74,7 +83,7 @@ public static class HierarchyFolderExtensions
 	public static Transform GetParent([NotNull]this Transform transform, bool skipHierarchyFolders)
 	{
 		var parent = transform.parent;
-		if(skipHierarchyFolders && parent != null && parent.gameObject.IsHierarchyFolder())
+		if(skipHierarchyFolders && parent != null && parent.IsHierarchyFolder())
 		{
 			return parent.GetParent(true);
 		}
@@ -82,8 +91,9 @@ public static class HierarchyFolderExtensions
 	}
 
 	/// <summary>
+	/// <para>
 	/// Gets next GameObject up the parent chain that is not a Hierarchy Folder.
-	/// 
+	/// </para>
 	/// In builds Hierarchy Folders will not be skipped, because we assume that all of them have been stripped
 	/// from the build, or if not, that there is no reason to skip them.
 	/// </summary>
@@ -114,17 +124,19 @@ public static class HierarchyFolderExtensions
 		{
 			return null;
 		}
-		var parentGameObject = parent.gameObject;
-		if(skipHierarchyFolders && parentGameObject.IsHierarchyFolder())
+
+		if(!skipHierarchyFolders || !parent.IsHierarchyFolder())
 		{
-			return parentGameObject.GetParent(true);
+			return parent.gameObject;
 		}
-		return parentGameObject;
+
+		return parent.gameObject.GetParent(true);
 	}
 
 	/// <summary>
+	/// <para>
 	/// Gets GameObject up the parent chain that is closest to the hierarchy root, skipping Hierarchy Folders.
-	/// 
+	/// </para>
 	/// In builds Hierarchy Folders will not be skipped, because we assume that all of them have been stripped
 	/// from the build, or if not, that there is no reason to skip them.
 	/// </summary>
@@ -165,20 +177,21 @@ public static class HierarchyFolderExtensions
 		for(int n = ReusableParentsStack.Count - 1; n >= 0; n--)
 		{
 			var parent = ReusableParentsStack.Pop();
-			var parentGameObject = parent.gameObject;
-			if(!parentGameObject.IsHierarchyFolder())
+			if(!parent.IsHierarchyFolder())
 			{
 				ReusableParentsStack.Clear();
-				return parentGameObject;
+				return parent.gameObject;
 			}
 		}
+
 		ReusableParentsStack.Clear();
 		return null;
 	}
 
 	/// <summary>
+	/// <para>
 	/// Gets Transform up the parent chain that is closest to the hierarchy root, skipping Hierarchy Folders.
-	/// 
+	/// </para>
 	/// In builds Hierarchy Folders will not be skipped, because we assume that all of them have been stripped
 	/// from the build, or if not, that there is no reason to skip them.
 	/// </summary>
@@ -217,7 +230,7 @@ public static class HierarchyFolderExtensions
 		for(int n = ReusableParentsStack.Count - 1; n >= 0; n--)
 		{
 			var parent = ReusableParentsStack.Pop();
-			if(!parent.gameObject.IsHierarchyFolder())
+			if(!parent.IsHierarchyFolder())
 			{
 				ReusableParentsStack.Clear();
 				return parent;
@@ -241,7 +254,7 @@ public static class HierarchyFolderExtensions
 	public static void SetParent([NotNull]this Transform child, [CanBeNull]Transform parent, bool worldPositionStays, bool skipHierarchyFolders)
 	{
 		#if UNITY_EDITOR
-		if(parent != null && parent.gameObject.IsHierarchyFolder())
+		if(parent != null && parent.IsHierarchyFolder())
 		{
 			if(skipHierarchyFolders)
 			{
@@ -282,7 +295,7 @@ public static class HierarchyFolderExtensions
 	public static void UndoableSetParent([NotNull]this Transform child, [CanBeNull]Transform parent, string undoName, bool skipHierarchyFolders = false)
 	{
 		#if UNITY_EDITOR
-		if(parent != null && parent.gameObject.IsHierarchyFolder())
+		if(parent != null && parent.IsHierarchyFolder())
 		{
 			if(skipHierarchyFolders)
 			{
@@ -347,7 +360,7 @@ public static class HierarchyFolderExtensions
 		for(int n = 0, count = transform.childCount; n < count; n++)
 		{
 			var child = transform.GetChild(n);
-			if(!child.gameObject.IsHierarchyFolder())
+			if(!child.IsHierarchyFolder())
 			{
 				return child;
 			}
@@ -388,7 +401,7 @@ public static class HierarchyFolderExtensions
 	public static void GetChildren([NotNull]this Transform transform, [NotNull]List<Transform> list, bool skipHierarchyFolders)
 	{
 		#if UNITY_EDITOR
-		if(HierarchyFolderPreferences.FlattenHierarchy && transform.gameObject.IsHierarchyFolder())
+		if(HierarchyFolderPreferences.FlattenHierarchy && transform.IsHierarchyFolder())
 		{
 			int myIndex = transform.GetSiblingIndex();
 			#if DEV_MODE
@@ -415,7 +428,7 @@ public static class HierarchyFolderExtensions
 			for(int n = myIndex + 1; n < parent.childCount; n++)
 			{
 				var child = parent.GetChild(n);
-				if(child.gameObject.IsHierarchyFolder())
+				if(child.IsHierarchyFolder())
 				{
 					return;
 				}
@@ -429,7 +442,7 @@ public static class HierarchyFolderExtensions
 			for(int n = 0, count = transform.childCount; n < count; n++)
 			{
 				var child = transform.GetChild(n);
-				if(child.gameObject.IsHierarchyFolder())
+				if(child.IsHierarchyFolder())
 				{
 					child.GetChildren(list, true);
 				}
@@ -548,6 +561,53 @@ public static class HierarchyFolderExtensions
 			parentStack.Push(parent);
 			parent = parent.parent;
 		}
+	}
+
+	/// <summary>
+	/// <para>
+	/// Do not destroy the <paramref name="target"/> <see cref="GameObject"/> when loading a new scene.
+	/// </para>
+	/// This only works for root game objects, and game objects that only have Hierarchy Folder parents
+	/// in the editor.
+	/// </summary>
+	/// <param name="target"> Root game object that should not be destroyed on Scene change. </param>
+	[CanBeNull]
+	public static void DontDestroyOnLoad([NotNull]this GameObject target)
+	{
+		#if UNITY_EDITOR
+		while(target.transform.parent != null && target.GetParent(true) == null)
+		{
+			target.transform.SetParent(null, false);
+		}
+		#endif
+
+		Object.DontDestroyOnLoad(target);
+	}
+
+	/// <summary>
+	/// <para>
+	/// Do not destroy the <paramref name="target"/> <see cref="GameObject"/> when loading a new scene.
+	/// </para>
+	/// This only works for root game objects, and game objects that only have Hierarchy Folder parents
+	/// when <paramref name="skipHierarchyFolders"/> is set to <see langword="true"/>.
+	/// </summary>
+	/// <param name="target"> Root game object that should not be destroyed on Scene change. </param>
+	/// <param name="skipHierarchyFolders">
+	/// If <see langword="true"/>, then method can be used on non-root game objects, if they only have
+	/// Hierarchy Folder parents.
+	/// </param>
+	[CanBeNull]
+	public static void DontDestroyOnLoad([NotNull]this GameObject target, bool skipHierarchyFolders)
+	{
+		if(skipHierarchyFolders)
+		{
+			while(target.transform.parent != null && target.GetParent(true) == null)
+			{
+				target.transform.SetParent(null, false);
+			}
+		}
+
+		Object.DontDestroyOnLoad(target);
 	}
 }
 #if !HIERARCHY_FOLDER_EXTENSIONS_IN_GLOBAL_NAMESPACE

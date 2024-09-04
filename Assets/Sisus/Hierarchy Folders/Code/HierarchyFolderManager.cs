@@ -65,7 +65,7 @@ namespace Sisus.HierarchyFolders
 			}
 
 			var transform = hierarchyFolder.transform;
-			ResetTransformStateWithoutAffectingChildren(transform);
+			ResetTransformStateWithoutAffectingChildren(transform, false);
 
 			// Don't hide transform in prefabs or prefab instances to avoid internal Unity exceptions
 			transform.hideFlags = GetHierarchyFolderTransformHideFlags(transform);
@@ -249,6 +249,18 @@ namespace Sisus.HierarchyFolders
 
 		private void OnHierarchyChanged()
         {
+			#if DEV_MODE && DEBUG_HIERARCHY_CHANGED
+			Debug.Log($"OnHierarchyChanged with NowResetting={(NowResetting == null ? "null" : NowResetting.name)}, hierarchyFolders={hierarchyFolders.Count}.");
+			#endif
+
+			// Ignore OnHierarchyChanged event when resetting the transform state of a hierarchy folder.
+			// Otherwise there's a risk of an infinite loop, if the system keeps trying to reset the state
+			// of the same transform, but it never gets quite to (0f,0f,0f) due to floating-point precision.
+			if(NowResetting != null)
+			{
+				return;
+			}
+
 			if(!EditorApplication.isPlaying)
 			{
 				OnHierarchyChangedInEditMode();
@@ -262,7 +274,6 @@ namespace Sisus.HierarchyFolders
 			}
 
 			OnHierarchyChangedInPlayModeGrouped();
-			return;
 		}
 
 		private void OnPlayModeStateChanged(PlayModeStateChange stateChange)
@@ -351,7 +362,7 @@ namespace Sisus.HierarchyFolders
 
 			for(int n = hierarchyFolders.Count - 1; n >= 0; n--)
 			{
-				ResetTransformStateWithoutAffectingChildren(hierarchyFolders[n].transform);
+				ResetTransformStateWithoutAffectingChildren(hierarchyFolders[n].transform, false);
 			}
 		}
 
@@ -359,10 +370,6 @@ namespace Sisus.HierarchyFolders
 		{
 			hierarchyFolders.RemoveAll(isNullHierarchyFolder);
 			hierarchyFolders.Sort(hierarchyFolderDepthComparer);
-
-			#if DEV_MODE && DEBUG_HIERARCHY_CHANGED
-			Debug.Log("OnHierarchyChangedInEditMode with hierarchyFolders=" + hierarchyFolders.Count);
-			#endif
 
 			if(preferences == null)
 			{
@@ -398,7 +405,7 @@ namespace Sisus.HierarchyFolders
 					Debug.LogWarning("Converting Hierarchy Folder " + hierarchyFolder.name + " Transform into RectTransform because it had a RectTransform child.", hierarchyFolder);
 					#endif
 
-					ForceResetTransformStateWithoutAffectingChildren(transform, true);
+					ForceResetTransformStateWithoutAffectingChildren(transform, alsoConvertToRectTransform:true);
 				}
 
 				ApplyNamingPattern(hierarchyFolder);
@@ -536,7 +543,7 @@ namespace Sisus.HierarchyFolders
 				TurnIntoNormalGameObject(hierarchyFolder);
 			}
 
-			ResetTransformStateWithoutAffectingChildren(hierarchyFolder.transform);
+			ResetTransformStateWithoutAffectingChildren(hierarchyFolder.transform, false);
 		}
 
 		private void ApplyNamingPattern(HierarchyFolder hierarchyFolder)

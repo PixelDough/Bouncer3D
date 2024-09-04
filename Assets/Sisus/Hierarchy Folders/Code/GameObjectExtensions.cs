@@ -2,8 +2,10 @@
 using UnityEngine;
 using UnityEditor;
 using System;
-#if UNITY_2018_3_OR_NEWER
-
+#if UNITY_2021_2_OR_NEWER
+using UnityEditor.SceneManagement;
+#else
+using UnityEditor.Experimental.SceneManagement;
 #endif
 
 namespace Sisus.HierarchyFolders.Prefabs
@@ -12,53 +14,27 @@ namespace Sisus.HierarchyFolders.Prefabs
 	{
 		public static bool IsPrefabAsset(this GameObject gameObject)
 		{
-			#if UNITY_2018_3_OR_NEWER
 			return PrefabUtility.IsPartOfPrefabAsset(gameObject);
-			#else
-			return PrefabUtility.GetPrefabType(gameObject) == PrefabType.Prefab;
-			#endif
 		}
 
 		public static bool IsPrefabAssetOrOpenInPrefabStage(this GameObject gameObject)
 		{
-			#if UNITY_2018_3_OR_NEWER
-			return PrefabUtility.IsPartOfPrefabAsset(gameObject) || UnityEditor.SceneManagement.PrefabStageUtility.GetPrefabStage(gameObject) != null;
-			#else
-			return PrefabUtility.GetPrefabType(gameObject) == PrefabType.Prefab;
-			#endif
+			return PrefabUtility.IsPartOfPrefabAsset(gameObject) || PrefabStageUtility.GetPrefabStage(gameObject) != null;
 		}
 
 		public static bool IsPrefabAssetOrInstance(this GameObject gameObject)
 		{
-			#if UNITY_2018_3_OR_NEWER
 			return PrefabUtility.GetPrefabAssetType(gameObject) != PrefabAssetType.NotAPrefab;
-			#else
-			var prefabType = PrefabUtility.GetPrefabType(gameObject);
-			return prefabType == PrefabType.Prefab || prefabType == PrefabType.PrefabInstance;
-			#endif
 		}
 
 		public static bool IsConnectedPrefabInstance(this GameObject gameObject)
 		{
-			#if UNITY_2018_3_OR_NEWER
 			return PrefabUtility.GetPrefabInstanceStatus(gameObject) == PrefabInstanceStatus.Connected;
-			#else
-			return PrefabUtility.GetPrefabType(gameObject) == PrefabType.PrefabInstance;
-			#endif
-		}
-
-		public static bool IsDisconnectedPrefabInstance(this GameObject gameObject)
-		{
-			#if UNITY_2018_3_OR_NEWER
-			return PrefabUtility.GetPrefabInstanceStatus(gameObject) == PrefabInstanceStatus.Disconnected;
-			#else
-			return PrefabUtility.GetPrefabType(gameObject) == PrefabType.DisconnectedPrefabInstance;
-			#endif
 		}
 
 		public static bool IsPartOfInstantiatedPrefabInstance(this GameObject gameObject)
 		{
-			for(var transform = gameObject.transform; transform != null; transform = transform.parent)
+			for(var transform = gameObject.transform; transform; transform = transform.parent)
 			{
 				if(transform.name.EndsWith("(Clone)", StringComparison.Ordinal))
 				{
@@ -70,49 +46,23 @@ namespace Sisus.HierarchyFolders.Prefabs
 
 		public static bool IsPartOfPrefabVariant(this GameObject gameObject)
         {
-			#if UNITY_2018_3_OR_NEWER
 			return PrefabUtility.IsPartOfVariantPrefab(gameObject);
-			#else
-			return false;
-			#endif
 		}
 
 		public static bool IsConnectedOrDisconnectedPrefabInstance(this GameObject gameObject)
 		{
-			#if UNITY_2018_3_OR_NEWER
 			var prefabStatus = PrefabUtility.GetPrefabInstanceStatus(gameObject);
 			return prefabStatus == PrefabInstanceStatus.Connected || prefabStatus == PrefabInstanceStatus.Disconnected;
-			#else
-			var prefabType = PrefabUtility.GetPrefabType(gameObject);
-			return prefabType == PrefabType.PrefabInstance || prefabType == PrefabType.DisconnectedPrefabInstance;
-			#endif
 		}
 
 		public static bool IsPrefabInstanceRoot(this GameObject gameObject)
 		{
-			#if UNITY_2018_3_OR_NEWER
 			return PrefabUtility.IsAnyPrefabInstanceRoot(gameObject);
-			#else
-			return PrefabUtility.GetPrefabType(gameObject) == PrefabType.PrefabInstance && PrefabUtility.FindPrefabRoot(gameObject) == gameObject;
-			#endif
-		}
-
-		public static GameObject GetOutermostPrefabInstanceRoot(this GameObject gameObject)
-		{
-			#if UNITY_2018_3_OR_NEWER
-			return PrefabUtility.GetOutermostPrefabInstanceRoot(gameObject);
-			#else
-			return PrefabUtility.FindPrefabRoot(gameObject);
-			#endif
 		}
 
 		public static bool IsOpenInPrefabStage(this GameObject gameObject)
 		{
-			#if UNITY_2018_3_OR_NEWER
-			return UnityEditor.SceneManagement.PrefabStageUtility.GetPrefabStage(gameObject) != null;
-			#else
-			return false;
-			#endif
+			return PrefabStageUtility.GetPrefabStage(gameObject) != null;
 		}
 
 		public static void SetTagForAllChildren(this GameObject gameObject, string tag)

@@ -3,7 +3,6 @@
 #define DEBUG_UNPACK_PREFAB
 #define DEBUG_CREATE_BACKUP
 
-#if UNITY_2018_3_OR_NEWER
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -94,7 +93,7 @@ namespace Sisus.HierarchyFolders
 					// No need to do any build stripping if stripping occurs at runtime only.
 					return;
 				case HierachyFoldersInPrefabs.NotStripped:
-					if(!preferences.warnWhenNotRemovedFromBuild || warnedAboutRemoveFromBuildDisabled || EditorUtility.DisplayDialog("Warning: Hierarchy Folder Prefab Stripping Disabled", "This is a reminder that you have disabled stripping of hierarchy folders from prefabs from builds. If you have any hierarchy folders inside prefabs this will result in suboptimal performance and is not recommended when making a release build.", "Continue Anyway", "Enable Stripping"))
+					if(!preferences.warnWhenNotRemovedFromBuild || warnedAboutRemoveFromBuildDisabled || EditorUtility.DisplayDialog("Warning: Hierarchy Folder Prefab Stripping Disabled", "This is a reminder that you have disabled stripping of hierarchy folders from prefabs from builds. If you have any hierarchy folders inside prefabs this can result in suboptimal performance.", "Continue Anyway", "Enable Stripping"))
 					{
 						warnedAboutRemoveFromBuildDisabled = preferences.warnWhenNotRemovedFromBuild;
 
@@ -112,6 +111,13 @@ namespace Sisus.HierarchyFolders
 				default:
 					Debug.LogWarning("Unrecognized HierachyFoldersInPrefabs value: " + preferences.foldersInPrefabs);
 					return;
+			}
+			
+			string backupRootDir = GetBackupRootDirectory();
+			if(Directory.Exists(backupRootDir) && Directory.GetFiles(backupRootDir).Length > 0)
+			{
+				EditorUtility.DisplayDialog("Existing Prefab Backups Detected", "Unable to strip hierarchy folders from prefabs for the build, because If you have any hierarchy folders inside prefabs this will result in suboptimal performance and is not recommended when making a release build.", "Continue Anyway", "Enable Stripping");
+				throw new BuildFailedException($"Can not perform stripping of hierarchy folders from prefabs, because prefab backup directory '{backupRootDir}' already contains files.\nPlease");
 			}
 
 			if(CreateBackups())
@@ -141,7 +147,8 @@ namespace Sisus.HierarchyFolders
 
 			bool success = true;
 
-			string backupRootDir = Path.Combine(Application.persistentDataPath, "HierarchyFolders/PrefabBackups");
+			string backupRootDir = GetBackupRootDirectory();
+
 			var assets = AssetDatabase.FindAssets("t:GameObject");
 			foreach(var guid in assets)
 			{
@@ -165,7 +172,7 @@ namespace Sisus.HierarchyFolders
 				Directory.CreateDirectory(Path.GetDirectoryName(backupPath));
 
 				#if DEV_MODE && DEBUG_CREATE_BACKUP
-				Debug.Log("Creating backup of prefab " + backupPath + "\n@ "+backupPath);
+				Debug.Log("Creating backup of prefab " + backupPath + "\n@ " + backupPath);
 				#endif
 
 				try
@@ -173,7 +180,7 @@ namespace Sisus.HierarchyFolders
 					File.Copy(assetPath, backupPath, true);
 				}
 				catch(Exception e)
-                {
+				{
 					Debug.LogError("Failed to create prefab backup from " + assetPath + " to " + backupPath + ". Can not perform stripping.\n" + e);
 					success = false;
 				}
@@ -181,7 +188,10 @@ namespace Sisus.HierarchyFolders
 
 			return success;
 		}
-		
+
+		// Generate a unique Append a unique hash Application.persistentDataPath
+		private static string GetBackupRootDirectory() => Path.Combine(Application.persistentDataPath, "HierarchyFolders/PrefabBackups", Hash128.Compute(Application.dataPath).ToString());
+
 		private static void StripHierarchyFoldersFromAllPrefabs(StrippingType strippingType)
 		{
 			if(paths != null)
@@ -197,7 +207,7 @@ namespace Sisus.HierarchyFolders
 
 			paths = new List<KeyValuePair<string, string>>();
 
-			string backupRootDir = Path.Combine(Application.persistentDataPath, "HierarchyFolders/PrefabBackups");
+			string backupRootDirectory = GetBackupRootDirectory();
 			var assets = AssetDatabase.FindAssets("t:GameObject");
 			foreach(var guid in assets)
 			{
@@ -214,7 +224,7 @@ namespace Sisus.HierarchyFolders
 				}
 
 				// Risk of path being too long to write to???
-				string backupPath = Path.Combine(backupRootDir, assetPath);
+				string backupPath = Path.Combine(backupRootDirectory, assetPath);
 
 				#if DEV_MODE && DEBUG_STRIP
 				Debug.Log("Stripping prefab " + assetPath);
@@ -229,18 +239,14 @@ namespace Sisus.HierarchyFolders
 		private static void StripPrefab(GameObject root, StrippingType strippingType)
 		{
 			string assetPath = AssetDatabase.GetAssetPath(root);
-			#if UNITY_2020_1_OR_NEWER
 			using(var scope = new PrefabUtility.EditPrefabContentsScope(assetPath))
 			{
 				var transform = scope.prefabContentsRoot.transform;
-			#else
-				var transform = PrefabUtility.LoadPrefabContents(assetPath).transform;
-			#endif
 
 				if(transform.gameObject.IsConnectedPrefabInstance())
 				{
 					#if DEV_MODE && DEBUG_UNPACK_PREFAB
-					Debug.Log("Unpacking GameObject " + transform.name + " on asset "+ PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(transform.gameObject) + " with IsPrefabAsset=" + transform.gameObject.IsPrefabAsset() + ", IsConnectedPrefabInstance=" + transform.gameObject.IsConnectedPrefabInstance()+ ", IsDisconnectedPrefabInstance=" + transform.gameObject.IsDisconnectedPrefabInstance(), transform.root);
+					Debug.Log("Unpacking GameObject " + transform.name + " on asset "+ PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(transform.gameObject) + " with IsPrefabAsset=" + transform.gameObject.IsPrefabAsset() + ", IsConnectedPrefabInstance=" + transform.gameObject.IsConnectedPrefabInstance(), transform.root);
 					#endif
 
 					PrefabUtility.UnpackPrefabInstance(transform.gameObject, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
@@ -257,12 +263,7 @@ namespace Sisus.HierarchyFolders
 					HierarchyFolderUtility.CheckForAndRemoveHierarchyFoldersInChildren(children[n], strippingType, true);
 				}
 
-			#if UNITY_2020_1_OR_NEWER
 			}
-			#else
-			PrefabUtility.SaveAsPrefabAsset(root, assetPath);
-			PrefabUtility.UnloadPrefabContents(root);
-			#endif
 		}
 
 		private static void RestoreBackupsAfterBuildHasFinished()
@@ -277,10 +278,10 @@ namespace Sisus.HierarchyFolders
 
 		private static void RestoreBackups()
         {
-			RestoreBackups(true);
+			RestoreBackups(deleteAfterRestored: true);
 		}
 
-		private static void RestoreBackups(bool delete)
+		private static void RestoreBackups(bool deleteAfterRestored)
 		{
 			if(paths != null)
 			{
@@ -310,7 +311,7 @@ namespace Sisus.HierarchyFolders
 						continue;
                     }
 
-					if(delete)
+					if(deleteAfterRestored)
 					{
 						try
 						{
@@ -328,7 +329,7 @@ namespace Sisus.HierarchyFolders
 				return;
 			}
 
-			string backupRootDir = Path.Combine(Application.persistentDataPath, "HierarchyFolders/PrefabBackups");
+			string backupRootDir = GetBackupRootDirectory();
 			int removePrefixLength = backupRootDir.Length + 1;
 			if(!Directory.Exists(backupRootDir))
 			{
@@ -362,7 +363,7 @@ namespace Sisus.HierarchyFolders
 					continue;
                 }
 
-				if(delete)
+				if(deleteAfterRestored)
 				{
 					try
 					{
@@ -380,4 +381,3 @@ namespace Sisus.HierarchyFolders
 		}
 	}
 }
-#endif

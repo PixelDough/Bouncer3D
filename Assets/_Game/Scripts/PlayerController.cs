@@ -421,6 +421,13 @@ namespace PixelDough.Bouncer
             
             rigidbody.isKinematic = _noclip == 1;
         }
+        
+        [Command("set-respawn-point", MonoTargetType.Single)]
+        private void SetRespawnPoint()
+        {
+            _respawnPoint = transform.position;
+            _respawnForward = transform.forward;
+        }
     }
 }
 

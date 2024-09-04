@@ -572,7 +572,7 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 2
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 5e1055465ef5d50419538f79df5f65f6, type: 2}
@@ -644,6 +644,10 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 60ab70030966e455dba4f3bdef16eff7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6652725513331149018, guid: 60ab70030966e455dba4f3bdef16eff7, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -6435399192587130656, guid: 60ab70030966e455dba4f3bdef16eff7, type: 3}
       propertyPath: m_IsActive

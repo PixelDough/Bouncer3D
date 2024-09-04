@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1f6edf7219569c4ca5c598f8a320068, type: 3}
+  m_Name: Ruins Props
+  m_EditorClassIdentifier: 
+  _root: {fileID: 0}
+  _parent: {fileID: 0}
+  _parentID:
+    _serializedGuid: b64442507829304f90250baccafba037
+  _subcollections: []
+  _subcollectionIDs: []
+  _collectionName: Ruins Props
+  _id:
+    _serializedGuid: d13ca962a7882640863c368370ccc089
+  _icon: {fileID: 0}
+  _rules:
+    _rules:
+    - rid: 4297555652803559635
+  _items:
+    _hashSetList:
+    - 59f525310b0db4a5db199f4e1320405d
+    - 9100b33a85e8849908f80721b97fb4b3
+  _itemDisplaySize: 100
+  _viewStyle: 0
+  _useCollectionViewSettings: 0
+  _folders:
+  - _matchOption: 0
+    _folderGuid: 60f73dc2e632e49a09abc71aec07fa44
+    _doInclude: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 4297555652803559635
+      type: {class: PrefabRule, ns: Bewildered.SmartLibrary, asm: Bewildered.SmartLibrary}
+      data:
+        _operand: 2
+        _scopeState: 0
+        _prefabType: 0

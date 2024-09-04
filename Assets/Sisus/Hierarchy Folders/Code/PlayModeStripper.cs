@@ -142,7 +142,7 @@ namespace Sisus.HierarchyFolders
 			if(gameObject.IsPartOfInstantiatedPrefabInstance())
 			{
 				var transform = gameObject.transform;
-				if(transform.parent == null)
+				if(!transform.parent)
 				{
 					HashSet<Transform> handledRootObjects;
 					if(!playModeStrippingHandledForSceneRootObjects.TryGetValue(gameObject.scene, out handledRootObjects))

@@ -6,21 +6,22 @@
 //#define DEBUG_STRIP_FOLDER
 //#define DEBUG_UNPACK_PREFAB
 //#define DEBUG_UNMAKE_HIERARCHY_FOLDER
+#define DEBUG_RESET_STATE
 
 //#define ASSERT_COMPONENT_COUNT
 //#define ASSERT_CHILD_COUNT
 #define SHOW_HIERARCHY_FOLDER_TRANSFORM
 
 #if UNITY_EDITOR
-using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using JetBrains.Annotations;
+using Sisus.HierarchyFolders.Prefabs;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
-using UnityEditor;
-using Sisus.HierarchyFolders.Prefabs;
-using System.Runtime.CompilerServices;
 
 namespace Sisus.HierarchyFolders
 {
@@ -29,11 +30,8 @@ namespace Sisus.HierarchyFolders
 		public const HideFlags HierarchyFolderHideFlags = HideFlags.HideInInspector | HideFlags.NotEditable;
 		private const int AggressiveInlining = 256; //256 = MethodImplOptions.AggressiveInlining in .NET 4.5. and later
 
-		public static bool NowStripping
-		{
-			get;
-			private set;
-		}
+		public static bool NowStripping { get; private set; }
+		public static Transform NowResetting { get; private set; }
 
 		// When inactive hierarchy folders have active children, we only want to set them active once all hierarchy folders have been stripped.
 		// Otherwise their Awake and OnEnable methods would get triggered immediately when they are unparented from the inactive hierarchy folder,
@@ -195,11 +193,7 @@ namespace Sisus.HierarchyFolders
 				Debug.Log("Unpacking GameObject " + transform.name + " on asset "+ PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(transform.gameObject) + " with IsPrefabAsset=" + transform.gameObject.IsPrefabAsset() + ", IsConnectedPrefabInstance=" + transform.gameObject.IsConnectedPrefabInstance()+ ", IsDisconnectedPrefabInstance=" + transform.gameObject.IsDisconnectedPrefabInstance(), transform.root);
 				#endif
 
-				#if UNITY_2018_3_OR_NEWER
 				PrefabUtility.UnpackPrefabInstance(transform.gameObject, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
-				#else
-				PrefabUtility.DisconnectPrefabInstance(transform.gameObject);
-				#endif
             }
 
 			bool wasStripping = NowStripping;
@@ -238,11 +232,7 @@ namespace Sisus.HierarchyFolders
 								Debug.Log("Unpacking child " + child.name + " on asset " + PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(transform.gameObject) + " with IsPrefabAsset=" + child.gameObject.IsPrefabAsset() + ", IsConnectedPrefabInstance=" + child.gameObject.IsConnectedPrefabInstance()+ ", IsDisconnectedPrefabInstance=" + child.gameObject.IsDisconnectedPrefabInstance(), transform.root);
 								#endif
 								
-								#if UNITY_2018_3_OR_NEWER
 								PrefabUtility.UnpackPrefabInstance(child.gameObject, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
-								#else
-								PrefabUtility.DisconnectPrefabInstance(child.gameObject);
-								#endif
                             }
 
 							if(!transform.gameObject.activeSelf && child.gameObject.activeSelf && Application.isPlaying)
@@ -505,7 +495,7 @@ namespace Sisus.HierarchyFolders
 			child.transform.SetParent(parent.transform, worldPositionStays);
 		}
 
-		public static void ResetTransformStateWithoutAffectingChildren(Transform transform)
+		public static void ResetTransformStateWithoutAffectingChildren(Transform transform, bool undoable = false)
 		{
 			var gameObject = transform.gameObject;
 
@@ -558,7 +548,11 @@ namespace Sisus.HierarchyFolders
 			var rectTransform = transform as RectTransform;
 			if(transform.localPosition != Vector3.zero || transform.localEulerAngles != Vector3.zero || transform.localScale != Vector3.one || (rectTransform != null && (rectTransform.anchorMin != Vector2.zero || rectTransform.anchorMax != Vector2.one || rectTransform.pivot != new Vector2(0.5f, 0.5f) || rectTransform.offsetMin != Vector2.zero || rectTransform.offsetMax != Vector2.zero)))
 			{
-				Undo.RegisterFullObjectHierarchyUndo(gameObject, "Reset Hierarchy Folder Transform");
+				if(undoable)
+				{
+					Undo.RegisterFullObjectHierarchyUndo(gameObject, "Reset Hierarchy Folder Transform");
+				}
+
 				ForceResetTransformStateWithoutAffectingChildren(transform, false);
 			}
 		}
@@ -569,10 +563,12 @@ namespace Sisus.HierarchyFolders
 			Debug.Log("Reset State: \"" + transform.name + "\"", transform);
 			#endif
 
+			NowResetting = transform;
+
 			bool canModifyParents = !transform.gameObject.IsPrefabAssetOrInstance();
 
 			// For non-prefab instances we can use a method where children are unparented temporarily.
-			// This has the benefit the the world position of all children remains unchanged throughout the whole process.
+			// This has the benefit that the world position of all children remains unchanged throughout the whole process.
 			int childCount = transform.childCount;
 			var children = new Transform[childCount];
 			for(int n = childCount - 1; n >= 0; n--)
@@ -625,6 +621,8 @@ namespace Sisus.HierarchyFolders
 			}
 
 			EditorUtility.SetDirty(transform);
+
+			NowResetting = null;
 		}
 
 		public static HideFlags GetHierarchyFolderTransformHideFlags(Transform transform)

@@ -570,7 +570,22 @@ namespace Sisus.HierarchyFolders
 
 			path = Path.Combine(path, "HierarchyFoldersSettings.asset");
 
-			path = "Assets" + path.Substring(Application.dataPath.Length);
+			if(path.StartsWith(@".\Packages", StringComparison.OrdinalIgnoreCase))
+			{
+				path = path.Substring(2);
+			}
+			else if(path.StartsWith(Application.dataPath, StringComparison.OrdinalIgnoreCase))
+			{
+				path = "Assets" + path.Substring(Application.dataPath.Length);
+			}
+			else
+			{
+				int packageNameStartIndex = path.IndexOf("com.sisus.hierarchy-folders", StringComparison.OrdinalIgnoreCase);
+				if(packageNameStartIndex != -1)
+				{
+					path = "Packages/" + path.Substring(packageNameStartIndex);
+				}
+			}
 
 			return path;
 		}

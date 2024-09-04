@@ -87,7 +87,6 @@ namespace Sisus.HierarchyFolders
 			{
 				window.Focus();
 				StartRenamingCreatedHierarchyFolder();
-				return;
 			}
 		}
 
