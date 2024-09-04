@@ -9,30 +9,9 @@ public class Rotate : MonoBehaviour
     public Rigidbody rigidbodyOptional;
     public Space space = Space.World;
     public Vector3 axis = new Vector3(0, 1, 0);
-    public bool startRandom = false;
     public bool ignoreTimeScale = false;
     
     public float speed = 5f;
-    
-    private void Start()
-    {
-        if (startRandom)
-        {
-            switch (space)
-            {
-                case Space.World:
-                    transform.Rotate(axis, Random.Range(0, 360), Space.World);
-                    break;
-                case Space.Self:
-                    Vector3 val = transform.localRotation.eulerAngles;
-                    val.x += axis.x * Random.Range(0, 360);
-                    val.y += axis.y * Random.Range(0, 360);
-                    val.z += axis.z * Random.Range(0, 360);
-                    transform.localRotation = Quaternion.Euler(val);
-                    break;
-            }
-        }
-    }
 
     private void Update()
     {
