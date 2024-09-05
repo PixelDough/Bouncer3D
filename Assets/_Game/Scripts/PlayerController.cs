@@ -79,6 +79,8 @@ namespace PixelDough.Bouncer
 
         private void Update()
         {
+            if (!_camera) _camera = Camera.main;
+            
             HandleMovementInput();
             HandleNoclipMovement();
             //HandleDampen();

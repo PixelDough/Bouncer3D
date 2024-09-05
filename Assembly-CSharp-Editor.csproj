@@ -51,6 +51,7 @@
     <Compile Include="Assets/Rewired/Internal/Scripts/Editor/CustomInspectors/ControllerDataFilesInspector.cs" />
     <Compile Include="Assets/PowerSpriteAnimator/Scripts/Editor/SpriteAnimatorTimeline.cs" />
     <Compile Include="Assets/Impact CFX Extensions/FMOD/Editor/ImpactFMODAudioEffectAuthoringEditor.cs" />
+    <Compile Include="Assets/Tools/Scene Dependencies/Editor/SceneDependencyWindow.cs" />
     <Compile Include="Assets/Rewired/Integration/Cinemachine3/Scripts/Editor/RewiredCinemachineInputAxisControllerReaderPropertyDrawer.cs" />
     <Compile Include="Assets/Rewired/Extras/ControlMapper/Scripts/Editor/CustomButtonInspector.cs" />
     <Compile Include="Assets/Rewired/Internal/Scripts/Editor/UnityEditorBridge.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Assets/AmplifyColor/Plugins/Editor/LUTBrowser.cs" />
     <Compile Include="Assets/PowerSpriteAnimator/Scripts/Editor/SpriteAnimator.cs" />
     <Compile Include="Assets/Chroma/Core/Editor/HDRP/ChromaUiBlock.cs" />
+    <Compile Include="Assets/Tools/Scene Dependencies/Editor/PlayModeSceneDependencyLoader.cs" />
     <None Include="Assets/Chroma/Core/Editor/HDRP/Unity.RenderPipelines.HighDefinition.Editor.asmref" />
     <None Include="Assets/Chroma/Core/Editor/Resources/Styles/ChromaBlackboard.uss" />
     <Reference Include="UnityEngine">
