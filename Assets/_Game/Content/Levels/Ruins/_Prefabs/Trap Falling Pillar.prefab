@@ -151,11 +151,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31fbc930408e845cfa872851c1f000f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 0}
   rb: {fileID: 6880223949206325878}
   meshTransform: {fileID: 6050268356165157738}
   startPos: {x: 0, y: 0, z: 0}
   startRot: {x: 0, y: 0, z: 0, w: 1}
-  fallDelay: 4
+  fallDelay: 3
 --- !u!1001 &6237078224353641968
 PrefabInstance:
   m_ObjectHideFlags: 0

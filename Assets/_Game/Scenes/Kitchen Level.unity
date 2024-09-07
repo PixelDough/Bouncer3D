@@ -17,7 +17,7 @@ RenderSettings:
   m_Fog: 1
   m_FogColor: {r: 0.8980393, g: 0.9921569, b: 0.9921569, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.0035
+  m_FogDensity: 0.01
   m_LinearFogStart: 100
   m_LinearFogEnd: 150
   m_AmbientSkyColor: {r: 0.8679245, g: 0.8679245, b: 0.8679245, a: 1}
@@ -318,6 +318,10 @@ MonoBehaviour:
   space: 0
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 30
 --- !u!114 &39006578
 MonoBehaviour:
@@ -452,6 +456,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 15
 --- !u!1 &70822581
 GameObject:
@@ -877,6 +885,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: -5
 --- !u!1001 &153722447
 PrefabInstance:
@@ -1279,6 +1291,10 @@ MonoBehaviour:
   space: 0
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 30
 --- !u!114 &229029755
 MonoBehaviour:
@@ -1493,6 +1509,10 @@ MonoBehaviour:
   space: 0
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 30
 --- !u!114 &252712902
 MonoBehaviour:
@@ -1632,6 +1652,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 15
 --- !u!1 &307444091
 GameObject:
@@ -1963,6 +1987,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: -5
 --- !u!1001 &314741826
 PrefabInstance:
@@ -2419,6 +2447,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 180
 --- !u!1001 &356563044
 PrefabInstance:
@@ -3678,6 +3710,10 @@ MonoBehaviour:
   space: 0
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 30
 --- !u!114 &589373373
 MonoBehaviour:
@@ -4428,6 +4464,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 180
 --- !u!1 &633790744
 GameObject:
@@ -4721,6 +4761,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: -1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 45
 --- !u!1001 &696907661
 PrefabInstance:
@@ -5012,6 +5056,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 15
 --- !u!1 &739755090
 GameObject:
@@ -5062,6 +5110,10 @@ MonoBehaviour:
   space: 1
   axis: {x: -1, y: 0, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 180
 --- !u!1001 &784742470
 PrefabInstance:
@@ -5161,6 +5213,10 @@ MonoBehaviour:
   space: 0
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 45
 --- !u!114 &807268296
 MonoBehaviour:
@@ -5660,6 +5716,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 15
 --- !u!1001 &846108909
 PrefabInstance:
@@ -5758,6 +5818,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 7
 --- !u!1001 &860768434
 PrefabInstance:
@@ -6027,6 +6091,10 @@ MonoBehaviour:
   space: 0
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 25
 --- !u!54 &906165435
 Rigidbody:
@@ -6404,6 +6472,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 15
 --- !u!1001 &955072178
 PrefabInstance:
@@ -6671,6 +6743,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 15
 --- !u!1001 &989219902
 PrefabInstance:
@@ -6775,6 +6851,10 @@ MonoBehaviour:
   space: 0
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 1
 --- !u!114 &989219905
 MonoBehaviour:
@@ -7286,6 +7366,10 @@ MonoBehaviour:
   space: 0
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 30
 --- !u!114 &1070554208
 MonoBehaviour:
@@ -12593,6 +12677,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: -5
 --- !u!1001 &1146750084
 PrefabInstance:
@@ -12696,6 +12784,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 15
 --- !u!4 &1146760684 stripped
 Transform:
@@ -12967,6 +13059,10 @@ MonoBehaviour:
   space: 0
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 30
 --- !u!114 &1162638390
 MonoBehaviour:
@@ -13729,6 +13825,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 15
 --- !u!1001 &1336182574
 PrefabInstance:
@@ -14829,6 +14929,10 @@ MonoBehaviour:
   space: 0
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 30
 --- !u!64 &1524191727
 MeshCollider:
@@ -15118,6 +15222,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 7
 --- !u!1 &1573791702
 GameObject:
@@ -15164,6 +15272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoneData: {fileID: 11400000, guid: 12bd8ed33aea48143a2b02d019ba9fd1, type: 2}
+  levelFeatures: []
 --- !u!1001 &1574928567
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15266,6 +15375,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 15
 --- !u!1001 &1576838122
 PrefabInstance:
@@ -15447,6 +15560,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 15
 --- !u!1001 &1592943169
 PrefabInstance:
@@ -16073,6 +16190,10 @@ MonoBehaviour:
   space: 0
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 1
 --- !u!114 &1645617410
 MonoBehaviour:
@@ -16689,6 +16810,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 7
 --- !u!1001 &1740197629
 PrefabInstance:
@@ -17015,6 +17140,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 15
 --- !u!1001 &1819275046
 PrefabInstance:
@@ -17281,6 +17410,10 @@ MonoBehaviour:
   space: 0
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: -25
 --- !u!1 &1836704051
 GameObject:
@@ -17554,6 +17687,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 15
 --- !u!1001 &1898055051
 PrefabInstance:
@@ -17852,6 +17989,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 15
 --- !u!1001 &1975354803
 PrefabInstance:
@@ -18179,6 +18320,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 15
 --- !u!1001 &2060206618
 PrefabInstance:
@@ -18283,6 +18428,10 @@ MonoBehaviour:
   space: 0
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 30
 --- !u!114 &2060206621
 MonoBehaviour:
@@ -18885,6 +19034,10 @@ MonoBehaviour:
   space: 0
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 35
 --- !u!54 &2135279950
 Rigidbody:
@@ -19007,6 +19160,10 @@ MonoBehaviour:
   space: 0
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 25
 --- !u!1 &2144940621 stripped
 GameObject:
