@@ -51,6 +51,7 @@ MonoBehaviour:
   flipped: 0
   instantRepeat: 0
   hingeTransform: {fileID: 1293069039533399555}
+  rigidbody: {fileID: 1859107265539954920}
 --- !u!1 &6405026433943919159
 GameObject:
   m_ObjectHideFlags: 0
@@ -60,6 +61,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1293069039533399555}
+  - component: {fileID: 1859107265539954920}
   m_Layer: 0
   m_Name: Hinge
   m_TagString: Untagged
@@ -84,6 +86,33 @@ Transform:
   - {fileID: 505631843886842143}
   m_Father: {fileID: 4931421647710033072}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &1859107265539954920
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6405026433943919159}
+  serializedVersion: 4
+  m_Mass: 10
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 1
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &1256551052433069273
 PrefabInstance:
   m_ObjectHideFlags: 0

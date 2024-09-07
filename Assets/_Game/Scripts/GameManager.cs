@@ -48,7 +48,6 @@ namespace PixelDough.Bouncer
             }
 
             _instance = this;
-            DontDestroyOnLoad(gameObject);
 
             FMODUnity.RuntimeManager.PlayOneShot("event:/Silence");
 
