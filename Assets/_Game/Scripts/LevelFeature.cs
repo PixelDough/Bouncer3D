@@ -6,25 +6,19 @@ using UnityEditor.SceneManagement;
 
 namespace PixelDough.Bouncer
 {
-    [ExecuteInEditMode]
     public abstract class LevelFeature : MonoBehaviour
     {
-        [SerializeField] private LevelManager levelManager;
+        [SerializeField, HideInInspector] private LevelManager levelManager;
+        #if UNITY_EDITOR
         protected virtual void OnValidate()
         {
             if (levelManager) return;
             if (gameObject.scene.name == null || gameObject.scene.name == gameObject.name) return;
-            #if UNITY_EDITOR
             if (PrefabStageUtility.GetCurrentPrefabStage() != null) return;
-            #endif
             levelManager = FindFirstObjectByType<LevelManager>();
             levelManager.RegisterLevelFeature(this);
         }
-        
-        protected virtual void OnDestroy()
-        {
-            if (levelManager) levelManager.DeregisterLevelFeature(this);
-        }
+        #endif
 
         public abstract void Initialize();
     }

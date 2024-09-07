@@ -31,6 +31,11 @@ namespace PixelDough.Bouncer
             
             CountingTime = false;
             ResetTimer();
+            
+            levelFeatures.TrimExcess();
+            levelFeatures.RemoveAll(feature => 
+                feature == null || feature.gameObject.scene.name == null || feature.gameObject.scene.name == feature.gameObject.name
+            );
         }
 
         private void Update()

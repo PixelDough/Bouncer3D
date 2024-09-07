@@ -1,4 +1,5 @@
 using System;
+using DrawXXL;
 using UnityEngine;
 
 namespace PixelDough.Bouncer
@@ -51,5 +52,15 @@ namespace PixelDough.Bouncer
             Quaternion targetRotation = Quaternion.Euler(0, 0, currentAngle + angleDifference);
             rigidbody.MoveRotation(hingeTransform.parent.rotation * targetRotation);
         }
+
+        private void OnDrawGizmos()
+        {
+            Vector3 rotatedVector = hingeTransform.rotation * Quaternion.Euler(0, 0, -angleRange) * Vector3.down;
+            Vector3 rotatedVecto2 = hingeTransform.rotation * Quaternion.Euler(0, 0, angleRange) * Vector3.down;
+            DrawBasics.CircleSegment(
+                hingeTransform.position, 
+                rotatedVector * 4 * transform.localScale.y,
+                rotatedVecto2, useReflexAngleOver180deg: angleRange > 90);
+        }    
     }
 }
