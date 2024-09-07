@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace PixelDough.Bouncer
 {
-    public class SwingingTrap : MonoBehaviour, ILevelFeature
+    public class SwingingTrap : LevelFeature
     {
         [SerializeField, Range(0, 180)] private float angleRange = 25f;
         [SerializeField] private float loopTime = 1f;
@@ -15,7 +15,7 @@ namespace PixelDough.Bouncer
         private float _swingTime = 0f;
         private float _targetAngle = 0f;
 
-        public void Initialize()
+        public override void Initialize()
         {
             _swingTime = 0f;
         }

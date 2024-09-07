@@ -56,7 +56,7 @@ namespace PixelDough.Bouncer
             if (!other.attachedRigidbody) return;
             if (other.attachedRigidbody.CompareTag("Player"))
             {
-                LevelManager.Instance.LevelProgress.AddCollectable(this);
+                // LevelManager.Instance.LevelProgress.AddCollectable(this);
                 _collectParticleSystemInstance.transform.position = transform.position;
                 _collectParticleSystemInstance.Play();
                 gameObject.SetActive(false);

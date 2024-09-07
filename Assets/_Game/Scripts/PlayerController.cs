@@ -357,8 +357,6 @@ namespace PixelDough.Bouncer
             _respawnForward = direction;
 
             currentCheckpoint = checkpointController;
-            
-            LevelManager.Instance.LevelProgress.LockInCollectables();
         }
 
         public void Kill()
@@ -383,7 +381,8 @@ namespace PixelDough.Bouncer
                 rigidbody.linearVelocity = Vector3.zero;
                 rigidbody.angularVelocity = Vector3.zero;
                 
-                LevelManager.Instance.LevelProgress.LoseCollectables();
+                // LevelManager.Instance.LevelProgress.LoseCollectables();
+                LevelManager.Instance.ResetLevelElements();
                 
                 GameManager.Instance.screenFadeController.FadeFromBlack(0.5f).setOnComplete(() =>
                 {

@@ -11,22 +11,15 @@ namespace PixelDough.Bouncer
         public static LevelManager Instance;
 
         [SerializeField] private ZoneDataScriptableObject zoneData;
+        [SerializeField] private List<LevelFeature> levelFeatures = new List<LevelFeature>();
         
         public static TimeSpan LevelTime;
         public static bool CountingTime = false;
 
-        public LevelProgress LevelProgress;
-
         private void Start()
         {
             Instance = this;
-
-            List<CollectableSpawner> collectableSpawners =
-                new List<CollectableSpawner>(FindObjectsByType<CollectableSpawner>(FindObjectsSortMode.None));
             
-            LevelProgress = new LevelProgress();
-            LevelProgress.Initialize(collectableSpawners, zoneData);
-
             CountingTime = false;
             ResetTimer();
         }
@@ -42,9 +35,20 @@ namespace PixelDough.Bouncer
             LevelTime = new TimeSpan(0, 0, 0, 0, 0);
         }
 
+        public void RegisterLevelFeature(LevelFeature levelFeature)
+        {
+            levelFeatures.Add(levelFeature);
+        }
+        
+        public void ResetLevelElements()
+        {
+            levelFeatures.ForEach(feature => feature.Initialize());
+        }
+
         private void OnDestroy()
         {
             Instance = null;
         }
+
     }
 }

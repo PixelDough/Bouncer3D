@@ -28,12 +28,6 @@ namespace PixelDough.Bouncer.UI
 
         private bool _isVisible = true;
         
-        private void Start()
-        {
-            UpdateShellCountText();
-            StartCoroutine(ShellAddCoroutine());
-        }
-
         private void Update()
         {
             shellAnimator.speed = Mathf.Lerp(shellAnimator.speed, 1f, Time.deltaTime);
@@ -45,57 +39,6 @@ namespace PixelDough.Bouncer.UI
                 timerText.text = LevelManager.LevelTime.ToString(@"mm\:ss\.fff");
             
             uiItemIconTransform.Rotate(Vector3.up * (360 * uiItemIconSpeed * Time.deltaTime));
-        }
-
-        private void UpdateShellCountText()
-        {
-            bool hasAllShells = _localShellCount == LevelManager.Instance.LevelProgress.TotalCollectables;
-            
-            string str = "{size}";
-            if (hasAllShells)
-            {
-                str += "<pastel>";
-                str += "<wave>";
-            }
-            str += _localShellCount;
-            if (!hasAllShells)
-                str += "</>{/}";
-            str += "<size=18>/" + LevelManager.Instance.LevelProgress.TotalCollectables;
-            shellCountText.text = str;
-        }
-
-        private IEnumerator ShellAddCoroutine()
-        {
-            while (true)
-            {
-                if (_localShellCount > LevelManager.Instance.LevelProgress.CurrentCollectables)
-                {
-                    _localShellCount = LevelManager.Instance.LevelProgress.CurrentCollectables;
-                    UpdateShellCountText();
-                }
-                while (_localShellCount < LevelManager.Instance.LevelProgress.CurrentCollectables)
-                {
-                    _localShellCount++;
-                    UpdateShellCountText();
-
-                    // TODO: Pool collectables flying towards icon in UI
-                    RectTransform shell = Instantiate(shellFlying, shellFlying.parent).transform as RectTransform;
-                    shell.gameObject.SetActive(true);
-                    shell.LeanMoveLocal(shellImage.transform.localPosition, 0.2f).setEaseOutSine()
-                        .setOnComplete(() =>
-                        {
-                            shellAnimator.speed += 1f;
-                            uiItemIconSpeed += 1f;
-                            Destroy(shell.gameObject);
-                        });
-                    
-                    FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/SHELLS/Shell Get");
-                    
-                    yield return new WaitForSeconds(0.1f);
-                }
-                yield return null;
-            }
-            yield return null;
         }
 
         public void SetVisibility(bool state, bool doAnimation = true)

@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 namespace PixelDough.Bouncer
 {
-    public class FallingTrap : MonoBehaviour, ILevelFeature
+    public class FallingTrap : LevelFeature
     {
         [SerializeField] private Rigidbody rb;
         [SerializeField] private Transform meshTransform;
@@ -16,16 +16,18 @@ namespace PixelDough.Bouncer
 
         private bool _isShaking = false;
         private bool _isFalling = false;
+        private CoroutineHandle _fallCoroutineHandle;
 
         #if UNITY_EDITOR
-        private void OnValidate()
+        protected override void OnValidate()
         {
+            base.OnValidate();
             startPos = transform.position;
             startRot = transform.rotation;
         }
         #endif
         
-        public void Initialize()
+        public override void Initialize()
         {
             rb.isKinematic = true;
             rb.useGravity = false;
@@ -33,6 +35,7 @@ namespace PixelDough.Bouncer
             transform.rotation = startRot;
             _isShaking = false;
             _isFalling = false;
+            Timing.KillCoroutines(_fallCoroutineHandle);
         }
 
         private void Update()
@@ -45,10 +48,12 @@ namespace PixelDough.Bouncer
 
         private void OnCollisionEnter(Collision other)
         {
+            if (_isShaking || _isFalling) return;
             Rigidbody hitRb = other.rigidbody;
             if (!hitRb) return;
             
-            Timing.RunCoroutine(Fall());
+            _isShaking = true;
+            _fallCoroutineHandle = Timing.RunCoroutine(Fall());
         }
         
         private IEnumerator<float> Fall()
