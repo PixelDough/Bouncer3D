@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using PixelDough.Bouncer.LevelData;
+using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -51,12 +52,21 @@ namespace PixelDough.Bouncer
 
         public void RegisterLevelFeature(LevelFeature levelFeature)
         {
+            if (levelFeatures.Contains(levelFeature)) return;
             levelFeatures.Add(levelFeature);
         }
         
         public void DeregisterLevelFeature(LevelFeature levelFeature)
         {
             levelFeatures.Remove(levelFeature);
+        }
+
+        [Button]
+        public void RegenerateLevelFeatureList()
+        {
+            levelFeatures.Clear();
+            levelFeatures.AddRange(FindObjectsByType<LevelFeature>(FindObjectsInactive.Include,
+                FindObjectsSortMode.None));
         }
         
         public void ResetLevelElements()

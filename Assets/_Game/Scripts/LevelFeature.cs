@@ -12,10 +12,9 @@ namespace PixelDough.Bouncer
         #if UNITY_EDITOR
         protected virtual void OnValidate()
         {
-            if (levelManager) return;
             if (gameObject.scene.name == null || gameObject.scene.name == gameObject.name) return;
             if (PrefabStageUtility.GetCurrentPrefabStage() != null) return;
-            levelManager = FindFirstObjectByType<LevelManager>();
+            levelManager ??= FindFirstObjectByType<LevelManager>();
             levelManager.RegisterLevelFeature(this);
         }
         #endif
