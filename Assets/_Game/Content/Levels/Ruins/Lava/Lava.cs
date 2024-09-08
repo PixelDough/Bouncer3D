@@ -9,14 +9,23 @@ namespace PixelDough.Bouncer
     {
         [SerializeField] private List<int> checkpointHeights = new List<int> { 0, 13 };
         
+        private PlayerController _player;
+        
         public override void Initialize()
         {
-            SetY(checkpointHeights[0]);
+            _player ??= FindFirstObjectByType<PlayerController>();
+
+            var newHeight = Mathf.Max(0f, _player.transform.position.y - 10f);
+            SetY(newHeight);
         }
 
         private void Update()
         {
-            transform.Translate(Vector3.up * (0.2f * Time.deltaTime));
+            _player ??= FindFirstObjectByType<PlayerController>();
+            var followHeight = _player.transform.position.y - 8f;
+            if (followHeight < 0) return;
+            var heightDiff = Mathf.Max(0, _player.transform.position.y - transform.position.y);
+            transform.Translate(Vector3.up * ((0.125f + heightDiff * 0.05f) * Time.deltaTime));
         }
 
         [Command("lava-set-y", MonoTargetType.Single)]
