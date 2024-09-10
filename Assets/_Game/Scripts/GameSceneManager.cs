@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using MEC;
+using Tools.SceneDependencies;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,14 +16,14 @@ namespace PixelDough.Bouncer
         public static bool IsChangingScenes => _isChangingScenes;
         private static bool _isChangingScenes;
 
-        public static void LoadScene(string sceneName)
+        public static void LoadScene(SceneDependencySettingsSO sceneDependencySettings)
         {
             if (_isChangingScenes) return;
             
-            Timing.RunCoroutine(C_LoadScene(sceneName));
+            Timing.RunCoroutine(C_LoadScene(sceneDependencySettings));
         }
 
-        private static IEnumerator<float> C_LoadScene(string sceneName)
+        private static IEnumerator<float> C_LoadScene(SceneDependencySettingsSO sceneDependencySettings)
         {
             _isChangingScenes = true;
             
@@ -31,8 +32,11 @@ namespace PixelDough.Bouncer
             while (LeanTween.isTweening(fadeID)) yield return Timing.WaitForOneFrame;
 
             // Wait for scene to load
-            var asyncOperation = SceneManager.LoadSceneAsync(sceneName);
-            yield return Timing.WaitUntilDone(asyncOperation);
+            Awaitable asyncOperation = SceneDependencyManager.LoadScene(sceneDependencySettings);
+            while (!asyncOperation.IsCompleted)
+            {
+                yield return Timing.WaitForOneFrame;
+            }
 
             // Wait a buffer time for any start methods to process and lag the game
             yield return Timing.WaitForSeconds(1f);

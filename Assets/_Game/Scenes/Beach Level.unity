@@ -1231,6 +1231,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: 0, z: 1}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: -8
 --- !u!1001 &63836621
 PrefabInstance:
@@ -16609,6 +16613,10 @@ MonoBehaviour:
   space: 0
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 25
 --- !u!54 &785329982
 Rigidbody:
@@ -17748,6 +17756,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 1, y: 0, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: -15
 --- !u!54 &832116447
 Rigidbody:
@@ -18753,6 +18765,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: -180
 --- !u!54 &914210025
 Rigidbody:
@@ -24735,6 +24751,10 @@ MonoBehaviour:
   space: 0
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: -10
 --- !u!4 &1152214486 stripped
 Transform:
@@ -31645,6 +31665,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: 0, z: 1}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: -10
 --- !u!54 &1478422944
 Rigidbody:
@@ -31769,6 +31793,10 @@ MonoBehaviour:
   space: 1
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 180
 --- !u!54 &1485836782
 Rigidbody:
@@ -33780,6 +33808,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoneData: {fileID: 11400000, guid: 1ebdae7aea85afb4aa053ccc0ce4b7b8, type: 2}
+  levelFeatures: []
+  cutsceneController: {fileID: 0}
 --- !u!1001 &1576213845
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36969,6 +36999,10 @@ MonoBehaviour:
   space: 0
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 45
 --- !u!1001 &1718959347
 PrefabInstance:
@@ -39761,6 +39795,10 @@ MonoBehaviour:
   space: 0
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: -25
 --- !u!54 &1870769906
 Rigidbody:
@@ -44451,6 +44489,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8802735980993274368, guid: 75193b36cb59d5d478112d57715dadaa, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3753598769661936881, guid: 2782a6886139ace4e900c62f05d73297, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
@@ -44492,6 +44534,10 @@ MonoBehaviour:
   space: 0
   axis: {x: 0, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 10
 --- !u!54 &2040494713
 Rigidbody:
@@ -46134,6 +46180,10 @@ MonoBehaviour:
   space: 0
   axis: {x: 0.5, y: 1, z: 0}
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 15
 --- !u!54 &2083081099
 Rigidbody:
@@ -48416,6 +48466,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Goal Ring
       objectReference: {fileID: 0}
+    - target: {fileID: 9155698373535931708, guid: eb09773bcb19d48138dfde0bcb17b051, type: 3}
+      propertyPath: nextSceneDemo
+      value: 
+      objectReference: {fileID: 11400000, guid: 890f3e1a9360f4a28a7ce282de8d107e, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

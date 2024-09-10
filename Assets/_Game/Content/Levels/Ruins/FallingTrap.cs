@@ -67,5 +67,10 @@ namespace PixelDough.Bouncer
             rb.isKinematic = false;
             rb.useGravity = true;
         }
+
+        private void OnDestroy()
+        {
+            Timing.KillCoroutines(_fallCoroutineHandle);
+        }
     }
 }

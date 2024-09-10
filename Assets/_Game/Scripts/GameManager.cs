@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using PixelDough.Bouncer.UI;
 using QFSW.QC;
 using Rewired;
+using Tools.SceneDependencies;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
@@ -25,6 +28,7 @@ namespace PixelDough.Bouncer
 
         public ScreenFadeController screenFadeController;
 
+        public PlayerHudController playerHudController;
         public Camera uiCamera;
         
         public Player Input;
@@ -38,6 +42,8 @@ namespace PixelDough.Bouncer
         public static bool DoPlayerPhysics = true;
 
         private float _vfxFixedTimeStep;
+        
+        public List<SceneDependencySettingsSO> scenes = new List<SceneDependencySettingsSO>();
 
         private void Start()
         {
@@ -101,23 +107,21 @@ namespace PixelDough.Bouncer
                 Cursor.lockState = CursorLockMode.Locked;
             }
         }
-
-        [Command("change-scene")]
-        private static void ChangeScene(string sceneName)
-        {
-            GameSceneManager.LoadScene(sceneName);
-        }
         
         [Command("change-scene-by-index")]
         private static void ChangeScene(int index)
         {
-            SceneManager.LoadScene(index);
+            GameSceneManager.LoadScene(Instance.scenes[index]);
         }
-
-        [Command("reload-scene")]
-        private static void ReloadScene()
+        
+        public void CutsceneBegin()
         {
-            GameSceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            playerHudController.SetVisibility(false);
+        }
+        
+        public void CutsceneEnded()
+        {
+            playerHudController.SetVisibility(true);
         }
     }
 }

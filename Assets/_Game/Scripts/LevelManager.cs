@@ -14,6 +14,10 @@ namespace PixelDough.Bouncer
 
         [SerializeField] private ZoneDataScriptableObject zoneData;
         [SerializeField] private List<LevelFeature> levelFeatures = new List<LevelFeature>();
+        [SerializeField] private CutsceneController cutsceneController;
+        
+        public enum LevelStates { Intro, Playing, Finished }
+        public static LevelStates LevelState = LevelStates.Intro;
         
         public static TimeSpan LevelTime;
         public static bool CountingTime = false;
@@ -26,11 +30,35 @@ namespace PixelDough.Bouncer
             );
         }
 
+        private void OnDestroy()
+        {
+            GameSceneManager.OnSceneLoaded -= Initialize;
+        }
+
         private void Start()
         {
             Instance = this;
-            
-            CountingTime = false;
+
+            if (GameSceneManager.IsChangingScenes)
+                GameSceneManager.OnSceneLoaded += Initialize;
+            else
+            {
+                Initialize();
+            }
+        }
+
+        public void Initialize()
+        {
+            if (cutsceneController)
+            {
+                cutsceneController.PlayCutscene();
+            }
+            else
+            {
+                CountingTime = true;
+            }
+
+            LevelState = LevelStates.Playing;
             ResetTimer();
             
             levelFeatures.TrimExcess();
@@ -48,6 +76,12 @@ namespace PixelDough.Bouncer
         public static void ResetTimer()
         {
             LevelTime = new TimeSpan(0, 0, 0, 0, 0);
+        }
+
+        public static void StopTimer()
+        {
+            CountingTime = false;
+            LevelState = LevelStates.Finished;
         }
 
         public void RegisterLevelFeature(LevelFeature levelFeature)
@@ -72,11 +106,6 @@ namespace PixelDough.Bouncer
         public void ResetLevelElements()
         {
             levelFeatures.ForEach(feature => feature.Initialize());
-        }
-
-        private void OnDestroy()
-        {
-            Instance = null;
         }
 
     }

@@ -9,23 +9,11 @@ namespace PixelDough.Bouncer
     {
 
         public PlayerController playerController;
-        public PlayerHudController playerHudController;
 
         [SerializeField] private CinemachineOrbitalFollow cinemachineFreeLook;
 
         public ParticleSystem sandRollParticleSystem;
         public ParticleSystem sandBurstParticleSystem;
-        
-        public void CutsceneBegin()
-        {
-            playerHudController.SetVisibility(false);
-        }
-        
-        public void CutsceneEnded()
-        {
-            playerHudController.SetVisibility(true);
-            
-        }
 
         public void SetCameraForward(Vector3 forward)
         {

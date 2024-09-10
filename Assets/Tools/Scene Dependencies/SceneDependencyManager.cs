@@ -34,11 +34,14 @@ public static class SceneDependencyManager
     public static void EnsureGameManagementEditor()
     {
         if (!SceneManager.GetSceneByName("GameManagement").IsValid())
-            EditorSceneManager.OpenScene("GameManagement", OpenSceneMode.Additive);
+        {
+            var gameManagementSceneAsset = AssetDatabase.LoadAssetAtPath<SceneDependencySettingsSO>(MainSettingsPath + "GameManagement.asset");
+            EditorSceneManager.OpenScene(gameManagementSceneAsset.sceneProperties.scenePath, OpenSceneMode.Additive);
+        }
     }
     public static void LoadSceneEditor(SceneDependencySettingsSO scene)
     {
-        // EnsureGameManagementEditor();
+        EnsureGameManagementEditor();
 
         List<Scene> scenesToUnload = new List<Scene>();
         List<string> alreadyLoadedScenes = new List<string>();
@@ -69,6 +72,7 @@ public static class SceneDependencyManager
         // Unload the non-needed scenes
         foreach (var sceneToUnload in scenesToUnload)
         {
+            if (sceneToUnload.name == "GameManagement") continue;
             EditorSceneManager.CloseScene(sceneToUnload, true);
         }
     }
@@ -140,6 +144,7 @@ public static class SceneDependencyManager
         var dependencyNames = scene.dependencies.Select((asset => asset.sceneName)).ToArray();
         foreach (Scene currentLoadedScene in currentLoadedScenes)
         {
+            if (currentLoadedScene.name == "GameManagement") continue;
             if (!dependencyNames.Contains(currentLoadedScene.name) && currentLoadedScene.name != scene.sceneProperties.sceneName)
             {
                 var unloadOperation = SceneManager.UnloadSceneAsync(currentLoadedScene);

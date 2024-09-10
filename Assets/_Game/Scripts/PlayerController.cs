@@ -378,8 +378,11 @@ namespace PixelDough.Bouncer
                 transform.position = _respawnPoint;
                 transform.forward = _respawnForward;
                 playerStuffManager.SetCameraForward(_respawnForward);
-                rigidbody.linearVelocity = Vector3.zero;
-                rigidbody.angularVelocity = Vector3.zero;
+                if (!rigidbody.isKinematic)
+                {
+                    rigidbody.linearVelocity = Vector3.zero;
+                    rigidbody.angularVelocity = Vector3.zero;
+                }
                 
                 // LevelManager.Instance.LevelProgress.LoseCollectables();
                 LevelManager.Instance.ResetLevelElements();

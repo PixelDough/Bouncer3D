@@ -33,8 +33,11 @@ namespace PixelDough.Bouncer
         {
             solidObject.SetActive(true);
             rigidbody.isKinematic = isKinematic;
-            rigidbody.angularVelocity = Vector3.zero;
-            rigidbody.linearVelocity = Vector3.zero;
+            if (!isKinematic)
+            {
+                rigidbody.angularVelocity = Vector3.zero;
+                rigidbody.linearVelocity = Vector3.zero;
+            }
             rigidbody.MovePosition(_startPosition);
             rigidbody.MoveRotation(_startRotation);
             brokenParts.ForEach(part =>

@@ -23,11 +23,13 @@ namespace PixelDough.Bouncer
         private bool _isLidLaunched = false;
         private Vector3 _lidStartPos = Vector3.zero;
 
+        private CoroutineHandle _popCoroutineHandle;
+
         private void Start()
         {
             _lidStartPos = lid.transform.position;
 
-            Timing.RunCoroutine(C_LidPopSequence());
+            _popCoroutineHandle = Timing.RunCoroutine(C_LidPopSequence());
         }
         
         private void Update()
@@ -82,6 +84,11 @@ namespace PixelDough.Bouncer
                 _isLidLaunched = false;
                 yield return Timing.WaitForOneFrame;
             }
+        }
+
+        private void OnDestroy()
+        {
+            Timing.KillCoroutines(_popCoroutineHandle);
         }
     }
 }

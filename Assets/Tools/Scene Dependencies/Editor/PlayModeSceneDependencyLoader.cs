@@ -33,7 +33,7 @@ public static class PlayModeSceneDependencyLoader
         var assetsAtPath = Resources.LoadAll<SceneDependencySettingsSO>("");
         foreach (var dependencySettings in assetsAtPath)
         {
-            Debug.Log(dependencySettings.name);
+            if (dependencySettings.sceneProperties.sceneName == "GameManagement") continue;
             if (loadedSceneNames.Contains(dependencySettings.sceneProperties.sceneName))
             {
                 SceneDependencyManager.LoadScene(dependencySettings);
