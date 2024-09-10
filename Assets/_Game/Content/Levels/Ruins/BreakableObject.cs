@@ -70,7 +70,8 @@ namespace PixelDough.Bouncer
         private void OnCollisionEnter(Collision other)
         {
             if (_isBroken) return;
-            if (other.relativeVelocity.magnitude < breakForce) return;
+            float magnitude = other.relativeVelocity.magnitude;
+            if (magnitude < breakForce || magnitude <= 0f) return;
             Break(Vector3.zero);
         }
     }
