@@ -20,7 +20,7 @@ namespace PixelDough.Bouncer
         {
             if (_isChangingScenes) return;
             
-            Timing.RunCoroutine(C_LoadScene(sceneDependencySettings));
+            Timing.RunCoroutine(C_LoadScene(sceneDependencySettings), Segment.RealtimeUpdate);
         }
 
         private static IEnumerator<float> C_LoadScene(SceneDependencySettingsSO sceneDependencySettings)

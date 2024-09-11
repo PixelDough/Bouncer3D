@@ -14,7 +14,7 @@ public class ScreenFadeController : MonoBehaviour
         return LeanTween.value(image.gameObject, (f =>
         {
             image.color = gradient.Evaluate(f);
-        }), 0f, 1f, time);
+        }), 0f, 1f, time).setIgnoreTimeScale(true);
     }
 
     public LTDescr FadeFromBlack(float time = 0.25f)
@@ -22,7 +22,7 @@ public class ScreenFadeController : MonoBehaviour
         return LeanTween.value(image.gameObject, (f =>
         {
             image.color = gradient.Evaluate(f);
-        }), 1f, 0f, time);
+        }), 1f, 0f, time).setIgnoreTimeScale(true);
     }
 
 }

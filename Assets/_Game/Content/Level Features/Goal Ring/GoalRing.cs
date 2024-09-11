@@ -37,6 +37,7 @@ namespace PixelDough.Bouncer
 
             if (GameManager.Instance.Input.GetButtonDown(RewiredConsts.Action.Jump))
             {
+                Debug.Log("Continue pressed!");
                 _continuePressed = true;
                 GameSceneManager.LoadScene(nextSceneDemo);
             }

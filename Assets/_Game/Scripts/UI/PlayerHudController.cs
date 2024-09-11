@@ -15,6 +15,7 @@ namespace PixelDough.Bouncer.UI
         [Header("Timer")] 
         [SerializeField] private TextMeshProUGUI timerText;
         [SerializeField] private TextMeshProUGUI finishTimerText;
+        [SerializeField] private CanvasGroup finishCanvasGroup;
         
         private bool _isVisible = true;
         
@@ -26,7 +27,7 @@ namespace PixelDough.Bouncer.UI
                 timerText.text = LevelManager.LevelTime.ToString(@"mm\:ss\.fff");
 
             finishTimerText.text = timerText.text;
-            finishTimerText.enabled = LevelManager.LevelState == LevelManager.LevelStates.Finished;
+            finishCanvasGroup.alpha = LevelManager.LevelState == LevelManager.LevelStates.Finished ? 1 : 0;
         }
 
         public void SetVisibility(bool state, bool doAnimation = true)
