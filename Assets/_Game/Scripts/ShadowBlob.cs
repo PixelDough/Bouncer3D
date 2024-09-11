@@ -6,7 +6,6 @@ public class ShadowBlob : MonoBehaviour
 {
 
     [SerializeField] private Transform quad;
-    [SerializeField] private DecalProjector decalProjector;
     [SerializeField] private float maxDistance = 4f;
     [SerializeField] private float groundOffset = 0.02f;
     [SerializeField] private LayerMask layerMask;
@@ -30,18 +29,10 @@ public class ShadowBlob : MonoBehaviour
             float percentToMaxDistance = 1 - (hit.distance / maxDistance);
             quad.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, percentToMaxDistance);
             quad.forward = -hit.normal;
-            
-            decalProjector.enabled = true;
-            var size = decalProjector.size;
-            size.x = quad.localScale.x;
-            size.y = quad.localScale.y;
-            size.z = hit.distance + 1f;
-            decalProjector.size = size;
         }
         else
         {
             quad.gameObject.SetActive(false);
-            decalProjector.enabled = false;
         }
     }
 

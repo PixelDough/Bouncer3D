@@ -15,8 +15,8 @@ namespace PixelDough.Bouncer
         [SerializeField] private List<Rigidbody> brokenParts = new List<Rigidbody>();
         [SerializeField] private float breakForce = 10f;
         
-        private Vector3 _startPosition = Vector3.zero;
-        private Quaternion _startRotation = Quaternion.identity;
+        [SerializeField, HideInInspector] private Vector3 startPosition = Vector3.zero;
+        [SerializeField, HideInInspector] private Quaternion startRotation = Quaternion.identity;
         private bool _isBroken = false;
 
         protected override void OnValidate()
@@ -25,8 +25,8 @@ namespace PixelDough.Bouncer
             rigidbody ??= GetComponent<Rigidbody>();
             isKinematic = rigidbody.isKinematic;
             
-            _startPosition = transform.position;
-            _startRotation = transform.rotation;
+            startPosition = transform.position;
+            startRotation = transform.rotation;
         }
 
         public override void Initialize()
@@ -38,13 +38,13 @@ namespace PixelDough.Bouncer
                 rigidbody.angularVelocity = Vector3.zero;
                 rigidbody.linearVelocity = Vector3.zero;
             }
-            rigidbody.MovePosition(_startPosition);
-            rigidbody.MoveRotation(_startRotation);
+            rigidbody.MovePosition(startPosition);
+            rigidbody.MoveRotation(startRotation);
             brokenParts.ForEach(part =>
             {
                 part.isKinematic = true;
-                part.transform.position = _startPosition;
-                part.transform.rotation = _startRotation;
+                part.transform.position = startPosition;
+                part.transform.rotation = startRotation;
                 part.gameObject.SetActive(false);
             });
             _isBroken = false;

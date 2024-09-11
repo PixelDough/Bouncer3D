@@ -25,9 +25,10 @@ namespace PixelDough.Bouncer
             if (!rb) return;
 
             Vector3 dir = Vector3.Normalize(rb.worldCenterOfMass - transform.position);
+            dir = Vector3.Slerp(dir, Vector3.up, 0.75f);
 
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
-            rb.AddForce(dir * 20, ForceMode.Impulse);
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, MathF.Max(0, rb.linearVelocity.y), rb.linearVelocity.z);
+            rb.AddForce(dir * 25, ForceMode.Impulse);
             
             Pop();
         }

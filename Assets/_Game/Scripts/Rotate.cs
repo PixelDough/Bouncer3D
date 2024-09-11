@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using PixelDough.Bouncer;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Rotate : MonoBehaviour
+public class Rotate : LevelFeature
 {
     public Rigidbody rigidbodyOptional;
     public Space space = Space.World;
@@ -17,6 +18,26 @@ public class Rotate : MonoBehaviour
     public float autoScalePower = 0.2f; 
     
     public float speed = 5f;
+    
+    [SerializeField, HideInInspector] private Quaternion startRotation = Quaternion.identity;
+
+    protected override void OnValidate()
+    {
+        base.OnValidate();
+        startRotation = transform.rotation;
+    }
+
+    public override void Initialize()
+    {
+        if (rigidbodyOptional)
+        {
+            rigidbodyOptional.MoveRotation(startRotation);
+        }
+        else
+        {
+            transform.rotation = startRotation;
+        }
+    }
 
     private void Update()
     {
