@@ -15,10 +15,10 @@ MonoBehaviour:
   m_Active: 1
   resources: {fileID: 11400000, guid: 4eff212383c9f5945ae947b357c76582, type: 2}
   settings:
-    allowBlur: 1
-    allowDistortion: 1
+    allowBlur: 0
+    allowDistortion: 0
     distortionMode: 1
-    directionalCaustics: 1
+    directionalCaustics: 0
     accurateDirectionalCaustics: 0
     waterlineRefraction: 1
 --- !u!114 &-4726044887638595740
@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Active: 1
   screenSpaceReflectionSettings:
     enable: 0
-  directionalCaustics: 1
+  directionalCaustics: 0
   displacementPrePassSettings:
     enable: 0
     range: 500
@@ -83,9 +83,9 @@ MonoBehaviour:
   m_RendererFeatures:
   - {fileID: -1670428713111615512}
   - {fileID: -8997176906264847642}
-  - {fileID: 1582697899275555673}
   - {fileID: 4742986463664402642}
-  m_RendererFeatureMap: f7ed9f98256cf53ae65abcd8459b2383599313995adff615d2f0332d0f79d241
+  - {fileID: 7040943036813019351}
+  m_RendererFeatureMap: f7ed9f98256cf53ae65abcd8459b2383d2f0332d0f79d241d70800316374b661
   m_UseNativeRenderPass: 0
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
@@ -104,34 +104,13 @@ MonoBehaviour:
     failOperation: 0
     zFailOperation: 0
   m_ShadowTransparentReceive: 1
-  m_RenderingMode: 1
+  m_RenderingMode: 0
   m_DepthPrimingMode: 0
   m_CopyDepthMode: 0
   m_DepthAttachmentFormat: 0
   m_DepthTextureFormat: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 0
---- !u!114 &1582697899275555673
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1614fc811f8f184697d9bee70ab9fe5, type: 3}
-  m_Name: DecalRendererFeature
-  m_EditorClassIdentifier: 
-  m_Active: 1
-  m_Settings:
-    technique: 0
-    maxDrawDistance: 1000
-    decalLayers: 1
-    dBufferSettings:
-      surfaceData: 2
-    screenSpaceSettings:
-      normalBlend: 0
 --- !u!114 &4742986463664402642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,7 +126,7 @@ MonoBehaviour:
   m_Active: 1
   injectionPoint: 600
   fetchColorBuffer: 1
-  requirements: -1
+  requirements: 4
   passMaterial: {fileID: 2100000, guid: 3cd3b9ca5d55043598ca186a473e0824, type: 2}
   passIndex: 0
   bindDepthStencilAttachment: 0
@@ -178,6 +157,26 @@ MonoBehaviour:
   m_Name: LowResRenderer
   m_EditorClassIdentifier: 
   m_Active: 1
+--- !u!114 &7040943036813019351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b00045f12942b46c698459096c89274e, type: 3}
+  m_Name: FullScreenPassRendererFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  injectionPoint: 550
+  fetchColorBuffer: 1
+  requirements: 4
+  passMaterial: {fileID: 2100000, guid: ec7ae41615d9f40c4872608dda9a48aa, type: 2}
+  passIndex: 0
+  bindDepthStencilAttachment: 0
+  m_Version: 1
 --- !u!114 &7403276456164044382
 MonoBehaviour:
   m_ObjectHideFlags: 0

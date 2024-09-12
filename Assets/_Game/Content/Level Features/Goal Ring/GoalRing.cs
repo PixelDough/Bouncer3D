@@ -11,6 +11,8 @@ namespace PixelDough.Bouncer
 
         private bool _continuePressed = false;
         
+        private static readonly int SubtractiveFadeAmount = Shader.PropertyToID("_SubtractiveFadeAmount");
+        
         private void OnTriggerEnter(Collider other)
         {
             if (_hit) return;
@@ -23,6 +25,7 @@ namespace PixelDough.Bouncer
             Time.timeScale = 0.0f;
 
             LevelManager.StopTimer();
+            Shader.SetGlobalFloat(SubtractiveFadeAmount, 0.5f);
         }
 
         private void Update()

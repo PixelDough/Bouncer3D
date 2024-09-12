@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!28 &-4113943082673007575
+Texture2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: z__Gradient_Subtract_GradientTex{"mode":2,"colorKeys":[{"color":{"r":0.0,"g":0.0,"b":0.0,"a":1.0},"time":0.0},{"color":{"r":0.6666666269302368,"g":1.0,"b":0.0,"a":1.0},"time":0.502937376499176},{"color":{"r":1.0,"g":1.0,"b":1.0,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":1.0,"time":0.0},{"alpha":1.0,"time":1.0}]}
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 3
+  m_Width: 256
+  m_Height: 1
+  m_CompleteImageSize: 1024
+  m_MipsStripped: 0
+  m_TextureFormat: 5
+  m_MipCount: 1
+  m_IsReadable: 1
+  m_IsPreProcessed: 0
+  m_IgnoreMipmapLimit: 1
+  m_MipmapLimitGroupName: 
+  m_StreamingMipmaps: 0
+  m_StreamingMipmapsPriority: 0
+  m_VTOnly: 0
+  m_AlphaIsTransparency: 0
+  m_ImageCount: 1
+  m_TextureDimension: 2
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 0
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_LightmapFormat: 0
+  m_ColorSpace: 1
+  m_PlatformBlob: 
+  image data: 1024
+  _typelessdata: ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000100ff000100ff000100ff010200ff010200ff010300ff010300ff020400ff020500ff030600ff030800ff040900ff040b00ff050c00ff060e00ff071000ff081100ff091300ff0a1500ff0b1700ff0c1800ff0d1a00ff0f1c00ff101e00ff112000ff122100ff142300ff152500ff162700ff182900ff192b00ff1a2d00ff1c2f00ff1d3100ff1e3300ff203500ff213700ff223900ff243b00ff253d00ff263f00ff284100ff294300ff2b4500ff2c4700ff2e4900ff2f4b00ff304d00ff324f00ff335100ff355400ff365600ff385800ff395a00ff3b5c00ff3c5e00ff3e6100ff3f6300ff416500ff426700ff446900ff456c00ff476e00ff487000ff4a7200ff4b7500ff4d7700ff4f7900ff507c00ff527e00ff538000ff558200ff568500ff588700ff5a8900ff5b8c00ff5d8e00ff5e9100ff609300ff629500ff639800ff659a00ff679c00ff689f00ff6aa100ff6ba400ff6da600ff6fa800ff70ab00ff72ad00ff74b000ff75b200ff77b500ff79b700ff7aba00ff7cbc00ff7ebe00ff80c100ff81c300ff83c600ff85c800ff86cb00ff88ce00ff8ad000ff8cd300ff8dd500ff8fd800ff91da00ff93dd00ff94df00ff96e200ff98e400ff9ae700ff9bea00ff9dec00ff9fef00ffa1f100ffa2f400ffa4f700ffa6f900ffa8fc00ffaafe00ffabff0cffabff17ffacff1effadff25ffadff2affaeff2fffafff33ffafff37ffb0ff3bffb1ff3effb2ff42ffb2ff45ffb3ff48ffb4ff4bffb4ff4effb5ff50ffb6ff53ffb6ff55ffb7ff58ffb8ff5affb8ff5dffb9ff5fffbaff61ffbbff63ffbbff66ffbcff68ffbdff6affbdff6cffbeff6effbfff70ffbfff72ffc0ff74ffc1ff76ffc1ff78ffc2ff79ffc3ff7bffc3ff7dffc4ff7fffc5ff81ffc6ff83ffc6ff84ffc7ff86ffc8ff88ffc8ff89ffc9ff8bffcaff8dffcaff8effcbff90ffccff92ffccff93ffcdff95ffceff97ffceff98ffcfff9affd0ff9bffd0ff9dffd1ff9fffd2ffa0ffd2ffa2ffd3ffa3ffd4ffa5ffd4ffa6ffd5ffa8ffd6ffa9ffd6ffabffd7ffacffd8ffaeffd8ffafffd9ffb1ffdaffb2ffdaffb3ffdbffb5ffdcffb6ffdcffb8ffddffb9ffdeffbbffdeffbcffdfffbeffe0ffbfffe0ffc0ffe1ffc2ffe2ffc3ffe2ffc5ffe3ffc6ffe3ffc7ffe4ffc9ffe5ffcaffe5ffcbffe6ffcdffe7ffceffe7ffd0ffe8ffd1ffe9ffd2ffe9ffd4ffeaffd5ffebffd6ffebffd8ffecffd9ffedffdaffedffdcffeeffddffefffdeffefffe0fff0ffe1fff1ffe2fff1ffe4fff2ffe5fff3ffe6fff3ffe8fff4ffe9fff5ffeafff5ffecfff6ffedfff7ffeefff7fff0fff8fff1fff8fff2fff9fff3fffafff5fffafff6fffbfff7fffcfff9fffcfffafffdfffbfffefffcfffefffeffffffff
+  m_StreamData:
+    serializedVersion: 2
+    offset: 0
+    size: 0
+    path: 
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Mat_SubtractivePostProcess
+  m_Shader: {fileID: -6465566751694194690, guid: 605f7fb586e8b4b2c897959254350180, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Gradient_Subtract_Gradient:
+        m_Texture: {fileID: -4113943082673007575}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Subtract_Amount: 0
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

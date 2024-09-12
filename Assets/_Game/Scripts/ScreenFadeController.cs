@@ -5,24 +5,23 @@ using UnityEngine.UI;
 
 public class ScreenFadeController : MonoBehaviour
 {
+    private static readonly int SubtractiveFadeAmount = Shader.PropertyToID("_SubtractiveFadeAmount");
 
-    [SerializeField] private Image image;
-    [SerializeField] private Gradient gradient;
-    
     public LTDescr FadeToBlack(float time = 0.25f)
     {
-        return LeanTween.value(image.gameObject, (f =>
+        float currentFadeAmount = Shader.GetGlobalFloat(SubtractiveFadeAmount);
+        return LeanTween.value(gameObject, (f =>
         {
-            image.color = gradient.Evaluate(f);
-        }), 0f, 1f, time).setIgnoreTimeScale(true);
+            Shader.SetGlobalFloat(SubtractiveFadeAmount, f);
+        }), currentFadeAmount, 1f, time).setIgnoreTimeScale(true);
     }
 
     public LTDescr FadeFromBlack(float time = 0.25f)
     {
-        return LeanTween.value(image.gameObject, (f =>
+        float currentFadeAmount = Shader.GetGlobalFloat(SubtractiveFadeAmount);
+        return LeanTween.value(gameObject, (f =>
         {
-            image.color = gradient.Evaluate(f);
-        }), 1f, 0f, time).setIgnoreTimeScale(true);
+            Shader.SetGlobalFloat(SubtractiveFadeAmount, f);
+        }), currentFadeAmount, 0f, time).setIgnoreTimeScale(true);
     }
-
 }
