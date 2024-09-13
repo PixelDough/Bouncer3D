@@ -365,6 +365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 0
   axis: {x: 0, y: 1, z: 0}
@@ -374,6 +375,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 30
+  startRotation: {x: -0.18583333, y: -0.90667444, z: 0.018370392, w: 0.37824598}
 --- !u!114 &39006578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -581,6 +583,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 1
   axis: {x: 0, y: 1, z: 0}
@@ -590,6 +593,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 15
+  startRotation: {x: -0.099025734, y: -0.88066787, z: 0.035149854, w: 0.46193352}
 --- !u!4 &51765535 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6219637014948293001, guid: fdf14dcd4ce6f4a55b01f2dd028aeec5, type: 3}
@@ -1015,6 +1019,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 1
   axis: {x: 0, y: 1, z: 0}
@@ -1024,6 +1029,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: -5
+  startRotation: {x: 0.002789004, y: 0.8751013, z: 0.38099048, w: 0.29838935}
 --- !u!4 &134399080 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6219637014948293001, guid: fdf14dcd4ce6f4a55b01f2dd028aeec5, type: 3}
@@ -1431,6 +1437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 0
   axis: {x: 0, y: 1, z: 0}
@@ -1440,6 +1447,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 30
+  startRotation: {x: 0.1506356, y: -0.43507847, z: -0.06440044, w: 0.8853634}
 --- !u!114 &229029755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1654,6 +1662,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 0
   axis: {x: 0, y: 1, z: 0}
@@ -1663,6 +1672,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 30
+  startRotation: {x: -0.07663475, y: -0.98454756, z: 0.06020785, w: 0.14549336}
 --- !u!114 &252712902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1875,6 +1885,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 1
   axis: {x: 0, y: 1, z: 0}
@@ -1884,6 +1895,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 15
+  startRotation: {x: 0.6893687, y: 0.4705239, z: 0.5017748, w: -0.22715661}
 --- !u!1 &307444091
 GameObject:
   m_ObjectHideFlags: 0
@@ -2210,6 +2222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 1
   axis: {x: 0, y: 1, z: 0}
@@ -2219,6 +2232,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: -5
+  startRotation: {x: -0.34260514, y: 0.10780356, z: 0.16668124, w: 0.9182688}
 --- !u!4 &312363041 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6219637014948293001, guid: fdf14dcd4ce6f4a55b01f2dd028aeec5, type: 3}
@@ -2571,6 +2585,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 1
   axis: {x: 0, y: 1, z: 0}
@@ -2580,6 +2595,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 180
+  startRotation: {x: -0.09562157, y: -0.92087734, z: 0.1580103, w: -0.34332815}
 --- !u!4 &349855436 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6219637014948293001, guid: fdf14dcd4ce6f4a55b01f2dd028aeec5, type: 3}
@@ -3735,6 +3751,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 0
   axis: {x: 0, y: 1, z: 0}
@@ -3744,6 +3761,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 30
+  startRotation: {x: -0.033515, y: 0.67434543, z: -0.17229456, w: -0.71725136}
 --- !u!114 &589373373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4395,6 +4413,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 1
   axis: {x: 0, y: 1, z: 0}
@@ -4404,6 +4423,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 180
+  startRotation: {x: 0.056817282, y: -0.86246324, z: 0.17573407, w: 0.47121808}
 --- !u!4 &633596507 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6219637014948293001, guid: fdf14dcd4ce6f4a55b01f2dd028aeec5, type: 3}
@@ -4593,6 +4613,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 1
   axis: {x: 0, y: -1, z: 0}
@@ -4602,6 +4623,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 45
+  startRotation: {x: 0.70709234, y: 0.0045094094, z: -0.00450936, w: 0.7070925}
 --- !u!1001 &696907661
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4784,6 +4806,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 1
   axis: {x: 0, y: 1, z: 0}
@@ -4793,6 +4816,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 15
+  startRotation: {x: -0.19829811, y: 0.74318665, z: 0.08591645, w: 0.6332218}
 --- !u!4 &734640219 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6219637014948293001, guid: fdf14dcd4ce6f4a55b01f2dd028aeec5, type: 3}
@@ -4843,6 +4867,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 1
   axis: {x: -1, y: 0, z: 0}
@@ -4852,6 +4877,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 180
+  startRotation: {x: -0, y: -0.3726711, z: -0, w: 0.9279635}
 --- !u!1001 &784742470
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4946,6 +4972,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 0
   axis: {x: 0, y: 1, z: 0}
@@ -4955,6 +4982,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 45
+  startRotation: {x: -0, y: 0.70710576, z: -0, w: 0.70710784}
 --- !u!114 &807268296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5454,6 +5482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 1
   axis: {x: 0, y: 1, z: 0}
@@ -5463,6 +5492,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 15
+  startRotation: {x: -0.7072826, y: 0.30716512, z: 0.51352495, w: 0.3764215}
 --- !u!1001 &846108909
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5556,6 +5586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 1
   axis: {x: 0, y: 1, z: 0}
@@ -5565,6 +5596,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 7
+  startRotation: {x: -0.21722555, y: -0.15444964, z: 0.3604376, w: -0.8938921}
 --- !u!4 &846108912 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6219637014948293001, guid: fdf14dcd4ce6f4a55b01f2dd028aeec5, type: 3}
@@ -5839,6 +5871,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 906165435}
   space: 0
   axis: {x: 0, y: 1, z: 0}
@@ -5848,6 +5881,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 25
+  startRotation: {x: -0, y: 0.70710576, z: -0, w: 0.70710784}
 --- !u!54 &906165435
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6225,6 +6259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 1
   axis: {x: 0, y: 1, z: 0}
@@ -6234,6 +6269,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 15
+  startRotation: {x: 0.08681313, y: -0.45092416, z: -0.7523857, w: -0.47227833}
 --- !u!1001 &955072178
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6501,6 +6537,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 1
   axis: {x: 0, y: 1, z: 0}
@@ -6510,6 +6547,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 15
+  startRotation: {x: -0.08076992, y: 0.7188445, z: -0.15513924, w: 0.672808}
 --- !u!4 &974281380 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6219637014948293001, guid: fdf14dcd4ce6f4a55b01f2dd028aeec5, type: 3}
@@ -6614,6 +6652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 0
   axis: {x: 0, y: 1, z: 0}
@@ -6623,6 +6662,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 1
+  startRotation: {x: -0.0009892695, y: -0.5636606, z: -0.03965974, w: -0.8250533}
 --- !u!114 &989219905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7302,6 +7342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 0
   axis: {x: 0, y: 1, z: 0}
@@ -7311,6 +7352,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 30
+  startRotation: {x: -0.10505815, y: -0.977048, z: 0.02260266, w: 0.18392712}
 --- !u!114 &1070554208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12669,6 +12711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 1
   axis: {x: 0, y: 1, z: 0}
@@ -12678,6 +12721,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: -5
+  startRotation: {x: 0.1808044, y: 0.91298264, z: 0.33536685, w: -0.14595094}
 --- !u!4 &1131559666 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6219637014948293001, guid: fdf14dcd4ce6f4a55b01f2dd028aeec5, type: 3}
@@ -12838,6 +12882,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 1
   axis: {x: 0, y: 1, z: 0}
@@ -12847,6 +12892,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 15
+  startRotation: {x: -0.18749632, y: 0.27965838, z: -0.8369722, w: -0.4314093}
 --- !u!4 &1146760684 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6518389017602564238, guid: 8f24704a43c12456a9c434d760f99b5f, type: 3}
@@ -13170,6 +13216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 0
   axis: {x: 0, y: 1, z: 0}
@@ -13179,6 +13226,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 30
+  startRotation: {x: -0.033515, y: 0.67434543, z: -0.17229456, w: -0.71725136}
 --- !u!114 &1162638390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13945,6 +13993,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 1
   axis: {x: 0, y: 1, z: 0}
@@ -13954,6 +14003,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 15
+  startRotation: {x: 0.12530214, y: -0.6522397, z: 0.6381253, w: -0.38945976}
 --- !u!1001 &1336182574
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15059,6 +15109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 0
   axis: {x: 0, y: 1, z: 0}
@@ -15068,6 +15119,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 30
+  startRotation: {x: 0.08715578, y: -0, z: -0, w: 0.9961947}
 --- !u!64 &1524191727
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -15362,6 +15414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 1
   axis: {x: 0, y: 1, z: 0}
@@ -15371,6 +15424,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 7
+  startRotation: {x: -0.36067688, y: 0.2819431, z: 0.21682863, w: -0.8622098}
 --- !u!4 &1572414078 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6219637014948293001, guid: fdf14dcd4ce6f4a55b01f2dd028aeec5, type: 3}
@@ -15421,7 +15475,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoneData: {fileID: 11400000, guid: 12bd8ed33aea48143a2b02d019ba9fd1, type: 2}
-  levelFeatures: []
+  levelFeatures:
+  - {fileID: 739755092}
+  - {fileID: 1131559665}
+  - {fileID: 295201729}
+  - {fileID: 39006577}
+  - {fileID: 695672560}
+  - {fileID: 1574928570}
+  - {fileID: 1738265396}
+  - {fileID: 2144275480}
+  - {fileID: 229029754}
+  - {fileID: 2051080575}
+  - {fileID: 734640218}
+  - {fileID: 252712901}
+  - {fileID: 846108911}
+  - {fileID: 843011906}
+  - {fileID: 349855435}
+  - {fileID: 312363040}
+  - {fileID: 1330745064}
+  - {fileID: 1825233016}
+  - {fileID: 1524191726}
+  - {fileID: 807268294}
+  - {fileID: 1971836859}
+  - {fileID: 1589529052}
+  - {fileID: 1572414077}
+  - {fileID: 2060206620}
+  - {fileID: 2135279949}
+  - {fileID: 1876751417}
+  - {fileID: 1162638389}
+  - {fileID: 51765534}
+  - {fileID: 633596506}
+  - {fileID: 974281379}
+  - {fileID: 1645617409}
+  - {fileID: 989219904}
+  - {fileID: 1146750087}
+  - {fileID: 1070554207}
+  - {fileID: 589373372}
+  - {fileID: 134399079}
+  - {fileID: 1804872236}
+  - {fileID: 942427059}
+  - {fileID: 906165434}
   cutsceneController: {fileID: 70822584}
 --- !u!1001 &1574928567
 PrefabInstance:
@@ -15521,6 +15614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 1
   axis: {x: 0, y: 1, z: 0}
@@ -15530,6 +15624,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 15
+  startRotation: {x: 0.0020518005, y: 0.6865333, z: 0.69612974, w: 0.20993179}
 --- !u!1001 &1576838122
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15706,6 +15801,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 1
   axis: {x: 0, y: 1, z: 0}
@@ -15715,6 +15811,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 15
+  startRotation: {x: -0.038116693, y: -0.571885, z: -0.6959093, w: -0.43267193}
 --- !u!1001 &1592943169
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16232,6 +16329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 0
   axis: {x: 0, y: 1, z: 0}
@@ -16241,6 +16339,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 1
+  startRotation: {x: -0.42905286, y: -0.8796083, z: 0.1584023, w: 0.13081162}
 --- !u!114 &1645617410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16872,6 +16971,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 1
   axis: {x: 0, y: 1, z: 0}
@@ -16881,6 +16981,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 7
+  startRotation: {x: -0.35107866, y: 0.89954865, z: -0.23204751, w: -0.11709002}
 --- !u!4 &1738265397 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6219637014948293001, guid: fdf14dcd4ce6f4a55b01f2dd028aeec5, type: 3}
@@ -16983,7 +17084,7 @@ GameObject:
   m_IsActive: 1
 --- !u!114 &1744567390
 MonoBehaviour:
-  m_ObjectHideFlags: 10
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -17264,6 +17365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 1
   axis: {x: 0, y: 1, z: 0}
@@ -17273,6 +17375,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 15
+  startRotation: {x: -0.34957182, y: -0.83807445, z: -0.41524774, w: -0.05477345}
 --- !u!1001 &1819275046
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17534,6 +17637,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 1825233015}
   space: 0
   axis: {x: 0, y: 1, z: 0}
@@ -17543,6 +17647,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: -25
+  startRotation: {x: -0, y: -0.0000002682209, z: -0, w: 1}
 --- !u!1 &1836704051
 GameObject:
   m_ObjectHideFlags: 0
@@ -17873,6 +17978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 1
   axis: {x: 0, y: 1, z: 0}
@@ -17882,6 +17988,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 15
+  startRotation: {x: -0.10178601, y: -0.1704764, z: 0.15411125, w: 0.96789837}
 --- !u!4 &1876751418 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6219637014948293001, guid: fdf14dcd4ce6f4a55b01f2dd028aeec5, type: 3}
@@ -18149,6 +18256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 1
   axis: {x: 0, y: 1, z: 0}
@@ -18158,6 +18266,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 15
+  startRotation: {x: -0.3746578, y: 0.38505942, z: -0.47855628, w: -0.69451034}
 --- !u!1001 &1975354803
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18408,6 +18517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 1
   axis: {x: 0, y: 1, z: 0}
@@ -18417,6 +18527,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 15
+  startRotation: {x: 0.2953577, y: 0.024927614, z: 0.55728483, w: -0.7756134}
 --- !u!1001 &2060206618
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18516,6 +18627,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 0}
   space: 0
   axis: {x: 0, y: 1, z: 0}
@@ -18525,6 +18637,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 30
+  startRotation: {x: 0.12606177, y: -0.42171532, z: -0.03254159, w: 0.89733255}
 --- !u!114 &2060206621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19137,6 +19250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 2135279950}
   space: 0
   axis: {x: 0, y: 1, z: 0}
@@ -19146,6 +19260,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 35
+  startRotation: {x: -0, y: 0.70710576, z: -0, w: 0.70710784}
 --- !u!54 &2135279950
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -19263,6 +19378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 2144275479}
   space: 0
   axis: {x: 0, y: 1, z: 0}
@@ -19272,6 +19388,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 25
+  startRotation: {x: -0, y: 1, z: -0, w: 0.0000019967556}
 --- !u!1 &2144940621 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3258182104241901901, guid: 53eee969b80744e0880312955e04b241, type: 3}
