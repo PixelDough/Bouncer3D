@@ -80,10 +80,8 @@ public static class SceneDependencyManager
     
     public static async Awaitable LoadScene(SceneDependencySettingsSO scene)
     {
-        Debug.Log("Loading Scene...");
-        Time.timeScale = 0;
-
-        EnsureGameManagement();
+        Debug.Log($"Loading Scene {scene.sceneProperties.sceneName}...");
+        // Time.timeScale = 0;
         
         await LoadDependencies(scene);
 
@@ -98,7 +96,7 @@ public static class SceneDependencyManager
 
         await UnloadNonNeededScenes(scene);
         
-        Time.timeScale = 1;
+        // Time.timeScale = 1;
     }
 
     public static async Awaitable LoadDependencies(SceneDependencySettingsSO scene)
@@ -116,8 +114,11 @@ public static class SceneDependencyManager
         {
             if (currentLoadedSceneNames.Contains(dependencyName)) continue;
             var dependencyLoadAsync = SceneManager.LoadSceneAsync(dependencyName, LoadSceneMode.Additive);
-            dependencyLoadAsync.allowSceneActivation = false;
-            dependencyLoadOperations.Add(dependencyLoadAsync);
+            if (dependencyLoadAsync != null)
+            {
+                dependencyLoadAsync.allowSceneActivation = false;
+                dependencyLoadOperations.Add(dependencyLoadAsync);
+            }
         }
 
         // Wait for the dependencies to finish loading
@@ -134,7 +135,10 @@ public static class SceneDependencyManager
         foreach (AsyncOperation dependencyLoadOperation in dependencyLoadOperations)
         {
             dependencyLoadOperation.allowSceneActivation = true;
+            Debug.Log($"Dependency {dependencyLoadOperation} loaded!");
         }
+        
+        Debug.Log("All dependencies loaded!");
     }
 
     public static async Awaitable UnloadNonNeededScenes(SceneDependencySettingsSO scene)

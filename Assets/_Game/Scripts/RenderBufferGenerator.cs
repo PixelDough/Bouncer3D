@@ -14,7 +14,8 @@ namespace PixelDough.Bouncer
         private RenderTexture _renderTexture;
         private int _previousScreenWidth;
         private int _previousScreenHeight;
-        
+        private static readonly int DitherResolution = Shader.PropertyToID("_DitherResolution");
+
         private void Start()
         {
             CreateRenderTexture();
@@ -31,6 +32,10 @@ namespace PixelDough.Bouncer
                 _previousScreenWidth = Screen.width;
                 _previousScreenHeight = Screen.height;
             }
+            
+            // Set the global shader value _DitherResolution
+            Shader.SetGlobalVector(DitherResolution,
+                new Vector4(_renderTexture.width, targetHeight, 1.0f / _renderTexture.width, 1.0f / targetHeight));
         }
 
         private void CreateRenderTexture()

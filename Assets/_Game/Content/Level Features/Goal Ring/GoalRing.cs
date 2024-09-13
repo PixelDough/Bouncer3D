@@ -30,12 +30,13 @@ namespace PixelDough.Bouncer
 
         private void Update()
         {
+            if (!_hit) return;
             if (LevelManager.LevelState != LevelManager.LevelStates.Finished) return;
             if (_continuePressed) return;
 
             if (GameManager.Instance.Input.GetButtonDown(RewiredConsts.Action.Jump))
             {
-                Debug.Log("Continue pressed!");
+                Debug.Log($"Continue pressed! On to {nextSceneDemo.sceneProperties.sceneName}!");
                 _continuePressed = true;
                 GameSceneManager.LoadScene(nextSceneDemo);
             }

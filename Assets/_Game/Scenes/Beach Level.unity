@@ -1227,6 +1227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 59069642}
   space: 1
   axis: {x: 0, y: 0, z: 1}
@@ -1236,6 +1237,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: -8
+  startRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
 --- !u!1001 &63836621
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16609,6 +16611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 785329982}
   space: 0
   axis: {x: 0, y: 1, z: 0}
@@ -16618,6 +16621,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 25
+  startRotation: {x: -0, y: -0, z: -0, w: 1}
 --- !u!54 &785329982
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -17752,6 +17756,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 832116447}
   space: 1
   axis: {x: 1, y: 0, z: 0}
@@ -17761,6 +17766,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: -15
+  startRotation: {x: -0, y: 0.90542585, z: -0, w: 0.42450443}
 --- !u!54 &832116447
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -18761,6 +18767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 914210025}
   space: 1
   axis: {x: 0, y: 1, z: 0}
@@ -18770,6 +18777,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: -180
+  startRotation: {x: 0.44855884, y: 0.038988695, z: -0.019591125, w: 0.89268756}
 --- !u!54 &914210025
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -24747,6 +24755,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 1152214484}
   space: 0
   axis: {x: 0, y: 1, z: 0}
@@ -24756,6 +24765,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: -10
+  startRotation: {x: -0, y: -0.8602646, z: -0, w: 0.5098478}
 --- !u!4 &1152214486 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3330056097810583839, guid: 567e1dd1ead6b97499f22bf62d8932af, type: 3}
@@ -31661,6 +31671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 1478422944}
   space: 1
   axis: {x: 0, y: 0, z: 1}
@@ -31670,6 +31681,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: -10
+  startRotation: {x: 0.70710576, y: -0, z: -0, w: 0.70710784}
 --- !u!54 &1478422944
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -31789,6 +31801,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 1485836782}
   space: 1
   axis: {x: 0, y: 1, z: 0}
@@ -31798,6 +31811,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 180
+  startRotation: {x: 0.049415894, y: -0.8504722, z: 0.4100282, w: 0.325779}
 --- !u!54 &1485836782
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -33808,7 +33822,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoneData: {fileID: 11400000, guid: 1ebdae7aea85afb4aa053ccc0ce4b7b8, type: 2}
-  levelFeatures: []
+  levelFeatures:
+  - {fileID: 1152214485}
+  - {fileID: 785329981}
+  - {fileID: 1870769905}
+  - {fileID: 59069643}
+  - {fileID: 1478422943}
+  - {fileID: 2040494712}
+  - {fileID: 914210024}
+  - {fileID: 832116446}
+  - {fileID: 1485836781}
+  - {fileID: 1716959891}
+  - {fileID: 2083081098}
   cutsceneController: {fileID: 0}
 --- !u!1001 &1576213845
 PrefabInstance:
@@ -36995,6 +37020,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 1716959890}
   space: 0
   axis: {x: 0, y: 1, z: 0}
@@ -37004,6 +37030,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 45
+  startRotation: {x: -0, y: -0.91559935, z: -0, w: -0.4020919}
 --- !u!1001 &1718959347
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39791,6 +39818,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 1870769906}
   space: 0
   axis: {x: 0, y: 1, z: 0}
@@ -39800,6 +39828,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: -25
+  startRotation: {x: -0.22191252, y: 0.9013497, z: -0.08891149, w: 0.36113483}
 --- !u!54 &1870769906
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -44526,6 +44555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 2040494713}
   space: 0
   axis: {x: 0, y: 1, z: 0}
@@ -44535,6 +44565,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 10
+  startRotation: {x: -0.0845511, y: 0.00064455887, z: 0.053598806, w: 0.99497634}
 --- !u!54 &2040494713
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -46172,6 +46203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 1573791704}
   rigidbodyOptional: {fileID: 2083081099}
   space: 0
   axis: {x: 0.5, y: 1, z: 0}
@@ -46181,6 +46213,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 15
+  startRotation: {x: -0.5816379, y: -0.6990184, z: -0.13237071, w: 0.39439648}
 --- !u!54 &2083081099
 Rigidbody:
   m_ObjectHideFlags: 0

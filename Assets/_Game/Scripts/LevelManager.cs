@@ -101,6 +101,10 @@ namespace PixelDough.Bouncer
             levelFeatures.Clear();
             levelFeatures.AddRange(FindObjectsByType<LevelFeature>(FindObjectsInactive.Include,
                 FindObjectsSortMode.None));
+            foreach (LevelFeature levelFeature in levelFeatures)
+            {
+                levelFeature.levelManager = this;
+            }
         }
         
         public void ResetLevelElements()

@@ -8,7 +8,7 @@ namespace PixelDough.Bouncer
 {
     public abstract class LevelFeature : MonoBehaviour
     {
-        [SerializeField, HideInInspector] private LevelManager levelManager;
+        [SerializeField, HideInInspector] public LevelManager levelManager;
         protected virtual void OnValidate()
         {
             if (gameObject.scene.name == null || gameObject.scene.name == gameObject.name) return;
