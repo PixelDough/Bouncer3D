@@ -23,6 +23,8 @@ namespace PixelDough.Bouncer
             private set => _instance = value;
         }
         private static GameManager _instance;
+        
+        private static readonly int SubtractiveFadeAmount = Shader.PropertyToID("_SubtractiveFadeAmount");
 
         //[SerializeField] private Volume globalVolume;
 
@@ -63,6 +65,8 @@ namespace PixelDough.Bouncer
             //Cursor.visible = false;
 
             _vfxFixedTimeStep = VFXManager.fixedTimeStep;
+            
+            Shader.SetGlobalFloat(SubtractiveFadeAmount, 0f);
         }
 
         private void Update()
@@ -122,6 +126,11 @@ namespace PixelDough.Bouncer
         public void CutsceneEnded()
         {
             playerHudController.SetVisibility(true);
+        }
+
+        private void OnDestroy()
+        {
+            Shader.SetGlobalFloat(SubtractiveFadeAmount, 0f);
         }
     }
 }

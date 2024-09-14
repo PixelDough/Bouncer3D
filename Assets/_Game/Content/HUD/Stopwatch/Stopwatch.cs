@@ -15,7 +15,7 @@ namespace PixelDough.Bouncer
 
         private void Update()
         {
-            stopwatchTransform.localEulerAngles = new Vector3(0, Mathf.Cos(Time.time * 3f) * 15f, 0);
+            stopwatchTransform.localEulerAngles = new Vector3(0, Mathf.Cos(Time.time * 3f) * 8f, 0);
         }
 
         void LateUpdate()

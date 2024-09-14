@@ -24,6 +24,10 @@ public class Rotate : LevelFeature
     protected override void OnValidate()
     {
         base.OnValidate();
+        if (!rigidbodyOptional && TryGetComponent(out Rigidbody rb))
+        {
+            rigidbodyOptional = rb;
+        }
         startRotation = transform.rotation;
     }
 
