@@ -42,7 +42,10 @@ public class SceneDependencyWindow : OdinMenuEditorWindow
 
     protected override void OnBeginDrawEditors()
     {
-        OdinMenuTreeSelection selection = this.MenuTree.Selection;
+        if (MenuTree is null) return;
+        if (MenuTree.Selection is null) return;
+        
+        OdinMenuTreeSelection selection = MenuTree.Selection;
 
         if (MenuTree.Selection.SelectedValue is not CreateNewSceneDependency)
         {
