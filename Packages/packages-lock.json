@@ -1,5 +1,27 @@
 {
   "dependencies": {
+    "com.heathen.steamworkscomplete": {
+      "version": "file:com.heathen.steamworkscomplete",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "com.heathen.systemcore": {
+      "version": "https://github.com/heathen-engineering/SystemCore.git?path=/com.heathen.systemcore",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.mathematics": "1.2.5"
+      },
+      "hash": "6d58a14fd74c493bdad1476051e5cd48d3553499"
+    },
+    "com.rlabrecque.steamworks.net": {
+      "version": "https://github.com/rlabrecque/Steamworks.NET.git?path=/com.rlabrecque.steamworks.net",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "a2fc889ab2672981ec3e6225d551d86ce6923121"
+    },
     "com.sisus.hierarchy-folders": {
       "version": "file:com.sisus.hierarchy-folders",
       "depth": 0,
