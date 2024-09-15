@@ -4,34 +4,44 @@ using System.Collections.Generic;
 using DG.Tweening;
 using MEC;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.VFX;
 using Random = UnityEngine.Random;
 
 namespace PixelDough.Bouncer
 {
-    public class SodaBottleLidPop : MonoBehaviour
+    public class SodaBottleLidPop : LevelFeature
     {
         [SerializeField] private Rigidbody lid;
         [SerializeField] private Transform lidTargetTransform;
         [SerializeField] private MeshRenderer lidMeshRenderer;
         [SerializeField] private MeshFilter lidMeshFilter;
+        [SerializeField] private float lidStartPos = 0;
         [SerializeField] private VisualEffect sprayVFX;
         [SerializeField] private float waitOnBottom = 6f;
-        [SerializeField] private float waitOnTop = 2f;
-        [SerializeField] private float riseTime = 5f;
         
-        private bool _isLidLaunched = false;
-        private Vector3 _lidStartPos = Vector3.zero;
+        private bool _isLidLaunched = false; 
 
         private CoroutineHandle _popCoroutineHandle;
 
+        protected override void OnValidate()
+        {
+            base.OnValidate();
+            
+            lidStartPos = lid.transform.localPosition.y;
+        }
+
         private void Start()
         {
-            _lidStartPos = lid.transform.position;
+            Initialize();
+        }
 
+        public override void Initialize()
+        {
+            Timing.KillCoroutines(_popCoroutineHandle);
             _popCoroutineHandle = Timing.RunCoroutine(C_LidPopSequence());
         }
-        
+
         private void Update()
         {
             sprayVFX.SetVector3("Lid Transform_position", lid.transform.position);
@@ -65,18 +75,17 @@ namespace PixelDough.Bouncer
 
                 _isLidLaunched = true;
 
-                float heightDiff = lidTargetTransform.position.y - _lidStartPos.y;
-                float tweenTimeUp = riseTime;
-                float tweenTimeDown = riseTime * 0.3f;
+                float heightDiff = lidTargetTransform.localPosition.y - lidStartPos;
+                float tweenTimeUp = heightDiff * 0.2f;
+                float tweenTimeDown = heightDiff * 0.1f;
                 
                 var tweenUp = lid.DOMove(lidTargetTransform.position, tweenTimeUp)
-                    .SetEase(Ease.InOutSine);
+                    .SetEase(Ease.OutSine);
 
                 yield return Timing.WaitUntilDone(tweenUp.WaitForCompletion(true));
-
-                yield return Timing.WaitForSeconds(waitOnTop);
                 
-                var tweenDown = lid.DOMove(_lidStartPos, tweenTimeDown)
+                Vector3 lidStartPosWorld = transform.TransformPoint(new Vector3(0, lidStartPos, 0));
+                var tweenDown = lid.DOMove(lidStartPosWorld, tweenTimeDown)
                     .SetEase(Ease.InSine);
 
                 yield return Timing.WaitUntilDone(tweenDown.WaitForCompletion(true));

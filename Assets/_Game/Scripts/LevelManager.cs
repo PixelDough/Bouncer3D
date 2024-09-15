@@ -57,8 +57,9 @@ namespace PixelDough.Bouncer
             {
                 CountingTime = true;
             }
-
-            LevelState = LevelStates.Playing;
+            
+            GameManager.Instance.Countdown.PlayCountdown();
+            
             ResetTimer();
             
             levelFeatures.TrimExcess();

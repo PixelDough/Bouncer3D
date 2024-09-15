@@ -283,9 +283,6 @@ PrefabInstance:
       addedObject: {fileID: 3251588684308724745}
     - targetCorrespondingSourceObject: {fileID: 1321411239563579898, guid: ac23b3a3eb494da4a972e71dca3356f4, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8052551600573058547}
-    - targetCorrespondingSourceObject: {fileID: 1321411239563579898, guid: ac23b3a3eb494da4a972e71dca3356f4, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 7960960310209515658}
     - targetCorrespondingSourceObject: {fileID: 8405034779372118809, guid: ac23b3a3eb494da4a972e71dca3356f4, type: 3}
       insertIndex: -1
@@ -335,10 +332,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78f7e5422352f8a4b93d9083728b2e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 0}
   lid: {fileID: 7960960310209515658}
   lidTargetTransform: {fileID: 5298204263803062868}
   lidMeshRenderer: {fileID: 6021650039178433169}
   lidMeshFilter: {fileID: 7891027180876600941}
+  lidStartPos: {x: -74.31, y: 2.5801482, z: -1.8299996}
   sprayVFX: {fileID: 3349055681090506318}
   waitOnBottom: 3
   waitOnTop: 2
@@ -363,28 +362,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1321411239563579898, guid: ac23b3a3eb494da4a972e71dca3356f4, type: 3}
   m_PrefabInstance: {fileID: 7017398674812816696}
   m_PrefabAsset: {fileID: 0}
---- !u!64 &8052551600573058547
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8301355049165429954}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 7221468197563576136, guid: dda83247db46e8c49a07ea1315c605b9, type: 3}
 --- !u!54 &7960960310209515658
 Rigidbody:
   m_ObjectHideFlags: 0

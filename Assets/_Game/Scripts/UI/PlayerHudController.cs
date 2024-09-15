@@ -11,7 +11,7 @@ namespace PixelDough.Bouncer.UI
     public class PlayerHudController : MonoBehaviour
     {
         [SerializeField] private CanvasGroup canvasGroup;
-
+        
         [Header("Timer")] 
         [SerializeField] private TextMeshProUGUI timerText;
         [SerializeField] private TextMeshProUGUI finishTimerText;

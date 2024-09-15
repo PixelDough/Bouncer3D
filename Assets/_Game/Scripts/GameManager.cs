@@ -47,6 +47,8 @@ namespace PixelDough.Bouncer
         
         public List<SceneDependencySettingsSO> scenes = new List<SceneDependencySettingsSO>();
 
+        public Countdown Countdown;
+
         private void Start()
         {
             if (_instance != null && _instance != this)
