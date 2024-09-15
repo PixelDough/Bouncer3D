@@ -20,7 +20,8 @@ namespace PixelDough.Bouncer
         [SerializeField] private VisualEffect sprayVFX;
         [SerializeField] private float waitOnBottom = 6f;
         
-        private bool _isLidLaunched = false; 
+        private bool _isLidLaunched = false;
+        private bool _isShaking = false;
 
         private CoroutineHandle _popCoroutineHandle;
 
@@ -46,13 +47,17 @@ namespace PixelDough.Bouncer
         {
             sprayVFX.SetVector3("Lid Transform_position", lid.transform.position);
             sprayVFX.SetVector3("Lid Transform_angles", lid.transform.up);
+            
             Vector3 shakeVector = Vector3.zero;
-            float shakeRange = 2f;
-            shakeVector = new Vector3(
-                Random.Range(-shakeRange, shakeRange),
-                0f,
-                Random.Range(-shakeRange, shakeRange)
-            );
+            if (_isShaking)
+            {
+                float shakeRange = 6f;
+                shakeVector = new Vector3(
+                    Random.Range(-shakeRange, shakeRange),
+                    0f,
+                    Random.Range(-shakeRange, shakeRange)
+                );
+            }
 
             RenderParams renderParams = new RenderParams(lidMeshRenderer.material);
             Graphics.RenderMesh(
@@ -71,7 +76,10 @@ namespace PixelDough.Bouncer
         {
             while (true)
             {
-                yield return Timing.WaitForSeconds(waitOnBottom);
+                _isShaking = false;
+                yield return Timing.WaitForSeconds(waitOnBottom - 2f);
+                _isShaking = true;
+                yield return Timing.WaitForSeconds(2f);
 
                 _isLidLaunched = true;
 

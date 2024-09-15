@@ -1,58 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4338553643762857964
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4973292142548623003}
-  - component: {fileID: 5887183632073783245}
-  m_Layer: 0
-  m_Name: Sphere
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
---- !u!4 &4973292142548623003
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4338553643762857964}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.64, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 3320663474309806628}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &5887183632073783245
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4338553643762857964}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.49999997
-  m_Center: {x: 0, y: -0.00000023841856, z: -0.000003814697}
 --- !u!1 &5364042638857627884
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,9 +221,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5726207337926653724, guid: ac23b3a3eb494da4a972e71dca3356f4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5065113332512787009}
-    - targetCorrespondingSourceObject: {fileID: 5726207337926653724, guid: ac23b3a3eb494da4a972e71dca3356f4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4973292142548623003}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4916879181988113830, guid: ac23b3a3eb494da4a972e71dca3356f4, type: 3}
       insertIndex: -1
@@ -337,11 +281,9 @@ MonoBehaviour:
   lidTargetTransform: {fileID: 5298204263803062868}
   lidMeshRenderer: {fileID: 6021650039178433169}
   lidMeshFilter: {fileID: 7891027180876600941}
-  lidStartPos: {x: -74.31, y: 2.5801482, z: -1.8299996}
+  lidStartPos: 2.796716
   sprayVFX: {fileID: 3349055681090506318}
   waitOnBottom: 3
-  waitOnTop: 2
-  riseTime: 5
 --- !u!4 &3320663474309806628 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5726207337926653724, guid: ac23b3a3eb494da4a972e71dca3356f4, type: 3}
