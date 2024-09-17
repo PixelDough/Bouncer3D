@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Febucci.UI;
 using PixelDough.Bouncer.UI;
 using QFSW.QC;
 using Rewired;
+using TMPro;
 using Tools.SceneDependencies;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -48,6 +50,9 @@ namespace PixelDough.Bouncer
         public List<SceneDependencySettingsSO> scenes = new List<SceneDependencySettingsSO>();
 
         public Countdown Countdown;
+
+        [SerializeField] private TextMeshProUGUI tutorialText;
+        [SerializeField] private TypewriterByCharacter tutorialTextTypewriter;
 
         private void Start()
         {
@@ -133,6 +138,19 @@ namespace PixelDough.Bouncer
         private void OnDestroy()
         {
             Shader.SetGlobalFloat(SubtractiveFadeAmount, 0f);
+        }
+        
+        public void ShowTutorialText(string text)
+        {
+            tutorialText.text = text;
+            tutorialTextTypewriter.StopDisappearingText();
+            tutorialTextTypewriter.StartShowingText(true);
+        }
+
+        public void HideTutorialText()
+        {
+            tutorialTextTypewriter.StopShowingText();
+            tutorialTextTypewriter.StartDisappearingText();
         }
     }
 }
