@@ -831,10 +831,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1888374067}
     m_Modifications:
-    - target: {fileID: 983615323588501290, guid: e46c24d6b9ce8ca4dba4ce637fa60c61, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
     - target: {fileID: 466866950687662988, guid: fec220622a7cc55488ef4d97d406f452, type: 3}
       propertyPath: m_Name
       value: Palm Tree 4 (1)
@@ -902,6 +898,10 @@ PrefabInstance:
     - target: {fileID: 7075824293754845327, guid: fec220622a7cc55488ef4d97d406f452, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 983615323588501290, guid: e46c24d6b9ce8ca4dba4ce637fa60c61, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1121,7 +1121,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: -8
-  startRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  startRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
 --- !u!1001 &63836621
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1534,10 +1534,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1888374067}
     m_Modifications:
-    - target: {fileID: 983615323588501290, guid: e46c24d6b9ce8ca4dba4ce637fa60c61, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
     - target: {fileID: 466866950687662988, guid: fec220622a7cc55488ef4d97d406f452, type: 3}
       propertyPath: m_Name
       value: Palm Tree 4 (7)
@@ -1605,6 +1601,10 @@ PrefabInstance:
     - target: {fileID: 7075824293754845327, guid: fec220622a7cc55488ef4d97d406f452, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 983615323588501290, guid: e46c24d6b9ce8ca4dba4ce637fa60c61, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2753,7 +2753,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 15
-  startRotation: {x: -0, y: -0.25441042, z: -0, w: 0.9670964}
+  startRotation: {x: 0, y: -0.25441042, z: 0, w: 0.9670964}
 --- !u!54 &126490371
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6304,7 +6304,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 15
-  startRotation: {x: -0, y: -0.25441042, z: -0, w: 0.9670964}
+  startRotation: {x: 0, y: -0.25441042, z: 0, w: 0.9670964}
 --- !u!54 &353793476
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9562,7 +9562,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 15
-  startRotation: {x: -0, y: -0.25441042, z: -0, w: 0.9670964}
+  startRotation: {x: 0, y: -0.25441042, z: 0, w: 0.9670964}
 --- !u!54 &495695283
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9852,6 +9852,52 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3988102055209625721, guid: 4c43c777a894d3e48b7d3b115066fb37, type: 3}
   m_PrefabInstance: {fileID: 512543344}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &518122675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: defe3efb56c1bc943a6bfb504a00dc77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 1
+  startDistance:
+    m_OverrideState: 0
+    m_Value: 0
+  fogDensity:
+    m_OverrideState: 0
+    m_Value: 20
+  heightFogDepth:
+    m_OverrideState: 0
+    m_Value: 25
+  heightFogDensity:
+    m_OverrideState: 0
+    m_Value: 1
+  heightFogBrightness:
+    m_OverrideState: 0
+    m_Value: 0.6
+  fogBrightness:
+    m_OverrideState: 0
+    m_Value: 1
+  subsurfaceStrength:
+    m_OverrideState: 0
+    m_Value: 1
+  causticsStrength:
+    m_OverrideState: 0
+    m_Value: 1
+  distortionStrength:
+    m_OverrideState: 0
+    m_Value: 0.25
+  distortionFrequency:
+    m_OverrideState: 0
+    m_Value: 0.75
+  distortionSpeed:
+    m_OverrideState: 0
+    m_Value: 0.5
 --- !u!1001 &521719713
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15702,7 +15748,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: -15
-  startRotation: {x: -0, y: -0.25441042, z: -0, w: 0.9670964}
+  startRotation: {x: 0, y: -0.25441042, z: 0, w: 0.9670964}
 --- !u!54 &744522124
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15738,10 +15784,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1888374067}
     m_Modifications:
-    - target: {fileID: 983615323588501290, guid: e46c24d6b9ce8ca4dba4ce637fa60c61, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
     - target: {fileID: 466866950687662988, guid: fec220622a7cc55488ef4d97d406f452, type: 3}
       propertyPath: m_Name
       value: Palm Tree 4 (6)
@@ -15809,6 +15851,10 @@ PrefabInstance:
     - target: {fileID: 7075824293754845327, guid: fec220622a7cc55488ef4d97d406f452, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 983615323588501290, guid: e46c24d6b9ce8ca4dba4ce637fa60c61, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16517,7 +16563,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 25
-  startRotation: {x: -0, y: -0, z: -0, w: 1}
+  startRotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!54 &785329982
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -17662,7 +17708,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: -15
-  startRotation: {x: -0, y: 0.90542585, z: -0, w: 0.42450443}
+  startRotation: {x: 0, y: 0.90542585, z: 0, w: 0.42450443}
 --- !u!54 &832116447
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -18277,7 +18323,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: -15
-  startRotation: {x: -0, y: -0.25441042, z: -0, w: 0.9670964}
+  startRotation: {x: 0, y: -0.25441042, z: 0, w: 0.9670964}
 --- !u!54 &872623968
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -18433,7 +18479,7 @@ MonoBehaviour:
   waterLevelPadding: 0
   waterMaterial: {fileID: 2100000, guid: cfe6f9ee3cc4bcb4cbd0f24c4b6b0bb0, type: 2}
   dynamicMaterial: 0
-  settings: {fileID: 0}
+  settings: {fileID: 518122675}
   useVolumeBlending: 0
   startDistance: 0
   fogDensity: 150
@@ -20135,7 +20181,7 @@ GameObject:
   m_IsActive: 1
 --- !u!114 &993713126
 MonoBehaviour:
-  m_ObjectHideFlags: 10
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -20165,6 +20211,7 @@ Transform:
   - {fileID: 54007126}
   - {fileID: 460780306}
   - {fileID: 1853297014}
+  - {fileID: 2083433691}
   - {fileID: 1745859135}
   - {fileID: 894763165}
   - {fileID: 578883129}
@@ -24252,7 +24299,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: -10
-  startRotation: {x: -0, y: -0.8602646, z: -0, w: 0.5098478}
+  startRotation: {x: 0, y: -0.8602646, z: 0, w: 0.5098478}
 --- !u!4 &1152214486 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3330056097810583839, guid: 567e1dd1ead6b97499f22bf62d8932af, type: 3}
@@ -25685,10 +25732,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1888374067}
     m_Modifications:
-    - target: {fileID: 983615323588501290, guid: e46c24d6b9ce8ca4dba4ce637fa60c61, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
     - target: {fileID: 466866950687662988, guid: fec220622a7cc55488ef4d97d406f452, type: 3}
       propertyPath: m_Name
       value: Palm Tree 4 (9)
@@ -25756,6 +25799,10 @@ PrefabInstance:
     - target: {fileID: 7075824293754845327, guid: fec220622a7cc55488ef4d97d406f452, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 983615323588501290, guid: e46c24d6b9ce8ca4dba4ce637fa60c61, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -30884,7 +30931,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: -10
-  startRotation: {x: 0.70710576, y: -0, z: -0, w: 0.70710784}
+  startRotation: {x: 0.70710576, y: 0, z: -0, w: 0.70710784}
 --- !u!54 &1478422944
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -32849,6 +32896,7 @@ MonoBehaviour:
   - {fileID: 1727313028}
   - {fileID: 2134818491}
   - {fileID: 1084098176}
+  liveZones: []
   cutsceneController: {fileID: 0}
 --- !u!1001 &1576213845
 PrefabInstance:
@@ -32974,14 +33022,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1888374067}
     m_Modifications:
-    - target: {fileID: 983615323588501290, guid: e46c24d6b9ce8ca4dba4ce637fa60c61, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 983615323588501290, guid: e46c24d6b9ce8ca4dba4ce637fa60c61, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
     - target: {fileID: 466866950687662988, guid: fec220622a7cc55488ef4d97d406f452, type: 3}
       propertyPath: m_Name
       value: Palm Tree 4 (2)
@@ -33053,6 +33093,14 @@ PrefabInstance:
     - target: {fileID: 8168487058486324700, guid: fec220622a7cc55488ef4d97d406f452, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 983615323588501290, guid: e46c24d6b9ce8ca4dba4ce637fa60c61, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 983615323588501290, guid: e46c24d6b9ce8ca4dba4ce637fa60c61, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -35282,10 +35330,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1888374067}
     m_Modifications:
-    - target: {fileID: 983615323588501290, guid: e46c24d6b9ce8ca4dba4ce637fa60c61, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
     - target: {fileID: 466866950687662988, guid: fec220622a7cc55488ef4d97d406f452, type: 3}
       propertyPath: m_Name
       value: Palm Tree 4 (8)
@@ -35353,6 +35397,10 @@ PrefabInstance:
     - target: {fileID: 7075824293754845327, guid: fec220622a7cc55488ef4d97d406f452, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 983615323588501290, guid: e46c24d6b9ce8ca4dba4ce637fa60c61, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -35884,7 +35932,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: 45
-  startRotation: {x: -0, y: -0.91559935, z: -0, w: -0.4020919}
+  startRotation: {x: 0, y: -0.91559935, z: 0, w: -0.4020919}
 --- !u!1001 &1718959347
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36604,7 +36652,7 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.333
   autoScalePower: 0.2
   speed: -15
-  startRotation: {x: -0, y: -0.25441042, z: -0, w: 0.9670964}
+  startRotation: {x: 0, y: -0.25441042, z: 0, w: 0.9670964}
 --- !u!54 &1782083208
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -40023,10 +40071,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1888374067}
     m_Modifications:
-    - target: {fileID: 983615323588501290, guid: e46c24d6b9ce8ca4dba4ce637fa60c61, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
     - target: {fileID: 466866950687662988, guid: fec220622a7cc55488ef4d97d406f452, type: 3}
       propertyPath: m_Name
       value: Palm Tree 4 (3)
@@ -40094,6 +40138,10 @@ PrefabInstance:
     - target: {fileID: 7075824293754845327, guid: fec220622a7cc55488ef4d97d406f452, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 983615323588501290, guid: e46c24d6b9ce8ca4dba4ce637fa60c61, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -42008,10 +42056,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1888374067}
     m_Modifications:
-    - target: {fileID: 983615323588501290, guid: e46c24d6b9ce8ca4dba4ce637fa60c61, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
     - target: {fileID: 466866950687662988, guid: fec220622a7cc55488ef4d97d406f452, type: 3}
       propertyPath: m_Name
       value: Palm Tree 4 (10)
@@ -42079,6 +42123,10 @@ PrefabInstance:
     - target: {fileID: 7075824293754845327, guid: fec220622a7cc55488ef4d97d406f452, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 983615323588501290, guid: e46c24d6b9ce8ca4dba4ce637fa60c61, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -42912,10 +42960,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1888374067}
     m_Modifications:
-    - target: {fileID: 983615323588501290, guid: e46c24d6b9ce8ca4dba4ce637fa60c61, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
     - target: {fileID: 466866950687662988, guid: fec220622a7cc55488ef4d97d406f452, type: 3}
       propertyPath: m_Name
       value: Palm Tree 4 (4)
@@ -42983,6 +43027,10 @@ PrefabInstance:
     - target: {fileID: 7075824293754845327, guid: fec220622a7cc55488ef4d97d406f452, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 983615323588501290, guid: e46c24d6b9ce8ca4dba4ce637fa60c61, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -44552,6 +44600,73 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!1 &2083433690
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2083433691}
+  - component: {fileID: 2083433693}
+  - component: {fileID: 2083433692}
+  m_Layer: 0
+  m_Name: Live Zone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2083433691
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083433690}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -12, z: 261}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 993713127}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2083433692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083433690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a218bed7ad1c64743a510b8a06c682e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxCollider: {fileID: 2083433693}
+--- !u!65 &2083433693
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083433690}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1200, y: 1000, z: 1200}
+  m_Center: {x: 0, y: 500, z: 0}
 --- !u!1001 &2090832674
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44954,10 +45069,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1888374067}
     m_Modifications:
-    - target: {fileID: 983615323588501290, guid: e46c24d6b9ce8ca4dba4ce637fa60c61, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
     - target: {fileID: 466866950687662988, guid: fec220622a7cc55488ef4d97d406f452, type: 3}
       propertyPath: m_Name
       value: Palm Tree 4 (5)
@@ -45025,6 +45136,10 @@ PrefabInstance:
     - target: {fileID: 7075824293754845327, guid: fec220622a7cc55488ef4d97d406f452, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 983615323588501290, guid: e46c24d6b9ce8ca4dba4ce637fa60c61, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

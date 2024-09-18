@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using PixelDough.Bouncer;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -19,7 +20,8 @@ public class Rotate : LevelFeature
     
     public float speed = 5f;
     
-    [SerializeField, HideInInspector] private Quaternion startRotation = Quaternion.identity;
+    [SerializeField, ReadOnly] private Quaternion startRotation = Quaternion.identity;
+    private bool _isResetting = false;
 
     protected override void OnValidate()
     {
@@ -28,7 +30,9 @@ public class Rotate : LevelFeature
         {
             rigidbodyOptional = rb;
         }
-        startRotation = transform.rotation;
+
+        if (UnityEngine.Application.isPlaying) return;
+        startRotation = rigidbodyOptional ? rigidbodyOptional.rotation : transform.rotation;
     }
 
     public override void Initialize()
@@ -41,11 +45,14 @@ public class Rotate : LevelFeature
         {
             transform.rotation = startRotation;
         }
+
+        _isResetting = true;
     }
 
     private void Update()
     {
         if (rigidbodyOptional) return;
+        if (_isResetting) { _isResetting = false; return; }
         
         float deltaTime = Time.deltaTime;
         if (ignoreTimeScale)
@@ -72,6 +79,7 @@ public class Rotate : LevelFeature
     private void FixedUpdate()
     {
         if (!rigidbodyOptional) return;
+        if (_isResetting) { _isResetting = false; return; }
         
         float deltaTime = Time.fixedDeltaTime;
         if (ignoreTimeScale)

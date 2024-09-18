@@ -14,6 +14,8 @@ namespace PixelDough.Bouncer
 
         [SerializeField] private ZoneDataScriptableObject zoneData;
         [SerializeField] private List<LevelFeature> levelFeatures = new List<LevelFeature>();
+        [SerializeField] private List<LiveZone> liveZones = new List<LiveZone>();
+        public List<LiveZone> LiveZones => liveZones;
         [SerializeField] private CutsceneController cutsceneController;
         
         public enum LevelStates { Intro, Playing, Finished }
@@ -113,5 +115,12 @@ namespace PixelDough.Bouncer
             levelFeatures.ForEach(feature => feature.Initialize());
         }
 
+        [Button]
+        public void RegenerateLiveZoneList()
+        {
+            liveZones.Clear();
+            liveZones.AddRange(FindObjectsByType<LiveZone>(FindObjectsInactive.Include,
+                FindObjectsSortMode.None));
+        }
     }
 }

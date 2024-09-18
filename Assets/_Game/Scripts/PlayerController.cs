@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using JetBrains.Annotations;
 using QFSW.QC;
 using UnityEngine;
@@ -52,6 +53,8 @@ namespace PixelDough.Bouncer
         private Vector3 _respawnForward = Vector3.forward;
 
         private int _noclip = 0;
+        
+        private bool _isRespawning = false;
 
 
         /*
@@ -174,6 +177,8 @@ namespace PixelDough.Bouncer
 
         private void LateUpdate()
         {
+            HandleLiveZones();
+            
             _eyesCurrentAngle = Mathf.LerpAngle(_eyesCurrentAngle, _eyesTargetAngle, 10f * Time.deltaTime);
             Vector3 targetAngleVector = Vector3.up * _eyesCurrentAngle;
 
@@ -335,6 +340,14 @@ namespace PixelDough.Bouncer
             collider.material = _colliderMaterial;
         }
 
+        private void HandleLiveZones()
+        {
+            if (_isRespawning) return;
+            if (LevelManager.Instance.LiveZones.Count == 0) return;
+            if (LevelManager.Instance.LiveZones.Any(liveZone => liveZone.IsInZone(transform.position))) return;
+            Kill();
+        }
+
         private void Jump()
         {
             if (Mathf.Abs(rigidbody.linearVelocity.y) < 10f)
@@ -361,6 +374,7 @@ namespace PixelDough.Bouncer
 
         public void Kill()
         {
+            if (_isRespawning) return;
             
             // Play a kill animation
             //rigidbody.velocity = Vector3.zero;
@@ -371,6 +385,8 @@ namespace PixelDough.Bouncer
 
         private void Respawn()
         {
+            if (_isRespawning) return;
+            _isRespawning = true;
             GameManager.DoPlayerMovement = false;
             GameManager.DoPlayerPhysics = false;
             GameManager.Instance.screenFadeController.FadeToBlack(0.5f).setOnComplete(() =>
@@ -391,7 +407,7 @@ namespace PixelDough.Bouncer
                 {
                     GameManager.DoPlayerMovement = true;
                     GameManager.DoPlayerPhysics = true;
-                    
+                    _isRespawning = false;
                 });
             });
         }
