@@ -248,8 +248,8 @@ namespace PixelDough.Bouncer
                 // If the velocity is heading towards the normal at a high enough speed
                 ContactPoint point = other.contacts[0];
                 float velTowardsNormal = Vector3.Dot(_pastVelocity, -point.normal);
-                //bounceEventEmitter.Play();
-                //bounceEventEmitter.EventInstance.setParameterByName("Strength", Mathf.InverseLerp(0f, 15f, Mathf.Abs(velTowardsNormal)));
+                bounceEventEmitter.Play();
+                bounceEventEmitter.EventInstance.setParameterByName("ImpactCFX_Intensity", Mathf.InverseLerp(0f, 15f, Mathf.Abs(velTowardsNormal)));
 
                 if (!_isDamping)
                 {
