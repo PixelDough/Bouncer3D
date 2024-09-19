@@ -68,6 +68,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Life Saver
       objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: c0a3aac1b57395246a6247e32cc79978, type: 3}
+      propertyPath: m_FadeMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: c0a3aac1b57395246a6247e32cc79978, type: 3}
+      propertyPath: m_AnimateCrossFading
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: c0a3aac1b57395246a6247e32cc79978, type: 3}
+      propertyPath: m_LODs.Array.data[0].screenRelativeHeight
+      value: 0.17810856
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -102,4 +114,4 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 4059599121187566245, guid: c0a3aac1b57395246a6247e32cc79978, type: 3}
+  m_Mesh: {fileID: 6211756601691033299, guid: c0a3aac1b57395246a6247e32cc79978, type: 3}
