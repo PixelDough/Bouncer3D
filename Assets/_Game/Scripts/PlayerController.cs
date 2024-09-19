@@ -250,6 +250,7 @@ namespace PixelDough.Bouncer
                 float velTowardsNormal = Vector3.Dot(_pastVelocity, -point.normal);
                 bounceEventEmitter.Play();
                 bounceEventEmitter.EventInstance.setParameterByName("ImpactCFX_Intensity", Mathf.InverseLerp(0f, 15f, Mathf.Abs(velTowardsNormal)));
+                bounceEventEmitter.EventInstance.setParameterByName("IsDampened", _isDamping ? 1 : 0);
 
                 if (!_isDamping)
                 {

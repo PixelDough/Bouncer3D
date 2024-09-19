@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{12800488-4fb0-436c-9aec-307067f81a28}">
+		<property name="name">
+			<value>IsDampened</value>
+		</property>
+		<relationship name="folder">
+			<destination>{c10ce413-33d4-49b1-a996-4b470b4154f9}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{5d0a752a-2b9b-44a0-a668-9ed8a5f618aa}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{5d0a752a-2b9b-44a0-a668-9ed8a5f618aa}">
+		<property name="parameterType">
+			<value>1</value>
+		</property>
+		<property name="maximum">
+			<value>2</value>
+		</property>
+		<property name="isHeld">
+			<value>true</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>
