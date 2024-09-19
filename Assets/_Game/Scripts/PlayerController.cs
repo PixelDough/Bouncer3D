@@ -248,9 +248,7 @@ namespace PixelDough.Bouncer
                 // If the velocity is heading towards the normal at a high enough speed
                 ContactPoint point = other.contacts[0];
                 float velTowardsNormal = Vector3.Dot(_pastVelocity, -point.normal);
-                bounceEventEmitter.Play();
-                bounceEventEmitter.EventInstance.setParameterByName("ImpactCFX_Intensity", Mathf.InverseLerp(0f, 15f, Mathf.Abs(velTowardsNormal)));
-                bounceEventEmitter.EventInstance.setParameterByName("IsDampened", _isDamping ? 1 : 0);
+                PlayBounce(Mathf.InverseLerp(0f, 15f, Mathf.Abs(velTowardsNormal)), _isDamping ? 1 : 0);
 
                 if (!_isDamping)
                 {
@@ -358,6 +356,7 @@ namespace PixelDough.Bouncer
             
             playerStuffManager.sandBurstParticleSystem.transform.position = transform.position - Vector3.up / 4;
             playerStuffManager.sandBurstParticleSystem.Play();
+            PlayBounce(0.3f, 1);
         }
 
         Vector3 CameraRelativeFlatten(Vector3 input)
@@ -411,6 +410,13 @@ namespace PixelDough.Bouncer
                     _isRespawning = false;
                 });
             });
+        }
+
+        private void PlayBounce(float bounceIntensity, float bounceDamping)
+        {
+            bounceEventEmitter.Play();
+            bounceEventEmitter.EventInstance.setParameterByName("ImpactCFX_Intensity", bounceIntensity);
+            bounceEventEmitter.EventInstance.setParameterByName("IsDampened", bounceDamping);
         }
 
         [Command("goto-checkpoint", MonoTargetType.Single)]
