@@ -13,9 +13,8 @@ namespace PixelDough.Bouncer
     public class SodaBottleLidPop : LevelFeature
     {
         [SerializeField] private Rigidbody lid;
+        [SerializeField] private Transform lidVisualsTransform;
         [SerializeField] private Transform lidTargetTransform;
-        [SerializeField] private MeshRenderer lidMeshRenderer;
-        [SerializeField] private MeshFilter lidMeshFilter;
         [SerializeField] private float lidStartPos = 0;
         [SerializeField] private VisualEffect sprayVFX;
         [SerializeField] private float waitOnBottom = 6f;
@@ -59,17 +58,7 @@ namespace PixelDough.Bouncer
                 );
             }
 
-            RenderParams renderParams = new RenderParams(lidMeshRenderer.material);
-            Graphics.RenderMesh(
-                renderParams,
-                lidMeshFilter.mesh,
-                0,
-                Matrix4x4.TRS(
-                    lid.transform.position, 
-                    Quaternion.Euler(lid.transform.eulerAngles + shakeVector),
-                    lid.transform.lossyScale
-                )
-            );
+            lidVisualsTransform.localRotation = Quaternion.Euler(shakeVector);
         }
 
         private IEnumerator<float> C_LidPopSequence()
