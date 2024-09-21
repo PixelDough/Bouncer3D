@@ -36,6 +36,7 @@ namespace PixelDough.Bouncer
 
         public QuantumConsole quantumConsole;
         private float _timeScaleBeforeConsole = 1f;
+        private CursorLockMode _cursorLockStateBeforeConsole = CursorLockMode.None;
 
         public static bool DoPlayerMovement = true;
         public static bool DoPlayerPhysics = true;
@@ -76,6 +77,9 @@ namespace PixelDough.Bouncer
             _vfxFixedTimeStep = VFXManager.fixedTimeStep;
             
             Shader.SetGlobalFloat(SubtractiveFadeAmount, 0f);
+            
+            quantumConsole.OnActivate += OnQcActivate;
+            quantumConsole.OnDeactivate += OnQcDeactivate;
         }
 
         private void Update()
@@ -87,22 +91,6 @@ namespace PixelDough.Bouncer
             {
                 Cursor.lockState = CursorLockMode.None;
             }
-            
-            if (UnityEngine.Input.GetKeyDown(KeyCode.F3))
-            {
-                quantumConsole.Toggle();
-                
-                if (quantumConsole.IsActive)
-                {
-                    _timeScaleBeforeConsole = Time.timeScale;
-                    Time.timeScale = 0f;
-                    Cursor.lockState = CursorLockMode.None;
-                }
-                else
-                {
-                    Time.timeScale = _timeScaleBeforeConsole;
-                }
-            }
 
             if (quantumConsole.IsActive) return;
             
@@ -113,13 +101,25 @@ namespace PixelDough.Bouncer
                     analogVolume.analogSignalEnabled.value = !analogVolume.analogSignalEnabled.value;
                 }*/
             }
-
             
-
             if (UnityEngine.Input.GetMouseButtonDown(0))
             {
                 Cursor.lockState = CursorLockMode.Locked;
             }
+        }
+
+        private void OnQcActivate()
+        {
+            _timeScaleBeforeConsole = Time.timeScale;
+            _cursorLockStateBeforeConsole = Cursor.lockState;
+            Time.timeScale = 0f;
+            Cursor.lockState = CursorLockMode.None;
+        }
+        
+        private void OnQcDeactivate()
+        {
+            Time.timeScale = 1.0f;
+            Cursor.lockState = _cursorLockStateBeforeConsole;
         }
         
         [Command("change-scene-by-index")]
