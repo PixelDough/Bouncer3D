@@ -6,6 +6,7 @@ using MEC;
 using Sirenix.OdinInspector;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Localization;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -22,6 +23,10 @@ namespace PixelDough.Bouncer
         [SerializeField] private EventReference closeSound; 
         [SerializeField] private LocalizedString closePromptString;
         [SerializeField, ReadOnly] private Quaternion originalRotation;
+        
+        [Header("Input")]
+        [SerializeField] private InputActionReference lookAction;
+        [SerializeField] private InputActionReference jumpAction;
         
 
         private bool _canUse = true;
@@ -49,11 +54,7 @@ namespace PixelDough.Bouncer
             
             if (!_isUsed) return;
 
-            Vector2 rotateInput = GameManager.Instance.Input.GetAxis2D(RewiredConsts.Action.LookHorizontal, RewiredConsts.Action.LookVertical);
-            rotateInput *=
-                GameManager.Instance.Input.controllers.GetLastActiveController().type == Rewired.ControllerType.Mouse
-                    ? 0.25f
-                    : (30f * Time.deltaTime);
+            Vector2 rotateInput = lookAction.action.ReadValue<Vector2>() * 0.25f;
             _angleOffset.x -= rotateInput.y;
             _angleOffset.y += rotateInput.x;
 
@@ -67,7 +68,7 @@ namespace PixelDough.Bouncer
             binocularsTransform.localRotation = MathHelpers.ExpDecay(binocularsTransform.localRotation,
                 originalRotation * rotationOffset, 10f, Time.deltaTime);
             
-            if (GameManager.Instance.Input.GetButtonDown(RewiredConsts.Action.Jump))
+            if (jumpAction.action.WasPressedThisFrame())
             {
                 Close();
             }

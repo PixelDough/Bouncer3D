@@ -4,6 +4,8 @@ using FMODUnity;
 using JetBrains.Annotations;
 using QFSW.QC;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace PixelDough.Bouncer
 {
@@ -47,6 +49,10 @@ namespace PixelDough.Bouncer
         [SerializeField] private Transform eyesRoot;
         private float _eyesTargetAngle = 0f;
         private float _eyesCurrentAngle = 0f;
+        
+        [Header("Input")] 
+        [SerializeField] private InputActionReference moveAction; 
+        [SerializeField] private InputActionReference jumpAction;
 
         [Header("Audio Event Emitters")] 
         [SerializeField] private FMODUnity.StudioEventEmitter bounceEventEmitter;
@@ -109,7 +115,7 @@ namespace PixelDough.Bouncer
             if (!rigidbody.isKinematic) rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
             
             _isDamping = true;
-            if (GameManager.Instance.Input.GetButton(RewiredConsts.Action.Jump))
+            if (jumpAction.action.IsPressed())
             {
                 _isDamping = false;
                 _colliderMaterial.bounciness = _defaultBounciness;
@@ -157,7 +163,6 @@ namespace PixelDough.Bouncer
             playerStuffManager.sandBurstParticleSystem.transform.position = transform.position - Vector3.up / 4;
             
             // Important: Set this AFTER checking for a buffered jump, as isGrounded might have been set in OnCollisionEnter.
-            Debug.Log("Vel:" + rigidbody.linearVelocity.y);
             if (rigidbody.linearVelocity.y <= 8f && Physics.SphereCast(transform.position, 0.24f, Vector3.down, out RaycastHit hit, 
                     0.02f, ~LayerMask.GetMask("Player"), QueryTriggerInteraction.Ignore))
             {
@@ -290,8 +295,7 @@ namespace PixelDough.Bouncer
         {
             if (!GameManager.DoPlayerMovement || GameManager.Instance.quantumConsole.IsActive || _noclip == 1) return;
             
-            Vector2 rawInputMovement = GameManager.Instance.Input.GetAxis2D(RewiredConsts.Action.MoveHorizontal,
-                RewiredConsts.Action.MoveVertical);
+            Vector2 rawInputMovement = moveAction.action.ReadValue<Vector2>();
             rawInputMovement.Normalize();
             Vector3 rawInputMovementVector3 = new Vector3(rawInputMovement.x, 0f, rawInputMovement.y);
             Vector3 cameraRelativeInput = CameraRelativeFlatten(rawInputMovementVector3);
@@ -300,7 +304,7 @@ namespace PixelDough.Bouncer
             _inputMovement = cameraRelativeInput;
             
             // If the player has pressed the jump button, reset the jump buffer to the max
-            if (GameManager.Instance.Input.GetButtonDown(RewiredConsts.Action.Jump))
+            if (jumpAction.action.WasPressedThisFrame())
             {
                 _jumpBuffer = jumpBufferMax;
             }
@@ -310,8 +314,7 @@ namespace PixelDough.Bouncer
         {
             if (!GameManager.DoPlayerMovement || GameManager.Instance.quantumConsole.IsActive || _noclip == 0) return;
             
-            Vector2 rawInputMovement = GameManager.Instance.Input.GetAxis2D(RewiredConsts.Action.MoveHorizontal,
-                RewiredConsts.Action.MoveVertical);
+            Vector2 rawInputMovement = moveAction.action.ReadValue<Vector2>();
             rawInputMovement.Normalize();
             Vector3 rawInputMovementVector3 = new Vector3(rawInputMovement.x, 0f, rawInputMovement.y);
             Vector3 cameraRelativeInput = CameraRelativeFlatten(rawInputMovementVector3);
@@ -320,30 +323,6 @@ namespace PixelDough.Bouncer
             cameraRelativeInput.y += (Input.GetKey(KeyCode.Space) ? 1 : 0) + (Input.GetKey(KeyCode.C) ? -1 : 0);
             
             transform.Translate(cameraRelativeInput * (20f * Time.deltaTime), Space.World);
-        }
-        
-        private void HandleDampen()
-        {
-            _isDamping = false;
-            if (GameManager.Instance.Input.GetButton(RewiredConsts.Action.Dampen))
-            {
-                _isDamping = true;
-                _colliderMaterial.bounciness = 0.5f;
-                dampenBubble.gameObject.SetActive(true);
-                if (!dampenParticle.isEmitting) dampenParticle.Play();
-            }
-            /*else if (GameManager.Instance.Input.GetButton(RewiredConsts.Action.Jump))
-            {
-                _colliderMaterial.bounciness = 0.9f;
-            }*/
-            else
-            {
-                _colliderMaterial.bounciness = _defaultBounciness;
-                dampenBubble.gameObject.SetActive(false);
-                if (dampenParticle.isPlaying) dampenParticle.Stop();
-            }
-
-            collider.material = _colliderMaterial;
         }
 
         private void HandleLiveZones()

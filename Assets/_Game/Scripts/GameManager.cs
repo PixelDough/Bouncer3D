@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Febucci.UI;
 using PixelDough.Bouncer.UI;
 using QFSW.QC;
-using Rewired;
 using TMPro;
 using Tools.SceneDependencies;
 using UnityEngine;
@@ -34,8 +33,6 @@ namespace PixelDough.Bouncer
 
         public PlayerHudController playerHudController;
         public Camera uiCamera;
-        
-        public Player Input;
 
         public QuantumConsole quantumConsole;
         private float _timeScaleBeforeConsole = 1f;
@@ -72,8 +69,6 @@ namespace PixelDough.Bouncer
             _instance = this;
 
             FMODUnity.RuntimeManager.PlayOneShot("event:/Silence");
-
-            Input = ReInput.players.GetPlayer(0);
 
             Cursor.lockState = CursorLockMode.Locked;
             //Cursor.visible = false;

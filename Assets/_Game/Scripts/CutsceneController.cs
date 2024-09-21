@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using MEC;
 using PixelDough.Bouncer;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Playables;
 
 public class CutsceneController : MonoBehaviour
@@ -13,6 +14,9 @@ public class CutsceneController : MonoBehaviour
     private PlayerController _playerController;
     private float _timelineDuration = 0f;
     private bool _isPlayingCutscene = false;
+    
+    private InputActionReference _startAction;
+    private InputActionReference _backAction;
 
     private void OnDestroy()
     {
@@ -21,8 +25,10 @@ public class CutsceneController : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.Instance.Input.GetButtonDown(RewiredConsts.Action.Start) || 
-            GameManager.Instance.Input.GetButtonDown(RewiredConsts.Action.Back))
+        if (_startAction.action.WasPressedThisFrame() || _backAction.action.WasPressedThisFrame())
+        {
+            FinishCutscene();
+        }
         {
             FinishCutscene();
         }

@@ -1,11 +1,13 @@
 using Tools.SceneDependencies;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace PixelDough.Bouncer
 {
     public class GoalRing : MonoBehaviour
     {
         [SerializeField] private SceneDependencySettingsSO nextSceneDemo;
+        [SerializeField] private InputActionReference continueAction;
         
         private bool _hit = false;
 
@@ -34,7 +36,7 @@ namespace PixelDough.Bouncer
             if (LevelManager.LevelState != LevelManager.LevelStates.Finished) return;
             if (_continuePressed) return;
 
-            if (GameManager.Instance.Input.GetButtonDown(RewiredConsts.Action.Jump))
+            if (continueAction.action.WasPressedThisFrame())
             {
                 Debug.Log($"Continue pressed! On to {nextSceneDemo.sceneProperties.sceneName}!");
                 _continuePressed = true;

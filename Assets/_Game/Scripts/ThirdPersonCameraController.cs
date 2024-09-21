@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using Rewired;
 using Unity.Cinemachine;
 using UnityEditor;
 using UnityEngine;

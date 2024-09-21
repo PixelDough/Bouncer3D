@@ -1,6 +1,5 @@
 ﻿using System;
 using PixelDough.Bouncer.UI;
-using Rewired.Integration.Cinemachine3;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -13,7 +12,7 @@ namespace PixelDough.Bouncer
 
         [SerializeField] private CinemachineCamera cinemachineCamera;
         [SerializeField] private CinemachineOrbitalFollow cinemachineFreeLook;
-        [SerializeField] private RewiredCinemachineInputAxisController cinemachineInputAxisController;
+        [SerializeField] private CinemachineInputAxisController cinemachineInputAxisController;
 
         public ParticleSystem sandRollParticleSystem;
         public ParticleSystem sandBurstParticleSystem;

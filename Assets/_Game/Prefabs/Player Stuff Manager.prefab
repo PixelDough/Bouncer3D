@@ -19779,7 +19779,7 @@ MonoBehaviour:
   playerController: {fileID: 7510254489545358217}
   cinemachineCamera: {fileID: 7838108790322631129}
   cinemachineFreeLook: {fileID: 4922734005509247989}
-  cinemachineInputAxisController: {fileID: 3071969793029103211}
+  cinemachineInputAxisController: {fileID: 4659703029622408985}
   sandRollParticleSystem: {fileID: 3886507375918932824}
   sandBurstParticleSystem: {fileID: 7129296237744937146}
 --- !u!1 &1497173396606201932
@@ -19795,8 +19795,8 @@ GameObject:
   - component: {fileID: 4922734005509247989}
   - component: {fileID: 5226645992977774179}
   - component: {fileID: 2893251571359705180}
-  - component: {fileID: 3071969793029103211}
   - component: {fileID: 8436902683546695516}
+  - component: {fileID: 4659703029622408985}
   m_Layer: 8
   m_Name: CM FreeLook (1)
   m_TagString: Untagged
@@ -19812,8 +19812,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1497173396606201932}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.04917081, y: 0.008715977, z: 0.000429107, w: 0.9987523}
-  m_LocalPosition: {x: -0.034904815, y: 0.75, z: -1.9996954}
+  m_LocalRotation: {x: -0.049172707, y: 0.00000016935525, z: 0.000000008337743, w: 0.9987903}
+  m_LocalPosition: {x: 0, y: 0.75, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19896,7 +19896,7 @@ MonoBehaviour:
     SplineCurvature: 0.082
   RecenteringTarget: 2
   HorizontalAxis:
-    Value: 1
+    Value: 0
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
@@ -19993,57 +19993,6 @@ MonoBehaviour:
               Enabled: 1
               Size: {x: 0.8, y: 0.8}
               Offset: {x: 0, y: 0}
---- !u!114 &3071969793029103211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1497173396606201932}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd334f6ba3fb9bd4c85370e4b60fc1a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ScanRecursively: 1
-  SuppressInputWhileBlending: 1
-  IgnoreTimeScale: 0
-  m_ControllerManager:
-    Controllers:
-    - Name: Look Orbit X
-      Owner: {fileID: 4922734005509247989}
-      Enabled: 1
-      Input:
-        _absoluteAxisGain: 200
-        _relativeAxisGain: 1
-        _actionName: LookHorizontal
-      InputValue: 0
-      Driver:
-        AccelTime: 0.2
-        DecelTime: 0.2
-    - Name: Look Orbit Y
-      Owner: {fileID: 4922734005509247989}
-      Enabled: 1
-      Input:
-        _absoluteAxisGain: -200
-        _relativeAxisGain: -1
-        _actionName: LookVertical
-      InputValue: 0
-      Driver:
-        AccelTime: 0.2
-        DecelTime: 0.2
-    - Name: Orbit Scale
-      Owner: {fileID: 4922734005509247989}
-      Enabled: 0
-      Input:
-        _absoluteAxisGain: 200
-        _relativeAxisGain: 1
-        _actionName: Mouse ScrollWheel
-      InputValue: 0
-      Driver:
-        AccelTime: 0
-        DecelTime: 0
-  _playerId: 0
 --- !u!114 &8436902683546695516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20083,6 +20032,64 @@ MonoBehaviour:
     NearLimit: 5
     FarLimit: 30
     MaxQualityBoost: 0.2
+--- !u!114 &4659703029622408985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1497173396606201932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89875cdc57c54474a8a74efd9b2a3b5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScanRecursively: 1
+  SuppressInputWhileBlending: 1
+  IgnoreTimeScale: 0
+  m_ControllerManager:
+    Controllers:
+    - Name: Look Orbit X
+      Owner: {fileID: 4922734005509247989}
+      Enabled: 1
+      Input:
+        InputAction: {fileID: 7492418678884234340, guid: 4fd51e447f699490b8e9bdbbe0678b5f, type: 3}
+        Gain: 1
+        LegacyInput: 
+        LegacyGain: 0
+        CancelDeltaTime: 1
+      InputValue: 0
+      Driver:
+        AccelTime: 0.2
+        DecelTime: 0.2
+    - Name: Look Orbit Y
+      Owner: {fileID: 4922734005509247989}
+      Enabled: 1
+      Input:
+        InputAction: {fileID: 7492418678884234340, guid: 4fd51e447f699490b8e9bdbbe0678b5f, type: 3}
+        Gain: -0.75
+        LegacyInput: 
+        LegacyGain: 0
+        CancelDeltaTime: 1
+      InputValue: -0
+      Driver:
+        AccelTime: 0.2
+        DecelTime: 0.2
+    - Name: Orbit Scale
+      Owner: {fileID: 4922734005509247989}
+      Enabled: 0
+      Input:
+        InputAction: {fileID: 0}
+        Gain: 1
+        LegacyInput: 
+        LegacyGain: 200
+        CancelDeltaTime: 0
+      InputValue: 0
+      Driver:
+        AccelTime: 0
+        DecelTime: 0
+  PlayerIndex: -1
+  AutoEnableInputs: 1
 --- !u!1 &1650628318140215485
 GameObject:
   m_ObjectHideFlags: 0
@@ -20285,6 +20292,8 @@ MonoBehaviour:
       Owner: {fileID: 3924103864685215454}
       Enabled: 1
       Input:
+        InputAction: {fileID: 0}
+        Gain: 1
         LegacyInput: Look Horizontal
         LegacyGain: 1
         CancelDeltaTime: 0
@@ -20296,6 +20305,8 @@ MonoBehaviour:
       Owner: {fileID: 3924103864685215454}
       Enabled: 1
       Input:
+        InputAction: {fileID: 0}
+        Gain: 1
         LegacyInput: Look Vertical
         LegacyGain: 0.005
         CancelDeltaTime: 0
@@ -20307,6 +20318,8 @@ MonoBehaviour:
       Owner: {fileID: 3924103864685215454}
       Enabled: 1
       Input:
+        InputAction: {fileID: 0}
+        Gain: 1
         LegacyInput: Mouse ScrollWheel
         LegacyGain: 200
         CancelDeltaTime: 0
@@ -20314,6 +20327,8 @@ MonoBehaviour:
       Driver:
         AccelTime: 0
         DecelTime: 0
+  PlayerIndex: -1
+  AutoEnableInputs: 1
 --- !u!114 &5731152326263478022
 MonoBehaviour:
   m_ObjectHideFlags: 0
