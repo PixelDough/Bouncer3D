@@ -12,37 +12,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36baaa8bdcb9d8b49b9199833965d2c3, type: 3}
   m_Name: Main Camera Blends
   m_EditorClassIdentifier: 
-  m_CustomBlends:
-  - m_From: CutsceneCam
-    m_To: CutsceneCam
-    m_Blend:
-      m_Style: 0
-      m_Time: 2
-      m_CustomCurve:
+  CustomBlends:
+  - From: CutsceneCam
+    To: CutsceneCam
+    Blend:
+      Style: 0
+      Time: 2
+      CustomCurve:
         serializedVersion: 2
         m_Curve: []
         m_PreInfinity: 0
         m_PostInfinity: 0
-        m_RotationOrder: 0
-  - m_From: '**ANY CAMERA**'
-    m_To: CutsceneCam
-    m_Blend:
-      m_Style: 0
-      m_Time: 2
-      m_CustomCurve:
+        m_RotationOrder: 4
+  - From: '**ANY CAMERA**'
+    To: CutsceneCam
+    Blend:
+      Style: 0
+      Time: 2
+      CustomCurve:
         serializedVersion: 2
         m_Curve: []
         m_PreInfinity: 0
         m_PostInfinity: 0
-        m_RotationOrder: 0
-  - m_From: CutsceneCam
-    m_To: '**ANY CAMERA**'
-    m_Blend:
-      m_Style: 0
-      m_Time: 2
-      m_CustomCurve:
+        m_RotationOrder: 4
+  - From: CutsceneCam
+    To: '**ANY CAMERA**'
+    Blend:
+      Style: 0
+      Time: 2
+      CustomCurve:
         serializedVersion: 2
         m_Curve: []
         m_PreInfinity: 0
         m_PostInfinity: 0
-        m_RotationOrder: 0
+        m_RotationOrder: 4
+  - From: '**ANY CAMERA**'
+    To: BinocularCam
+    Blend:
+      Style: 0
+      Time: 2
+      CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 4
+  - From: BinocularCam
+    To: '**ANY CAMERA**'
+    Blend:
+      Style: 0
+      Time: 2
+      CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 4

@@ -1,6 +1,34 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8997176906264847642
+--- !u!114 &-6438713218540637018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c0a80be6e9344d418178c903869e018, type: 3}
+  m_Name: NtscPostProcessingEffectRendererFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+--- !u!114 &-4726044887638595740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4011acb5f63aec4c9fbbf017aefdcff, type: 3}
+  m_Name: NtscFeature
+  m_EditorClassIdentifier: 
+  m_Active: 0
+  passSettings:
+    renderPassEvent: 600
+--- !u!114 &-1615075800735355390
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -17,45 +45,10 @@ MonoBehaviour:
   settings:
     allowBlur: 0
     allowDistortion: 0
-    distortionMode: 1
+    distortionMode: 0
     directionalCaustics: 0
     accurateDirectionalCaustics: 0
     waterlineRefraction: 1
---- !u!114 &-4726044887638595740
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4011acb5f63aec4c9fbbf017aefdcff, type: 3}
-  m_Name: NtscFeature
-  m_EditorClassIdentifier: 
-  m_Active: 0
-  passSettings:
-    renderPassEvent: 600
---- !u!114 &-1670428713111615512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2086e3e143e14a2abcd3b0dbc77a10ac, type: 3}
-  m_Name: 'Stylized Water 2: Stylized Water 2'
-  m_EditorClassIdentifier: 
-  m_Active: 1
-  screenSpaceReflectionSettings:
-    enable: 0
-  directionalCaustics: 0
-  displacementPrePassSettings:
-    enable: 0
-    range: 500
-    cellSize: 0.25
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,11 +74,10 @@ MonoBehaviour:
     probeSamplingDebugTexture: {fileID: 2800000, guid: 24ec0e140fb444a44ab96ee80844e18e, type: 3}
     probeVolumeBlendStatesCS: {fileID: 0}
   m_RendererFeatures:
-  - {fileID: -1670428713111615512}
-  - {fileID: -8997176906264847642}
   - {fileID: 7040943036813019351}
-  - {fileID: 4632465178660581380}
-  m_RendererFeatureMap: f7ed9f98256cf53ae65abcd8459b2383d70800316374b66104306e4089d24940
+  - {fileID: 6382130206910589660}
+  - {fileID: -1615075800735355390}
+  m_RendererFeatureMap: d70800316374b661dc2a32f59be1915802eed6c31d1996e9
   m_UseNativeRenderPass: 0
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
@@ -111,7 +103,7 @@ MonoBehaviour:
   m_DepthTextureFormat: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 0
---- !u!114 &4632465178660581380
+--- !u!114 &4267942895320351592
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,17 +112,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b00045f12942b46c698459096c89274e, type: 3}
-  m_Name: FullScreenPassRendererFeature
+  m_Script: {fileID: 11500000, guid: 1c0a80be6e9344d418178c903869e018, type: 3}
+  m_Name: NtscPostProcessingEffectRendererFeature
   m_EditorClassIdentifier: 
-  m_Active: 0
-  injectionPoint: 600
-  fetchColorBuffer: 1
-  requirements: 0
-  passMaterial: {fileID: 2100000, guid: 3cd3b9ca5d55043598ca186a473e0824, type: 2}
-  passIndex: 0
-  bindDepthStencilAttachment: 0
-  m_Version: 1
+  m_Active: 1
+  m_Material: {fileID: 0}
 --- !u!114 &5356137853066372288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,6 +130,26 @@ MonoBehaviour:
   m_Name: NtscRenderer
   m_EditorClassIdentifier: 
   m_Active: 1
+--- !u!114 &6382130206910589660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2086e3e143e14a2abcd3b0dbc77a10ac, type: 3}
+  m_Name: StylizedWaterRenderFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  screenSpaceReflectionSettings:
+    enable: 0
+  directionalCaustics: 0
+  displacementPrePassSettings:
+    enable: 0
+    range: 500
+    cellSize: 0.25
 --- !u!114 &6930285227155769472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,5 +194,18 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d7c15753b0369c4f8f019785301fa73, type: 3}
   m_Name: NtscRenderer
+  m_EditorClassIdentifier: 
+  m_Active: 1
+--- !u!114 &8585826358902741597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c0a80be6e9344d418178c903869e018, type: 3}
+  m_Name: NtscPostProcessingEffectRendererFeature
   m_EditorClassIdentifier: 
   m_Active: 1

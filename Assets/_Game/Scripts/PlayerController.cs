@@ -10,9 +10,13 @@ namespace PixelDough.Bouncer
     {
 
         [SerializeField] private PlayerStuffManager playerStuffManager;
+        public PlayerStuffManager PlayerStuffManager => playerStuffManager;
         
         [SerializeField] private new Rigidbody rigidbody;
         [SerializeField] private new Collider collider;
+        
+        public Vector3 Velocity => rigidbody.linearVelocity;
+        
         private PhysicsMaterial _colliderMaterial;
         
         private Vector3 _inputMovement;
