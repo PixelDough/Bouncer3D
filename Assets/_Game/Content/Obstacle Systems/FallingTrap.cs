@@ -69,7 +69,7 @@ namespace PixelDough.Bouncer
             
             _shakeFallEventInstance.start();
             
-            _fallCoroutineHandle = Timing.RunCoroutine(Fall());
+            _fallCoroutineHandle = Timing.RunCoroutine(Fall().CancelWith(gameObject));
         }
         
         private IEnumerator<float> Fall()

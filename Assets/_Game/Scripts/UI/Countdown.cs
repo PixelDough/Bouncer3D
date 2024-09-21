@@ -27,7 +27,7 @@ namespace PixelDough.Bouncer
             if (_isPlayingCountdown) return;
             _isPlayingCountdown = true;
             
-            Timing.RunCoroutine(C_CountdownCoroutine(), Segment.RealtimeUpdate);
+            Timing.RunCoroutine(C_CountdownCoroutine().CancelWith(gameObject), Segment.RealtimeUpdate);
         }
         
         private IEnumerator<float> C_CountdownCoroutine()

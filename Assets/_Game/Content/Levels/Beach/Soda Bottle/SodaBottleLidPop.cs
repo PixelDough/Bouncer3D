@@ -39,7 +39,7 @@ namespace PixelDough.Bouncer
         public override void Initialize()
         {
             Timing.KillCoroutines(_popCoroutineHandle);
-            _popCoroutineHandle = Timing.RunCoroutine(C_LidPopSequence());
+            _popCoroutineHandle = Timing.RunCoroutine(C_LidPopSequence().CancelWith(gameObject));
         }
 
         private void Update()
@@ -95,6 +95,7 @@ namespace PixelDough.Bouncer
         private void OnDestroy()
         {
             Timing.KillCoroutines(_popCoroutineHandle);
+            
         }
     }
 }
