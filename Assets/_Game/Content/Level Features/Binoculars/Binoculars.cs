@@ -6,6 +6,7 @@ using MEC;
 using Sirenix.OdinInspector;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.Localization;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
@@ -19,6 +20,7 @@ namespace PixelDough.Bouncer
         [SerializeField] private Volume volumeComponent;
         [SerializeField] private EventReference openSound; 
         [SerializeField] private EventReference closeSound; 
+        [SerializeField] private LocalizedString closePromptString;
         [SerializeField, ReadOnly] private Quaternion originalRotation;
         
 
@@ -116,12 +118,16 @@ namespace PixelDough.Bouncer
             
             yield return Timing.WaitForSeconds(0.25f);
             
+            GameManager.Instance.ShowTutorialText(closePromptString.GetLocalizedString());
+            
             _isUsed = true;
         }
         
         private IEnumerator<float> C_CloseCoroutine()
         {
             _isUsed = false;
+            
+            GameManager.Instance.HideTutorialText();
             
             volumeComponent.profile.TryGet(out Vignette vignette);
             DOTween.To(() => vignette.intensity.value, x => vignette.intensity.value = x, 1f, 0.25f).SetEase(Ease.InSine);
