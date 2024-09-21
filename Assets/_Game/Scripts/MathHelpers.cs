@@ -26,5 +26,10 @@ namespace PixelDough.Bouncer
         {
             return Quaternion.Slerp(a, b, 1 - Mathf.Exp(-decay * dt));
         }
+
+        public static int Sign(float a)
+        {
+            return (int) Mathf.Sign(a);
+        }
     }
 }

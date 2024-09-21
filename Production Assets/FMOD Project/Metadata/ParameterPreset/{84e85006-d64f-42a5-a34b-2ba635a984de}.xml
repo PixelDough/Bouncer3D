@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{84e85006-d64f-42a5-a34b-2ba635a984de}">
+		<property name="name">
+			<value>IsFalling</value>
+		</property>
+		<relationship name="folder">
+			<destination>{c10ce413-33d4-49b1-a996-4b470b4154f9}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{5989991f-62b2-487e-b34a-8c5f64916c07}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{5989991f-62b2-487e-b34a-8c5f64916c07}">
+		<property name="parameterType">
+			<value>1</value>
+		</property>
+		<property name="maximum">
+			<value>2</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>

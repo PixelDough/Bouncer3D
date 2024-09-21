@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using FMODUnity;
 using MEC;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -13,8 +14,10 @@ namespace PixelDough.Bouncer
         [SerializeField, HideInInspector] private Vector3 startPos;
         [SerializeField, HideInInspector] private Quaternion startRot;
         [SerializeField] private float fallDelay = 4f;
+        [SerializeField] private EventReference shakeFallSound;
 
         private bool _isShaking = false;
+        private FMOD.Studio.EventInstance _shakeFallEventInstance;
         private bool _isFalling = false;
         private CoroutineHandle _fallCoroutineHandle;
 
@@ -26,7 +29,13 @@ namespace PixelDough.Bouncer
             startRot = transform.rotation;
         }
         #endif
-        
+
+        private void Start()
+        {
+            _shakeFallEventInstance = RuntimeManager.CreateInstance(shakeFallSound);
+            RuntimeManager.AttachInstanceToGameObject(_shakeFallEventInstance, rb.transform, rb);
+        }
+
         public override void Initialize()
         {
             rb.isKinematic = true;
@@ -36,6 +45,11 @@ namespace PixelDough.Bouncer
             _isShaking = false;
             _isFalling = false;
             Timing.KillCoroutines(_fallCoroutineHandle);
+            if (_shakeFallEventInstance.isValid())
+            {
+                _shakeFallEventInstance.setParameterByName("IsFalling", 0);
+                _shakeFallEventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
         }
 
         private void Update()
@@ -51,8 +65,10 @@ namespace PixelDough.Bouncer
             if (_isShaking || _isFalling) return;
             Rigidbody hitRb = other.rigidbody;
             if (!hitRb) return;
-            
             _isShaking = true;
+            
+            _shakeFallEventInstance.start();
+            
             _fallCoroutineHandle = Timing.RunCoroutine(Fall());
         }
         
@@ -60,6 +76,8 @@ namespace PixelDough.Bouncer
         {
             _isShaking = true;
             yield return Timing.WaitForSeconds(fallDelay);
+            yield return Timing.WaitForOneFrame;
+            _shakeFallEventInstance.setParameterByName("IsFalling", 1);
             _isShaking = false;
             _isFalling = true;
             meshTransform.localPosition = Vector3.zero;
@@ -71,6 +89,8 @@ namespace PixelDough.Bouncer
         private void OnDestroy()
         {
             Timing.KillCoroutines(_fallCoroutineHandle);
+            _shakeFallEventInstance.release();
+            _shakeFallEventInstance.clearHandle();
         }
     }
 }

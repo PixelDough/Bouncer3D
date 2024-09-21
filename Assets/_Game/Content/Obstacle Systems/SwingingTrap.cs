@@ -1,5 +1,6 @@
 using System;
 using DrawXXL;
+using FMODUnity;
 using UnityEngine;
 
 namespace PixelDough.Bouncer
@@ -12,9 +13,11 @@ namespace PixelDough.Bouncer
         [SerializeField] private bool instantRepeat = false;
         [SerializeField] private Transform hingeTransform;
         [SerializeField] private new Rigidbody rigidbody;
+        [SerializeField] private EventReference wooshSound;
 
         private float _swingTime = 0f;
         private float _targetAngle = 0f;
+        private float _lastAngle = 0f;
 
         public override void Initialize()
         {
@@ -51,6 +54,15 @@ namespace PixelDough.Bouncer
             float angleDifference = _targetAngle - currentAngle;
             Quaternion targetRotation = Quaternion.Euler(0, 0, currentAngle + angleDifference);
             rigidbody.MoveRotation(hingeTransform.parent.rotation * targetRotation);
+        }
+
+        private void LateUpdate()
+        {
+            if (MathHelpers.Sign(_targetAngle) != MathHelpers.Sign(_lastAngle))
+            {
+                RuntimeManager.PlayOneShot(wooshSound, rigidbody.worldCenterOfMass);
+            }
+            _lastAngle = _targetAngle;
         }
 
         private void OnDrawGizmos()

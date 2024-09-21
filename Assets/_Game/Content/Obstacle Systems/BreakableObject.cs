@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using FMODUnity;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -14,6 +15,7 @@ namespace PixelDough.Bouncer
         [SerializeField] private GameObject solidObject;
         [SerializeField] private List<Rigidbody> brokenParts = new List<Rigidbody>();
         [SerializeField] private float breakForce = 10f;
+        [SerializeField] private EventReference breakSound;
         
         [SerializeField, HideInInspector] private Vector3 startPosition = Vector3.zero;
         [SerializeField, HideInInspector] private Quaternion startRotation = Quaternion.identity;
@@ -52,6 +54,7 @@ namespace PixelDough.Bouncer
 
         public void Break(Vector3 velocity)
         {
+            FMODUnity.RuntimeManager.PlayOneShot(breakSound, rigidbody.worldCenterOfMass);
             solidObject.SetActive(false);
             rigidbody.isKinematic = true;
             rigidbody.linearVelocity = Vector3.zero;
