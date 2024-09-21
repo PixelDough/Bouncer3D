@@ -60,7 +60,7 @@ namespace PixelDough.Bouncer
             }
 
             // Set the filter mode to point (no bilinear filtering)
-            _renderTexture.filterMode = FilterMode.Point;
+            // _renderTexture.filterMode = FilterMode.Point;
 
             // Assign the render texture to the camera and raw image
             targetCamera.targetTexture = _renderTexture;
