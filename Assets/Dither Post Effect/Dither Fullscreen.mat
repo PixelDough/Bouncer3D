@@ -23,6 +23,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BlitTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -39,6 +43,14 @@ Material:
     m_Floats:
     - _ColorResolution: 128
     - _DitherSpread: 0.0001
+    - _flickerPercent: 1
+    - _flickerScaleX: 0.2
+    - _flickerScaleY: 3.24
+    - _horizontalCarrierFrequency: 1.62
+    - _kernelRadius: 1
+    - _kernelWidthRatio: 0.1
+    - _linePhaseShift: 3.14
+    - _sharpness: 0.25
     m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1

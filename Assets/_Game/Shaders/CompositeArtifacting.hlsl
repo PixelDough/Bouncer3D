@@ -80,7 +80,7 @@ float3 ComputeGaussianInYIQ(
     {
         // Calculate current position in pixels
         float2 positionCurrentPixels = screenPosition + float2(
-            x * 16.0 * (_NtscKernelWidthRatio * _NtscHorizontalCarrierFrequency),
+            x * 4.0 * (_NtscKernelWidthRatio * _NtscHorizontalCarrierFrequency),
             0.0);
 
         // Convert to UV coordinates
