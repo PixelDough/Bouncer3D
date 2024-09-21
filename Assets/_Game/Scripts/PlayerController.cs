@@ -157,7 +157,8 @@ namespace PixelDough.Bouncer
             playerStuffManager.sandBurstParticleSystem.transform.position = transform.position - Vector3.up / 4;
             
             // Important: Set this AFTER checking for a buffered jump, as isGrounded might have been set in OnCollisionEnter.
-            if (Physics.SphereCast(transform.position, 0.24f, Vector3.down, out RaycastHit hit, 
+            Debug.Log("Vel:" + rigidbody.linearVelocity.y);
+            if (rigidbody.linearVelocity.y <= 8f && Physics.SphereCast(transform.position, 0.24f, Vector3.down, out RaycastHit hit, 
                     0.02f, ~LayerMask.GetMask("Player"), QueryTriggerInteraction.Ignore))
             {
                 if (Physics.GetIgnoreCollision(collider, hit.collider)) return;
@@ -359,6 +360,7 @@ namespace PixelDough.Bouncer
                 rigidbody.linearVelocity = new Vector3(rigidbody.linearVelocity.x, 10f, rigidbody.linearVelocity.z);
             _jumpBuffer = 0f;
             _coyoteTime = 0f;
+            _isGrounded = false;
             
             playerStuffManager.sandBurstParticleSystem.transform.position = transform.position - Vector3.up / 4;
             playerStuffManager.sandBurstParticleSystem.Play();
