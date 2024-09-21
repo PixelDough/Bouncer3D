@@ -26,6 +26,7 @@ namespace PixelDough.Bouncer
         }
         private static GameManager _instance;
         private static readonly int SubtractiveFadeAmount = Shader.PropertyToID("_SubtractiveFadeAmount");
+        private static readonly int UnscaledTime = Shader.PropertyToID("_UnscaledTime");
 
         //[SerializeField] private Volume globalVolume;
 
@@ -85,6 +86,7 @@ namespace PixelDough.Bouncer
         private void Update()
         {
             VFXManager.fixedTimeStep = _vfxFixedTimeStep * Time.timeScale;
+            Shader.SetGlobalFloat(UnscaledTime, Time.unscaledTime);
             
             if (UnityEngine.Input.GetKeyDown(KeyCode.Escape))
             {
