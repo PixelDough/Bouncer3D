@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using FMODUnity;
 using JetBrains.Annotations;
 using QFSW.QC;
 using UnityEngine;
@@ -51,6 +52,7 @@ namespace PixelDough.Bouncer
         [SerializeField] private FMODUnity.StudioEventEmitter bounceEventEmitter;
         [SerializeField] private FMODUnity.StudioEventEmitter rollEventEmitter;
         [SerializeField] private FMODUnity.StudioEventEmitter windFastEventEmitter;
+        [SerializeField] private EventReference gruntEvent;
 
         public CheckpointController currentCheckpoint = null;
         private Vector3 _respawnPoint = Vector3.zero;
@@ -382,6 +384,9 @@ namespace PixelDough.Bouncer
             
             // Play a kill animation
             //rigidbody.velocity = Vector3.zero;
+            
+            FMODUnity.RuntimeManager.PlayOneShot(gruntEvent, transform.position);
+            
             Respawn();
         }
 
