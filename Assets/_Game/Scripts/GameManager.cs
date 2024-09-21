@@ -25,7 +25,6 @@ namespace PixelDough.Bouncer
             private set => _instance = value;
         }
         private static GameManager _instance;
-        
         private static readonly int SubtractiveFadeAmount = Shader.PropertyToID("_SubtractiveFadeAmount");
 
         //[SerializeField] private Volume globalVolume;
@@ -36,8 +35,6 @@ namespace PixelDough.Bouncer
         public Camera uiCamera;
         
         public Player Input;
-
-        public static bool DebugOverlay = false;
 
         public QuantumConsole quantumConsole;
         private float _timeScaleBeforeConsole = 1f;
@@ -54,6 +51,14 @@ namespace PixelDough.Bouncer
         [SerializeField] private TextMeshProUGUI tutorialText;
         [SerializeField] private TypewriterByCharacter tutorialTextTypewriter;
 
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void InitOnLoad()
+        {
+            _instance = null;
+            DoPlayerMovement = true;
+            DoPlayerPhysics = true;
+        }
+        
         private void Start()
         {
             if (_instance != null && _instance != this)

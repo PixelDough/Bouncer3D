@@ -15,6 +15,12 @@ namespace PixelDough.Bouncer
 
         public static bool IsChangingScenes => _isChangingScenes;
         private static bool _isChangingScenes;
+        
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void InitOnLoad()
+        {
+            _isChangingScenes = false;
+        }
 
         public static void LoadScene(SceneDependencySettingsSO sceneDependencySettings)
         {

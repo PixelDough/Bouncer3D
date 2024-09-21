@@ -11,7 +11,7 @@ namespace PixelDough.Bouncer
     public class LevelManager : MonoBehaviour
     {
         public static LevelManager Instance;
-
+        
         [SerializeField] private ZoneDataScriptableObject zoneData;
         [SerializeField] private List<LevelFeature> levelFeatures = new List<LevelFeature>();
         [SerializeField] private List<LiveZone> liveZones = new List<LiveZone>();
@@ -23,6 +23,15 @@ namespace PixelDough.Bouncer
         
         public static TimeSpan LevelTime;
         public static bool CountingTime = false;
+        
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void InitOnLoad()
+        {
+            Instance = null;
+            LevelState = LevelStates.Intro;
+            LevelTime = new TimeSpan(0, 0, 0, 0, 0);
+            CountingTime = false;
+        }
 
         private void OnValidate()
         {
