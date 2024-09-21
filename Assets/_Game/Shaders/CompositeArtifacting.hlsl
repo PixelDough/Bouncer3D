@@ -159,8 +159,12 @@ float3 ComputeAnalogSignal(
     // Apply sharpness adjustment
     yiqColor.x = oldY + (_NtscSharpness * (oldY - yiqColor.x));
 
+    // Increase saturation to account for slight loss
+    yiqColor.yz *= 1.05;
+    
     // Convert back to sRGB color space
     float3 finalColor = SRGBFromFCCYIQ(yiqColor);
+
 
     return finalColor;
 }
