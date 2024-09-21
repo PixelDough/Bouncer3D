@@ -186,6 +186,9 @@ namespace PixelDough.Bouncer
         {
             HandleLiveZones();
             
+            cameraTiltRoot.transform.rotation = MathHelpers.ExpDecay(cameraTiltRoot.transform.rotation,
+                Quaternion.Euler(-_inputMovement.z * 5f, 0f, _inputMovement.x * 5f), 3f, Time.unscaledDeltaTime);
+            
             _eyesCurrentAngle = Mathf.LerpAngle(_eyesCurrentAngle, _eyesTargetAngle, 10f * Time.deltaTime);
             Vector3 targetAngleVector = Vector3.up * _eyesCurrentAngle;
 
@@ -295,9 +298,6 @@ namespace PixelDough.Bouncer
             cameraRelativeInput = cameraRelativeInput.normalized * cameraRelativeInput.magnitude;
 
             _inputMovement = cameraRelativeInput;
-
-            cameraTiltRoot.transform.rotation = Quaternion.Lerp(cameraTiltRoot.transform.rotation,
-                Quaternion.Euler(-_inputMovement.z * 5f, 0f, _inputMovement.x * 5f), 3f * Time.unscaledDeltaTime);
             
             // If the player has pressed the jump button, reset the jump buffer to the max
             if (GameManager.Instance.Input.GetButtonDown(RewiredConsts.Action.Jump))
@@ -399,6 +399,8 @@ namespace PixelDough.Bouncer
             Debug.Log("Respawning...");
             GameManager.DoPlayerMovement = false;
             GameManager.DoPlayerPhysics = false;
+            rigidbody.isKinematic = true;
+            _inputMovement = Vector3.zero;
             GameManager.Instance.screenFadeController.FadeToBlack(0.5f).setOnComplete(() =>
             {
                 transform.position = _respawnPoint;
@@ -409,6 +411,8 @@ namespace PixelDough.Bouncer
                     rigidbody.linearVelocity = Vector3.zero;
                     rigidbody.angularVelocity = Vector3.zero;
                 }
+                rigidbody.isKinematic = false;
+                cameraTiltRoot.rotation = Quaternion.identity;
                 
                 // LevelManager.Instance.LevelProgress.LoseCollectables();
                 LevelManager.Instance.ResetLevelElements();
