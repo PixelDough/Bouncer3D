@@ -34,7 +34,17 @@ namespace PixelDough.Bouncer
         {
             float targetFOV = Mathf.InverseLerp(0f, 2000, playerController.Velocity.sqrMagnitude) * 30f + 100f;
             cinemachineCamera.Lens.FieldOfView = MathHelpers.ExpDecay(cinemachineCamera.Lens.FieldOfView, targetFOV, 5f, Time.deltaTime);
-            cinemachineInputAxisController.enabled = GameManager.DoPlayerMovement;
+            
+            if (!GameManager.DoPlayerMovement)
+            {
+                cinemachineInputAxisController.Controllers[0].Input.Gain = 0f;
+                cinemachineInputAxisController.Controllers[1].Input.Gain = 0f;
+            }
+            else
+            {
+                cinemachineInputAxisController.Controllers[0].Input.Gain = 1f;
+                cinemachineInputAxisController.Controllers[1].Input.Gain = -0.5f;
+            }
         }
     }
 }
