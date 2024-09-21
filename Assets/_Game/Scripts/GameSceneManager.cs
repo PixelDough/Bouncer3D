@@ -19,6 +19,7 @@ namespace PixelDough.Bouncer
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void InitOnLoad()
         {
+            OnSceneLoaded = null;
             _isChangingScenes = false;
         }
 
@@ -54,6 +55,7 @@ namespace PixelDough.Bouncer
             
             // Run any events scheduled to run once the scene is loaded and finished buffering
             OnSceneLoaded?.Invoke();
+            OnSceneLoaded = null;
         }
     }
 }

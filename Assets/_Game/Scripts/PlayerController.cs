@@ -382,8 +382,6 @@ namespace PixelDough.Bouncer
             
             // Play a kill animation
             //rigidbody.velocity = Vector3.zero;
-            GameManager.DoPlayerMovement = false;
-            GameManager.DoPlayerPhysics = false;
             Respawn();
         }
 
@@ -391,6 +389,7 @@ namespace PixelDough.Bouncer
         {
             if (_isRespawning) return;
             _isRespawning = true;
+            Debug.Log("Respawning...");
             GameManager.DoPlayerMovement = false;
             GameManager.DoPlayerPhysics = false;
             GameManager.Instance.screenFadeController.FadeToBlack(0.5f).setOnComplete(() =>

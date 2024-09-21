@@ -57,6 +57,7 @@ namespace PixelDough.Bouncer
             _instance = null;
             DoPlayerMovement = true;
             DoPlayerPhysics = true;
+            LeanTween.reset();
         }
         
         private void Start()
