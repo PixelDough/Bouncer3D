@@ -57,6 +57,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 80ac9e38365ab445e96e9597b6c4ea5d, type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 7645201729356479454}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 80ac9e38365ab445e96e9597b6c4ea5d, type: 3}
       insertIndex: -1
       addedObject: {fileID: -8754375084621054872}
   m_SourcePrefab: {fileID: 100100000, guid: 80ac9e38365ab445e96e9597b6c4ea5d, type: 3}
@@ -65,6 +68,18 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 80ac9e38365ab445e96e9597b6c4ea5d, type: 3}
   m_PrefabInstance: {fileID: 5224505179016556721}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7645201729356479454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4918003457466912224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e122375bb9920544e9b35497cb41527b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &-8754375084621054872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,6 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 0}
   rigidbodyOptional: {fileID: 0}
   space: 1
   axis: {x: 0, y: 1, z: 0}
@@ -86,3 +102,4 @@ MonoBehaviour:
   autoScaleMaxMultiplier: 0.1
   autoScalePower: 0.2
   speed: 90
+  startRotation: {x: 0, y: 0, z: 0, w: 1}
