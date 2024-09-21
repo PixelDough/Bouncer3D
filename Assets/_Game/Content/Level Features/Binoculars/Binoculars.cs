@@ -47,8 +47,11 @@ namespace PixelDough.Bouncer
             
             if (!_isUsed) return;
 
-            Vector2 rotateInput = GameManager.Instance.Input.GetAxis2D(RewiredConsts.Action.LookHorizontal,
-                RewiredConsts.Action.LookVertical) * (10f * Time.deltaTime);
+            Vector2 rotateInput = GameManager.Instance.Input.GetAxis2D(RewiredConsts.Action.LookHorizontal, RewiredConsts.Action.LookVertical);
+            rotateInput *=
+                GameManager.Instance.Input.controllers.GetLastActiveController().type == Rewired.ControllerType.Mouse
+                    ? 0.25f
+                    : (30f * Time.deltaTime);
             _angleOffset.x -= rotateInput.y;
             _angleOffset.y += rotateInput.x;
 
@@ -58,8 +61,9 @@ namespace PixelDough.Bouncer
                 rotationOffset = Quaternion.RotateTowards(Quaternion.identity, rotationOffset, 10f);
                 _angleOffset = rotationOffset.eulerAngles;
             }
-            
-            binocularsTransform.localRotation = originalRotation * rotationOffset;
+
+            binocularsTransform.localRotation = MathHelpers.ExpDecay(binocularsTransform.localRotation,
+                originalRotation * rotationOffset, 10f, Time.deltaTime);
             
             if (GameManager.Instance.Input.GetButtonDown(RewiredConsts.Action.Jump))
             {
