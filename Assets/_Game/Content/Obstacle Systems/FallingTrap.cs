@@ -89,6 +89,7 @@ namespace PixelDough.Bouncer
         private void OnDestroy()
         {
             Timing.KillCoroutines(_fallCoroutineHandle);
+            _shakeFallEventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             _shakeFallEventInstance.release();
             _shakeFallEventInstance.clearHandle();
         }
