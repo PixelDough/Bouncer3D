@@ -72,8 +72,6 @@ namespace PixelDough.Bouncer
                 UpdateCurrentLevelInfo();
                 
                 tvChangeEvent.Play();
-                tvChatterEvent.Stop();
-                tvChatterEvent.Play();
                 
                 DOTween.Kill(carouselContent);
                 carouselContent.DOLocalRotate(new Vector3(0, _currentLevelIndex * 30f, 0f), 0.5f)
@@ -94,6 +92,7 @@ namespace PixelDough.Bouncer
             else
             {
                 levelNameText.SetText("???");
+                tvChatterEvent.Play();
             }
             levelNameText.AnimPulse();
             
