@@ -112,7 +112,7 @@ namespace PixelDough.Bouncer
                 }
             }
 
-            levelRecordText.SetText("Best Time: \n " + levelRecord);
+            levelRecordText.SetText("Best Time: " + Environment.NewLine + levelRecord);
             levelRecordText.AnimPulse();
         }
 
