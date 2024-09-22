@@ -54,7 +54,7 @@ namespace PixelDough.Bouncer
             if (Instance == this)
             {
                 Instance = null;
-                GameManager.Instance.playerHudController.SetVisibility(false, false);
+                GameManager.Instance?.playerHudController.SetVisibility(false, false);
             }
         }
 

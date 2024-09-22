@@ -6,6 +6,8 @@ using QFSW.QC;
 using TMPro;
 using Tools.SceneDependencies;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -55,6 +57,9 @@ namespace PixelDough.Bouncer
         [SerializeField] private TextMeshProUGUI tutorialText;
         [SerializeField] private TypewriterByCharacter tutorialTextTypewriter;
 
+        [SerializeField] private PlayerInput playerInput;
+        public static bool IsGamepadInput = false;
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void InitOnLoad()
         {
@@ -85,32 +90,15 @@ namespace PixelDough.Bouncer
             
             quantumConsole.OnActivate += OnQcActivate;
             quantumConsole.OnDeactivate += OnQcDeactivate;
+            InputUser.onChange += OnControlsChanged;
         }
 
         private void Update()
         {
             VFXManager.fixedTimeStep = _vfxFixedTimeStep * Time.timeScale;
             Shader.SetGlobalFloat(UnscaledTime, Time.unscaledTime);
-            
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Escape))
-            {
-                Cursor.lockState = CursorLockMode.None;
-            }
 
             if (quantumConsole.IsActive) return;
-            
-            if (UnityEngine.Input.GetKeyDown(KeyCode.T))
-            {
-                /*if (globalVolume.profile.TryGet(out AnalogSignalVolume analogVolume))
-                {
-                    analogVolume.analogSignalEnabled.value = !analogVolume.analogSignalEnabled.value;
-                }*/
-            }
-            
-            if (UnityEngine.Input.GetMouseButtonDown(0))
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-            }
         }
 
         private void OnQcActivate()
@@ -146,6 +134,16 @@ namespace PixelDough.Bouncer
 
             return previousRecord;
         }
+
+        private void OnControlsChanged(InputUser inputUser, InputUserChange inputUserChange, InputDevice inputDevice)
+        {
+            Debug.Log("Controls changed: " + inputUserChange);
+            if (inputUserChange == InputUserChange.ControlSchemeChanged)
+            {
+                IsGamepadInput = inputUser.controlScheme?.name == "Gamepad";
+                Debug.Log("Is Gamepad Input: " + IsGamepadInput);
+            }
+        }
         
         [Command("set-level-record")]
         private static void SetLevelRecord(string levelID, int timeMs)
@@ -172,6 +170,9 @@ namespace PixelDough.Bouncer
         private void OnDestroy()
         {
             Shader.SetGlobalFloat(SubtractiveFadeAmount, 0f);
+            quantumConsole.OnActivate -= OnQcActivate;
+            quantumConsole.OnDeactivate -= OnQcDeactivate;
+            InputUser.onChange -= OnControlsChanged;
         }
         
         public void ShowTutorialText(string text)

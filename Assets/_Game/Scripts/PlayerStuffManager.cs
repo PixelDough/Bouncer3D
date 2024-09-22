@@ -2,6 +2,7 @@
 using PixelDough.Bouncer.UI;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace PixelDough.Bouncer
 {
@@ -42,9 +43,13 @@ namespace PixelDough.Bouncer
             }
             else
             {
-                cinemachineInputAxisController.Controllers[0].Input.Gain = 1f;
-                cinemachineInputAxisController.Controllers[1].Input.Gain = -0.5f;
+                cinemachineInputAxisController.Controllers[0].Input.Gain = 1f * (GameManager.IsGamepadInput ? 300f : 1f);
+                cinemachineInputAxisController.Controllers[1].Input.Gain = -0.5f * (GameManager.IsGamepadInput ? 300f : 1f);
             }
+
+            cinemachineInputAxisController.Controllers[0].Input.CancelDeltaTime = !GameManager.IsGamepadInput;
+            cinemachineInputAxisController.Controllers[1].Input.CancelDeltaTime = !GameManager.IsGamepadInput;
         }
+        
     }
 }
