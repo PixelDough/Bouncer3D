@@ -18,6 +18,10 @@ namespace PixelDough.Bouncer
         [SerializeField] private float lidStartPos = 0;
         [SerializeField] private VisualEffect sprayVFX;
         [SerializeField] private float waitOnBottom = 6f;
+
+        [Header("FMOD Events")] 
+        [SerializeField] private FMODUnity.EventReference popSound;
+        [SerializeField] private FMODUnity.EventReference capLandSound;
         
         private bool _isLidLaunched = false;
         private bool _isShaking = false;
@@ -76,6 +80,7 @@ namespace PixelDough.Bouncer
                 float tweenTimeUp = heightDiff * 0.2f;
                 float tweenTimeDown = heightDiff * 0.1f;
                 
+                FMODUnity.RuntimeManager.PlayOneShot(popSound, lid.position);
                 var tweenUp = lid.DOMove(lidTargetTransform.position, tweenTimeUp)
                     .SetEase(Ease.OutSine);
 
@@ -86,6 +91,7 @@ namespace PixelDough.Bouncer
                     .SetEase(Ease.InSine);
 
                 yield return Timing.WaitUntilDone(tweenDown.WaitForCompletion(true));
+                FMODUnity.RuntimeManager.PlayOneShot(capLandSound, lid.position);
 
                 _isLidLaunched = false;
                 yield return Timing.WaitForOneFrame;
