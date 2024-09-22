@@ -11,6 +11,7 @@ namespace PixelDough.Bouncer
     { 
         [SerializeField] private Transform carouselContent;
         [SerializeField] private List<LevelSelectButton> levelSelectButtons = new List<LevelSelectButton>();
+        [SerializeField] private Transform characterTransform;
         [SerializeField] private Font3DString levelNameText;
         [SerializeField] private Font3DString levelRecordText;
         [SerializeField] private InputActionReference uiMoveAction;
@@ -35,6 +36,9 @@ namespace PixelDough.Bouncer
 
         private void Update()
         {
+            characterTransform.localPosition = Vector3.Lerp(Vector3.zero,
+                Vector3.up * 0.1f, Mathf.InverseLerp(-1, 1, Mathf.Cos(Time.time)));
+            
             for (int i = 0; i < levelSelectButtons.Count; i++)
             {
                 levelSelectButtons[i].UpdateButton(i == _currentLevelIndex);

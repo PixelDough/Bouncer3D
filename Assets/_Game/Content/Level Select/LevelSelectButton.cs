@@ -10,6 +10,7 @@ namespace PixelDough.Bouncer
         
         private static readonly int BaseMap = Shader.PropertyToID("_BaseMap");
         private static readonly int StaticIntensity = Shader.PropertyToID("_StaticIntensity");
+        private static readonly int Brightness = Shader.PropertyToID("_Brightness");
         
         public void SetLevelData(GameLevelDataSO data)
         {
@@ -18,12 +19,17 @@ namespace PixelDough.Bouncer
             bool isAvailable = levelData.sceneDependencySettings != null;
             tvScreen.materials[1].SetTexture(BaseMap, levelData.levelThumbnail);
             tvScreen.materials[1].SetFloat(StaticIntensity, staticIntensityCurve.Evaluate(isAvailable ? 0f : 1f));
+            tvScreen.materials[1].SetFloat(Brightness, 0.5f);
         }
 
         public void UpdateButton(bool isSelected)
         {
             transform.localScale = MathHelpers.ExpDecay(transform.localScale, Vector3.one * (isSelected ? 1f : 0.9f),
                 10f, Time.deltaTime);
+            tvScreen.materials[1].SetFloat(Brightness, isSelected ? 1f : 0.5f);
+            
+            if (levelData.sceneDependencySettings is null) return;
+            tvScreen.materials[1].SetFloat(StaticIntensity, staticIntensityCurve.Evaluate(isSelected ? 0f : 0.25f));
         }
     }
 }
