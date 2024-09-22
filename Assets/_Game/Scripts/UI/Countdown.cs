@@ -10,6 +10,10 @@ namespace PixelDough.Bouncer
     public class Countdown : MonoBehaviour
     {
         [SerializeField] private Transform[] countdownTransforms;
+        
+        [Header("FMOD Events")]
+        [SerializeField] private FMODUnity.EventReference countdownNumberSound;
+        [SerializeField] private FMODUnity.EventReference countdownGoSound;
 
         private bool _isPlayingCountdown = false;
 
@@ -37,21 +41,23 @@ namespace PixelDough.Bouncer
             // GameManager.DoPlayerPhysics = false;
             LevelManager.CountingTime = false;
             LevelManager.ResetTimer();
-            
-            foreach (var timerItem in countdownTransforms)
+
+            for (var index = 0; index < countdownTransforms.Length; index++)
             {
+                var timerItem = countdownTransforms[index];
                 timerItem.gameObject.SetActive(true);
                 timerItem.localScale = Vector3.zero;
                 timerItem.eulerAngles = new Vector3(-90f, 0f, 0f);
                 timerItem.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack).SetUpdate(true);
                 timerItem.DORotate(Vector3.zero, 0.5f).SetEase(Ease.OutCubic).SetUpdate(true);
+                FMODUnity.RuntimeManager.PlayOneShot(index < 3 ? countdownNumberSound : countdownGoSound);
                 yield return Timing.WaitForSeconds(0.5f);
                 timerItem.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InCubic).SetUpdate(true);
                 timerItem.DORotate(new Vector3(90f, 0f, 0f), 0.5f).SetEase(Ease.InCubic).SetUpdate(true);
                 yield return Timing.WaitForSeconds(0.5f);
                 timerItem.gameObject.SetActive(false);
             }
-            
+
             Time.timeScale = 1f;
             _isPlayingCountdown = false;
             LevelManager.LevelState = LevelManager.LevelStates.Playing;
