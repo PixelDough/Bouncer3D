@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using FMOD.Studio;
 using MEC;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -20,6 +21,7 @@ namespace PixelDough.Bouncer
         [SerializeField] private float waitOnBottom = 6f;
 
         [Header("FMOD Events")] 
+        [SerializeField] private FMODUnity.EventReference shakeSound;
         [SerializeField] private FMODUnity.EventReference popSound;
         [SerializeField] private FMODUnity.EventReference capLandSound;
         
@@ -27,6 +29,7 @@ namespace PixelDough.Bouncer
         private bool _isShaking = false;
 
         private CoroutineHandle _popCoroutineHandle;
+        private FMOD.Studio.EventInstance _shakeSoundInstance;
 
         protected override void OnValidate()
         {
@@ -38,12 +41,15 @@ namespace PixelDough.Bouncer
         private void Start()
         {
             Initialize();
+            _shakeSoundInstance = FMODUnity.RuntimeManager.CreateInstance(shakeSound);
+            FMODUnity.RuntimeManager.AttachInstanceToGameObject(_shakeSoundInstance, lid.transform, lid);
         }
 
         public override void Initialize()
         {
             Timing.KillCoroutines(_popCoroutineHandle);
             _popCoroutineHandle = Timing.RunCoroutine(C_LidPopSequence().CancelWith(gameObject));
+            _shakeSoundInstance.stop(STOP_MODE.IMMEDIATE);
         }
 
         private void Update()
@@ -72,8 +78,10 @@ namespace PixelDough.Bouncer
                 _isShaking = false;
                 yield return Timing.WaitForSeconds(waitOnBottom - 2f);
                 _isShaking = true;
+                _shakeSoundInstance.start();
                 yield return Timing.WaitForSeconds(2f);
-
+                _shakeSoundInstance.stop(STOP_MODE.IMMEDIATE);
+                
                 _isLidLaunched = true;
 
                 float heightDiff = lidTargetTransform.localPosition.y - lidStartPos;
@@ -101,7 +109,8 @@ namespace PixelDough.Bouncer
         private void OnDestroy()
         {
             Timing.KillCoroutines(_popCoroutineHandle);
-            
+            _shakeSoundInstance.stop(STOP_MODE.IMMEDIATE);
+            _shakeSoundInstance.release();
         }
     }
 }
