@@ -25,11 +25,16 @@ namespace PixelDough.Bouncer
                 levelSelectButtons[i].SetLevelData(levelData);
             }
             
-            
+            UpdateCurrentLevelInfo();
         }
 
         private void Update()
         {
+            for (int i = 0; i < levelSelectButtons.Count; i++)
+            {
+                levelSelectButtons[i].UpdateButton(i == _currentLevelIndex);
+            }
+            
             bool wasPressedThisFrame = uiMoveAction.action.WasPressedThisFrame();
             if (wasPressedThisFrame)
             {
@@ -40,16 +45,24 @@ namespace PixelDough.Bouncer
                     _currentLevelIndex = levelSelectButtons.Count - 1;
                 else if (_currentLevelIndex >= levelSelectButtons.Count)
                     _currentLevelIndex = 0;
-                
-                if (_currentLevelIndex < levels.Count)
-                {
-                    levelNameText.SetText(levels[_currentLevelIndex].levelName);
-                }
+
+                UpdateCurrentLevelInfo();
                 
                 DOTween.Kill(carouselContent);
                 carouselContent.DOLocalRotate(new Vector3(0, _currentLevelIndex * 30f, 0f), 0.5f)
-                    .SetEase(Ease.InSine)
                     .SetEase(Ease.OutBack);
+            }
+        }
+
+        private void UpdateCurrentLevelInfo()
+        {
+            if (_currentLevelIndex < levels.Count)
+            {
+                levelNameText.SetText(levels[_currentLevelIndex].levelName);
+            }
+            else
+            {
+                levelNameText.SetText("???");
             }
         }
     }

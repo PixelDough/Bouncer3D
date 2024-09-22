@@ -19,5 +19,11 @@ namespace PixelDough.Bouncer
             tvScreen.materials[1].SetTexture(BaseMap, levelData.levelThumbnail);
             tvScreen.materials[1].SetFloat(StaticIntensity, staticIntensityCurve.Evaluate(isAvailable ? 0f : 1f));
         }
+
+        public void UpdateButton(bool isSelected)
+        {
+            transform.localScale = MathHelpers.ExpDecay(transform.localScale, Vector3.one * (isSelected ? 1f : 0.9f),
+                10f, Time.deltaTime);
+        }
     }
 }
