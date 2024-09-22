@@ -1362,10 +1362,26 @@ MonoBehaviour:
   characterTransform: {fileID: 558106580}
   levelNameText: {fileID: 46831611}
   levelRecordText: {fileID: 1706363968}
+  mainMenuScene: {fileID: 11400000, guid: 75c31bfdc1ba94481aef2140d8504408, type: 2}
   uiMoveAction: {fileID: 3206811561649886536, guid: 4fd51e447f699490b8e9bdbbe0678b5f, type: 3}
   jumpAction: {fileID: 6957972893663073344, guid: 4fd51e447f699490b8e9bdbbe0678b5f, type: 3}
+  backAction: {fileID: -5334455130332058213, guid: 4fd51e447f699490b8e9bdbbe0678b5f, type: 3}
   tvChangeEvent: {fileID: 1739785109}
   tvChatterEvent: {fileID: 640427360}
+  levelSelectEvent:
+    Guid:
+      Data1: 317843036
+      Data2: 1209914697
+      Data3: -1740097911
+      Data4: 2110157357
+    Path: event:/SFX/LEVEL SELECT/Level Start
+  selectErrorEvent:
+    Guid:
+      Data1: 517636125
+      Data2: 1291797016
+      Data3: 1194901658
+      Data4: -199544872
+    Path: event:/SFX/LEVEL SELECT/Select Error
 --- !u!1001 &1528031744
 PrefabInstance:
   m_ObjectHideFlags: 0

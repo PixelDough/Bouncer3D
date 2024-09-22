@@ -23,6 +23,7 @@ namespace PixelDough.Bouncer
         
         [SerializeField] private SceneDependencySettingsSO levelSelectScene;
         [SerializeField] private InputActionReference quitAction;
+        [SerializeField] private FMODUnity.EventReference quitSound;
         
         public enum LevelStates { Intro, Playing, Finished }
         public static LevelStates LevelState = LevelStates.Intro;
@@ -99,9 +100,13 @@ namespace PixelDough.Bouncer
             if (CountingTime)
                 LevelTime = LevelTime.Add(TimeSpan.FromSeconds(Time.deltaTime));
 
+            if (!CountingTime) return;
+            if (GameSceneManager.IsChangingScenes) return;
             if (quitAction.action.triggered)
             {
+                CountingTime = false;
                 GameSceneManager.LoadScene(levelSelectScene);
+                FMODUnity.RuntimeManager.PlayOneShot(quitSound);
             }
         }
 

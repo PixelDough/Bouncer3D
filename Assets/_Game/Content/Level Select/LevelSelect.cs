@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
+using Tools.SceneDependencies;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -14,12 +15,18 @@ namespace PixelDough.Bouncer
         [SerializeField] private Transform characterTransform;
         [SerializeField] private Font3DString levelNameText;
         [SerializeField] private Font3DString levelRecordText;
+        [SerializeField] private SceneDependencySettingsSO mainMenuScene;
+        
+        [Header("Input Actions")]
         [SerializeField] private InputActionReference uiMoveAction;
         [SerializeField] private InputActionReference jumpAction;
+        [SerializeField] private InputActionReference backAction;
 
         [Header("FMOD Events")] 
         [SerializeField] private FMODUnity.StudioEventEmitter tvChangeEvent;
         [SerializeField] private FMODUnity.StudioEventEmitter tvChatterEvent;
+        [SerializeField] private FMODUnity.EventReference levelSelectEvent;
+        [SerializeField] private FMODUnity.EventReference selectErrorEvent;
         
         private List<GameLevelDataSO> levels = new List<GameLevelDataSO>();
         private int _currentLevelIndex = 0;
@@ -71,6 +78,8 @@ namespace PixelDough.Bouncer
             }
 
             HandleSelectLevel();
+
+            HandleBack();
         }
 
         private void UpdateCurrentLevelInfo()
@@ -107,11 +116,27 @@ namespace PixelDough.Bouncer
 
         private void HandleSelectLevel()
         {
+            if (GameSceneManager.IsChangingScenes) return;
             if (!jumpAction.action.WasPressedThisFrame()) return;
-            if (_currentLevelIndex >= levels.Count) return;
             if (_isEnteringLevel) return;
+            if (_currentLevelIndex >= levels.Count)
+            {
+                FMODUnity.RuntimeManager.PlayOneShot(selectErrorEvent);
+                return;
+            }
             _isEnteringLevel = true;
             GameSceneManager.LoadScene(levels[_currentLevelIndex].sceneDependencySettings);
+            FMODUnity.RuntimeManager.PlayOneShot(levelSelectEvent);
+        }
+
+        private void HandleBack()
+        {
+            if (GameSceneManager.IsChangingScenes) return;
+            if (!backAction.action.triggered) return;
+            if (_isEnteringLevel) return;
+            _isEnteringLevel = true;
+            GameSceneManager.LoadScene(mainMenuScene);
+            FMODUnity.RuntimeManager.PlayOneShot(levelSelectEvent);
         }
     }
 }

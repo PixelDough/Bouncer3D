@@ -13,6 +13,8 @@ namespace PixelDough.Bouncer
         [SerializeField] private List<Transform> stuff = new List<Transform>();
         [SerializeField] private Font3DString infoText;
 
+        [SerializeField] private FMODUnity.EventReference continueSound;
+
         private readonly List<Vector3> _originalPositions = new List<Vector3>();
 
         private bool _isLoadingScene = false;
@@ -40,10 +42,12 @@ namespace PixelDough.Bouncer
 
         private void HandleLoadLevelSelect()
         {
+            if (GameSceneManager.IsChangingScenes) return;
             if (_isLoadingScene) return;
             if (!jumpAction.action.WasPressedThisFrame()) return;
             _isLoadingScene = true;
             GameSceneManager.LoadScene(levelSelectScene);
+            FMODUnity.RuntimeManager.PlayOneShot(continueSound);
         }
     }
 }

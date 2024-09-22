@@ -38,6 +38,7 @@ namespace PixelDough.Bouncer
             if (LevelManager.LevelState != LevelManager.LevelStates.Finished) return;
             if (_continuePressed) return;
 
+            if (GameSceneManager.IsChangingScenes) return;
             if (continueAction.action.WasPressedThisFrame())
             {
                 _continuePressed = true;
