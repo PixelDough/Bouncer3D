@@ -24,6 +24,11 @@ namespace PixelDough.Bouncer
 
         public void UpdateButton(bool isSelected)
         {
+            Vector3 localPos = transform.localPosition;
+            localPos.y = Mathf.Lerp(0,
+                0.15f, Mathf.InverseLerp(-1, 1, Mathf.Sin((Time.time + transform.GetSiblingIndex()) * 2.2f)));
+            transform.localPosition = localPos;
+            
             transform.localScale = MathHelpers.ExpDecay(transform.localScale, Vector3.one * (isSelected ? 1f : 0.9f),
                 10f, Time.deltaTime);
             tvScreen.materials[1].SetFloat(Brightness, isSelected ? 1f : 0.5f);
