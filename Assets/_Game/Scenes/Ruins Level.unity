@@ -2346,6 +2346,52 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 394155792463201946, guid: 9100b33a85e8849908f80721b97fb4b3, type: 3}
   m_PrefabInstance: {fileID: 290045058}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &294522968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: defe3efb56c1bc943a6bfb504a00dc77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 1
+  startDistance:
+    m_OverrideState: 0
+    m_Value: 0
+  fogDensity:
+    m_OverrideState: 0
+    m_Value: 20
+  heightFogDepth:
+    m_OverrideState: 0
+    m_Value: 25
+  heightFogDensity:
+    m_OverrideState: 0
+    m_Value: 1
+  heightFogBrightness:
+    m_OverrideState: 0
+    m_Value: 0.6
+  fogBrightness:
+    m_OverrideState: 0
+    m_Value: 1
+  subsurfaceStrength:
+    m_OverrideState: 0
+    m_Value: 1
+  causticsStrength:
+    m_OverrideState: 0
+    m_Value: 1
+  distortionStrength:
+    m_OverrideState: 0
+    m_Value: 0.25
+  distortionFrequency:
+    m_OverrideState: 0
+    m_Value: 0.75
+  distortionSpeed:
+    m_OverrideState: 0
+    m_Value: 0.5
 --- !u!1001 &321306383
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9869,7 +9915,7 @@ GameObject:
   m_IsActive: 1
 --- !u!114 &1318120777
 MonoBehaviour:
-  m_ObjectHideFlags: 10
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -11001,7 +11047,7 @@ MonoBehaviour:
   waterLevelPadding: 0.5
   waterMaterial: {fileID: 2100000, guid: 4bf4cb74ebe6f42ffb4923f0335b2e19, type: 2}
   dynamicMaterial: 0
-  settings: {fileID: 0}
+  settings: {fileID: 294522968}
   useVolumeBlending: 0
   startDistance: 0
   fogDensity: 50
@@ -12292,6 +12338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fdbd036dfb7ec845bd53f9aaa46eac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameLevelData: {fileID: 11400000, guid: cf2c4dbb18bea482d9ef84c007884ca6, type: 2}
   zoneData: {fileID: 11400000, guid: 12bd8ed33aea48143a2b02d019ba9fd1, type: 2}
   levelFeatures:
   - {fileID: 1048836305}

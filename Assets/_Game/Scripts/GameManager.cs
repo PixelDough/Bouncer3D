@@ -8,6 +8,7 @@ using Tools.SceneDependencies;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.VFX;
 
 namespace PixelDough.Bouncer
@@ -26,6 +27,10 @@ namespace PixelDough.Bouncer
         private static GameManager _instance;
         private static readonly int SubtractiveFadeAmount = Shader.PropertyToID("_SubtractiveFadeAmount");
         private static readonly int UnscaledTime = Shader.PropertyToID("_UnscaledTime");
+        
+        public List<GameLevelDataSO> gameLevels = new List<GameLevelDataSO>();
+        public int currentLevelDataIndex;
+        public GameLevelDataSO CurrentLevelData => gameLevels[currentLevelDataIndex];
 
         //[SerializeField] private Volume globalVolume;
 
@@ -120,6 +125,32 @@ namespace PixelDough.Bouncer
         {
             Time.timeScale = 1.0f;
             Cursor.lockState = _cursorLockStateBeforeConsole;
+        }
+
+        public int LoadLevelRecord(string levelID)
+        {
+            string levelRecordKey = "level-" + levelID + "-record";
+            int levelRecordMs = ES3.Load<int>(levelRecordKey, 0);
+            return levelRecordMs;
+        }
+        
+        public int SaveLevelRecord(string levelID, int timeMs)
+        {
+            string levelRecordKey = "level-" + levelID + "-record";
+            int previousRecord = ES3.Load<int>(levelRecordKey, 0);
+            if (timeMs < previousRecord || previousRecord == 0)
+            {
+                ES3.Save<int>(levelRecordKey, timeMs);
+                return timeMs;
+            }
+
+            return previousRecord;
+        }
+        
+        [Command("set-level-record")]
+        private static void SetLevelRecord(string levelID, int timeMs)
+        {
+            Instance.SaveLevelRecord(levelID, timeMs);
         }
         
         [Command("change-scene-by-index")]

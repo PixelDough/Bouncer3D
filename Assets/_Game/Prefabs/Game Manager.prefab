@@ -910,7 +910,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1229401805723456593}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -1253,6 +1253,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82e3e1d1abaaf2a42a302712c9ba99ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameLevels:
+  - {fileID: 11400000, guid: bf9fba9df558e44a8a427ecf45d01e4b, type: 2}
+  - {fileID: 11400000, guid: b93013429e6734026939b630e09046f9, type: 2}
+  - {fileID: 11400000, guid: ec01c3d20f53349bf9ff662a06e4391e, type: 2}
+  - {fileID: 11400000, guid: cf2c4dbb18bea482d9ef84c007884ca6, type: 2}
+  currentLevelDataIndex: 0
   screenFadeController: {fileID: 7063284421450747421}
   playerHudController: {fileID: 1375859017918658614}
   uiCamera: {fileID: 2062128587}

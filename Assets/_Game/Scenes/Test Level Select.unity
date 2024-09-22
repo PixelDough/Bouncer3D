@@ -1212,11 +1212,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   carouselContent: {fileID: 389090544}
-  levels:
-  - {fileID: 11400000, guid: bf9fba9df558e44a8a427ecf45d01e4b, type: 2}
-  - {fileID: 11400000, guid: b93013429e6734026939b630e09046f9, type: 2}
-  - {fileID: 11400000, guid: ec01c3d20f53349bf9ff662a06e4391e, type: 2}
-  - {fileID: 11400000, guid: cf2c4dbb18bea482d9ef84c007884ca6, type: 2}
   levelSelectButtons:
   - {fileID: 8757293183255701161}
   - {fileID: 811908359}
@@ -1233,6 +1228,7 @@ MonoBehaviour:
   levelNameText: {fileID: 46831611}
   levelRecordText: {fileID: 1706363968}
   uiMoveAction: {fileID: 3206811561649886536, guid: 4fd51e447f699490b8e9bdbbe0678b5f, type: 3}
+  jumpAction: {fileID: 6957972893663073344, guid: 4fd51e447f699490b8e9bdbbe0678b5f, type: 3}
 --- !u!1001 &1528031744
 PrefabInstance:
   m_ObjectHideFlags: 0

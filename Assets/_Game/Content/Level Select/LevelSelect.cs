@@ -10,16 +10,20 @@ namespace PixelDough.Bouncer
     public class LevelSelect : MonoBehaviour
     { 
         [SerializeField] private Transform carouselContent;
-        [SerializeField] private List<GameLevelDataSO> levels = new List<GameLevelDataSO>();
         [SerializeField] private List<LevelSelectButton> levelSelectButtons = new List<LevelSelectButton>();
         [SerializeField] private Font3DString levelNameText;
         [SerializeField] private Font3DString levelRecordText;
         [SerializeField] private InputActionReference uiMoveAction;
+        [SerializeField] private InputActionReference jumpAction;
         
+        private List<GameLevelDataSO> levels = new List<GameLevelDataSO>();
         private int _currentLevelIndex = 0;
+
+        private bool _isEnteringLevel = false;
  
         private void Start()
         {
+            levels = GameManager.Instance.gameLevels;
             for (int i = 0; i < levels.Count; i++)
             {
                 GameLevelDataSO levelData = levels[i];
@@ -53,6 +57,8 @@ namespace PixelDough.Bouncer
                 carouselContent.DOLocalRotate(new Vector3(0, _currentLevelIndex * 30f, 0f), 0.5f)
                     .SetEase(Ease.OutBack);
             }
+
+            HandleSelectLevel();
         }
 
         private void UpdateCurrentLevelInfo()
@@ -66,9 +72,34 @@ namespace PixelDough.Bouncer
                 levelNameText.SetText("???");
             }
             levelNameText.AnimPulse();
+            
+            UpdateLevelRecord();
+        }
 
-            levelRecordText.SetText("Best Time: \n Unavailable");
+        private void UpdateLevelRecord()
+        {
+            String levelRecord = "Unavailable";
+
+            if (_currentLevelIndex < levels.Count)
+            {
+                int levelRecordMs = GameManager.Instance.LoadLevelRecord(levels[_currentLevelIndex].levelID);
+                if (levelRecordMs > 0)
+                {
+                    levelRecord = TimeSpan.FromMilliseconds(levelRecordMs).ToString("mm':'ss'.'fff");
+                }
+            }
+
+            levelRecordText.SetText("Best Time: \n " + levelRecord);
             levelRecordText.AnimPulse();
+        }
+
+        private void HandleSelectLevel()
+        {
+            if (!jumpAction.action.WasPressedThisFrame()) return;
+            if (_currentLevelIndex >= levels.Count) return;
+            if (_isEnteringLevel) return;
+            _isEnteringLevel = true;
+            GameSceneManager.LoadScene(levels[_currentLevelIndex].sceneDependencySettings);
         }
     }
 }

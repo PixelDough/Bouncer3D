@@ -6,7 +6,7 @@ namespace PixelDough.Bouncer
 {
     public class GoalRing : MonoBehaviour
     {
-        [SerializeField] private SceneDependencySettingsSO nextSceneDemo;
+        [SerializeField] private SceneDependencySettingsSO levelSelectScene;
         [SerializeField] private InputActionReference continueAction;
         
         private bool _hit = false;
@@ -28,6 +28,8 @@ namespace PixelDough.Bouncer
 
             LevelManager.StopTimer();
             Shader.SetGlobalFloat(SubtractiveFadeAmount, 0.5f);
+
+            LevelManager.Instance.SaveRecord();
         }
 
         private void Update()
@@ -38,9 +40,8 @@ namespace PixelDough.Bouncer
 
             if (continueAction.action.WasPressedThisFrame())
             {
-                Debug.Log($"Continue pressed! On to {nextSceneDemo.sceneProperties.sceneName}!");
                 _continuePressed = true;
-                GameSceneManager.LoadScene(nextSceneDemo);
+                GameSceneManager.LoadScene(levelSelectScene);
             }
         }
     }

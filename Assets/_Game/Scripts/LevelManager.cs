@@ -12,11 +12,13 @@ namespace PixelDough.Bouncer
     {
         public static LevelManager Instance;
         
+        public GameLevelDataSO gameLevelData;
         [SerializeField] private ZoneDataScriptableObject zoneData;
         [SerializeField] private List<LevelFeature> levelFeatures = new List<LevelFeature>();
         [SerializeField] private List<LiveZone> liveZones = new List<LiveZone>();
         public List<LiveZone> LiveZones => liveZones;
         [SerializeField] private CutsceneController cutsceneController;
+
         
         public enum LevelStates { Intro, Playing, Finished }
         public static LevelStates LevelState = LevelStates.Intro;
@@ -44,7 +46,11 @@ namespace PixelDough.Bouncer
         private void OnDestroy()
         {
             GameSceneManager.OnSceneLoaded -= Initialize;
-            if (Instance == this) Instance = null;
+            if (Instance == this)
+            {
+                Instance = null;
+                GameManager.Instance.playerHudController.SetVisibility(false, false);
+            }
         }
 
         private void Start()
@@ -70,6 +76,7 @@ namespace PixelDough.Bouncer
                 CountingTime = true;
             }
             
+            GameManager.Instance.playerHudController.SetVisibility(true, true);
             GameManager.Instance.Countdown.PlayCountdown();
             
             ResetTimer();
@@ -78,6 +85,9 @@ namespace PixelDough.Bouncer
             levelFeatures.RemoveAll(feature => 
                 feature == null || feature.gameObject.scene.name == null || feature.gameObject.scene.name == feature.gameObject.name
             );
+
+            GameManager.Instance.currentLevelDataIndex =
+                GameManager.Instance.gameLevels.FindIndex(level => level.levelID == gameLevelData.levelID);
         }
 
         private void Update()
@@ -95,6 +105,11 @@ namespace PixelDough.Bouncer
         {
             CountingTime = false;
             LevelState = LevelStates.Finished;
+        }
+
+        public void SaveRecord()
+        {
+            int previousRecord = GameManager.Instance.SaveLevelRecord(gameLevelData.levelID, (int)(LevelTime.TotalMilliseconds));
         }
 
         public void RegisterLevelFeature(LevelFeature levelFeature)
