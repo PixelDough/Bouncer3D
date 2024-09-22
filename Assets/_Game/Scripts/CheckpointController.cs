@@ -12,8 +12,11 @@ public class CheckpointController : MonoBehaviour
 
     [SerializeField] private Transform flagRoot;
     [SerializeField] private Transform flagBone;
-    
     public int index = 0;
+    
+    [Header("FMOD Events")]
+    [SerializeField] private FMODUnity.EventReference checkpointSound;
+    
 
     private void Start()
     {
@@ -39,6 +42,12 @@ public class CheckpointController : MonoBehaviour
             PlayerController playerController = other.attachedRigidbody.GetComponent<PlayerController>();
             if (playerController.currentCheckpoint && playerController.currentCheckpoint != this) 
                 playerController.currentCheckpoint.HideFlag();
+
+            if (playerController.currentCheckpoint != this)
+            {
+                FMODUnity.RuntimeManager.PlayOneShot(checkpointSound);
+            }
+            
             playerController.SetRespawnPoint(
                 respawnPointTransform.position,
                 respawnPointTransform.forward, 
