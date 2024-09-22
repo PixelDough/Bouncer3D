@@ -28,19 +28,22 @@ namespace PixelDough.Bouncer
         [SerializeField] private FMODUnity.EventReference levelSelectEvent;
         [SerializeField] private FMODUnity.EventReference selectErrorEvent;
         
-        private List<GameLevelDataSO> levels = new List<GameLevelDataSO>();
+        private List<GameLevelDataSO> _levels = new List<GameLevelDataSO>();
         private int _currentLevelIndex = 0;
 
         private bool _isEnteringLevel = false;
  
         private void Start()
         {
-            levels = GameManager.Instance.gameLevels;
-            for (int i = 0; i < levels.Count; i++)
+            _levels = GameManager.Instance.gameLevels;
+            for (int i = 0; i < _levels.Count; i++)
             {
-                GameLevelDataSO levelData = levels[i];
+                GameLevelDataSO levelData = _levels[i];
                 levelSelectButtons[i].SetLevelData(levelData);
             }
+            
+            _currentLevelIndex = ES3.Load("selected-level-index", 0);
+            carouselContent.localEulerAngles = new Vector3(0, _currentLevelIndex * 30f, 0f);
             
             UpdateCurrentLevelInfo();
         }
@@ -84,9 +87,9 @@ namespace PixelDough.Bouncer
 
         private void UpdateCurrentLevelInfo()
         {
-            if (_currentLevelIndex < levels.Count)
+            if (_currentLevelIndex < _levels.Count)
             {
-                levelNameText.SetText(levels[_currentLevelIndex].levelName);
+                levelNameText.SetText(_levels[_currentLevelIndex].levelName);
             }
             else
             {
@@ -101,9 +104,9 @@ namespace PixelDough.Bouncer
         {
             String levelRecord = "Unavailable";
 
-            if (_currentLevelIndex < levels.Count)
+            if (_currentLevelIndex < _levels.Count)
             {
-                int levelRecordMs = GameManager.Instance.LoadLevelRecord(levels[_currentLevelIndex].levelID);
+                int levelRecordMs = GameManager.Instance.LoadLevelRecord(_levels[_currentLevelIndex].levelID);
                 if (levelRecordMs > 0)
                 {
                     levelRecord = TimeSpan.FromMilliseconds(levelRecordMs).ToString("mm':'ss'.'fff");
@@ -119,13 +122,13 @@ namespace PixelDough.Bouncer
             if (GameSceneManager.IsChangingScenes) return;
             if (!jumpAction.action.WasPressedThisFrame()) return;
             if (_isEnteringLevel) return;
-            if (_currentLevelIndex >= levels.Count)
+            if (_currentLevelIndex >= _levels.Count)
             {
                 FMODUnity.RuntimeManager.PlayOneShot(selectErrorEvent);
                 return;
             }
             _isEnteringLevel = true;
-            GameSceneManager.LoadScene(levels[_currentLevelIndex].sceneDependencySettings);
+            GameSceneManager.LoadScene(_levels[_currentLevelIndex].sceneDependencySettings);
             FMODUnity.RuntimeManager.PlayOneShot(levelSelectEvent);
         }
 
@@ -137,6 +140,11 @@ namespace PixelDough.Bouncer
             _isEnteringLevel = true;
             GameSceneManager.LoadScene(mainMenuScene);
             FMODUnity.RuntimeManager.PlayOneShot(levelSelectEvent);
+        }
+
+        private void OnDestroy()
+        {
+            ES3.Save("selected-level-index", _currentLevelIndex);
         }
     }
 }
