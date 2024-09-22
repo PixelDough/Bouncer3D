@@ -28,7 +28,7 @@ public class Font3DString : MonoBehaviour
 
     [SerializeField] private HorizontalAlignments horizontalAlignments;
     [SerializeField] private VerticalAlignments verticalAlignments;
-
+    
     private void Update()
     {
         if (font3D is null) return;
@@ -108,5 +108,10 @@ public class Font3DString : MonoBehaviour
             // Move x position for the next character
             x -= fontSizeInUnits * letterSpacingPercent;
         }
+    }
+
+    public void SetText(String text)
+    {
+        this.text = text;
     }
 }
