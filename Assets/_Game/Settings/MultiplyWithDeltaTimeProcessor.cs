@@ -12,6 +12,6 @@ public class MultiplyWithDeltaTimeProcessor : InputProcessor<Vector2>
     static MultiplyWithDeltaTimeProcessor() => Initialize();
 #endif
 
-    [RuntimeInitializeOnLoadMethod]
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void Initialize() => InputSystem.RegisterProcessor<MultiplyWithDeltaTimeProcessor>();
 }

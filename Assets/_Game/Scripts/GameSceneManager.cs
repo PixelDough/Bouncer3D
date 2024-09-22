@@ -34,6 +34,8 @@ namespace PixelDough.Bouncer
         {
             _isChangingScenes = true;
             Time.timeScale = 0f;
+
+            GameManager.DoPlayerMovement = false;
             
             // Fade out
             int fadeID = GameManager.Instance.screenFadeController.FadeToBlack().uniqueId;
