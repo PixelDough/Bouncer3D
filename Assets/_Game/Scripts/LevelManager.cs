@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using PixelDough.Bouncer.LevelData;
 using Sirenix.OdinInspector;
+using Tools.SceneDependencies;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Pool;
 
 namespace PixelDough.Bouncer
@@ -18,7 +20,9 @@ namespace PixelDough.Bouncer
         [SerializeField] private List<LiveZone> liveZones = new List<LiveZone>();
         public List<LiveZone> LiveZones => liveZones;
         [SerializeField] private CutsceneController cutsceneController;
-
+        
+        [SerializeField] private SceneDependencySettingsSO levelSelectScene;
+        [SerializeField] private InputActionReference quitAction;
         
         public enum LevelStates { Intro, Playing, Finished }
         public static LevelStates LevelState = LevelStates.Intro;
@@ -94,6 +98,11 @@ namespace PixelDough.Bouncer
         {
             if (CountingTime)
                 LevelTime = LevelTime.Add(TimeSpan.FromSeconds(Time.deltaTime));
+
+            if (quitAction.action.triggered)
+            {
+                GameSceneManager.LoadScene(levelSelectScene);
+            }
         }
 
         public static void ResetTimer()

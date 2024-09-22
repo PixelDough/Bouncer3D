@@ -49,6 +49,15 @@
                     "processors": "",
                     "interactions": "Press",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Quit",
+                    "type": "Button",
+                    "id": "ae4d9a24-3940-4b44-83f7-77107b4fe05b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Hold(duration=3)",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -214,6 +223,28 @@
                     "processors": "",
                     "groups": ";Gamepad",
                     "action": "UI Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "371988af-939f-4aa3-82bd-7c68fba0cd61",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "Quit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e0d5ff98-ff51-4f73-aab4-8cf64d4799fe",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Quit",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

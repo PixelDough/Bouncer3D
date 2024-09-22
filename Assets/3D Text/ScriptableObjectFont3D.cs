@@ -20,12 +20,13 @@ public class ScriptableObjectFont3D : SerializedScriptableObject
         meshes.Clear();
         meshes.Add(' ', null);
         
-        int i = 0;
-        foreach (Transform t in fontModels.transform)
+        foreach (char c in fontString)
         {
-            if (i >= fontString.Length) continue;
-            meshes.Add(fontString[i], t.GetComponent<MeshFilter>().sharedMesh);
-            i++;
+            Transform t = fontModels.transform.Find(c.ToString());
+            if (t != null)
+            {
+                meshes.Add(c, t.GetComponent<MeshFilter>().sharedMesh);
+            }
         }
     }
     
