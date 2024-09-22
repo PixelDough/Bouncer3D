@@ -16,6 +16,10 @@ namespace PixelDough.Bouncer
         [SerializeField] private Font3DString levelRecordText;
         [SerializeField] private InputActionReference uiMoveAction;
         [SerializeField] private InputActionReference jumpAction;
+
+        [Header("FMOD Events")] 
+        [SerializeField] private FMODUnity.StudioEventEmitter tvChangeEvent;
+        [SerializeField] private FMODUnity.StudioEventEmitter tvChatterEvent;
         
         private List<GameLevelDataSO> levels = new List<GameLevelDataSO>();
         private int _currentLevelIndex = 0;
@@ -56,6 +60,9 @@ namespace PixelDough.Bouncer
                     _currentLevelIndex = 0;
 
                 UpdateCurrentLevelInfo();
+                
+                tvChangeEvent.Play();
+                tvChatterEvent.Play();
                 
                 DOTween.Kill(carouselContent);
                 carouselContent.DOLocalRotate(new Vector3(0, _currentLevelIndex * 30f, 0f), 0.5f)
