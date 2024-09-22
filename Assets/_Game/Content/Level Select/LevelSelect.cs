@@ -62,6 +62,7 @@ namespace PixelDough.Bouncer
                 UpdateCurrentLevelInfo();
                 
                 tvChangeEvent.Play();
+                tvChatterEvent.Stop();
                 tvChatterEvent.Play();
                 
                 DOTween.Kill(carouselContent);
