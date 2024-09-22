@@ -8,6 +8,8 @@ namespace PixelDough.Bouncer
     {
         [SerializeField] private SceneDependencySettingsSO levelSelectScene;
         [SerializeField] private InputActionReference continueAction;
+        [SerializeField] private FMODUnity.EventReference goalHitSound;
+        [SerializeField] private FMODUnity.EventReference continueSound;
         
         private bool _hit = false;
 
@@ -29,6 +31,8 @@ namespace PixelDough.Bouncer
             LevelManager.StopTimer();
             Shader.SetGlobalFloat(SubtractiveFadeAmount, 0.5f);
 
+            FMODUnity.RuntimeManager.PlayOneShot(goalHitSound);
+            
             LevelManager.Instance.SaveRecord();
         }
 
@@ -43,6 +47,7 @@ namespace PixelDough.Bouncer
             {
                 _continuePressed = true;
                 GameSceneManager.LoadScene(levelSelectScene);
+                FMODUnity.RuntimeManager.PlayOneShot(continueSound);
             }
         }
     }
