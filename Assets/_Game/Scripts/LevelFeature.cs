@@ -16,7 +16,7 @@ namespace PixelDough.Bouncer
             if (PrefabStageUtility.GetCurrentPrefabStage() != null) return;
             #endif
             levelManager ??= FindFirstObjectByType<LevelManager>();
-            levelManager.RegisterLevelFeature(this);
+            levelManager?.RegisterLevelFeature(this);
         }
 
         public abstract void Initialize();

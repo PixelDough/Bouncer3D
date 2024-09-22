@@ -44,6 +44,7 @@ namespace PixelDough.Bouncer
         private void OnDestroy()
         {
             GameSceneManager.OnSceneLoaded -= Initialize;
+            if (Instance == this) Instance = null;
         }
 
         private void Start()

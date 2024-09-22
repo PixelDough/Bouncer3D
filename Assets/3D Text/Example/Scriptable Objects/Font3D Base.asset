@@ -12,6 +12,554 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79a88f3c4d92bcd47aceea678200bfdf, type: 3}
   m_Name: Font3D Base
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 6236106244130425500, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: 862338155711011292, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: -1562275218897716241, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: -7969978266939365281, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: -5582133695706433325, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: -2628482395200241503, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: 7502377544057204969, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: -888404026515264504, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: -7821917557700976381, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: 5270879433523947816, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: -5787051826044892044, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: -9084401365935340666, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: 2161448381620783055, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: 6157117880141131119, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: -4909277789374002350, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: 8939266724133516769, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: 281315202980364329, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: -7746497135072881621, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: -1644355878584749679, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: 1907795020790290496, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: -6048717895273133781, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: -6425600238377421303, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: -1434902202865794022, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: -6612916564974270675, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: 2658800326358589857, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: -3214572557560747977, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: 1670262680622686082, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: 8379677281609801307, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: 1731728394525301911, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: 7429288146537312290, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: -4693480790355496552, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: -9074724860412756288, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: -2020707242700487084, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: 6856768601106367328, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: -4161497618794897476, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: 8826643962087455625, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: -496058992349931718, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: 1464361123701606782, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    - {fileID: 3141120828048097299, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: meshes
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.Char, mscorlib],[UnityEngine.Mesh,
+        UnityEngine.CoreModule]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.Char,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 40
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: ' '
+    - Name: $v
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: '-'
+    - Name: $v
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: 0
+    - Name: $v
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: 1
+    - Name: $v
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: 2
+    - Name: $v
+      Entry: 10
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: 3
+    - Name: $v
+      Entry: 10
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: 4
+    - Name: $v
+      Entry: 10
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: 5
+    - Name: $v
+      Entry: 10
+      Data: 6
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: 6
+    - Name: $v
+      Entry: 10
+      Data: 7
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: 7
+    - Name: $v
+      Entry: 10
+      Data: 8
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: 8
+    - Name: $v
+      Entry: 10
+      Data: 9
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: 9
+    - Name: $v
+      Entry: 10
+      Data: 10
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: ':'
+    - Name: $v
+      Entry: 10
+      Data: 11
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: '?'
+    - Name: $v
+      Entry: 10
+      Data: 12
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: A
+    - Name: $v
+      Entry: 10
+      Data: 13
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: B
+    - Name: $v
+      Entry: 10
+      Data: 14
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: C
+    - Name: $v
+      Entry: 10
+      Data: 15
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: D
+    - Name: $v
+      Entry: 10
+      Data: 16
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: E
+    - Name: $v
+      Entry: 10
+      Data: 17
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: F
+    - Name: $v
+      Entry: 10
+      Data: 18
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: G
+    - Name: $v
+      Entry: 10
+      Data: 19
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: H
+    - Name: $v
+      Entry: 10
+      Data: 20
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: I
+    - Name: $v
+      Entry: 10
+      Data: 21
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: J
+    - Name: $v
+      Entry: 10
+      Data: 22
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: K
+    - Name: $v
+      Entry: 10
+      Data: 23
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: L
+    - Name: $v
+      Entry: 10
+      Data: 24
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: M
+    - Name: $v
+      Entry: 10
+      Data: 25
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: N
+    - Name: $v
+      Entry: 10
+      Data: 26
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: O
+    - Name: $v
+      Entry: 10
+      Data: 27
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: P
+    - Name: $v
+      Entry: 10
+      Data: 28
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Q
+    - Name: $v
+      Entry: 10
+      Data: 29
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: R
+    - Name: $v
+      Entry: 10
+      Data: 30
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: S
+    - Name: $v
+      Entry: 10
+      Data: 31
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: T
+    - Name: $v
+      Entry: 10
+      Data: 32
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: U
+    - Name: $v
+      Entry: 10
+      Data: 33
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: V
+    - Name: $v
+      Entry: 10
+      Data: 34
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: W
+    - Name: $v
+      Entry: 10
+      Data: 35
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: X
+    - Name: $v
+      Entry: 10
+      Data: 36
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Y
+    - Name: $v
+      Entry: 10
+      Data: 37
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Z
+    - Name: $v
+      Entry: 10
+      Data: 38
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   fontModels: {fileID: 919132149155446097, guid: e4252be2b5226d242b473e8b3e55d378, type: 3}
-  fontString: -0123456789:ABCDEFGHIJKLMNOPQRSTUVWXYZ
+  fontString: -0123456789:?ABCDEFGHIJKLMNOPQRSTUVWXYZ
   allCaps: 1
