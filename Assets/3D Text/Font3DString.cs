@@ -1,4 +1,5 @@
 ﻿using System;
+using DG.Tweening;
 using UnityEngine;
 
 [ExecuteInEditMode]
@@ -28,6 +29,8 @@ public class Font3DString : MonoBehaviour
 
     [SerializeField] private HorizontalAlignments horizontalAlignments;
     [SerializeField] private VerticalAlignments verticalAlignments;
+
+    private float _animScale = 1f;
     
     private void Update()
     {
@@ -95,8 +98,8 @@ public class Font3DString : MonoBehaviour
             if (font3D.meshes.TryGetValue(c, out var mesh))
             {
                 Vector3 position = new Vector3(x, y, 0f);
-                Quaternion rotation = Quaternion.identity;
-                Vector3 scale = Vector3.one * fontSizeInUnits;
+                Quaternion rotation = Quaternion.identity * Quaternion.Euler(0, Mathf.Cos(Time.time * 3f + i) * 10f, 0);
+                Vector3 scale = Vector3.one * (fontSizeInUnits * _animScale);
 
                 // Calculate the transformation matrix
                 Matrix4x4 matrix = transform.localToWorldMatrix * Matrix4x4.TRS(position, rotation, scale);
@@ -113,5 +116,14 @@ public class Font3DString : MonoBehaviour
     public void SetText(String text)
     {
         this.text = text;
+    }
+
+    public void AnimPulse()
+    {
+        DOTween.Kill(gameObject);
+        _animScale = 0.5f;
+        DOTween.Sequence()
+            .Append(DOTween.To(() => _animScale, x => _animScale = x, 1f, 0.25f).SetEase(Ease.OutBack))
+            .SetTarget(gameObject);
     }
 }

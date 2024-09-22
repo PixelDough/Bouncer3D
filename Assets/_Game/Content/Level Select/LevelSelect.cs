@@ -13,6 +13,7 @@ namespace PixelDough.Bouncer
         [SerializeField] private List<GameLevelDataSO> levels = new List<GameLevelDataSO>();
         [SerializeField] private List<LevelSelectButton> levelSelectButtons = new List<LevelSelectButton>();
         [SerializeField] private Font3DString levelNameText;
+        [SerializeField] private Font3DString levelRecordText;
         [SerializeField] private InputActionReference uiMoveAction;
         
         private int _currentLevelIndex = 0;
@@ -64,6 +65,10 @@ namespace PixelDough.Bouncer
             {
                 levelNameText.SetText("???");
             }
+            levelNameText.AnimPulse();
+
+            levelRecordText.SetText("Best Time: \n Unavailable");
+            levelRecordText.AnimPulse();
         }
     }
 }
