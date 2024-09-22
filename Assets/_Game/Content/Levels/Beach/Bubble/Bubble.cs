@@ -7,6 +7,7 @@ namespace PixelDough.Bouncer
     public class Bubble : MonoBehaviour
     {
         [SerializeField] private ParticleSystem particleSystem;
+        [SerializeField] private FMODUnity.EventReference popSound;
 
         private Vector3 _startPos = Vector3.zero;
         private Vector3 _resetPos = Vector3.zero;
@@ -36,7 +37,10 @@ namespace PixelDough.Bouncer
         private void Pop(bool doParticles = true)
         {
             if (doParticles)
+            {
                 particleSystem.Play();
+                FMODUnity.RuntimeManager.PlayOneShot(popSound, transform.position);
+            }
 
             Vector3 currentPos = transform.position;
             transform.position = _resetPos;
