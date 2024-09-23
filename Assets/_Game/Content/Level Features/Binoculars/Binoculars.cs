@@ -119,7 +119,7 @@ namespace PixelDough.Bouncer
             
             yield return Timing.WaitForSeconds(0.25f);
             
-            GameManager.Instance.ShowTutorialText(closePromptString.GetLocalizedString());
+            LevelManager.Instance.ShowTutorialText(closePromptString.GetLocalizedString());
             
             _isUsed = true;
         }
@@ -128,7 +128,7 @@ namespace PixelDough.Bouncer
         {
             _isUsed = false;
             
-            GameManager.Instance.HideTutorialText();
+            LevelManager.Instance.HideTutorialText();
             
             volumeComponent.profile.TryGet(out Vignette vignette);
             DOTween.To(() => vignette.intensity.value, x => vignette.intensity.value = x, 1f, 0.25f).SetEase(Ease.InSine);

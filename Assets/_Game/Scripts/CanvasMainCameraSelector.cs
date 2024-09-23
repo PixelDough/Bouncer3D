@@ -6,12 +6,6 @@ using UnityEngine;
 
 public class CanvasMainCameraSelector : MonoBehaviour
 {
-    [SerializeField] private Canvas canvas;
-    private void Start()
-    {
-        canvas.worldCamera = GameManager.Instance.uiCamera;
-    }
-
     private void OnValidate()
     {
         // if (!canvas)

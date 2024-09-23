@@ -37,10 +37,7 @@ namespace PixelDough.Bouncer
         //[SerializeField] private Volume globalVolume;
 
         public ScreenFadeController screenFadeController;
-
-        public PlayerHudController playerHudController;
-        public Camera uiCamera;
-
+        
         public QuantumConsole quantumConsole;
         private float _timeScaleBeforeConsole = 1f;
         private CursorLockMode _cursorLockStateBeforeConsole = CursorLockMode.None;
@@ -51,11 +48,6 @@ namespace PixelDough.Bouncer
         private float _vfxFixedTimeStep;
         
         public List<SceneDependencySettingsSO> scenes = new List<SceneDependencySettingsSO>();
-
-        public Countdown Countdown;
-
-        [SerializeField] private TextMeshProUGUI tutorialText;
-        [SerializeField] private TypewriterByCharacter tutorialTextTypewriter;
 
         [SerializeField] private PlayerInput playerInput;
         public static bool IsGamepadInput = false;
@@ -157,35 +149,12 @@ namespace PixelDough.Bouncer
             GameSceneManager.LoadScene(Instance.scenes[index]);
         }
         
-        public void CutsceneBegin()
-        {
-            playerHudController.SetVisibility(false);
-        }
-        
-        public void CutsceneEnded()
-        {
-            playerHudController.SetVisibility(true);
-        }
-
         private void OnDestroy()
         {
             Shader.SetGlobalFloat(SubtractiveFadeAmount, 0f);
             quantumConsole.OnActivate -= OnQcActivate;
             quantumConsole.OnDeactivate -= OnQcDeactivate;
             InputUser.onChange -= OnControlsChanged;
-        }
-        
-        public void ShowTutorialText(string text)
-        {
-            tutorialText.text = text;
-            tutorialTextTypewriter.StopDisappearingText();
-            tutorialTextTypewriter.StartShowingText(true);
-        }
-
-        public void HideTutorialText()
-        {
-            tutorialTextTypewriter.StopShowingText();
-            tutorialTextTypewriter.StartDisappearingText();
         }
     }
 }

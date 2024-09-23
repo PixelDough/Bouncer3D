@@ -41,7 +41,7 @@ namespace PixelDough.Bouncer
 
             if (DOTween.IsTweening(_scaleTweenID)) DOTween.Kill(_scaleTweenID);
             _scaleTweenID = questionMark.DOScale(_shrunkScale, 0.5f).SetEase(Ease.OutCirc).intId;
-            GameManager.Instance.ShowTutorialText(tutorialText.GetLocalizedString());
+            LevelManager.Instance.ShowTutorialText(tutorialText.GetLocalizedString());
         }
 
         private void OnTriggerExit(Collider other)
@@ -51,7 +51,7 @@ namespace PixelDough.Bouncer
             
             if (DOTween.IsTweening(_scaleTweenID)) DOTween.Kill(_scaleTweenID);
             _scaleTweenID = questionMark.DOScale(_initialScale, 0.5f).SetEase(Ease.OutBack).intId;
-            GameManager.Instance.HideTutorialText();
+            LevelManager.Instance.HideTutorialText();
         }
     }
 }

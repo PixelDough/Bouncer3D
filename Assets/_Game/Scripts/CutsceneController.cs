@@ -40,7 +40,7 @@ public class CutsceneController : MonoBehaviour
         GameManager.DoPlayerPhysics = false;
         LevelManager.CountingTime = false;
         LevelManager.ResetTimer();
-        GameManager.Instance.CutsceneBegin();
+        LevelManager.Instance.CutsceneBegin();
         
         Timing.RunCoroutine(C_CutsceneCoroutine().CancelWith(gameObject));
     }
@@ -53,7 +53,7 @@ public class CutsceneController : MonoBehaviour
         GameManager.Instance.screenFadeController.FadeToBlack(0.5f).setOnComplete(() =>
         {
             playableDirector.Stop();
-            GameManager.Instance.CutsceneEnded();
+            LevelManager.Instance.CutsceneEnded();
             GameManager.Instance.screenFadeController.FadeFromBlack(0.5f).setOnComplete(() =>
             {
                 GameManager.DoPlayerMovement = true;

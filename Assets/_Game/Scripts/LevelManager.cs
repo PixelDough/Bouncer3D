@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Febucci.UI;
 using PixelDough.Bouncer.LevelData;
+using PixelDough.Bouncer.UI;
 using Sirenix.OdinInspector;
+using TMPro;
 using Tools.SceneDependencies;
 using UnityEditor;
 using UnityEngine;
@@ -24,6 +27,12 @@ namespace PixelDough.Bouncer
         [SerializeField] private SceneDependencySettingsSO levelSelectScene;
         [SerializeField] private InputActionReference quitAction;
         [SerializeField] private FMODUnity.EventReference quitSound;
+        
+        [Header("HUD Stuff")]
+        [SerializeField] private PlayerHudController playerHudController; 
+        [SerializeField] public Countdown Countdown;
+        [SerializeField] private TextMeshProUGUI tutorialText;
+        [SerializeField] private TypewriterByCharacter tutorialTextTypewriter;
         
         public enum LevelStates { Intro, Playing, Finished }
         public static LevelStates LevelState = LevelStates.Intro;
@@ -54,7 +63,6 @@ namespace PixelDough.Bouncer
             if (Instance == this)
             {
                 Instance = null;
-                GameManager.Instance?.playerHudController.SetVisibility(false, false);
             }
         }
 
@@ -81,8 +89,8 @@ namespace PixelDough.Bouncer
                 CountingTime = true;
             }
             
-            GameManager.Instance.playerHudController.SetVisibility(true, true);
-            GameManager.Instance.Countdown.PlayCountdown();
+            playerHudController.SetVisibility(true, true);
+            Countdown.PlayCountdown();
             
             ResetTimer();
             
@@ -136,6 +144,30 @@ namespace PixelDough.Bouncer
         {
             levelFeatures.Remove(levelFeature);
         }
+        
+        public void CutsceneBegin()
+        {
+            playerHudController.SetVisibility(false);
+        }
+        
+        public void CutsceneEnded()
+        {
+            playerHudController.SetVisibility(true);
+        }
+        
+        public void ShowTutorialText(string text)
+        {
+            tutorialText.text = text;
+            tutorialTextTypewriter.StopDisappearingText();
+            tutorialTextTypewriter.StartShowingText(true);
+        }
+
+        public void HideTutorialText()
+        {
+            tutorialTextTypewriter.StopShowingText();
+            tutorialTextTypewriter.StartDisappearingText();
+        }
+
 
         [Button]
         public void RegenerateLevelFeatureList()

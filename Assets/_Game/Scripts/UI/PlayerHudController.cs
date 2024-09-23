@@ -11,6 +11,7 @@ namespace PixelDough.Bouncer.UI
     public class PlayerHudController : MonoBehaviour
     {
         [SerializeField] private CanvasGroup canvasGroup;
+        [SerializeField] private Camera hudCamera;
         
         [Header("Timer")] 
         [SerializeField] private TextMeshProUGUI timerText;
@@ -18,7 +19,17 @@ namespace PixelDough.Bouncer.UI
         [SerializeField] private CanvasGroup finishCanvasGroup;
         
         private bool _isVisible = true;
-        
+
+        private void Start()
+        {
+            RenderManager.AddCameraToStack(hudCamera);
+        }
+
+        private void OnDestroy()
+        {
+            RenderManager.RemoveCameraFromStack(hudCamera);
+        }
+
         private void Update()
         {
             if (LevelManager.LevelTime.Hours > 0)
