@@ -16,7 +16,8 @@ MonoBehaviour:
     m_Code: en-US
   m_SharedData: {fileID: 11400000, guid: 9c499001a91784ec2a33f5d4ee888788, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 4297556070518751325
   m_TableData:
   - m_Id: 32626434048
     m_Localized: Hold JUMP when hitting walls to gain extra verticality
@@ -49,12 +50,17 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1878555582521344
-    m_Localized: 'For this demo, you can quit a level at any time by
-
-      holding
-      down Esc/Start'
+    m_Localized: For this demo, you can quit a level at any time by holding down
+      Esc/Start
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 4297556070518751325
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 4297556070518751325
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 1878555582521344

@@ -16,7 +16,8 @@ MonoBehaviour:
     m_Code: es
   m_SharedData: {fileID: 11400000, guid: 9c499001a91784ec2a33f5d4ee888788, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 4297556070518751326
   m_TableData:
   - m_Id: 32626434048
     m_Localized: "Mant\xE9n pulsado JUMP al golpear paredes para ganar verticalidad
@@ -31,6 +32,17 @@ MonoBehaviour:
     m_Localized: NO TEXT - How to high bounce
     m_Metadata:
       m_Items: []
+  - m_Id: 1878555582521344
+    m_Localized: 
+    m_Metadata:
+      m_Items:
+      - rid: 4297556070518751326
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 4297556070518751326
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 1878555582521344
