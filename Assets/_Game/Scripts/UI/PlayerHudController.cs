@@ -15,8 +15,13 @@ namespace PixelDough.Bouncer.UI
         
         [Header("Timer")] 
         [SerializeField] private TextMeshProUGUI timerText;
-        [SerializeField] private TextMeshProUGUI finishTimerText;
+        
+        [Header("Finish UI")]
         [SerializeField] private CanvasGroup finishCanvasGroup;
+        [SerializeField] private TextMeshProUGUI finishTimerText;
+        
+        [Header("Pause UI")]
+        [SerializeField] private CanvasGroup pauseCanvasGroup;
         
         private bool _isVisible = true;
 
@@ -32,10 +37,7 @@ namespace PixelDough.Bouncer.UI
 
         private void Update()
         {
-            if (LevelManager.LevelTime.Hours > 0)
-                timerText.text = LevelManager.LevelTime.ToString(@"hh\:mm\:ss\.fff");
-            else
-                timerText.text = LevelManager.LevelTime.ToString(@"mm\:ss\.fff");
+            timerText.text = LevelManager.LevelTime.ToString(LevelManager.LevelTime.Hours > 0 ? @"hh\:mm\:ss\.fff" : @"mm\:ss\.fff");
 
             finishTimerText.text = timerText.text;
             finishCanvasGroup.alpha = LevelManager.LevelState == LevelManager.LevelStates.Finished ? 1 : 0;

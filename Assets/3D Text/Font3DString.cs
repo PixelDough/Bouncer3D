@@ -1,17 +1,21 @@
 ﻿using System;
 using DG.Tweening;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
-[ExecuteInEditMode]
+[ExecuteAlways]
 public class Font3DString : MonoBehaviour
 {
     [SerializeField] private ScriptableObjectFont3D font3D;
     [SerializeField] private Material material;
-    [SerializeField, TextArea] private string text;
+    [SerializeField, TextArea] private string text = "";
     [SerializeField] private float fontSizeInUnits = 1;
     [SerializeField] private float letterSpacingPercent = 1;
-    [SerializeField] private float lineSpacingPercent = 1.2f;
+    [SerializeField] private float lineSpacingPercent = 0.2f;
     [SerializeField] private Color textColor = Color.white;
+    [SerializeField] private Camera renderInCamera;
 
     private enum HorizontalAlignments
     {
@@ -31,21 +35,45 @@ public class Font3DString : MonoBehaviour
     [SerializeField] private VerticalAlignments verticalAlignments;
 
     private float _animScale = 1f;
-    
+
+#if UNITY_EDITOR
+    public void OnEnable()
+    {
+        SceneView.duringSceneGui += UpdateEditorScene;
+    }
+
+    private void OnDisable()
+    {
+        SceneView.duringSceneGui -= UpdateEditorScene;
+    }
+
+    private void UpdateEditorScene(SceneView sceneView)
+    {
+        if (Application.isPlaying) return;
+        Draw(SceneView.lastActiveSceneView.camera);
+    }
+#endif
+
     private void Update()
+    {
+        Draw(renderInCamera);
+    }
+
+    private void Draw(Camera drawCamera = null)
     {
         if (font3D is null) return;
         
         string[] lines = text.Split(new [] { "\\n", Environment.NewLine }, StringSplitOptions.None);
         float startY = 0f;
-        float allLinesHeight = (lines.Length) * fontSizeInUnits * lineSpacingPercent;
+        float allLinesHeight = lines.Length * fontSizeInUnits;
+        float allSpacesHeight = (lines.Length - 1) * (fontSizeInUnits * lineSpacingPercent);
         switch (verticalAlignments)
         {
             case VerticalAlignments.Bottom:
-                startY = -fontSizeInUnits / 2f + allLinesHeight; // assume the mesh is centered already
+                startY = -fontSizeInUnits / 2f + allLinesHeight + allSpacesHeight; // assume the mesh is centered already
                 break;
             case VerticalAlignments.Center:
-                startY = -fontSizeInUnits / 2f + allLinesHeight / 2f;
+                startY = -fontSizeInUnits * 0.5f + allLinesHeight * 0.5f + allSpacesHeight * 0.5f;
                 break;
             case VerticalAlignments.Top:
                 startY = -fontSizeInUnits / 2f;
@@ -56,12 +84,12 @@ public class Font3DString : MonoBehaviour
         {
             var line = lines[lineIndex];
             // Calculate vertical alignment offset
-            float drawY = startY - lineIndex * fontSizeInUnits * lineSpacingPercent;
-            DrawString(line.Trim(), drawY);
+            float drawY = startY - lineIndex * fontSizeInUnits - (fontSizeInUnits * lineSpacingPercent * lineIndex);
+            DrawString(line.Trim(), drawY, drawCamera);
         }
     }
 
-    private void DrawString(string textToDraw, float y)
+    private void DrawString(string textToDraw, float y, Camera drawCamera = null)
     {
         if (string.IsNullOrEmpty(textToDraw)) return;
 
@@ -105,7 +133,7 @@ public class Font3DString : MonoBehaviour
                 Matrix4x4 matrix = transform.localToWorldMatrix * Matrix4x4.TRS(position, rotation, scale);
 
                 // Draw the mesh directly to the world
-                Graphics.DrawMesh(mesh, matrix, material, gameObject.layer);
+                Graphics.DrawMesh(mesh, matrix, material, gameObject.layer, drawCamera);
             }
 
             // Move x position for the next character
@@ -116,6 +144,16 @@ public class Font3DString : MonoBehaviour
     public void SetText(String text)
     {
         this.text = text;
+    }
+    
+    public void SetFontSize(float size)
+    {
+        fontSizeInUnits = size;
+    }
+    
+    public void SetRenderInCamera(Camera cam)
+    {
+        renderInCamera = cam;
     }
 
     public void AnimPulse()
