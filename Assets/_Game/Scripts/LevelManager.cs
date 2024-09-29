@@ -139,21 +139,33 @@ namespace PixelDough.Bouncer
         {
             if (!GameManager.DoPlayerMovement) return;
             if (!pauseAction.action.triggered) return;
-            _isPaused = !_isPaused;
             if (_isPaused)
             {
-                DOTween.PauseAll();
-                MEC.Timing.PauseCoroutines();
-                GameManager.DoPlayerPhysics = false;
-                pauseScene.Show();
+                ResumeGame();
             }
             else
             {
-                DOTween.PlayAll();
-                MEC.Timing.ResumeCoroutines();
-                GameManager.DoPlayerPhysics = true;
-                pauseScene.Hide();
+                PauseGame();
             }
+        }
+
+        public void PauseGame()
+        {
+            _isPaused = true;
+            DOTween.PauseAll();
+            MEC.Timing.PauseCoroutines();
+            GameManager.DoPlayerPhysics = false;
+            pauseScene.Show();
+            OnPauseStateChanged?.Invoke(_isPaused);
+        }
+
+        public void ResumeGame()
+        {
+            _isPaused = false;
+            DOTween.PlayAll();
+            MEC.Timing.ResumeCoroutines();
+            GameManager.DoPlayerPhysics = true;
+            pauseScene.Hide();
             OnPauseStateChanged?.Invoke(_isPaused);
         }
 

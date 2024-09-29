@@ -69,5 +69,14 @@ namespace PixelDough.Bouncer
             await pauseCamRoot.DOLocalMoveZ(2.42f, 0.5f).SetEase(Ease.OutSine).AsyncWaitForCompletion();
             pausePlayer.Rigidbody.isKinematic = false;
         }
+
+        #region Button Events
+
+        public async void ResumeButton()
+        {
+            LevelManager.Instance.ResumeGame();
+        }
+
+        #endregion
     }
 }
