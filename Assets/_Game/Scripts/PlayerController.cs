@@ -128,7 +128,7 @@ namespace PixelDough.Bouncer
             collider.material = _colliderMaterial;
 
             if (_inputMovement.sqrMagnitude < 0.1f)
-                rigidbody.angularDamping = 2f;
+                rigidbody.angularDamping = 15f;
             else
                 rigidbody.angularDamping = _defaultAngularDrag;
 

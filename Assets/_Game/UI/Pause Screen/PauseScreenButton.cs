@@ -31,6 +31,8 @@ namespace PixelDough.Bouncer
             if (rb is null) return;
             if (!rb.CompareTag("Player")) return;
             
+            rb.angularVelocity *= 0.8f;
+            
             transform.localPosition = MathHelpers.ExpDecay(transform.localPosition,
                 new Vector3(transform.localPosition.x, -0.057f, transform.localPosition.z), 13f,
                 Time.deltaTime);
