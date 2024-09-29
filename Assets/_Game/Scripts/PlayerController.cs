@@ -3,6 +3,7 @@ using System.Linq;
 using FMODUnity;
 using JetBrains.Annotations;
 using QFSW.QC;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -16,7 +17,10 @@ namespace PixelDough.Bouncer
         public PlayerStuffManager PlayerStuffManager => playerStuffManager;
         
         [SerializeField] private new Rigidbody rigidbody;
+        public Rigidbody Rigidbody => rigidbody;
+        
         [SerializeField] private new Collider collider;
+        [SerializeField] private bool isPausable = true;
         
         public Vector3 Velocity => rigidbody.linearVelocity;
         
@@ -39,7 +43,7 @@ namespace PixelDough.Bouncer
 
         private bool _isDamping;
         
-        private Camera _camera;
+        [SerializeField] private Transform inputCamera;
 
         [SerializeField] private Transform cameraTiltRoot;
         
@@ -67,17 +71,11 @@ namespace PixelDough.Bouncer
         private int _noclip = 0;
         
         private bool _isRespawning = false;
-
-
-        /*
-        [SerializeField] private ParticleSystem squishParticle;
-        [SerializeField] private ParticleSystem groundParticle;
-        private bool _isGroundParticlePlaying = false;
-        [SerializeField] private ParticleSystem airParticle;*/
+        private Vector3 _pauseLinearVelocity = Vector3.zero;
+        private Vector3 _pauseAngularVelocity = Vector3.zero;
 
         private void Start()
         {
-            _camera = Camera.main;
             rigidbody.maxAngularVelocity = 100f;
             
             _colliderMaterial = collider.material;
@@ -87,15 +85,17 @@ namespace PixelDough.Bouncer
 
             _respawnPoint = transform.position;
             _respawnForward = Vector3.forward;
+            
+            LevelManager.Instance.OnPauseStateChanged += OnPauseStateChange;
+        }
 
-            /*groundParticle.Stop();
-            airParticle.Play();*/
+        private void OnDestroy()
+        {
+            if (LevelManager.Instance is not null) LevelManager.Instance.OnPauseStateChanged -= OnPauseStateChange;
         }
 
         private void Update()
         {
-            if (!_camera) _camera = Camera.main;
-            
             HandleMovementInput();
             HandleNoclipMovement();
             //HandleDampen();
@@ -209,7 +209,7 @@ namespace PixelDough.Bouncer
 
         private void FixedUpdate()
         {
-            if (!GameManager.DoPlayerPhysics || _noclip == 1) return;
+            if (isPausable && (!GameManager.DoPlayerPhysics || _noclip == 1)) return;
             
             rigidbody.AddForce(Physics.gravity, ForceMode.Acceleration);
             
@@ -241,6 +241,23 @@ namespace PixelDough.Bouncer
             rigidbody.linearDamping = Mathf.Lerp(rigidbody.linearDamping, (1f / (Mathf.Max(projectedMagnitude, 1) * 2)), Time.fixedDeltaTime);
             
             _pastVelocity = rigidbody.linearVelocity;
+        }
+        
+        private void OnPauseStateChange(bool state)
+        {
+            if (!isPausable) return;
+            if (state)
+            {
+                _pauseLinearVelocity = rigidbody.linearVelocity;
+                _pauseAngularVelocity = rigidbody.angularVelocity;
+                rigidbody.isKinematic = true;
+            }
+            else
+            {
+                rigidbody.isKinematic = false;
+                rigidbody.linearVelocity = _pauseLinearVelocity;
+                rigidbody.angularVelocity = _pauseAngularVelocity;
+            }
         }
 
         private void OnCollisionEnter(Collision other)
@@ -293,7 +310,8 @@ namespace PixelDough.Bouncer
         
         private void HandleMovementInput()
         {
-            if (!GameManager.DoPlayerMovement || GameManager.Instance.quantumConsole.IsActive || _noclip == 1) return;
+            _inputMovement = Vector3.zero;
+            if (isPausable && (!GameManager.DoPlayerMovement || !GameManager.DoPlayerPhysics || GameManager.Instance.quantumConsole.IsActive || _noclip == 1)) return;
             
             Vector2 rawInputMovement = moveAction.action.ReadValue<Vector2>();
             rawInputMovement.Normalize();
@@ -320,7 +338,7 @@ namespace PixelDough.Bouncer
             Vector3 cameraRelativeInput = CameraRelativeFlatten(rawInputMovementVector3);
             cameraRelativeInput = cameraRelativeInput.normalized * cameraRelativeInput.magnitude;
 
-            cameraRelativeInput.y += (Input.GetKey(KeyCode.Space) ? 1 : 0) + (Input.GetKey(KeyCode.C) ? -1 : 0);
+            // cameraRelativeInput.y += (Input.GetKey(KeyCode.Space) ? 1 : 0) + (Input.GetKey(KeyCode.C) ? -1 : 0);
             
             transform.Translate(cameraRelativeInput * (20f * Time.deltaTime), Space.World);
         }
@@ -349,7 +367,7 @@ namespace PixelDough.Bouncer
 
         Vector3 CameraRelativeFlatten(Vector3 input)
         {
-            return Quaternion.Euler( 0, _camera.transform.rotation.eulerAngles.y, 0) * input;
+            return Quaternion.Euler( 0, inputCamera.transform.rotation.eulerAngles.y, 0) * input;
         }
 
         public void SetRespawnPoint(Vector3 position, Vector3 direction, [CanBeNull] CheckpointController checkpointController = null)

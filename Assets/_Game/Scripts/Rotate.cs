@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using MEC;
 using PixelDough.Bouncer;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -35,6 +36,11 @@ public class Rotate : LevelFeature
         startRotation = rigidbodyOptional ? rigidbodyOptional.rotation : transform.rotation;
     }
 
+    private void Start()
+    {
+        Initialize();
+    }
+
     public override void Initialize()
     {
         if (rigidbodyOptional)
@@ -46,59 +52,50 @@ public class Rotate : LevelFeature
             transform.rotation = startRotation;
         }
 
+        Timing.KillCoroutines(gameObject);
+        Timing.RunCoroutine(C_RotateCoroutine().CancelWith(gameObject), rigidbodyOptional ? Segment.FixedUpdate : Segment.Update);
+
         _isResetting = true;
     }
 
-    private void Update()
+    private IEnumerator<float> C_RotateCoroutine()
     {
-        if (rigidbodyOptional) return;
-        if (_isResetting) { _isResetting = false; return; }
-        
-        float deltaTime = Time.deltaTime;
-        if (ignoreTimeScale)
-            deltaTime = Time.unscaledDeltaTime;
+        yield return Timing.WaitForOneFrame;
+        while (true) {
+            float deltaTime = Time.deltaTime;
+            if (ignoreTimeScale)
+                deltaTime = Time.unscaledDeltaTime;
 
-        float speedModifier = GetAutoScaleMultiplier();
-        
-        switch (space)
-        {
-            case Space.World:
-                transform.Rotate(axis, speed * deltaTime * speedModifier, Space.World);
-                break;
-            case Space.Self:
-                /*Vector3 val = transform.localRotation.eulerAngles;
-                val.x += axis.x * speed * deltaTime;
-                val.y += axis.y * speed * deltaTime;
-                val.z += axis.z * speed * deltaTime;
-                transform.localRotation = Quaternion.Euler(val);*/
-                transform.Rotate(axis, speed * deltaTime * speedModifier, Space.Self);
-                break;
+            float speedModifier = GetAutoScaleMultiplier();
+            
+            switch (space)
+            {
+                case Space.World:
+                    if (rigidbodyOptional)
+                    {
+                        rigidbodyOptional.MoveRotation(
+                            Quaternion.Euler((speed * deltaTime * speedModifier) * axis) * rigidbodyOptional.rotation);
+                    } else
+                    {
+                        transform.Rotate(axis, speed * deltaTime * speedModifier, Space.World);
+                    }
+                    break;
+                case Space.Self:
+                    if (rigidbodyOptional)
+                    {
+                        rigidbodyOptional.MoveRotation(
+                            rigidbodyOptional.rotation * Quaternion.Euler(axis * (speed * deltaTime * speedModifier)));
+                    }
+                    else
+                    {
+                        transform.Rotate(axis, speed * deltaTime * speedModifier, Space.Self);
+                    }
+                    break;
+            }
+            yield return Timing.WaitForOneFrame;
         }
     }
 
-    private void FixedUpdate()
-    {
-        if (!rigidbodyOptional) return;
-        if (_isResetting) { _isResetting = false; return; }
-        
-        float deltaTime = Time.fixedDeltaTime;
-        if (ignoreTimeScale)
-            deltaTime = Time.fixedUnscaledDeltaTime;
-        
-        float speedModifier = GetAutoScaleMultiplier();
-
-        switch (space)
-        {
-            case Space.World:
-                rigidbodyOptional.MoveRotation(
-                    Quaternion.Euler((speed * deltaTime * speedModifier) * axis) * rigidbodyOptional.rotation);
-                break;
-            case Space.Self:
-                rigidbodyOptional.MoveRotation(
-                    rigidbodyOptional.rotation * Quaternion.Euler(axis * (speed * deltaTime * speedModifier)));
-                break;
-        }
-    }
 
     private float GetAutoScaleMultiplier()
     {

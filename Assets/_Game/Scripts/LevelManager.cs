@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using Febucci.UI;
 using PixelDough.Bouncer.LevelData;
 using PixelDough.Bouncer.UI;
@@ -10,6 +11,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Pool;
+using UnityEngine.SceneManagement;
 
 namespace PixelDough.Bouncer
 {
@@ -25,7 +27,6 @@ namespace PixelDough.Bouncer
         [SerializeField] private CutsceneController cutsceneController;
         
         [SerializeField] private SceneDependencySettingsSO levelSelectScene;
-        [SerializeField] private InputActionReference quitAction;
         [SerializeField] private FMODUnity.EventReference quitSound;
         
         [Header("HUD Stuff")]
@@ -34,8 +35,19 @@ namespace PixelDough.Bouncer
         [SerializeField] private TextMeshProUGUI tutorialText;
         [SerializeField] private TypewriterByCharacter tutorialTextTypewriter;
         
+        [Header("Pause Stuff")]
+        [SerializeField] private PauseScene pauseScene;
+        
+        [Header("Inputs")]
+        [SerializeField] private InputActionReference pauseAction;
+        [SerializeField] private InputActionReference quitAction;
+        
         public enum LevelStates { Intro, Playing, Finished }
-        public static LevelStates LevelState = LevelStates.Intro;
+        [HideInInspector] public static LevelStates LevelState = LevelStates.Intro;
+
+        public static bool IsPaused => Instance._isPaused;
+        public Action<bool> OnPauseStateChanged = delegate {  };
+        private bool _isPaused = false;
         
         public static TimeSpan LevelTime;
         public static bool CountingTime = false;
@@ -99,6 +111,8 @@ namespace PixelDough.Bouncer
                 feature == null || feature.gameObject.scene.name == null || feature.gameObject.scene.name == feature.gameObject.name
             );
 
+            pauseScene.gameObject.SetActive(false);
+            
             GameManager.Instance.currentLevelDataIndex =
                 GameManager.Instance.gameLevels.FindIndex(level => level.levelID == gameLevelData.levelID);
         }
@@ -110,12 +124,37 @@ namespace PixelDough.Bouncer
 
             if (!CountingTime) return;
             if (GameSceneManager.IsChangingScenes) return;
+
+            HandlePausing();
+            
             if (quitAction.action.triggered)
             {
                 CountingTime = false;
                 GameSceneManager.LoadScene(levelSelectScene);
                 FMODUnity.RuntimeManager.PlayOneShot(quitSound);
             }
+        }
+
+        private void HandlePausing()
+        {
+            if (!GameManager.DoPlayerMovement) return;
+            if (!pauseAction.action.triggered) return;
+            _isPaused = !_isPaused;
+            if (_isPaused)
+            {
+                DOTween.PauseAll();
+                MEC.Timing.PauseCoroutines();
+                GameManager.DoPlayerPhysics = false;
+                pauseScene.Show();
+            }
+            else
+            {
+                DOTween.PlayAll();
+                MEC.Timing.ResumeCoroutines();
+                GameManager.DoPlayerPhysics = true;
+                pauseScene.Hide();
+            }
+            OnPauseStateChanged?.Invoke(_isPaused);
         }
 
         public static void ResetTimer()
@@ -183,6 +222,8 @@ namespace PixelDough.Bouncer
         
         public void ResetLevelElements()
         {
+            DOTween.KillAll();
+            MEC.Timing.KillCoroutines();
             levelFeatures.ForEach(feature => feature.Initialize());
         }
 
