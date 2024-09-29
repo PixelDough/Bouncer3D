@@ -345,6 +345,7 @@ namespace PixelDough.Bouncer
 
         private void HandleLiveZones()
         {
+            if (!isPausable) return;
             if (_isRespawning) return;
             if (!LevelManager.Instance) return;
             if (LevelManager.Instance.LiveZones.Count == 0) return;

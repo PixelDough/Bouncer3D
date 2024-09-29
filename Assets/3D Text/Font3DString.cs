@@ -141,9 +141,10 @@ public class Font3DString : MonoBehaviour
         }
     }
 
-    public void SetText(String text)
+    public void SetText(String text, bool animate = false)
     {
         this.text = text;
+        if (animate) AnimPulse();
     }
     
     public void SetFontSize(float size)

@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,11 +14,12 @@ namespace PixelDough.Bouncer
         
         private void OnCollisionEnter(Collision other)
         {
+            if (!PauseScene.CanHitButton) return;
+            if (_isHit) return;
             Rigidbody rb = other.rigidbody;
             if (rb is null) return;
             if (!rb.CompareTag("Player")) return;
-            if (other.GetContact(0).normal.y > -0.95f || Mathf.Abs(rb.linearVelocity.y) < 6f) return;
-            if (_isHit) return;
+            if (other.GetContact(0).normal.y > -0.95f || Mathf.Abs(rb.linearVelocity.y) < 4f) return;
             
             HitSequence();
         }
@@ -47,10 +49,14 @@ namespace PixelDough.Bouncer
         private async Awaitable HitSequence()
         {
             _isHit = true;
+            PauseScene.CanHitButton = false;
             await transform.DOLocalMoveY(-0.1f, 0.1f).SetEase(Ease.OutSine).AsyncWaitForCompletion();
-            await transform.DOLocalMoveY(0, 0.1f).SetEase(Ease.InSine).AsyncWaitForCompletion();
             onHit?.Invoke();
+            await transform.DOLocalMoveY(0, 0.1f).SetEase(Ease.InSine).AsyncWaitForCompletion();
             _isHit = false;
+            
+            await Task.Delay(1000);
+            PauseScene.CanHitButton = true;
         }
     }
 }

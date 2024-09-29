@@ -81,6 +81,8 @@ namespace PixelDough.Bouncer
         private void Start()
         {
             Instance = this;
+            
+            GameManager.DoPlayerPhysics = true;
 
             if (GameSceneManager.IsChangingScenes)
                 GameSceneManager.OnSceneLoaded += Initialize;
@@ -129,9 +131,7 @@ namespace PixelDough.Bouncer
             
             if (quitAction.action.triggered)
             {
-                CountingTime = false;
-                GameSceneManager.LoadScene(levelSelectScene);
-                FMODUnity.RuntimeManager.PlayOneShot(quitSound);
+                QuitGame();
             }
         }
 
@@ -167,6 +167,13 @@ namespace PixelDough.Bouncer
             GameManager.DoPlayerPhysics = true;
             pauseScene.Hide();
             OnPauseStateChanged?.Invoke(_isPaused);
+        }
+        
+        public void QuitGame()
+        {
+            CountingTime = false;
+            GameSceneManager.LoadScene(levelSelectScene);
+            FMODUnity.RuntimeManager.PlayOneShot(quitSound);
         }
 
         public static void ResetTimer()
