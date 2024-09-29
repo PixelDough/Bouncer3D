@@ -17,7 +17,7 @@ PlayerSettings:
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
-  m_ShowUnitySplashScreen: 1
+  m_ShowUnitySplashScreen: 0
   m_ShowUnitySplashLogo: 1
   m_SplashScreenOverlayOpacity: 1
   m_SplashScreenAnimation: 1
@@ -139,8 +139,11 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
-  bundleVersion: 24w38e
-  preloadedAssets: []
+  bundleVersion: 24w39a
+  preloadedAssets:
+  - {fileID: 11400000, guid: b92e866aeca894c93a9f93da8d133098, type: 2}
+  - {fileID: -944628639613478452, guid: 4fd51e447f699490b8e9bdbbe0678b5f, type: 3}
+  - {fileID: 11400000, guid: d559f952edbbb4706a8a26e5990a598c, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
