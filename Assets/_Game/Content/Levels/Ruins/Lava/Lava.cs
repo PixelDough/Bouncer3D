@@ -29,12 +29,13 @@ namespace PixelDough.Bouncer
 
         private void Update()
         {
+            float deltaTime = LevelManager.IsPaused ? 0 : Time.deltaTime;
             _player ??= FindFirstObjectByType<PlayerController>();
             lavaGurgleSoundEmitter.transform.position = new Vector3(_player.transform.position.x, transform.position.y, _player.transform.position.z);
             var followHeight = _player.transform.position.y - 8f;
             if (followHeight < 0) return;
             var heightDiff = Mathf.Max(0, _player.transform.position.y - transform.position.y);
-            transform.Translate(Vector3.up * ((0.125f + heightDiff * 0.05f) * Time.deltaTime));
+            transform.Translate(Vector3.up * ((0.125f + heightDiff * 0.05f) * deltaTime));
             
         }
 
