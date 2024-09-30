@@ -20,6 +20,9 @@ namespace PixelDough.Bouncer
         private FMOD.Studio.EventInstance _shakeFallEventInstance;
         private bool _isFalling = false;
         private CoroutineHandle _fallCoroutineHandle;
+        
+        private Vector3 _pauseVelocity = Vector3.zero;
+        private Vector3 _pauseAngularVelocity = Vector3.zero;
 
         #if UNITY_EDITOR
         protected override void OnValidate()
@@ -34,6 +37,7 @@ namespace PixelDough.Bouncer
         {
             _shakeFallEventInstance = RuntimeManager.CreateInstance(shakeFallSound);
             RuntimeManager.AttachInstanceToGameObject(_shakeFallEventInstance, rb.transform, rb);
+            LevelManager.Instance.OnPauseStateChanged += OnPauseStateChanged;
         }
 
         public override void Initialize()
@@ -54,9 +58,27 @@ namespace PixelDough.Bouncer
 
         private void Update()
         {
+            if (LevelManager.IsPaused) return;
             if (_isShaking)
             {
                 meshTransform.localPosition = Random.insideUnitSphere * 0.1f;
+            }
+        }
+        
+        private void OnPauseStateChanged(bool isPaused)
+        {
+            if (!_isFalling) return;
+            if (isPaused)
+            {
+                _pauseVelocity = rb.linearVelocity;
+                _pauseAngularVelocity = rb.angularVelocity;
+                rb.isKinematic = true;
+            }
+            else
+            {                
+                rb.isKinematic = false;
+                rb.linearVelocity = _pauseVelocity;
+                rb.angularVelocity = _pauseAngularVelocity;
             }
         }
 
@@ -92,6 +114,7 @@ namespace PixelDough.Bouncer
             _shakeFallEventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             _shakeFallEventInstance.release();
             _shakeFallEventInstance.clearHandle();
+            if (LevelManager.Instance) LevelManager.Instance.OnPauseStateChanged -= OnPauseStateChanged;
         }
     }
 }

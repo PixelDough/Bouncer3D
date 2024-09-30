@@ -26,7 +26,8 @@ namespace PixelDough.Bouncer
 
         private void Update()
         {
-            _swingTime += Time.deltaTime;
+            float deltaTime = LevelManager.IsPaused ? 0 : Time.deltaTime;
+            _swingTime += deltaTime;
             float t = instantRepeat
                 ? Mathf.Repeat(_swingTime / loopTime, 1f)
                 : Mathf.PingPong(_swingTime / loopTime, 1f);

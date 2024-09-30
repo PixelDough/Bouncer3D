@@ -20,6 +20,13 @@ namespace PixelDough.Bouncer
         [SerializeField, HideInInspector] private Vector3 startPosition = Vector3.zero;
         [SerializeField, HideInInspector] private Quaternion startRotation = Quaternion.identity;
         private bool _isBroken = false;
+        
+        private Vector3 _pauseVelocity = Vector3.zero;
+        private Vector3 _pauseAngularVelocity = Vector3.zero;
+        
+        private List<Vector3> _brokenPartsPauseVelocity = new List<Vector3>();
+        private List<Vector3> _brokenPartsPauseAngularVelocity = new List<Vector3>();
+        
 
         protected override void OnValidate()
         {
@@ -29,6 +36,16 @@ namespace PixelDough.Bouncer
             
             startPosition = transform.position;
             startRotation = transform.rotation;
+        }
+
+        private void Start()
+        {
+            LevelManager.Instance.OnPauseStateChanged += OnPauseStateChanged;
+        }
+
+        private void OnDestroy()
+        {
+            if (LevelManager.Instance) LevelManager.Instance.OnPauseStateChanged -= OnPauseStateChanged;
         }
 
         public override void Initialize()
@@ -50,6 +67,46 @@ namespace PixelDough.Bouncer
                 part.gameObject.SetActive(false);
             });
             _isBroken = false;
+        }
+        
+        private void OnPauseStateChanged(bool isPaused)
+        {
+            if (isPaused)
+            {
+                _pauseVelocity = rigidbody.linearVelocity;
+                _pauseAngularVelocity = rigidbody.angularVelocity;
+                
+                rigidbody.isKinematic = true;
+                rigidbody.angularVelocity = Vector3.zero;
+                rigidbody.linearVelocity = Vector3.zero;
+                
+                _brokenPartsPauseVelocity.Clear();
+                _brokenPartsPauseAngularVelocity.Clear();
+                brokenParts.ForEach(part =>
+                {
+                    if (part.gameObject.activeSelf == false) return;
+                    _brokenPartsPauseVelocity.Add(part.linearVelocity);
+                    _brokenPartsPauseAngularVelocity.Add(part.angularVelocity);
+                    part.isKinematic = true;
+                    part.angularVelocity = Vector3.zero;
+                    part.linearVelocity = Vector3.zero;
+                });
+            }
+            else
+            {
+                rigidbody.isKinematic = isKinematic;
+                
+                rigidbody.linearVelocity = _pauseVelocity;
+                rigidbody.angularVelocity = _pauseAngularVelocity;
+                
+                for (int i = 0; i < brokenParts.Count; i++)
+                {
+                    if (brokenParts[i].gameObject.activeSelf == false) continue;
+                    brokenParts[i].isKinematic = false;
+                    brokenParts[i].linearVelocity = _brokenPartsPauseVelocity[i];
+                    brokenParts[i].angularVelocity = _brokenPartsPauseAngularVelocity[i];
+                }
+            }
         }
 
         public void Break(Vector3 velocity)

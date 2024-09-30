@@ -36,7 +36,7 @@ namespace PixelDough.Bouncer
             float targetFOV = Mathf.InverseLerp(0f, 2000, playerController.Velocity.sqrMagnitude) * 30f + 100f;
             cinemachineCamera.Lens.FieldOfView = MathHelpers.ExpDecay(cinemachineCamera.Lens.FieldOfView, targetFOV, 5f, Time.deltaTime);
             
-            if (!GameManager.DoPlayerMovement)
+            if (!GameManager.DoPlayerMovement || LevelManager.IsPaused)
             {
                 cinemachineInputAxisController.Controllers[0].Input.Gain = 0f;
                 cinemachineInputAxisController.Controllers[1].Input.Gain = 0f;
