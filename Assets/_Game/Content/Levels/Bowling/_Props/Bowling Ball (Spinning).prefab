@@ -73,12 +73,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 0}
   rigidbodyOptional: {fileID: 1176329169953394883}
   space: 0
   axis: {x: 0, y: 0, z: 1}
-  startRandom: 0
   ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
   speed: 180
+  startRotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!1001 &1176329169874582661
 PrefabInstance:
   m_ObjectHideFlags: 0
