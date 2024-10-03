@@ -18,6 +18,12 @@ namespace PixelDough.Bouncer
         public ParticleSystem sandRollParticleSystem;
         public ParticleSystem sandBurstParticleSystem;
 
+        private void Start()
+        {
+            SetCameraForward(transform.forward);
+            playerController.SetRespawnPoint(playerController.transform.position, transform.forward);
+        }
+
         public void SetCameraForward(Vector3 forward)
         {
             cinemachineFreeLook.HorizontalAxis.Value = Vector3.SignedAngle(Vector3.forward, forward, Vector3.up);

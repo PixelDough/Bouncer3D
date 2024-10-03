@@ -84,7 +84,7 @@ namespace PixelDough.Bouncer
             _defaultDrag = rigidbody.linearDamping;
 
             _respawnPoint = transform.position;
-            _respawnForward = Vector3.forward;
+            _respawnForward = transform.forward;
             
             LevelManager.Instance.OnPauseStateChanged += OnPauseStateChange;
         }
