@@ -1651,7 +1651,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onHit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8637282213345378121}
+        m_TargetAssemblyTypeName: PixelDough.Bouncer.PauseScene, Assembly-CSharp
+        m_MethodName: GoBackButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &8925494363992503930 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7708245083390865188, guid: 6a0075a3fb5934dc39866d90df0138f1, type: 3}

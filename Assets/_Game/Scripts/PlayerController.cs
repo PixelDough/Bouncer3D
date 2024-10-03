@@ -391,7 +391,7 @@ namespace PixelDough.Bouncer
             Respawn();
         }
 
-        private void Respawn()
+        public void Respawn()
         {
             if (_isRespawning) return;
             _isRespawning = true;

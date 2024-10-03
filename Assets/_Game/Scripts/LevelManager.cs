@@ -12,6 +12,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Pool;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 namespace PixelDough.Bouncer
 {
@@ -29,6 +30,10 @@ namespace PixelDough.Bouncer
         [SerializeField] private SceneDependencySettingsSO levelSelectScene;
         [SerializeField] private FMODUnity.EventReference quitSound;
         
+        [Header("Player Stuff")]
+        [SerializeField] private PlayerStuffManager playerStuffPrefab;
+        [SerializeField] private PlayerSpawner spawnPoint;
+        
         [Header("HUD Stuff")]
         [SerializeField] private PlayerHudController playerHudController; 
         [SerializeField] public Countdown Countdown;
@@ -41,6 +46,8 @@ namespace PixelDough.Bouncer
         [Header("Inputs")]
         [SerializeField] private InputActionReference pauseAction;
         [SerializeField] private InputActionReference quitAction;
+
+        [NonSerialized] public PlayerStuffManager PlayerStuffManager;
         
         public enum LevelStates { Intro, Playing, Finished }
         [HideInInspector] public static LevelStates LevelState = LevelStates.Intro;
@@ -81,6 +88,10 @@ namespace PixelDough.Bouncer
         private void Start()
         {
             Instance = this;
+            
+            PlayerStuffManager spawnedPlayerStuff = Instantiate(playerStuffPrefab, spawnPoint.transform.position,
+                spawnPoint.transform.rotation);
+            PlayerStuffManager = spawnedPlayerStuff;
             
             GameManager.DoPlayerPhysics = true;
 

@@ -48,6 +48,7 @@ namespace PixelDough.Bouncer
 
         public async Awaitable Show()
         {
+            if (_isPaused) return;
             pauseCamRoot.localPosition = new Vector3(pauseCamRoot.localPosition.x, pauseCamRoot.localPosition.y, -2.42f);
             ledMaterial.SetTextureOffset(BaseMap, Vector2.zero);
             
@@ -68,6 +69,7 @@ namespace PixelDough.Bouncer
 
         public async Awaitable Hide()
         {
+            if (!_isPaused) return;
             _isPaused = false;
             
             DOTween.To(() => Shader.GetGlobalFloat(SubtractiveFadeAmount), x => Shader.SetGlobalFloat(SubtractiveFadeAmount, x), 0.0f, 0.25f).SetEase(Ease.OutQuad);
@@ -150,6 +152,14 @@ namespace PixelDough.Bouncer
         public async void QuitButton()
         {
             await ShowConfirmation();
+        }
+
+        public async void GoBackButton()
+        {
+            await BlinkLED();
+            await Hide();
+            LevelManager.Instance.ResumeGame();
+            LevelManager.Instance.PlayerStuffManager.playerController.Kill();
         }
         
         public async void YesButton()
