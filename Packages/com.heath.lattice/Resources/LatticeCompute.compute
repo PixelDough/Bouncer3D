@@ -1,0 +1,264 @@
+#pragma kernel Deform
+#pragma kernel Reset
+
+#pragma multi_compile __ LATTICE_HIGH_QUALITY
+#pragma multi_compile __ LATTICE_ZERO_OUTSIDE
+#pragma multi_compile __ LATTICE_NORMALS 
+#pragma multi_compile __ LATTICE_APPLY_STRETCH 
+#pragma multi_compile __ LATTICE_MULTIPLE_BUFFERS
+
+// Vertex buffer properties
+uint VertexCount;
+
+RWByteAddressBuffer VertexBuffer;
+uint BufferStride;
+uint PositionOffset;
+uint NormalOffset;
+uint TangentOffset;
+
+RWByteAddressBuffer StretchBuffer;
+uint StretchStride;
+uint StretchOffset;
+
+// Lattice properties
+StructuredBuffer<float3> LatticeBuffer;
+float4x4 ObjectToLattice;
+float4x4 LatticeToObject;
+uint3 LatticeResolution;
+
+/// Retrieves a lattice handle's offset.
+float3 GetOffset(int3 handle)
+{
+#ifdef LATTICE_ZERO_OUTSIDE
+	if (handle.x < 0 || handle.x >= (int)LatticeResolution.x || 
+		handle.y < 0 || handle.y >= (int)LatticeResolution.y ||
+		handle.z < 0 || handle.z >= (int)LatticeResolution.z)
+		return float3(0, 0, 0);
+#endif
+	
+	handle = max(handle, int3(0, 0, 0));
+	handle = min(handle, LatticeResolution - int3(1, 1, 1));
+
+	int index = handle.x + (LatticeResolution.x * handle.y) + (LatticeResolution.x * LatticeResolution.y * handle.z);
+	return LatticeBuffer[index];
+}
+
+/* region Tricubic Functions */
+
+struct Coefficients
+{
+	float4 x;
+	float4 y;
+	float4 z;
+};
+
+float3 h00(float3 t)
+{
+	return 2.0 * t * t * t - 3.0 * t * t + 1;
+}
+
+float3 h10(float3 t)
+{
+	return t * t * t - 2.0 * t * t + t;
+}
+
+float3 h01(float3 t)
+{
+	return -2.0 * t * t * t + 3.0 * t * t;
+}
+
+float3 h11(float3 t)
+{
+	return t * t * t - t * t;
+}
+
+Coefficients GetCoefficients(float3 cellPosition)
+{
+	float3 h_00 = h00(cellPosition);
+	float3 h_10 = h10(cellPosition);
+	float3 h_01 = h01(cellPosition);
+	float3 h_11 = h11(cellPosition);
+
+	Coefficients h;
+	h.x = float4(h_00.x, h_10.x, h_01.x, h_11.x);
+	h.y = float4(h_00.y, h_10.y, h_01.y, h_11.y);
+	h.z = float4(h_00.z, h_10.z, h_01.z, h_11.z);
+	return h;
+}
+
+float3 CINT(float3 a, float3 b, float3 c, float3 d, float4 h)
+{
+	float3 tangentA = 0.5f * (c - a);
+	float3 tangentB = 0.5f * (d - b);
+	return h.x * b + h.y * tangentA + h.z * c + h.w * tangentB;
+}
+
+float3 bz(int3 cell, Coefficients h)
+{
+	float3 a = GetOffset(cell + int3(0, 0, -1));
+	float3 b = GetOffset(cell + int3(0, 0, 0));
+	float3 c = GetOffset(cell + int3(0, 0, 1));
+	float3 d = GetOffset(cell + int3(0, 0, 2));
+
+	return CINT(a, b, c, d, h.z);
+}
+
+float3 by(int3 cell, Coefficients h)
+{
+	float3 a = bz(cell + int3(0, -1, 0), h);
+	float3 b = bz(cell + int3(0, 0, 0), h);
+	float3 c = bz(cell + int3(0, 1, 0), h);
+	float3 d = bz(cell + int3(0, 2, 0), h);
+
+	return CINT(a, b, c, d, h.y);
+}
+
+float3 bx(int3 cell, Coefficients h)
+{
+	float3 a = by(cell + int3(-1, 0, 0), h);
+	float3 b = by(cell + int3(0, 0, 0), h);
+	float3 c = by(cell + int3(1, 0, 0), h);
+	float3 d = by(cell + int3(2, 0, 0), h);
+
+	return CINT(a, b, c, d, h.x);
+}
+
+/* endregion Tricubic Functions */
+
+/* region Trilinear Functions */
+
+float3 lz(int3 cell, float3 cellPosition)
+{
+	float3 a = GetOffset(cell);
+	float3 b = GetOffset(cell + int3(0, 0, 1));
+
+	return lerp(a, b, cellPosition.z);
+}
+
+float3 ly(int3 cell, float3 cellPosition)
+{
+	float3 a = lz(cell, cellPosition);
+	float3 b = lz(cell + int3(0, 1, 0), cellPosition);
+
+	return lerp(a, b, cellPosition.y);
+}
+
+float3 lx(int3 cell, float3 cellPosition)
+{
+	float3 a = ly(cell, cellPosition);
+	float3 b = ly(cell + int3(1, 0, 0), cellPosition);
+
+	return lerp(a, b, cellPosition.x);
+}
+
+/* endregion Trilinear Functions */
+
+/// Transforms a point using a lattice.
+float3 TransformPoint(float3 latticePosition)
+{
+	latticePosition += 0.5f;
+	
+	// Get the lattice cell which the vertex is in
+	int3 cell = int3(
+		floor(latticePosition.x * (LatticeResolution.x - 1)),
+		floor(latticePosition.y * (LatticeResolution.y - 1)),
+		floor(latticePosition.z * (LatticeResolution.z - 1))
+	);
+
+	// Get relative position in cell -> [0, 1)
+	float3 cellPosition = latticePosition * (LatticeResolution - int3(1, 1, 1)) - cell;
+
+#if LATTICE_HIGH_QUALITY
+	// Tricubic interpolation
+	Coefficients h = GetCoefficients(cellPosition);
+	return latticePosition + bx(cell, h) - 0.5f;
+#else
+	// Trilinear interpolation
+	float3 smoothCellPosition = smoothstep(0, 1, cellPosition);
+	return latticePosition + lx(cell, smoothCellPosition) - 0.5f;
+#endif
+}
+
+/// Kernel to apply a lattice transformation to a mesh.
+[numthreads(32, 1, 1)]
+void Deform(uint id : SV_DispatchThreadID)
+{
+	if (id >= VertexCount)
+		return;
+
+	// Get original vertex info
+	float3 originalPosition = asfloat(VertexBuffer.Load3(id * BufferStride + PositionOffset));
+	
+	// Calculate new position
+	float3 latticePosition = mul(ObjectToLattice, float4(originalPosition, 1)).xyz;
+	float3 newPosition     = TransformPoint(latticePosition);
+	
+	// Convert points from lattice coords back to object coords
+    float3 position = mul(LatticeToObject, float4(newPosition, 1)).xyz;
+	
+	// Update vertex buffer
+    VertexBuffer.Store3(id * BufferStride + PositionOffset, asuint(position));
+	
+#ifdef LATTICE_NORMALS
+	// Get original vertex info
+	float3 originalNormal   = asfloat(VertexBuffer.Load3(id * BufferStride + NormalOffset));
+	float3 originalTangent  = asfloat(VertexBuffer.Load3(id * BufferStride + TangentOffset));
+	float3 originalBinormal = cross(originalNormal, originalTangent);
+
+	// Calculate new tangent and binormal points
+	// These are used to calculate the normal later
+	float3 originalTangentPosition  = originalPosition + 0.01f * originalTangent;
+	float3 originalBinormalPosition = originalPosition + 0.01f * originalBinormal;
+
+	float3 latticeTangentPosition  = mul(ObjectToLattice, float4(originalTangentPosition, 1)).xyz;
+	float3 latticeBinormalPosition = mul(ObjectToLattice, float4(originalBinormalPosition, 1)).xyz;
+
+	// Calculate new position
+	float3 newTangentPosition  = TransformPoint(latticeTangentPosition);
+	float3 newBinormalPosition = TransformPoint(latticeBinormalPosition);
+
+	// Convert points from lattice coords back to object coords
+	float3 tangentPosition  = mul(LatticeToObject, float4(newTangentPosition, 1)).xyz;
+	float3 binormalPosition = mul(LatticeToObject, float4(newBinormalPosition, 1)).xyz;
+	
+	// Calculate new tangent and normal
+	float3 tangent = normalize(tangentPosition - position);
+	float3 normal  = normalize(cross(tangent, binormalPosition - position));
+
+	// Update vertex buffer
+	VertexBuffer.Store3(id * BufferStride + NormalOffset,   asuint(normal));
+	VertexBuffer.Store3(id * BufferStride + TangentOffset,  asuint(tangent));
+	
+#ifdef LATTICE_APPLY_STRETCH
+#ifdef LATTICE_MULTIPLE_BUFFERS
+	float2 originalStretch = asfloat(StretchBuffer.Load2(id * StretchStride + StretchOffset));
+#else
+	float2 originalStretch = asfloat(VertexBuffer.Load2(id * BufferStride + StretchOffset));
+#endif // LATTICE_MULTIPLE_BUFFERS
+	
+	// Determine stretch
+	float stretchTangent  = length(tangentPosition - position) * 100;
+	float stretchBinormal = length(binormalPosition - position) * 100;
+	float2 stretch = originalStretch * float2(stretchTangent, stretchBinormal);
+	
+#ifdef LATTICE_MULTIPLE_BUFFERS
+	// Update stretch buffer
+	StretchBuffer.Store2(id * StretchStride + StretchOffset, asuint(stretch));
+#else
+	// Update vertex buffer
+	VertexBuffer.Store2(id * BufferStride + StretchOffset, asuint(stretch));
+#endif // LATTICE_MULTIPLE_BUFFERS
+#endif // LATTICE_APPLY_STRETCH
+#endif // LATTICE_NORMALS
+	
+}
+
+/// Kernel to reset stretch values of a mesh.
+[numthreads(32, 1, 1)]
+void Reset(uint id : SV_DispatchThreadID)
+{
+	if (id >= VertexCount)
+		return;
+	
+	StretchBuffer.Store2(id * StretchStride + StretchOffset, asuint(float2(1, 1)));
+}
