@@ -225,6 +225,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 0, z: 0}
+--- !u!1 &6285998150591024656
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6852682027967123088}
+  m_Layer: 0
+  m_Name: Player Attach Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6852682027967123088
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6285998150591024656}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.375, z: 1.1874995}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4537014065076898962}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6429448055830487167
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,6 +311,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4867446622242395595}
   - component: {fileID: 9023805154326326215}
+  - component: {fileID: 4392273197398290034}
+  - component: {fileID: 2851012059648934036}
+  - component: {fileID: 8554628678614471342}
   m_Layer: 0
   m_Name: Lattice
   m_TagString: Untagged
@@ -340,6 +374,56 @@ MonoBehaviour:
   - {fileID: 6836019332745564082}
   - {fileID: 1071698766056106870}
   - {fileID: 6749028814970139248}
+--- !u!95 &4392273197398290034
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6590168749153876283}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0159daf7ddd094325bdd02d9498be4bc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2851012059648934036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6590168749153876283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad50f81b1d25c441943c37a89ba23f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Animator: {fileID: 4392273197398290034}
+  _Transitions: {fileID: 0}
+  _ActionOnDisable: 0
+--- !u!114 &8554628678614471342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6590168749153876283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01bf211fa03fc4a9fa8cdca36925731f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ballReturn: {fileID: 2316004800816649310}
 --- !u!1 &6844913079968575202
 GameObject:
   m_ObjectHideFlags: 0
@@ -684,6 +768,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 701de748cc69748749bdec1abc478acf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4867446622242395595}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 701de748cc69748749bdec1abc478acf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6852682027967123088}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 701de748cc69748749bdec1abc478acf, type: 3}
       insertIndex: -1
@@ -752,10 +839,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da6f82f7cd8334b3fbf54bc4ddf145a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
-  scale: 1
-  distance: 0.25
-  lattice: {fileID: 9023805154326326215}
+  levelManager: {fileID: 0}
+  playerAttachPoint: {fileID: 6852682027967123088}
+  cinemachineCamera: {fileID: 0}
+  animancer: {fileID: 2851012059648934036}
+  swallowClip: {fileID: 7400000, guid: 271224878b63f402badb0e5f5c9195a1, type: 2}
+  spitClip: {fileID: 7400000, guid: bb5a51127cb8247bfbe90431119c8c8d, type: 2}
+  targetAngles: {x: -75, y: 140, z: 0}
+  spitForce: 55
 --- !u!4 &4537014065076898962 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 701de748cc69748749bdec1abc478acf, type: 3}
