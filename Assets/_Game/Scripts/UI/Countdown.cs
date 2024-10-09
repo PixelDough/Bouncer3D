@@ -26,15 +26,15 @@ namespace PixelDough.Bouncer
         }
 
         [Command("play-countdown", "Plays the countdown animation")]
-        public void PlayCountdown()
+        public void PlayCountdown(Action onComplete = null)
         {
             if (_isPlayingCountdown) return;
             _isPlayingCountdown = true;
             
-            Timing.RunCoroutine(C_CountdownCoroutine().CancelWith(gameObject), Segment.RealtimeUpdate);
+            Timing.RunCoroutine(C_CountdownCoroutine(onComplete).CancelWith(gameObject), Segment.RealtimeUpdate);
         }
         
-        private IEnumerator<float> C_CountdownCoroutine()
+        private IEnumerator<float> C_CountdownCoroutine(Action onComplete = null)
         {
             LevelManager.LevelState = LevelManager.LevelStates.Intro;
             GameManager.DoPlayerMovement = false;
@@ -65,6 +65,8 @@ namespace PixelDough.Bouncer
             GameManager.DoPlayerMovement = true;
             // GameManager.DoPlayerPhysics = true;
             LevelManager.CountingTime = true;
+            
+            onComplete?.Invoke();
         }
     }
 }

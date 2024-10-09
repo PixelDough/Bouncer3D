@@ -7,6 +7,7 @@ using PixelDough.Bouncer.UI;
 using Sirenix.OdinInspector;
 using TMPro;
 using Tools.SceneDependencies;
+using Unity.Cinemachine;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -27,8 +28,12 @@ namespace PixelDough.Bouncer
         public List<LiveZone> LiveZones => liveZones;
         [SerializeField] private CutsceneController cutsceneController;
         
+        [SerializeField] private FMODUnity.EventReference levelMusic;
+        private FMOD.Studio.EventInstance _levelMusicInstance;
         [SerializeField] private SceneDependencySettingsSO levelSelectScene;
         [SerializeField] private FMODUnity.EventReference quitSound;
+
+        [SerializeField] private CinemachineCamera startCinemachineCamera;
         
         [Header("Player Stuff")]
         [SerializeField] private PlayerStuffManager playerStuffPrefab;
@@ -58,6 +63,8 @@ namespace PixelDough.Bouncer
         
         public static TimeSpan LevelTime;
         public static bool CountingTime = false;
+
+        private float _muffleEffectValue = 0f;
         
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void InitOnLoad()
@@ -82,6 +89,13 @@ namespace PixelDough.Bouncer
             if (Instance == this)
             {
                 Instance = null;
+                
+                if (_levelMusicInstance.isValid())
+                {
+                    _levelMusicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                    _levelMusicInstance.release();
+                }
+                FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Muffle", 0f);
             }
         }
 
@@ -94,6 +108,11 @@ namespace PixelDough.Bouncer
             PlayerStuffManager = spawnedPlayerStuff;
             
             GameManager.DoPlayerPhysics = true;
+            
+            if (!levelMusic.IsNull) _levelMusicInstance = FMODUnity.RuntimeManager.CreateInstance(levelMusic);
+
+            startCinemachineCamera.Priority = 999999;
+            startCinemachineCamera.Prioritize();
 
             if (GameSceneManager.IsChangingScenes)
                 GameSceneManager.OnSceneLoaded += Initialize;
@@ -115,7 +134,15 @@ namespace PixelDough.Bouncer
             }
             
             playerHudController.SetVisibility(true, true);
-            Countdown.PlayCountdown();
+            Countdown.PlayCountdown(() =>
+            {
+                if (_levelMusicInstance.isValid())
+                {
+                    _levelMusicInstance.start();
+                }
+            });
+            
+            startCinemachineCamera.Priority = 0;
             
             ResetTimer();
             
@@ -134,6 +161,9 @@ namespace PixelDough.Bouncer
         {
             if (CountingTime)
                 LevelTime = LevelTime.Add(TimeSpan.FromSeconds(Time.deltaTime));
+            
+            _muffleEffectValue = MathHelpers.ExpDecay(_muffleEffectValue, _isPaused ? 1f : 0f, 13f, Time.deltaTime);
+            FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Muffle", _muffleEffectValue);
 
             if (!CountingTime) return;
             if (GameSceneManager.IsChangingScenes) return;

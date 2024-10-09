@@ -49,7 +49,7 @@ namespace PixelDough.Bouncer
             }
 
             // Wait a buffer time for any start methods to process and lag the game
-            yield return Timing.WaitForSeconds(1f);
+            // yield return Timing.WaitForSeconds(1f);
             Time.timeScale = 1f;
 
             // Fade from black, and set the isChangingScenes variable to false on complete

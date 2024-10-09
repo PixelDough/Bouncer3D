@@ -37,7 +37,7 @@ namespace PixelDough.Bouncer
         {
             _shakeFallEventInstance = RuntimeManager.CreateInstance(shakeFallSound);
             RuntimeManager.AttachInstanceToGameObject(_shakeFallEventInstance, rb.transform, rb);
-            LevelManager.Instance.OnPauseStateChanged += OnPauseStateChanged;
+            levelManager.OnPauseStateChanged += OnPauseStateChanged;
         }
 
         public override void Initialize()

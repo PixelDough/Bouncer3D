@@ -5937,52 +5937,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5460215412299345363, guid: 4ddd1874a96ee451a9c7748097da8605, type: 3}
   m_PrefabInstance: {fileID: 346885141}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &348626875
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: defe3efb56c1bc943a6bfb504a00dc77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  active: 1
-  startDistance:
-    m_OverrideState: 0
-    m_Value: 0
-  fogDensity:
-    m_OverrideState: 0
-    m_Value: 20
-  heightFogDepth:
-    m_OverrideState: 0
-    m_Value: 25
-  heightFogDensity:
-    m_OverrideState: 0
-    m_Value: 1
-  heightFogBrightness:
-    m_OverrideState: 0
-    m_Value: 0.6
-  fogBrightness:
-    m_OverrideState: 0
-    m_Value: 1
-  subsurfaceStrength:
-    m_OverrideState: 0
-    m_Value: 1
-  causticsStrength:
-    m_OverrideState: 0
-    m_Value: 1
-  distortionStrength:
-    m_OverrideState: 0
-    m_Value: 0.25
-  distortionFrequency:
-    m_OverrideState: 0
-    m_Value: 0.75
-  distortionSpeed:
-    m_OverrideState: 0
-    m_Value: 0.5
 --- !u!1001 &349559351
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17050,7 +17004,7 @@ MonoBehaviour:
   waterLevelPadding: 0
   waterMaterial: {fileID: 2100000, guid: cfe6f9ee3cc4bcb4cbd0f24c4b6b0bb0, type: 2}
   dynamicMaterial: 0
-  settings: {fileID: 348626875}
+  settings: {fileID: 2080403100}
   useVolumeBlending: 0
   startDistance: 0
   fogDensity: 150
@@ -39158,10 +39112,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 74814938}
     m_Modifications:
-    - target: {fileID: 3753598769661936881, guid: 2782a6886139ace4e900c62f05d73297, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 78495565272771930, guid: 401e57c7b9380441cb0455ca093d16b2, type: 3}
       propertyPath: m_Name
       value: Soda Bottle (2)
@@ -39229,6 +39179,10 @@ PrefabInstance:
     - target: {fileID: 746770569675323360, guid: 401e57c7b9380441cb0455ca093d16b2, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3753598769661936881, guid: 2782a6886139ace4e900c62f05d73297, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -40556,6 +40510,52 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8913871904682256089, guid: abe08da865ee848e9a6ba3b3257018e1, type: 3}
   m_PrefabInstance: {fileID: 2079327833}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2080403100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: defe3efb56c1bc943a6bfb504a00dc77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 1
+  startDistance:
+    m_OverrideState: 0
+    m_Value: 0
+  fogDensity:
+    m_OverrideState: 0
+    m_Value: 20
+  heightFogDepth:
+    m_OverrideState: 0
+    m_Value: 25
+  heightFogDensity:
+    m_OverrideState: 0
+    m_Value: 1
+  heightFogBrightness:
+    m_OverrideState: 0
+    m_Value: 0.6
+  fogBrightness:
+    m_OverrideState: 0
+    m_Value: 1
+  subsurfaceStrength:
+    m_OverrideState: 0
+    m_Value: 1
+  causticsStrength:
+    m_OverrideState: 0
+    m_Value: 1
+  distortionStrength:
+    m_OverrideState: 0
+    m_Value: 0.25
+  distortionFrequency:
+    m_OverrideState: 0
+    m_Value: 0.75
+  distortionSpeed:
+    m_OverrideState: 0
+    m_Value: 0.5
 --- !u!1001 &2080758384
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42652,6 +42652,42 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 2678695163995583116, guid: 825a7962637c342049c6579ea66021e4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7.3533716
+      objectReference: {fileID: 0}
+    - target: {fileID: 2678695163995583116, guid: 825a7962637c342049c6579ea66021e4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 20.903828
+      objectReference: {fileID: 0}
+    - target: {fileID: 2678695163995583116, guid: 825a7962637c342049c6579ea66021e4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -22.750391
+      objectReference: {fileID: 0}
+    - target: {fileID: 2678695163995583116, guid: 825a7962637c342049c6579ea66021e4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.94220066
+      objectReference: {fileID: 0}
+    - target: {fileID: 2678695163995583116, guid: 825a7962637c342049c6579ea66021e4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.10817482
+      objectReference: {fileID: 0}
+    - target: {fileID: 2678695163995583116, guid: 825a7962637c342049c6579ea66021e4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.3150364
+      objectReference: {fileID: 0}
+    - target: {fileID: 2678695163995583116, guid: 825a7962637c342049c6579ea66021e4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.036169585
+      objectReference: {fileID: 0}
+    - target: {fileID: 2678695163995583116, guid: 825a7962637c342049c6579ea66021e4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 13.099
+      objectReference: {fileID: 0}
+    - target: {fileID: 2678695163995583116, guid: 825a7962637c342049c6579ea66021e4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -36.976
+      objectReference: {fileID: 0}
     - target: {fileID: 3327528938827339260, guid: 825a7962637c342049c6579ea66021e4, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -43700,10 +43736,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 74814938}
     m_Modifications:
-    - target: {fileID: 8568362645146197844, guid: 75193b36cb59d5d478112d57715dadaa, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 78495565272771930, guid: 401e57c7b9380441cb0455ca093d16b2, type: 3}
       propertyPath: m_Name
       value: Soda Bottle (3)
@@ -43763,6 +43795,10 @@ PrefabInstance:
     - target: {fileID: 746770569675323360, guid: 401e57c7b9380441cb0455ca093d16b2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8568362645146197844, guid: 75193b36cb59d5d478112d57715dadaa, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -803,6 +803,7 @@ Transform:
   - {fileID: 2640056355541475495}
   - {fileID: 9174469901435653753}
   - {fileID: 6155111120056358154}
+  - {fileID: 2678695163995583116}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8949766015804886965
@@ -830,6 +831,7 @@ MonoBehaviour:
       Data3: -1740097911
       Data4: 2110157357
     Path: event:/SFX/LEVEL SELECT/Level Start
+  startCinemachineCamera: {fileID: 7730555589483943939}
   playerStuffPrefab: {fileID: 27495992428100144, guid: 734bee597112e8b41935d24846acb4c4, type: 3}
   spawnPoint: {fileID: 9174469901435653754}
   playerHudController: {fileID: 322433779240238140}
@@ -1303,6 +1305,81 @@ Transform:
   - {fileID: 629063665963518066}
   m_Father: {fileID: 6210040608926154719}
   m_LocalEulerAnglesHint: {x: 0, y: 200, z: 0}
+--- !u!1 &6004137979901464476
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2678695163995583116}
+  - component: {fileID: 7730555589483943939}
+  m_Layer: 0
+  m_Name: Start Cinemachine Camera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2678695163995583116
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6004137979901464476}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.17276576, y: 0.23377953, z: -0.042253148, w: 0.9558838}
+  m_LocalPosition: {x: -30.446735, y: 33.128998, z: -43.099396}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7277433595790791915}
+  m_LocalEulerAnglesHint: {x: 20.49, y: 27.486, z: 0}
+--- !u!114 &7730555589483943939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6004137979901464476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Priority:
+    Enabled: 0
+    m_Value: 0
+  OutputChannel: 1
+  StandbyUpdate: 2
+  m_StreamingVersion: 20230301
+  m_LegacyPriority: 0
+  Target:
+    TrackingTarget: {fileID: 0}
+    LookAtTarget: {fileID: 0}
+    CustomLookAtTarget: 0
+  Lens:
+    FieldOfView: 90
+    OrthographicSize: 10
+    NearClipPlane: 0.2
+    FarClipPlane: 5000
+    Dutch: 0
+    ModeOverride: 0
+    PhysicalProperties:
+      GateFit: 2
+      SensorSize: {x: 21.946, y: 16.002}
+      LensShift: {x: 0, y: 0}
+      FocusDistance: 10
+      Iso: 200
+      ShutterSpeed: 0.005
+      Aperture: 16
+      BladeCount: 5
+      Curvature: {x: 2, y: 11}
+      BarrelClipping: 0.25
+      Anamorphism: 0
+  BlendHint: 0
 --- !u!1 &6023208645067556799
 GameObject:
   m_ObjectHideFlags: 0
@@ -2227,7 +2304,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5392925987305676553
 RectTransform:
   m_ObjectHideFlags: 0

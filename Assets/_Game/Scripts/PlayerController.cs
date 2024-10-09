@@ -238,7 +238,15 @@ namespace PixelDough.Bouncer
             //rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, 30);
 
             float projectedMagnitude = Vector3.ProjectOnPlane(rigidbody.linearVelocity, Vector3.up).magnitude;
-            rigidbody.linearDamping = Mathf.Lerp(rigidbody.linearDamping, (1f / (Mathf.Max(projectedMagnitude, 1) * 2)), Time.fixedDeltaTime);
+            if (_isGrounded)
+            {
+                rigidbody.linearDamping = MathHelpers.ExpDecay(rigidbody.linearDamping, (1f / (Mathf.Max(projectedMagnitude, 1) * 2)), 13, Time.fixedDeltaTime);
+            }
+            else
+            {
+                rigidbody.linearDamping = MathHelpers.ExpDecay(rigidbody.linearDamping, (1f / (Mathf.Max(projectedMagnitude, 1) * 2)), 1, Time.fixedDeltaTime);
+                // rigidbody.linearDamping = Mathf.Lerp(rigidbody.linearDamping, (1f / (Mathf.Max(projectedMagnitude, 1) * 2)), Time.fixedDeltaTime);
+            }
             
             _pastVelocity = rigidbody.linearVelocity;
         }

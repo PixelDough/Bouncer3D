@@ -22,7 +22,7 @@ public class Rotate : LevelFeature
     public float speed = 5f;
     
     [SerializeField, ReadOnly] private Quaternion startRotation = Quaternion.identity;
-    private bool _isResetting = false;
+    private CoroutineHandle _rotateCoroutineHandle;
 
     protected override void OnValidate()
     {
@@ -43,25 +43,27 @@ public class Rotate : LevelFeature
 
     public override void Initialize()
     {
+        Timing.KillCoroutines(_rotateCoroutineHandle);
+        
         if (rigidbodyOptional)
         {
             rigidbodyOptional.MoveRotation(startRotation);
+            rigidbodyOptional.transform.rotation = startRotation;
+            rigidbodyOptional.rotation = startRotation;
         }
         else
         {
             transform.rotation = startRotation;
         }
-
-        Timing.KillCoroutines(gameObject);
-        Timing.RunCoroutine(C_RotateCoroutine().CancelWith(gameObject), rigidbodyOptional ? Segment.FixedUpdate : Segment.Update);
-
-        _isResetting = true;
+        
+        _rotateCoroutineHandle = Timing.RunCoroutine(C_RotateCoroutine().CancelWith(gameObject), rigidbodyOptional ? Segment.FixedUpdate : Segment.Update);
     }
 
     private IEnumerator<float> C_RotateCoroutine()
     {
         yield return Timing.WaitForOneFrame;
-        while (true) {
+        while (true)
+        {
             float deltaTime = Time.deltaTime;
             if (ignoreTimeScale)
                 deltaTime = Time.unscaledDeltaTime;
@@ -74,7 +76,7 @@ public class Rotate : LevelFeature
                     if (rigidbodyOptional)
                     {
                         rigidbodyOptional.MoveRotation(
-                            Quaternion.Euler((speed * deltaTime * speedModifier) * axis) * rigidbodyOptional.rotation);
+                            Quaternion.Euler((speed * deltaTime * speedModifier) * axis) * rigidbodyOptional.transform.rotation);
                     } else
                     {
                         transform.Rotate(axis, speed * deltaTime * speedModifier, Space.World);
@@ -84,7 +86,7 @@ public class Rotate : LevelFeature
                     if (rigidbodyOptional)
                     {
                         rigidbodyOptional.MoveRotation(
-                            rigidbodyOptional.rotation * Quaternion.Euler(axis * (speed * deltaTime * speedModifier)));
+                            rigidbodyOptional.transform.rotation * Quaternion.Euler(axis * (speed * deltaTime * speedModifier)));
                     }
                     else
                     {

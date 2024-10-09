@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="MixerReturn" id="{43fdb423-9cc9-429e-8713-8a0affbbfa52}">
+		<property name="volume">
+			<value>-7.5</value>
+		</property>
+		<property name="name">
+			<value>Muffle</value>
+		</property>
+		<relationship name="effectChain">
+			<destination>{269201cc-c02a-4391-83e1-ffe89bb1fc43}</destination>
+		</relationship>
+		<relationship name="panner">
+			<destination>{549d8b79-fe82-403b-b0df-11cce43c3adb}</destination>
+		</relationship>
+		<relationship name="output">
+			<destination>{d56da450-7503-4bc1-adef-0e256e8e57b5}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusEffectChain" id="{269201cc-c02a-4391-83e1-ffe89bb1fc43}">
+		<relationship name="effects">
+			<destination>{b6c928ee-7e93-48fd-a2e7-68cbeec4778c}</destination>
+			<destination>{f8254b17-d859-4ed5-b0ac-9f7d4e749d0e}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusPanner" id="{549d8b79-fe82-403b-b0df-11cce43c3adb}" />
+	<object class="MixerBusFader" id="{b6c928ee-7e93-48fd-a2e7-68cbeec4778c}" />
+	<object class="MultibandEqEffect" id="{f8254b17-d859-4ed5-b0ac-9f7d4e749d0e}">
+		<property name="frequencyA">
+			<value>1314.21655</value>
+		</property>
+		<property name="qualityA">
+			<value>6.18634939</value>
+		</property>
+	</object>
+</objects>

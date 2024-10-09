@@ -329,8 +329,10 @@ MonoBehaviour:
   playerStuffManager: {fileID: 0}
   rigidbody: {fileID: 3770457594252763638}
   collider: {fileID: 3770457596032376573}
+  isPausable: 1
   jumpBufferMax: 0.2
   coyoteTimeMax: 0.2
+  inputCamera: {fileID: 0}
   cameraTiltRoot: {fileID: 0}
   dampenParticle: {fileID: 0}
   dampenBubble: {fileID: 0}
