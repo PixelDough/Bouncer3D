@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 namespace PixelDough.Bouncer
 {
-    public class GoalRing : MonoBehaviour
+    public class GoalRing : LevelFeature
     {
         [SerializeField] private SceneDependencySettingsSO levelSelectScene;
         [SerializeField] private InputActionReference continueAction;
@@ -16,7 +16,9 @@ namespace PixelDough.Bouncer
         private bool _continuePressed = false;
         
         private static readonly int SubtractiveFadeAmount = Shader.PropertyToID("_SubtractiveFadeAmount");
-        
+
+        public override void Initialize() { }
+
         private void OnTriggerEnter(Collider other)
         {
             if (_hit) return;
@@ -28,18 +30,18 @@ namespace PixelDough.Bouncer
             _hit = true;
             Time.timeScale = 0.0f;
 
-            LevelManager.StopTimer();
+            levelManager.StopTimer();
             Shader.SetGlobalFloat(SubtractiveFadeAmount, 0.5f);
 
             FMODUnity.RuntimeManager.PlayOneShot(goalHitSound);
             
-            LevelManager.Instance.SaveRecord();
+            levelManager.SaveRecord();
         }
 
         private void Update()
         {
             if (!_hit) return;
-            if (LevelManager.LevelState != LevelManager.LevelStates.Finished) return;
+            if (levelManager.LevelState != LevelManager.LevelStates.Finished) return;
             if (_continuePressed) return;
 
             if (GameSceneManager.IsChangingScenes) return;

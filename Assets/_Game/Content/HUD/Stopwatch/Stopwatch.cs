@@ -6,6 +6,7 @@ namespace PixelDough.Bouncer
 {
     public class Stopwatch : MonoBehaviour
     {
+        [SerializeField] private LevelManager levelManager;
         [SerializeField] private Transform stopwatchTransform;
         [SerializeField] private Transform stopwatchSecondHand;
         [SerializeField] private Transform stopwatchMinuteHand;
@@ -20,19 +21,19 @@ namespace PixelDough.Bouncer
 
         void LateUpdate()
         {
-            if (LevelManager.LevelTime.Seconds != _lastSeconds)
+            if (levelManager.LevelTime.Seconds != _lastSeconds)
             {
-                Vector3 newRotation = new Vector3(0, 0, Mathf.FloorToInt((float)LevelManager.LevelTime.TotalSeconds) * 6f);
+                Vector3 newRotation = new Vector3(0, 0, Mathf.FloorToInt((float)levelManager.LevelTime.TotalSeconds) * 6f);
                 stopwatchSecondHand.DOLocalRotate(newRotation, 0.75f, RotateMode.Fast).SetEase(Ease.OutElastic);
             }
-            if (LevelManager.LevelTime.Minutes != _lastMinutes)
+            if (levelManager.LevelTime.Minutes != _lastMinutes)
             {
-                Vector3 newRotation = new Vector3(0, 0, Mathf.FloorToInt((float)LevelManager.LevelTime.TotalMinutes) * 6f);
+                Vector3 newRotation = new Vector3(0, 0, Mathf.FloorToInt((float)levelManager.LevelTime.TotalMinutes) * 6f);
                 stopwatchMinuteHand.DOLocalRotate(newRotation, 0.75f, RotateMode.Fast).SetEase(Ease.OutElastic);
             }
             
-            _lastSeconds = LevelManager.LevelTime.Seconds;
-            _lastMinutes = LevelManager.LevelTime.Minutes;
+            _lastSeconds = levelManager.LevelTime.Seconds;
+            _lastMinutes = levelManager.LevelTime.Minutes;
         }
     }
 }

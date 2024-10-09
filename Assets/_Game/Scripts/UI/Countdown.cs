@@ -9,6 +9,7 @@ namespace PixelDough.Bouncer
 {
     public class Countdown : MonoBehaviour
     {
+        [SerializeField] private LevelManager levelManager;
         [SerializeField] private Transform[] countdownTransforms;
         
         [Header("FMOD Events")]
@@ -36,11 +37,11 @@ namespace PixelDough.Bouncer
         
         private IEnumerator<float> C_CountdownCoroutine(Action onComplete = null)
         {
-            LevelManager.LevelState = LevelManager.LevelStates.Intro;
+            levelManager.LevelState = LevelManager.LevelStates.Intro;
             GameManager.DoPlayerMovement = false;
             // GameManager.DoPlayerPhysics = false;
-            LevelManager.CountingTime = false;
-            LevelManager.ResetTimer();
+            levelManager.CountingTime = false;
+            levelManager.ResetTimer();
 
             for (var index = 0; index < countdownTransforms.Length; index++)
             {
@@ -60,11 +61,11 @@ namespace PixelDough.Bouncer
 
             Time.timeScale = 1f;
             _isPlayingCountdown = false;
-            LevelManager.LevelState = LevelManager.LevelStates.Playing;
+            levelManager.LevelState = LevelManager.LevelStates.Playing;
             
             GameManager.DoPlayerMovement = true;
             // GameManager.DoPlayerPhysics = true;
-            LevelManager.CountingTime = true;
+            levelManager.CountingTime = true;
             
             onComplete?.Invoke();
         }

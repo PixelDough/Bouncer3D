@@ -10,6 +10,7 @@ namespace PixelDough.Bouncer.UI
 {
     public class PlayerHudController : MonoBehaviour
     {
+        [SerializeField] private LevelManager levelManager;
         [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private Camera hudCamera;
         
@@ -37,10 +38,10 @@ namespace PixelDough.Bouncer.UI
 
         private void Update()
         {
-            timerText.text = LevelManager.LevelTime.ToString(LevelManager.LevelTime.Hours > 0 ? @"hh\:mm\:ss\.fff" : @"mm\:ss\.fff");
+            timerText.text = levelManager.LevelTime.ToString(levelManager.LevelTime.Hours > 0 ? @"hh\:mm\:ss\.fff" : @"mm\:ss\.fff");
 
             finishTimerText.text = timerText.text;
-            finishCanvasGroup.alpha = LevelManager.LevelState == LevelManager.LevelStates.Finished ? 1 : 0;
+            finishCanvasGroup.alpha = levelManager.LevelState == LevelManager.LevelStates.Finished ? 1 : 0;
         }
 
         public void SetVisibility(bool state, bool doAnimation = true)

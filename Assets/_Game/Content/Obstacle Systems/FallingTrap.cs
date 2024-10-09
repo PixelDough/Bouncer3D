@@ -58,7 +58,7 @@ namespace PixelDough.Bouncer
 
         private void Update()
         {
-            if (LevelManager.IsPaused) return;
+            if (levelManager.IsPaused) return;
             if (_isShaking)
             {
                 meshTransform.localPosition = Random.insideUnitSphere * 0.1f;
@@ -114,7 +114,7 @@ namespace PixelDough.Bouncer
             _shakeFallEventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             _shakeFallEventInstance.release();
             _shakeFallEventInstance.clearHandle();
-            if (LevelManager.Instance) LevelManager.Instance.OnPauseStateChanged -= OnPauseStateChanged;
+            levelManager.OnPauseStateChanged -= OnPauseStateChanged;
         }
     }
 }

@@ -12,9 +12,10 @@ namespace PixelDough.Bouncer
 {
     public class PlayerController : MonoBehaviour
     {
-
         [SerializeField] private PlayerStuffManager playerStuffManager;
         public PlayerStuffManager PlayerStuffManager => playerStuffManager;
+
+        [NonSerialized] public LevelManager levelManager;
         
         [SerializeField] private new Rigidbody rigidbody;
         public Rigidbody Rigidbody => rigidbody;
@@ -86,12 +87,12 @@ namespace PixelDough.Bouncer
             _respawnPoint = transform.position;
             _respawnForward = transform.forward;
             
-            LevelManager.Instance.OnPauseStateChanged += OnPauseStateChange;
+            if (levelManager is not null) levelManager.OnPauseStateChanged += OnPauseStateChange;
         }
 
         private void OnDestroy()
         {
-            if (LevelManager.Instance is not null) LevelManager.Instance.OnPauseStateChanged -= OnPauseStateChange;
+            if (levelManager is not null) levelManager.OnPauseStateChanged -= OnPauseStateChange;
         }
 
         private void Update()
@@ -355,9 +356,9 @@ namespace PixelDough.Bouncer
         {
             if (!isPausable) return;
             if (_isRespawning) return;
-            if (!LevelManager.Instance) return;
-            if (LevelManager.Instance.LiveZones.Count == 0) return;
-            if (LevelManager.Instance.LiveZones.Any(liveZone => liveZone.IsInZone(transform.position))) return;
+            if (!levelManager) return;
+            if (levelManager.LiveZones.Count == 0) return;
+            if (levelManager.LiveZones.Any(liveZone => liveZone.IsInZone(transform.position))) return;
             Kill();
         }
 
@@ -422,7 +423,7 @@ namespace PixelDough.Bouncer
                 cameraTiltRoot.rotation = Quaternion.identity;
                 
                 // LevelManager.Instance.LevelProgress.LoseCollectables();
-                LevelManager.Instance.ResetLevelElements();
+                levelManager?.ResetLevelElements();
                 
                 GameManager.Instance.screenFadeController.FadeFromBlack(0.5f).setOnComplete(() =>
                 {

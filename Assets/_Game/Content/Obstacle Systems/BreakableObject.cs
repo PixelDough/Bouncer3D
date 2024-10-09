@@ -40,12 +40,12 @@ namespace PixelDough.Bouncer
 
         private void Start()
         {
-            LevelManager.Instance.OnPauseStateChanged += OnPauseStateChanged;
+            levelManager.OnPauseStateChanged += OnPauseStateChanged;
         }
 
         private void OnDestroy()
         {
-            if (LevelManager.Instance) LevelManager.Instance.OnPauseStateChanged -= OnPauseStateChanged;
+            if (levelManager) levelManager.OnPauseStateChanged -= OnPauseStateChanged;
         }
 
         public override void Initialize()

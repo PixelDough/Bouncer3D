@@ -9,7 +9,8 @@ namespace PixelDough.Bouncer
     {
         private static readonly int SubtractiveFadeAmount = Shader.PropertyToID("_SubtractiveFadeAmount");
         private static readonly int BaseMap = Shader.PropertyToID("_BaseMap");
-        
+
+        [SerializeField] private LevelManager levelManager;
         [SerializeField] private Transform pauseCamRoot;
         [SerializeField] private Camera pauseSceneCamera;
         [SerializeField] private PlayerController pausePlayer;
@@ -146,7 +147,7 @@ namespace PixelDough.Bouncer
         public async void ResumeButton()
         {
             await BlinkLED();
-            LevelManager.Instance.ResumeGame();
+            levelManager.ResumeGame();
         }
 
         public async void QuitButton()
@@ -158,15 +159,15 @@ namespace PixelDough.Bouncer
         {
             await BlinkLED();
             await Hide();
-            LevelManager.Instance.ResumeGame();
-            LevelManager.Instance.PlayerStuffManager.playerController.Kill();
+            levelManager.ResumeGame();
+            levelManager.PlayerStuffManager.playerController.Kill();
         }
         
         public async void YesButton()
         {
             await BlinkLED();
             await Hide();
-            LevelManager.Instance.QuitGame();
+            levelManager.QuitGame();
         }
 
         public async void NoButton()

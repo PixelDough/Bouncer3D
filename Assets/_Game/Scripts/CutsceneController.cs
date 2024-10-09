@@ -9,6 +9,7 @@ using UnityEngine.Playables;
 
 public class CutsceneController : MonoBehaviour
 {
+    [SerializeField] private LevelManager levelManager;
     [SerializeField] private PlayableDirector playableDirector;
 
     private PlayerController _playerController;
@@ -38,9 +39,9 @@ public class CutsceneController : MonoBehaviour
     {
         GameManager.DoPlayerMovement = false;
         GameManager.DoPlayerPhysics = false;
-        LevelManager.CountingTime = false;
-        LevelManager.ResetTimer();
-        LevelManager.Instance.CutsceneBegin();
+        levelManager.CountingTime = false;
+        levelManager.ResetTimer();
+        levelManager.CutsceneBegin();
         
         Timing.RunCoroutine(C_CutsceneCoroutine().CancelWith(gameObject));
     }
@@ -53,12 +54,12 @@ public class CutsceneController : MonoBehaviour
         GameManager.Instance.screenFadeController.FadeToBlack(0.5f).setOnComplete(() =>
         {
             playableDirector.Stop();
-            LevelManager.Instance.CutsceneEnded();
+            levelManager.CutsceneEnded();
             GameManager.Instance.screenFadeController.FadeFromBlack(0.5f).setOnComplete(() =>
             {
                 GameManager.DoPlayerMovement = true;
                 GameManager.DoPlayerPhysics = true;
-                LevelManager.CountingTime = true;
+                levelManager.CountingTime = true;
             });
         });
     }

@@ -823,6 +823,13 @@ MonoBehaviour:
   levelFeatures: []
   liveZones: []
   cutsceneController: {fileID: 0}
+  levelMusic:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   levelSelectScene: {fileID: 11400000, guid: ddf7a751f42704690b4acce85251bdaa, type: 2}
   quitSound:
     Guid:
@@ -841,6 +848,8 @@ MonoBehaviour:
   pauseScene: {fileID: 5012439084947107287}
   pauseAction: {fileID: 5383555785022096751, guid: 4fd51e447f699490b8e9bdbbe0678b5f, type: 3}
   quitAction: {fileID: -3109717456469893657, guid: 4fd51e447f699490b8e9bdbbe0678b5f, type: 3}
+  LevelState: 0
+  CountingTime: 0
 --- !u!1 &2658640682369000073
 GameObject:
   m_ObjectHideFlags: 0
@@ -892,6 +901,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64a26b8e99557ea4bbc2f6602b9bf9d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 8949766015804886965}
   canvasGroup: {fileID: 8390263591866719381}
   hudCamera: {fileID: 6818231901062289424}
   timerText: {fileID: 809464846329641376}
@@ -1270,6 +1280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70d3179c75f274753ae5812d8378ff86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 8949766015804886965}
   stopwatchTransform: {fileID: 629063665963518066}
   stopwatchSecondHand: {fileID: 2831290804782176561}
   stopwatchMinuteHand: {fileID: 6200144833999324696}
@@ -1623,6 +1634,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 966342f75d1b34530904728f2bebbcde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 8949766015804886965}
   countdownTransforms:
   - {fileID: 3565973772838511665}
   - {fileID: 8700493867707985136}
@@ -3172,6 +3184,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8637282213345378121, guid: f2e57ecb3f54f47628ddf7351b24f1f1, type: 3}
+      propertyPath: levelManager
+      value: 
+      objectReference: {fileID: 8949766015804886965}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

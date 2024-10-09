@@ -13,7 +13,7 @@ using UnityEngine.Rendering.Universal;
 
 namespace PixelDough.Bouncer
 {
-    public class Binoculars : MonoBehaviour
+    public class Binoculars : LevelFeature
     {
         [SerializeField] private Transform binocularsTransform;
         [SerializeField] private CinemachineCamera cinemachineCamera;
@@ -47,6 +47,8 @@ namespace PixelDough.Bouncer
         {
             _originalFOV = cinemachineCamera.Lens.FieldOfView;
         }
+
+        public override void Initialize() { }
 
         private void Update()
         {
@@ -119,7 +121,7 @@ namespace PixelDough.Bouncer
             
             yield return Timing.WaitForSeconds(0.25f);
             
-            LevelManager.Instance.ShowTutorialText(closePromptString.GetLocalizedString());
+            levelManager.ShowTutorialText(closePromptString.GetLocalizedString());
             
             _isUsed = true;
         }
@@ -128,7 +130,7 @@ namespace PixelDough.Bouncer
         {
             _isUsed = false;
             
-            LevelManager.Instance.HideTutorialText();
+            levelManager.HideTutorialText();
             
             volumeComponent.profile.TryGet(out Vignette vignette);
             DOTween.To(() => vignette.intensity.value, x => vignette.intensity.value = x, 1f, 0.25f).SetEase(Ease.InSine);

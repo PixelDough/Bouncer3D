@@ -8,7 +8,7 @@ namespace PixelDough.Bouncer
 {
     public class PlayerStuffManager : MonoBehaviour
     {
-
+        [NonSerialized] public LevelManager levelManager; 
         public PlayerController playerController;
 
         [SerializeField] private CinemachineCamera cinemachineCamera;
@@ -41,8 +41,9 @@ namespace PixelDough.Bouncer
         {
             float targetFOV = Mathf.InverseLerp(0f, 2000, playerController.Velocity.sqrMagnitude) * 30f + 100f;
             cinemachineCamera.Lens.FieldOfView = MathHelpers.ExpDecay(cinemachineCamera.Lens.FieldOfView, targetFOV, 5f, Time.deltaTime);
-            
-            if (!GameManager.DoPlayerMovement || LevelManager.IsPaused)
+
+            bool disableInput = !GameManager.DoPlayerMovement || (levelManager && levelManager.IsPaused);
+            if (disableInput)
             {
                 cinemachineInputAxisController.Controllers[0].Input.Gain = 0f;
                 cinemachineInputAxisController.Controllers[1].Input.Gain = 0f;

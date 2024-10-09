@@ -8,19 +8,19 @@ using Sirenix.OdinInspector;
 using TMPro;
 using Tools.SceneDependencies;
 using Unity.Cinemachine;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Pool;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace PixelDough.Bouncer
 {
     public class LevelManager : MonoBehaviour
     {
-        public static LevelManager Instance;
-        
         public GameLevelDataSO gameLevelData;
         [SerializeField] private ZoneDataScriptableObject zoneData;
         [SerializeField] private List<LevelFeature> levelFeatures = new List<LevelFeature>();
@@ -55,25 +55,16 @@ namespace PixelDough.Bouncer
         [NonSerialized] public PlayerStuffManager PlayerStuffManager;
         
         public enum LevelStates { Intro, Playing, Finished }
-        [HideInInspector] public static LevelStates LevelState = LevelStates.Intro;
+        [HideInInspector] public LevelStates LevelState = LevelStates.Intro;
 
-        public static bool IsPaused => Instance._isPaused;
+        public bool IsPaused => _isPaused;
         public Action<bool> OnPauseStateChanged = delegate {  };
         private bool _isPaused = false;
         
-        public static TimeSpan LevelTime;
-        public static bool CountingTime = false;
+        public TimeSpan LevelTime = new TimeSpan(0, 0, 0, 0, 0);
+        public bool CountingTime = false;
 
         private float _muffleEffectValue = 0f;
-        
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        static void InitOnLoad()
-        {
-            Instance = null;
-            LevelState = LevelStates.Intro;
-            LevelTime = new TimeSpan(0, 0, 0, 0, 0);
-            CountingTime = false;
-        }
 
         private void OnValidate()
         {
@@ -86,25 +77,20 @@ namespace PixelDough.Bouncer
         private void OnDestroy()
         {
             GameSceneManager.OnSceneLoaded -= Initialize;
-            if (Instance == this)
+            if (_levelMusicInstance.isValid())
             {
-                Instance = null;
-                
-                if (_levelMusicInstance.isValid())
-                {
-                    _levelMusicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-                    _levelMusicInstance.release();
-                }
-                FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Muffle", 0f);
+                _levelMusicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                _levelMusicInstance.release();
             }
+            FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Muffle", 0f);
         }
 
         private void Start()
         {
-            Instance = this;
-            
             PlayerStuffManager spawnedPlayerStuff = Instantiate(playerStuffPrefab, spawnPoint.transform.position,
                 spawnPoint.transform.rotation);
+            spawnedPlayerStuff.levelManager = this;
+            spawnedPlayerStuff.playerController.levelManager = this;
             PlayerStuffManager = spawnedPlayerStuff;
             
             GameManager.DoPlayerPhysics = true;
@@ -217,12 +203,12 @@ namespace PixelDough.Bouncer
             FMODUnity.RuntimeManager.PlayOneShot(quitSound);
         }
 
-        public static void ResetTimer()
+        public void ResetTimer()
         {
             LevelTime = new TimeSpan(0, 0, 0, 0, 0);
         }
 
-        public static void StopTimer()
+        public void StopTimer()
         {
             CountingTime = false;
             LevelState = LevelStates.Finished;
@@ -277,6 +263,9 @@ namespace PixelDough.Bouncer
             foreach (LevelFeature levelFeature in levelFeatures)
             {
                 levelFeature.levelManager = this;
+                #if UNITY_EDITOR
+                EditorUtility.SetDirty(levelFeature);
+                #endif
             }
         }
         

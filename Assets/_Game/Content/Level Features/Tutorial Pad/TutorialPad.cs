@@ -5,7 +5,7 @@ using UnityEngine.Localization;
 
 namespace PixelDough.Bouncer
 {
-    public class TutorialPad : MonoBehaviour
+    public class TutorialPad : LevelFeature
     {
         [SerializeField] private Transform questionMark;
         [SerializeField] private LocalizedString tutorialText;
@@ -23,6 +23,8 @@ namespace PixelDough.Bouncer
             _camera = Camera.main;
         }
 
+        public override void Initialize() { }
+        
         private void Update()
         {
             Quaternion targetRotation = Quaternion.LookRotation(_camera.transform.position - questionMark.position, transform.up); 
@@ -41,7 +43,7 @@ namespace PixelDough.Bouncer
 
             if (DOTween.IsTweening(_scaleTweenID)) DOTween.Kill(_scaleTweenID);
             _scaleTweenID = questionMark.DOScale(_shrunkScale, 0.5f).SetEase(Ease.OutCirc).intId;
-            LevelManager.Instance.ShowTutorialText(tutorialText.GetLocalizedString());
+            levelManager.ShowTutorialText(tutorialText.GetLocalizedString());
         }
 
         private void OnTriggerExit(Collider other)
@@ -51,7 +53,8 @@ namespace PixelDough.Bouncer
             
             if (DOTween.IsTweening(_scaleTweenID)) DOTween.Kill(_scaleTweenID);
             _scaleTweenID = questionMark.DOScale(_initialScale, 0.5f).SetEase(Ease.OutBack).intId;
-            LevelManager.Instance.HideTutorialText();
+            levelManager.HideTutorialText();
         }
+
     }
 }
