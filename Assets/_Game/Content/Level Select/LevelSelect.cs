@@ -42,7 +42,7 @@ namespace PixelDough.Bouncer
                 levelSelectButtons[i].SetLevelData(levelData);
             }
             
-            _currentLevelIndex = ES3.Load("selected-level-index", 0);
+            _currentLevelIndex = GameManager.Instance.LoadSelectedLevelIndex();
             carouselContent.localEulerAngles = new Vector3(0, _currentLevelIndex * 30f, 0f);
             
             UpdateCurrentLevelInfo();
@@ -143,7 +143,7 @@ namespace PixelDough.Bouncer
 
         private void OnDestroy()
         {
-            ES3.Save("selected-level-index", _currentLevelIndex);
+            GameManager.Instance.SaveSelectedLevelIndex(_currentLevelIndex);
         }
     }
 }
