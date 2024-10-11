@@ -33,7 +33,7 @@ public class Rotate : LevelFeature
         }
 
         if (UnityEngine.Application.isPlaying) return;
-        startRotation = rigidbodyOptional ? rigidbodyOptional.rotation : transform.rotation;
+        startRotation = rigidbodyOptional ? rigidbodyOptional.transform.rotation : transform.rotation;
     }
 
     private void Start()

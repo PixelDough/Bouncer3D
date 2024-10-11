@@ -48,7 +48,7 @@ namespace PixelDough.Bouncer
             if (!_isSwallowing) return;
             if (!_playerController) return;
             
-            _playerController.transform.position = playerAttachPoint.position;
+            _playerController.transform.position = transform.position;
         }
 
         private void FixedUpdate()
@@ -90,6 +90,8 @@ namespace PixelDough.Bouncer
         {
             if (!_playerController) return;
             if (!_isSwallowing) return;
+            _playerController.transform.position = playerAttachPoint.position;
+            _playerController.PlayerStuffManager.SetCameraForward(cinemachineCamera.transform.forward);
             GameManager.DoPlayerPhysics = true;
             GameManager.DoPlayerMovement = true;
             _playerController.Rigidbody.isKinematic = false;

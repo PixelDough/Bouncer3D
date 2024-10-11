@@ -1,0 +1,621 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5073432683088321121
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 692693369199395506}
+  - component: {fileID: 336248143131443201}
+  - component: {fileID: 8775652473052045172}
+  m_Layer: 0
+  m_Name: Bowling Pin Ring
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &692693369199395506
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5073432683088321121}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -163.43567, y: 73.957985, z: 48.25947}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6871149682767941072}
+  - {fileID: 3081732668335731983}
+  - {fileID: 4352838134978125755}
+  - {fileID: 6739827166761809433}
+  - {fileID: 5055308328872639598}
+  - {fileID: 8036045093619593675}
+  - {fileID: 8206479585803192729}
+  - {fileID: 4204092309373948917}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &336248143131443201
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5073432683088321121}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 1
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &8775652473052045172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5073432683088321121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f2db5e4016f5874ba8dc08c1f00525a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelManager: {fileID: 0}
+  rigidbodyOptional: {fileID: 336248143131443201}
+  space: 1
+  axis: {x: 0, y: 1, z: 0}
+  ignoreTimeScale: 0
+  autoScale: 0
+  autoScaleMinMaxScale: {x: 1, y: 75}
+  autoScaleMaxMultiplier: 0.333
+  autoScalePower: 0.2
+  speed: 10
+  startRotation: {x: 0, y: 0, z: 0, w: 1}
+--- !u!1001 &774680588199362005
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 692693369199395506}
+    m_Modifications:
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 30.000015
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 30.000015
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -25.000011
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.0000020862688
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.0000020862688
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3120823876350448224, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_Name
+      value: Bowling Pin (4)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+--- !u!4 &3081732668335731983 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+  m_PrefabInstance: {fileID: 774680588199362005}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1292230702881107266
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 692693369199395506}
+    m_Modifications:
+    - target: {fileID: 5043475700343863848, guid: f776bc40f5f764c8187e78f66528cb5e, type: 3}
+      propertyPath: m_Name
+      value: Bowling Pin Red
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671675430344532114, guid: f776bc40f5f764c8187e78f66528cb5e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671675430344532114, guid: f776bc40f5f764c8187e78f66528cb5e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671675430344532114, guid: f776bc40f5f764c8187e78f66528cb5e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671675430344532114, guid: f776bc40f5f764c8187e78f66528cb5e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.0000029504292
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671675430344532114, guid: f776bc40f5f764c8187e78f66528cb5e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671675430344532114, guid: f776bc40f5f764c8187e78f66528cb5e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671675430344532114, guid: f776bc40f5f764c8187e78f66528cb5e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671675430344532114, guid: f776bc40f5f764c8187e78f66528cb5e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671675430344532114, guid: f776bc40f5f764c8187e78f66528cb5e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671675430344532114, guid: f776bc40f5f764c8187e78f66528cb5e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f776bc40f5f764c8187e78f66528cb5e, type: 3}
+--- !u!4 &6871149682767941072 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5671675430344532114, guid: f776bc40f5f764c8187e78f66528cb5e, type: 3}
+  m_PrefabInstance: {fileID: 1292230702881107266}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1896960770155141935
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 692693369199395506}
+    m_Modifications:
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 30.000015
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 30.00002
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -17.677675
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 17.677675
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.89184743
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.2411669
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.36941543
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.09989469
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 390.263
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -45
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3120823876350448224, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_Name
+      value: Bowling Pin (2)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+--- !u!4 &4204092309373948917 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+  m_PrefabInstance: {fileID: 1896960770155141935}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2048248686172460897
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 692693369199395506}
+    m_Modifications:
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.0000029504292
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3120823876350448224, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_Name
+      value: Bowling Pin (5)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+--- !u!4 &4352838134978125755 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+  m_PrefabInstance: {fileID: 2048248686172460897}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5728983367012727057
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 692693369199395506}
+    m_Modifications:
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 30.00002
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 30.000015
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 17.677675
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -17.677675
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.36941543
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.09989469
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.89184743
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.2411669
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 390.263
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 135
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3120823876350448224, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_Name
+      value: Bowling Pin (2)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+--- !u!4 &8036045093619593675 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+  m_PrefabInstance: {fileID: 5728983367012727057}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5901951778359214403
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 692693369199395506}
+    m_Modifications:
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 17.677664
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 17.677675
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.8918459
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.24116689
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.36941853
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.09989665
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 390.263
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3120823876350448224, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_Name
+      value: Bowling Pin (2)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+--- !u!4 &8206479585803192729 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+  m_PrefabInstance: {fileID: 5901951778359214403}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7362440151435031732
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 692693369199395506}
+    m_Modifications:
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -17.677664
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -17.677675
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.3694167
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.099894874
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.89184695
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.24116665
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 390.263
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -135
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3120823876350448224, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_Name
+      value: Bowling Pin (2)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+--- !u!4 &5055308328872639598 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+  m_PrefabInstance: {fileID: 7362440151435031732}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &9046633729375616707
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 692693369199395506}
+    m_Modifications:
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 30.000015
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 30.000015
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 25.000011
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.0000020862688
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.0000020862688
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3120823876350448224, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+      propertyPath: m_Name
+      value: Bowling Pin (6)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+--- !u!4 &6739827166761809433 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2307167281963944154, guid: cad5481448c7542f2a6ac6c2aad7d3c1, type: 3}
+  m_PrefabInstance: {fileID: 9046633729375616707}
+  m_PrefabAsset: {fileID: 0}

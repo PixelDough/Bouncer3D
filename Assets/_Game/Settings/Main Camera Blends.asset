@@ -71,7 +71,7 @@ MonoBehaviour:
   - From: '**ANY CAMERA**'
     To: Ball Return Camera
     Blend:
-      Style: 1
+      Style: 0
       Time: 0.5
       CustomCurve:
         serializedVersion: 2
@@ -82,8 +82,8 @@ MonoBehaviour:
   - From: Ball Return Camera
     To: '**ANY CAMERA**'
     Blend:
-      Style: 1
-      Time: 1
+      Style: 3
+      Time: 0.5
       CustomCurve:
         serializedVersion: 2
         m_Curve: []
