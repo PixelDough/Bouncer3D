@@ -14,7 +14,7 @@ namespace PixelDough.Bouncer
         [SerializeField] private List<LevelSelectButton> levelSelectButtons = new List<LevelSelectButton>();
         [SerializeField] private Transform characterTransform;
         [SerializeField] private Font3DString levelNameText;
-        [SerializeField] private Font3DString levelRecordText;
+        [SerializeField] private List<Transform> medalRoots;
         [SerializeField] private SceneDependencySettingsSO mainMenuScene;
         
         [Header("Input Actions")]
@@ -52,6 +52,11 @@ namespace PixelDough.Bouncer
         {
             characterTransform.localPosition = Vector3.Lerp(Vector3.zero,
                 Vector3.up * 0.1f, Mathf.InverseLerp(-1, 1, Mathf.Cos(Time.time)));
+
+            foreach (Transform medalRoot in medalRoots)
+            {
+                medalRoot.localEulerAngles = new Vector3(Mathf.Sin(Time.time * 2f) * 15, Mathf.Cos(Time.time * 2f) * 15, 0f);
+            }
             
             for (int i = 0; i < levelSelectButtons.Count; i++)
             {
@@ -112,8 +117,8 @@ namespace PixelDough.Bouncer
                 }
             }
 
-            levelRecordText.SetText("Best Time: " + Environment.NewLine + levelRecord);
-            levelRecordText.AnimPulse();
+            // levelRecordText.SetText("Best Time: " + Environment.NewLine + levelRecord);
+            // levelRecordText.AnimPulse();
         }
 
         private void HandleSelectLevel()
