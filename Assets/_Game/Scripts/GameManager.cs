@@ -89,7 +89,10 @@ namespace PixelDough.Bouncer
             quantumConsole.OnDeactivate += OnQcDeactivate;
             InputUser.onChange += OnControlsChanged;
             
-            ConvertES3ToSteamCloud();
+            if (!SteamSettings.Initialized)
+            {
+                steamSettings.Initialize();
+            }
         }
 
         private void Update()
@@ -113,54 +116,12 @@ namespace PixelDough.Bouncer
             Time.timeScale = 1.0f;
             Cursor.lockState = _cursorLockStateBeforeConsole;
         }
-
-        public void ConvertES3ToSteamCloud()
-        {
-            return; // We don't need this any more, ES3 should ONLY be used when playing a non-steam version of the game.
-            // On launch, if the player has ES3 data, and CloudAPI is Enabled, convert the ES3 data to Steam Cloud, and delete the ES3 data.
-            if (!SteamSettings.Initialized) steamSettings.Initialize();
-            if (!SteamSettings.Initialized) return;
-            if (!CloudAPI.IsEnabled) return;
-            
-            if (!ES3.FileExists("SaveFile.es3")) return;
-            
-            Debug.Log("MIGRATING SAVES FROM ES3 TO STEAM CLOUD!");
-            
-            Dictionary<string, object> buildJson = new Dictionary<string, object>();
-            foreach (var key in ES3.GetKeys("SaveFile.es3"))
-            {
-                buildJson[key] = ES3.Load(key);
-            }
-
-            string jsonString = JsonConvert.SerializeObject(buildJson);
-            Debug.Log(jsonString);
-            bool fileOverwritten = CloudAPI.FileWrite("SaveFile", jsonString);
-            
-            ES3.DeleteFile("SaveFile.es3");
-            Debug.Log("MIGRATION SUCCESSFUL!");
-        }
-
+        
         public int LoadLevelRecord(string levelID)
         {
             string levelRecordKey = "level-" + levelID + "-record";
-            
-            if (!SteamSettings.Initialized) steamSettings.Initialize();
-            if(SteamSettings.Initialized && CloudAPI.IsEnabled)
-            {
-                CloudAPI.GetQuota(out ulong total, out ulong remaining);
-                Debug.Log("Used " + (total - remaining) + " of " + total + " bytes.");
-                
-                string saveDataString = CloudAPI.FileReadString("SaveFile", System.Text.Encoding.UTF8);
-                Dictionary<string, object> savedJson =
-                    JsonConvert.DeserializeObject<Dictionary<string, object>>(saveDataString);
-                if (savedJson is null || !savedJson.TryGetValue(levelRecordKey, out var value)) return 0;
-                return Convert.ToInt32(value);
-            }
-            else
-            {
-                int levelRecordMs = ES3.Load<int>(levelRecordKey, 0);
-                return levelRecordMs;
-            }
+            int levelRecordMs = ES3.Load<int>(levelRecordKey, 0);
+            return levelRecordMs;
         }
         
         public int SaveLevelRecord(string levelID, int timeMs)
@@ -171,52 +132,18 @@ namespace PixelDough.Bouncer
             if (timeMs >= previousRecord && previousRecord != 0)
                 return previousRecord;
             
-            if (SteamSettings.Initialized && CloudAPI.IsEnabled)
-            {
-                string saveDataString = CloudAPI.FileReadString("SaveFile", System.Text.Encoding.UTF8);
-                Dictionary<string, object> savedJson =
-                    JsonConvert.DeserializeObject<Dictionary<string, object>>(saveDataString);
-                savedJson[levelRecordKey] = timeMs;
-                bool fileOverwritten = CloudAPI.FileWrite("SaveFile", JsonConvert.SerializeObject(savedJson));
-                return timeMs;
-            }
-            else
-            {
-                ES3.Save<int>(levelRecordKey, timeMs);
-                return timeMs;
-            }
+            ES3.Save<int>(levelRecordKey, timeMs);
+            return timeMs;
         }
         
         public int LoadSelectedLevelIndex()
         {
-            if (SteamSettings.Initialized && CloudAPI.IsEnabled)
-            {
-                string saveDataString = CloudAPI.FileReadString("SaveFile", System.Text.Encoding.UTF8);
-                Dictionary<string, object> savedJson =
-                    JsonConvert.DeserializeObject<Dictionary<string, object>>(saveDataString);
-                if (savedJson is null || !savedJson.TryGetValue("selected-level-index", out var value)) return 0;
-                return Convert.ToInt32(value);
-            }
-            else
-            {
-                return ES3.Load("selected-level-index", 0);
-            }
+            return ES3.Load("selected-level-index", 0);
         }
 
         public void SaveSelectedLevelIndex(int index)
         {
-            if (SteamSettings.Initialized && CloudAPI.IsEnabled)
-            {
-                string saveDataString = CloudAPI.FileReadString("SaveFile", System.Text.Encoding.UTF8);
-                Dictionary<string, object> savedJson =
-                    JsonConvert.DeserializeObject<Dictionary<string, object>>(saveDataString);
-                savedJson["selected-level-index"] = index;
-                bool fileOverwritten = CloudAPI.FileWrite("SaveFile", JsonConvert.SerializeObject(savedJson));
-            }
-            else
-            {
-                ES3.Save("selected-level-index", index);
-            }
+            ES3.Save("selected-level-index", index);
         }
 
         private void OnControlsChanged(InputUser inputUser, InputUserChange inputUserChange, InputDevice inputDevice)
