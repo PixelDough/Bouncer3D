@@ -116,8 +116,10 @@ namespace PixelDough.Bouncer
 
         public void ConvertES3ToSteamCloud()
         {
+            return; // We don't need this any more, ES3 should ONLY be used when playing a non-steam version of the game.
             // On launch, if the player has ES3 data, and CloudAPI is Enabled, convert the ES3 data to Steam Cloud, and delete the ES3 data.
             if (!SteamSettings.Initialized) steamSettings.Initialize();
+            if (!SteamSettings.Initialized) return;
             if (!CloudAPI.IsEnabled) return;
             
             if (!ES3.FileExists("SaveFile.es3")) return;
@@ -143,7 +145,7 @@ namespace PixelDough.Bouncer
             string levelRecordKey = "level-" + levelID + "-record";
             
             if (!SteamSettings.Initialized) steamSettings.Initialize();
-            if(CloudAPI.IsEnabled)
+            if(SteamSettings.Initialized && CloudAPI.IsEnabled)
             {
                 CloudAPI.GetQuota(out ulong total, out ulong remaining);
                 Debug.Log("Used " + (total - remaining) + " of " + total + " bytes.");
@@ -169,7 +171,7 @@ namespace PixelDough.Bouncer
             if (timeMs >= previousRecord && previousRecord != 0)
                 return previousRecord;
             
-            if (CloudAPI.IsEnabled)
+            if (SteamSettings.Initialized && CloudAPI.IsEnabled)
             {
                 string saveDataString = CloudAPI.FileReadString("SaveFile", System.Text.Encoding.UTF8);
                 Dictionary<string, object> savedJson =
@@ -187,7 +189,7 @@ namespace PixelDough.Bouncer
         
         public int LoadSelectedLevelIndex()
         {
-            if (CloudAPI.IsEnabled)
+            if (SteamSettings.Initialized && CloudAPI.IsEnabled)
             {
                 string saveDataString = CloudAPI.FileReadString("SaveFile", System.Text.Encoding.UTF8);
                 Dictionary<string, object> savedJson =
@@ -203,7 +205,7 @@ namespace PixelDough.Bouncer
 
         public void SaveSelectedLevelIndex(int index)
         {
-            if (CloudAPI.IsEnabled)
+            if (SteamSettings.Initialized && CloudAPI.IsEnabled)
             {
                 string saveDataString = CloudAPI.FileReadString("SaveFile", System.Text.Encoding.UTF8);
                 Dictionary<string, object> savedJson =

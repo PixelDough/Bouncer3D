@@ -21,9 +21,6 @@ namespace PixelDough.Bouncer.UI
         [SerializeField] private CanvasGroup finishCanvasGroup;
         [SerializeField] private TextMeshProUGUI finishTimerText;
         
-        [Header("Pause UI")]
-        [SerializeField] private CanvasGroup pauseCanvasGroup;
-        
         private bool _isVisible = true;
 
         private void Start()

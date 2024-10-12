@@ -134,7 +134,8 @@ namespace PixelDough.Bouncer
         
             Vector3 position = playerAttachPoint.position;
             Vector3 velocity = targetDirection * spitForce;
-            float timeStep = 10f / 20f; // 10 seconds divided by 20 steps
+            float seconds = spitForce / 10f;
+            float timeStep = seconds / 20f; // 10 seconds divided by 20 steps
             Vector3 gravity = Physics.gravity * timeStep;
         
             for (int i = 0; i < 20; i++)
