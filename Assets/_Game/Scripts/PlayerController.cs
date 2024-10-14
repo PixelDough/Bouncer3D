@@ -429,11 +429,13 @@ namespace PixelDough.Bouncer
                 {
                     GameManager.DoPlayerPhysics = true;
                     levelManager.CountingTime = false;
+                    levelManager.PauseGameplay();
                     levelManager.ResetTimer();
                     levelManager?.Countdown.PlayCountdown(() =>
                     {
                         GameManager.DoPlayerMovement = true;
                         levelManager.CountingTime = true;
+                        levelManager.ResumeGameplay();
                     });
                 }
                 else

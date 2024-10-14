@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1dd732ee53e9442beb60d2cd2b59da20, type: 2}
+  - {fileID: 2100000, guid: 87d6510f52a114b378692426ad202b76, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -134,6 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c0273e3b3ce45dbb4ede407a5054e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 0}
   questionMark: {fileID: 4112685767683840358}
   tutorialText:
     m_TableReference:

@@ -122,8 +122,11 @@ namespace PixelDough.Bouncer
             }
             
             playerHudController.SetVisibility(true, true);
+            
+            if (GameManager.Instance.singlePlayerMode == GameManager.SinglePlayerMode.SpeedRun) PauseGameplay();
             Countdown.PlayCountdown(() =>
             {
+                if (GameManager.Instance.singlePlayerMode == GameManager.SinglePlayerMode.SpeedRun) ResumeGameplay();
                 if (_levelMusicInstance.isValid())
                 {
                     _levelMusicInstance.start();
@@ -150,8 +153,9 @@ namespace PixelDough.Bouncer
         {
             if (CountingTime)
                 LevelTime = LevelTime.Add(TimeSpan.FromSeconds(Time.deltaTime));
-            
-            _muffleEffectValue = MathHelpers.ExpDecay(_muffleEffectValue, _isPaused ? 1f : 0f, 13f, Time.deltaTime);
+
+            bool doMuffleMusic = _isPaused && pauseScene.isActiveAndEnabled;
+            _muffleEffectValue = MathHelpers.ExpDecay(_muffleEffectValue, doMuffleMusic ? 1f : 0f, 13f, Time.deltaTime);
             FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Muffle", _muffleEffectValue);
 
             if (!CountingTime) return;
@@ -179,24 +183,34 @@ namespace PixelDough.Bouncer
             }
         }
 
-        public void PauseGame()
+        public void PauseGameplay()
         {
             _isPaused = true;
             DOTween.PauseAll();
             MEC.Timing.PauseCoroutines();
             GameManager.DoPlayerPhysics = false;
-            pauseScene.Show();
             OnPauseStateChanged?.Invoke(_isPaused);
         }
 
-        public void ResumeGame()
+        public void PauseGame()
+        {
+            PauseGameplay();
+            pauseScene.Show();
+        }
+
+        public void ResumeGameplay()
         {
             _isPaused = false;
             DOTween.PlayAll();
             MEC.Timing.ResumeCoroutines();
             GameManager.DoPlayerPhysics = true;
-            pauseScene.Hide();
             OnPauseStateChanged?.Invoke(_isPaused);
+        }
+
+        public void ResumeGame()
+        {
+            ResumeGameplay();
+            pauseScene.Hide();
         }
         
         public void QuitGame()
