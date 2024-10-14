@@ -221,19 +221,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   font3D: {fileID: 11400000, guid: cdcaeee3d2b5a3a42841d7151a72417c, type: 2}
   material: {fileID: 2100000, guid: 1dd732ee53e9442beb60d2cd2b59da20, type: 2}
-  text: 'Best Time: None
+  text: 'Best Time:  None
 
-    Next Rank: 00:12.000'
+    Next Rank:  00:12.000'
   fontSizeInUnits: 0.2
   letterSpacingPercent: 1
   lineSpacingPercent: 0.2
-  textColor: {r: 1, g: 1, b: 1, a: 1}
+  textColor: {r: 1, g: 0.74509805, b: 0, a: 1}
   renderInCamera: {fileID: 0}
   horizontalAlignments: 0
   verticalAlignments: 2
 --- !u!4 &262424550 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 122cd069b34c14cd38c1a4986eaceb04, type: 3}
+  m_PrefabInstance: {fileID: 30554222}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &262424551 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 122cd069b34c14cd38c1a4986eaceb04, type: 3}
+  m_PrefabInstance: {fileID: 30554222}
+  m_PrefabAsset: {fileID: 0}
+--- !u!33 &262424552 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: -5754084199372789682, guid: 122cd069b34c14cd38c1a4986eaceb04, type: 3}
   m_PrefabInstance: {fileID: 30554222}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &299959823
@@ -286,7 +296,7 @@ MonoBehaviour:
   fontSizeInUnits: 0.4
   letterSpacingPercent: 1
   lineSpacingPercent: 0.2
-  textColor: {r: 1, g: 1, b: 1, a: 1}
+  textColor: {r: 1, g: 0.8960046, b: 0, a: 1}
   renderInCamera: {fileID: 0}
   horizontalAlignments: 0
   verticalAlignments: 0
@@ -385,7 +395,7 @@ MonoBehaviour:
   fontSizeInUnits: 0.2
   letterSpacingPercent: 1
   lineSpacingPercent: 0.2
-  textColor: {r: 1, g: 1, b: 1, a: 1}
+  textColor: {r: 1, g: 0.74509805, b: 0, a: 1}
   renderInCamera: {fileID: 0}
   horizontalAlignments: 0
   verticalAlignments: 2
@@ -415,7 +425,7 @@ Transform:
   m_GameObject: {fileID: 454266550}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.25, y: -1.25, z: 0}
+  m_LocalPosition: {x: 2.4, y: -1.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -438,10 +448,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iconTransform: {fileID: 2117801534}
+  iconMeshRenderer: {fileID: 2117801535}
+  iconMeshFilter: {fileID: 2117801536}
   modeTexts:
   - {fileID: 1328617738}
   - {fileID: 438729251}
   - {fileID: 133975877}
+  lockMesh: {fileID: 4348688758811548054, guid: e6aa07727799a404da1dbf23c95e6616, type: 3}
+  lockedText: Beat Bounce Mode \n to unlock!
 --- !u!1 &479785290
 GameObject:
   m_ObjectHideFlags: 0
@@ -492,7 +506,7 @@ MonoBehaviour:
   fontSizeInUnits: 0.2
   letterSpacingPercent: 1
   lineSpacingPercent: 0.2
-  textColor: {r: 1, g: 1, b: 1, a: 1}
+  textColor: {r: 1, g: 0.74509805, b: 0, a: 1}
   renderInCamera: {fileID: 0}
   horizontalAlignments: 0
   verticalAlignments: 2
@@ -731,7 +745,7 @@ Transform:
   m_GameObject: {fileID: 734748876}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.25, y: -1.25, z: 0}
+  m_LocalPosition: {x: 2.4, y: -1.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -753,9 +767,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iconTransform: {fileID: 262424550}
+  iconMeshRenderer: {fileID: 262424551}
+  iconMeshFilter: {fileID: 262424552}
   modeTexts:
   - {fileID: 857931042}
   - {fileID: 1137784915}
+  lockMesh: {fileID: 4348688758811548054, guid: e6aa07727799a404da1dbf23c95e6616, type: 3}
+  lockedText: Beat previous level \n to unlock!
 --- !u!1001 &763818720
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1138,7 +1156,7 @@ MonoBehaviour:
   fontSizeInUnits: 0.4
   letterSpacingPercent: 1
   lineSpacingPercent: 0.2
-  textColor: {r: 1, g: 1, b: 1, a: 1}
+  textColor: {r: 0.03184688, g: 1, b: 0, a: 1}
   renderInCamera: {fileID: 0}
   horizontalAlignments: 0
   verticalAlignments: 0
@@ -1490,6 +1508,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fbx_RollyPoly
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 60ab70030966e455dba4f3bdef16eff7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1510,7 +1532,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 01b1f99d77db546e29275a0efd1d77b2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.25
+      value: 2.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 01b1f99d77db546e29275a0efd1d77b2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1607,13 +1629,23 @@ MonoBehaviour:
   fontSizeInUnits: 0.2
   letterSpacingPercent: 1
   lineSpacingPercent: 0.2
-  textColor: {r: 1, g: 1, b: 1, a: 1}
+  textColor: {r: 1, g: 0.74509805, b: 0, a: 1}
   renderInCamera: {fileID: 0}
   horizontalAlignments: 0
   verticalAlignments: 2
 --- !u!4 &1167611649 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d0db58c2f187f4f54889e25cef8bed0d, type: 3}
+  m_PrefabInstance: {fileID: 779949649}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1167611650 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: d0db58c2f187f4f54889e25cef8bed0d, type: 3}
+  m_PrefabInstance: {fileID: 779949649}
+  m_PrefabAsset: {fileID: 0}
+--- !u!33 &1167611651 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: -5754084199372789682, guid: d0db58c2f187f4f54889e25cef8bed0d, type: 3}
   m_PrefabInstance: {fileID: 779949649}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1213643001
@@ -1937,7 +1969,7 @@ MonoBehaviour:
   fontSizeInUnits: 0.4
   letterSpacingPercent: 1
   lineSpacingPercent: 0.2
-  textColor: {r: 1, g: 1, b: 1, a: 1}
+  textColor: {r: 0, g: 0.8245816, b: 1, a: 1}
   renderInCamera: {fileID: 0}
   horizontalAlignments: 0
   verticalAlignments: 0
@@ -2181,11 +2213,11 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 1dd732ee53e9442beb60d2cd2b59da20, type: 2}
   text: 'High Score: None
 
-    Next Rank:  12000'
+    Next Rank:  None'
   fontSizeInUnits: 0.2
   letterSpacingPercent: 1
   lineSpacingPercent: 0.2
-  textColor: {r: 1, g: 1, b: 1, a: 1}
+  textColor: {r: 1, g: 0.74509805, b: 0, a: 1}
   renderInCamera: {fileID: 0}
   horizontalAlignments: 0
   verticalAlignments: 2
@@ -2215,7 +2247,7 @@ Transform:
   m_GameObject: {fileID: 1557192898}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.25, y: -1.25, z: 0}
+  m_LocalPosition: {x: 2.4, y: -1.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -2238,10 +2270,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iconTransform: {fileID: 1167611649}
+  iconMeshRenderer: {fileID: 1167611650}
+  iconMeshFilter: {fileID: 1167611651}
   modeTexts:
   - {fileID: 299959825}
   - {fileID: 479785292}
   - {fileID: 1530514387}
+  lockMesh: {fileID: 4348688758811548054, guid: e6aa07727799a404da1dbf23c95e6616, type: 3}
+  lockedText: Coming Soon!
 --- !u!1001 &1565883065
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2530,7 +2566,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 01b1f99d77db546e29275a0efd1d77b2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.25
+      value: 2.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 01b1f99d77db546e29275a0efd1d77b2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2812,6 +2848,16 @@ PrefabInstance:
 --- !u!4 &2117801534 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 31e881d7c505247e397793d59f915c7f, type: 3}
+  m_PrefabInstance: {fileID: 2117801533}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &2117801535 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 31e881d7c505247e397793d59f915c7f, type: 3}
+  m_PrefabInstance: {fileID: 2117801533}
+  m_PrefabAsset: {fileID: 0}
+--- !u!33 &2117801536 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: -5754084199372789682, guid: 31e881d7c505247e397793d59f915c7f, type: 3}
   m_PrefabInstance: {fileID: 2117801533}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8757293183255701159

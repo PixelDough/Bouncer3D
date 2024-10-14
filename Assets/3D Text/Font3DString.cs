@@ -8,14 +8,17 @@ using UnityEditor;
 [ExecuteAlways]
 public class Font3DString : MonoBehaviour
 {
+    private static readonly int Tint = Shader.PropertyToID("_Tint");
     [SerializeField] private ScriptableObjectFont3D font3D;
     [SerializeField] private Material material;
     [SerializeField, TextArea] private string text = "";
     [SerializeField] private float fontSizeInUnits = 1;
     [SerializeField] private float letterSpacingPercent = 1;
     [SerializeField] private float lineSpacingPercent = 0.2f;
-    [SerializeField] private Color textColor = Color.white;
+    [SerializeField] public Color textColor = Color.white;
     [SerializeField] private Camera renderInCamera;
+
+    public string Text => text;
 
     private enum HorizontalAlignments
     {
@@ -100,7 +103,7 @@ public class Font3DString : MonoBehaviour
         switch (horizontalAlignments)
         {
             case HorizontalAlignments.Left:
-                x = 0f;
+                x = -fontSizeInUnits * 0.5f;
                 break;
             case HorizontalAlignments.Center:
                 x = ((textToDraw.Length - 1) / 2f) * fontSizeInUnits * letterSpacingPercent;
@@ -133,7 +136,9 @@ public class Font3DString : MonoBehaviour
                 Matrix4x4 matrix = transform.localToWorldMatrix * Matrix4x4.TRS(position, rotation, scale);
 
                 // Draw the mesh directly to the world
-                Graphics.DrawMesh(mesh, matrix, material, gameObject.layer, drawCamera);
+                MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
+                propertyBlock.SetColor(Tint, textColor);
+                Graphics.DrawMesh(mesh, matrix, material, gameObject.layer, drawCamera, 0, propertyBlock);
             }
 
             // Move x position for the next character

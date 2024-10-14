@@ -6,7 +6,7 @@ namespace PixelDough.Bouncer
 {
     public class Medal : MonoBehaviour
     {
-        private static readonly int MainTex = Shader.PropertyToID("_MainTex");
+        private static readonly int BaseMap = Shader.PropertyToID("_BaseMap");
         [SerializeField] private MeshRenderer noneMeshRenderer;
         [SerializeField] private MeshRenderer medalMeshRenderer;
 
@@ -36,8 +36,8 @@ namespace PixelDough.Bouncer
                 medalMeshRenderer.enabled = true;
                 noneMeshRenderer.enabled = false;
 
-                medalMeshRenderer.material.SetTextureOffset(MainTex,
-                    new Vector2(_medalOffsets[(int)medalState], medalMeshRenderer.material.GetTextureOffset(MainTex).y));
+                medalMeshRenderer.material.SetTextureOffset(BaseMap,
+                    new Vector2(_medalOffsets[(int)medalState], medalMeshRenderer.material.GetTextureOffset(BaseMap).y));
 
                 transform.localScale = Vector3.one;
                 transform.DOPunchScale(Vector3.one * -0.25f, 0.5f, 6);

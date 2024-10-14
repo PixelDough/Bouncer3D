@@ -139,6 +139,63 @@ namespace PixelDough.Bouncer
             return timeMs;
         }
         
+        public Medal.MedalState GetMedalStateForRecord(GameLevelDataSO levelData, int recordMs)
+        {
+            return recordMs == 0 ? Medal.MedalState.None :
+                recordMs <= levelData.platinumTime ? Medal.MedalState.Platinum :
+                recordMs <= levelData.goldTime ? Medal.MedalState.Gold :
+                recordMs <= levelData.silverTime ? Medal.MedalState.Silver :
+                recordMs <= levelData.bronzeTime ? Medal.MedalState.Bronze : 
+                Medal.MedalState.None;
+        }
+        
+        public int GetNextRankTime(GameLevelDataSO levelData, int recordMs)
+        {
+            if (recordMs == 0) return levelData.bronzeTime;
+            return recordMs > levelData.bronzeTime ? levelData.bronzeTime :
+                recordMs > levelData.silverTime ? levelData.silverTime :
+                recordMs > levelData.goldTime ? levelData.goldTime :
+                recordMs > levelData.platinumTime ? levelData.platinumTime :
+                -1;
+        }
+        
+        public bool IsLevelUnlocked(int levelIndex)
+        {
+            if (levelIndex == 0) return true;
+            if (levelIndex < 0) return false;
+            if (levelIndex >= gameLevels.Count) return false;
+            
+            int checkLevelIndex = levelIndex - 1;
+            int levelRecord = LoadLevelRecord(gameLevels[checkLevelIndex].levelID);
+            return levelRecord > 0;
+        }
+        
+        public bool IsLevelUnlocked(string levelID)
+        {
+            int levelIndex = gameLevels.FindIndex(l => l.levelID == levelID);
+            return IsLevelUnlocked(levelIndex);
+        }
+        
+        public bool IsModeUnlocked(SinglePlayerMode mode, int levelIndex)
+        {
+            if (mode == SinglePlayerMode.TimeAttack) return false;
+            if (levelIndex >= gameLevels.Count) return false;
+            
+            int checkLevelIndex = levelIndex;
+            if (mode == SinglePlayerMode.Base)
+            {
+                if (levelIndex == 0) return true;
+                int prevLevelIndex = levelIndex - 1;
+                checkLevelIndex = prevLevelIndex;
+            }
+
+            
+            if (checkLevelIndex >= gameLevels.Count) return false;
+            
+            int levelRecord = LoadLevelRecord(gameLevels[checkLevelIndex].levelID);
+            return levelRecord > 0;
+        }
+        
         public int LoadSelectedLevelIndex()
         {
             return ES3.Load("selected-level-index", 0);

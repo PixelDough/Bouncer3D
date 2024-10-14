@@ -51,12 +51,18 @@ namespace PixelDough.Bouncer
                 levelSelectButtons[i].SetLevelData(levelData);
             }
             
-            _currentLevelIndex = GameManager.Instance.LoadSelectedLevelIndex();
+            _currentLevelIndex = GameManager.Instance.currentLevelDataIndex;
+            GameManager.Instance.currentLevelDataIndex = 0;
             carouselContent.localEulerAngles = new Vector3(0, _currentLevelIndex * 30f, 0f);
             
             UpdateCurrentLevelInfo();
             
             levelSelectButtons[_currentLevelIndex].Highlight();
+
+            modeButtons.ForEach(button => button.Init());
+            modeButtons.ForEach(button => button.Hide());
+            modeButtons[(int)GameManager.Instance.singlePlayerMode].Show();
+            UpdateModeButtons();
         }
 
         private void Update()
@@ -100,6 +106,7 @@ namespace PixelDough.Bouncer
                     carouselContent.DOKill();
                     carouselContent.DOLocalRotate(new Vector3(0, _currentLevelIndex * 30f, 0f), 0.5f)
                         .SetEase(Ease.OutBack);
+                    UpdateModeButtons();
                 } 
                 else if (pressedDirectionY != 0)
                 {
@@ -108,8 +115,8 @@ namespace PixelDough.Bouncer
                         (GameManager.SinglePlayerMode)Mathf.Clamp(gameModeInt - pressedDirectionY, 0,
                             modeButtons.Count - 1);
                     modeButtons[gameModeInt].Hide();
-                    gameModeInt -= pressedDirectionY;
-                    modeButtons[gameModeInt].Show();
+
+                    UpdateModeButtons();
                     
                     Transform arrowTransform = pressedDirectionY > 0 ? modeUpArrow : modeDownArrow;
                     arrowTransform.DOKill(true);
@@ -122,7 +129,8 @@ namespace PixelDough.Bouncer
 
         private void UpdateCurrentLevelInfo()
         {
-            if (_currentLevelIndex < _levels.Count)
+            bool isLevelUnlocked = GameManager.Instance.IsLevelUnlocked(_currentLevelIndex);
+            if (isLevelUnlocked)
             {
                 
             }
@@ -153,6 +161,44 @@ namespace PixelDough.Bouncer
             // levelRecordText.AnimPulse();
         }
 
+        private void UpdateModeButtons()
+        {
+            int gameModeInt = (int)GameManager.Instance.singlePlayerMode;
+            modeButtons[gameModeInt].Show();
+
+            bool isLevelUnlocked = GameManager.Instance.IsLevelUnlocked(_currentLevelIndex);
+            bool isModeUnlocked =
+                GameManager.Instance.IsModeUnlocked(GameManager.Instance.singlePlayerMode, _currentLevelIndex);
+            bool isUnlocked = isLevelUnlocked && isModeUnlocked;
+            
+            if (isUnlocked) modeButtons[gameModeInt].Enable();
+            else modeButtons[gameModeInt].Disable();
+
+            int levelRecordMs = 0;
+            int nextRankTime = -1;
+            if (_currentLevelIndex < _levels.Count && isUnlocked)
+            {
+                var levelData = _levels[_currentLevelIndex];
+                levelRecordMs = GameManager.Instance.LoadLevelRecord(levelData.levelID);
+                nextRankTime = GameManager.Instance.GetNextRankTime(levelData, levelRecordMs);
+            }
+            
+            switch (GameManager.Instance.singlePlayerMode)
+            {
+                case GameManager.SinglePlayerMode.SpeedRun:
+                    string highScoreText = "Best Time:  " + (levelRecordMs > 0
+                        ? TimeSpan.FromMilliseconds(levelRecordMs).ToString("mm':'ss'.'fff")
+                        : "None");
+                    string nextRankText = "Next Rank:  " + (nextRankTime >= 0
+                        ? TimeSpan.FromMilliseconds(nextRankTime).ToString("mm':'ss'.'fff")
+                        : "None");
+                    speedrunScoreText.SetText(highScoreText + "\n" + nextRankText);
+                    break;
+                case GameManager.SinglePlayerMode.TimeAttack:
+                    break;
+            }
+        }
+
         private Medal.MedalState GetMedalStateForRecord(GameLevelDataSO levelData, int recordMs)
         {
             return recordMs == 0 ? Medal.MedalState.None :
@@ -168,7 +214,10 @@ namespace PixelDough.Bouncer
             if (GameSceneManager.IsChangingScenes) return;
             if (!jumpAction.action.WasPressedThisFrame()) return;
             if (_isEnteringLevel) return;
-            if (_currentLevelIndex >= _levels.Count)
+            bool isLevelUnlocked = GameManager.Instance.IsLevelUnlocked(_currentLevelIndex);
+            bool isModeUnlocked =
+                GameManager.Instance.IsModeUnlocked(GameManager.Instance.singlePlayerMode, _currentLevelIndex);
+            if (!isLevelUnlocked || !isModeUnlocked)
             {
                 FMODUnity.RuntimeManager.PlayOneShot(selectErrorEvent);
                 return;
@@ -190,7 +239,7 @@ namespace PixelDough.Bouncer
 
         private void OnDestroy()
         {
-            GameManager.Instance.SaveSelectedLevelIndex(_currentLevelIndex);
+            // GameManager.Instance.SaveSelectedLevelIndex(_currentLevelIndex);
         }
     }
 }
