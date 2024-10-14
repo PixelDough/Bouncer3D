@@ -4806,6 +4806,10 @@ PrefabInstance:
       propertyPath: index
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2361473119202084041, guid: fb61be39f375533419874e80fed3ab05, type: 3}
+      propertyPath: levelManager
+      value: 
+      objectReference: {fileID: 1102746416}
     - target: {fileID: 4510421681110965162, guid: fb61be39f375533419874e80fed3ab05, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5
@@ -4860,6 +4864,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4510421681110965162, guid: fb61be39f375533419874e80fed3ab05, type: 3}
   m_PrefabInstance: {fileID: 502014820}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &502014822 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2361473119202084041, guid: fb61be39f375533419874e80fed3ab05, type: 3}
+  m_PrefabInstance: {fileID: 502014820}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c5bf48140252be47afdbebeb1c92740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &535501316
 Mesh:
   m_ObjectHideFlags: 32
@@ -8240,12 +8255,12 @@ PrefabInstance:
       objectReference: {fileID: 841419748}
     - target: {fileID: 8949766015804886965, guid: 825a7962637c342049c6579ea66021e4, type: 3}
       propertyPath: levelFeatures.Array.size
-      value: 7
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8949766015804886965, guid: 825a7962637c342049c6579ea66021e4, type: 3}
       propertyPath: 'levelFeatures.Array.data[0]'
       value: 
-      objectReference: {fileID: 704108725}
+      objectReference: {fileID: 504528790909245554}
     - target: {fileID: 8949766015804886965, guid: 825a7962637c342049c6579ea66021e4, type: 3}
       propertyPath: 'levelFeatures.Array.data[1]'
       value: 
@@ -8253,15 +8268,15 @@ PrefabInstance:
     - target: {fileID: 8949766015804886965, guid: 825a7962637c342049c6579ea66021e4, type: 3}
       propertyPath: 'levelFeatures.Array.data[2]'
       value: 
-      objectReference: {fileID: 69957368}
+      objectReference: {fileID: 502014822}
     - target: {fileID: 8949766015804886965, guid: 825a7962637c342049c6579ea66021e4, type: 3}
       propertyPath: 'levelFeatures.Array.data[3]'
       value: 
-      objectReference: {fileID: 1590725304}
+      objectReference: {fileID: 704108725}
     - target: {fileID: 8949766015804886965, guid: 825a7962637c342049c6579ea66021e4, type: 3}
       propertyPath: 'levelFeatures.Array.data[4]'
       value: 
-      objectReference: {fileID: 1228575703}
+      objectReference: {fileID: 2070330994}
     - target: {fileID: 8949766015804886965, guid: 825a7962637c342049c6579ea66021e4, type: 3}
       propertyPath: 'levelFeatures.Array.data[5]'
       value: 
@@ -8269,7 +8284,19 @@ PrefabInstance:
     - target: {fileID: 8949766015804886965, guid: 825a7962637c342049c6579ea66021e4, type: 3}
       propertyPath: 'levelFeatures.Array.data[6]'
       value: 
-      objectReference: {fileID: 504528790909245554}
+      objectReference: {fileID: 1228575703}
+    - target: {fileID: 8949766015804886965, guid: 825a7962637c342049c6579ea66021e4, type: 3}
+      propertyPath: 'levelFeatures.Array.data[7]'
+      value: 
+      objectReference: {fileID: 1590725304}
+    - target: {fileID: 8949766015804886965, guid: 825a7962637c342049c6579ea66021e4, type: 3}
+      propertyPath: 'levelFeatures.Array.data[8]'
+      value: 
+      objectReference: {fileID: 69957368}
+    - target: {fileID: 8949766015804886965, guid: 825a7962637c342049c6579ea66021e4, type: 3}
+      propertyPath: 'levelFeatures.Array.data[9]'
+      value: 
+      objectReference: {fileID: 1894451461}
     - target: {fileID: 9174469901435653753, guid: 825a7962637c342049c6579ea66021e4, type: 3}
       propertyPath: m_LocalPosition.z
       value: 15
@@ -13027,6 +13054,10 @@ PrefabInstance:
       propertyPath: index
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2361473119202084041, guid: fb61be39f375533419874e80fed3ab05, type: 3}
+      propertyPath: levelManager
+      value: 
+      objectReference: {fileID: 1102746416}
     - target: {fileID: 4510421681110965162, guid: fb61be39f375533419874e80fed3ab05, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5
@@ -13081,6 +13112,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4510421681110965162, guid: fb61be39f375533419874e80fed3ab05, type: 3}
   m_PrefabInstance: {fileID: 1894451459}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1894451461 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2361473119202084041, guid: fb61be39f375533419874e80fed3ab05, type: 3}
+  m_PrefabInstance: {fileID: 1894451459}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c5bf48140252be47afdbebeb1c92740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1912487099
 Mesh:
   m_ObjectHideFlags: 32
@@ -14695,6 +14737,10 @@ PrefabInstance:
       propertyPath: index
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2361473119202084041, guid: fb61be39f375533419874e80fed3ab05, type: 3}
+      propertyPath: levelManager
+      value: 
+      objectReference: {fileID: 1102746416}
     - target: {fileID: 4510421681110965162, guid: fb61be39f375533419874e80fed3ab05, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.0000024
@@ -14749,6 +14795,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4510421681110965162, guid: fb61be39f375533419874e80fed3ab05, type: 3}
   m_PrefabInstance: {fileID: 2070330992}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2070330994 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2361473119202084041, guid: fb61be39f375533419874e80fed3ab05, type: 3}
+  m_PrefabInstance: {fileID: 2070330992}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c5bf48140252be47afdbebeb1c92740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2132717431
 PrefabInstance:
   m_ObjectHideFlags: 0

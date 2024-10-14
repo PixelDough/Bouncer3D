@@ -6,7 +6,7 @@ using PixelDough.Bouncer;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class CheckpointController : MonoBehaviour
+public class CheckpointController : LevelFeature
 {
     [SerializeField] private Transform respawnPointTransform;
 
@@ -16,11 +16,18 @@ public class CheckpointController : MonoBehaviour
     
     [Header("FMOD Events")]
     [SerializeField] private FMODUnity.EventReference checkpointSound;
-    
 
     private void Start()
     {
         HideFlag();
+    }
+    
+    public override void Initialize()
+    {
+        if (GameManager.Instance.singlePlayerMode == GameManager.SinglePlayerMode.SpeedRun)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     private void Update()

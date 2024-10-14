@@ -16,6 +16,7 @@ namespace PixelDough.Bouncer.UI
         
         [Header("Timer")] 
         [SerializeField] private TextMeshProUGUI timerText;
+        [SerializeField] private RawImage stopwatchUI;
         
         [Header("Finish UI")]
         [SerializeField] private CanvasGroup finishCanvasGroup;
@@ -26,6 +27,7 @@ namespace PixelDough.Bouncer.UI
         private void Start()
         {
             RenderManager.AddCameraToStack(hudCamera);
+            UpdateTimer();
         }
 
         private void OnDestroy()
@@ -35,7 +37,7 @@ namespace PixelDough.Bouncer.UI
 
         private void Update()
         {
-            timerText.text = levelManager.LevelTime.ToString(levelManager.LevelTime.Hours > 0 ? @"hh\:mm\:ss\.fff" : @"mm\:ss\.fff");
+            UpdateTimer();
 
             finishTimerText.text = timerText.text;
             finishCanvasGroup.alpha = levelManager.LevelState == LevelManager.LevelStates.Finished ? 1 : 0;
@@ -47,6 +49,11 @@ namespace PixelDough.Bouncer.UI
 
             canvasGroup.alpha = state ? 1 : 0;
         }
-        
+
+        private void UpdateTimer()
+        {
+            timerText.text = levelManager.LevelTime.ToString(levelManager.LevelTime.Hours > 0 ? @"hh\:mm\:ss\.fff" : @"mm\:ss\.fff");
+            timerText.gameObject.SetActive(GameManager.Instance.singlePlayerMode == GameManager.SinglePlayerMode.SpeedRun);
+        }
     }
 }

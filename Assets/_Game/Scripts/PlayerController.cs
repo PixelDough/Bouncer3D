@@ -425,10 +425,25 @@ namespace PixelDough.Bouncer
                 // LevelManager.Instance.LevelProgress.LoseCollectables();
                 levelManager?.ResetLevelElements();
                 
-                GameManager.Instance.screenFadeController.FadeFromBlack(0.5f).setOnComplete(() =>
+                if (GameManager.Instance.singlePlayerMode == GameManager.SinglePlayerMode.SpeedRun)
+                {
+                    GameManager.DoPlayerPhysics = true;
+                    levelManager.CountingTime = false;
+                    levelManager.ResetTimer();
+                    levelManager?.Countdown.PlayCountdown(() =>
+                    {
+                        GameManager.DoPlayerMovement = true;
+                        levelManager.CountingTime = true;
+                    });
+                }
+                else
                 {
                     GameManager.DoPlayerMovement = true;
                     GameManager.DoPlayerPhysics = true;
+                }
+                
+                GameManager.Instance.screenFadeController.FadeFromBlack(0.5f).setOnComplete(() =>
+                {
                     _isRespawning = false;
                 });
             });

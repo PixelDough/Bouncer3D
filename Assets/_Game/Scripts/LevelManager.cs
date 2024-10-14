@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using Febucci.UI;
 using PixelDough.Bouncer.LevelData;
 using PixelDough.Bouncer.UI;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using TMPro;
 using Tools.SceneDependencies;
 using Unity.Cinemachine;
@@ -136,6 +138,7 @@ namespace PixelDough.Bouncer
             levelFeatures.RemoveAll(feature => 
                 feature == null || feature.gameObject.scene.name == null || feature.gameObject.scene.name == feature.gameObject.name
             );
+            levelFeatures.ForEach(feature => feature.Initialize());
 
             pauseScene.gameObject.SetActive(false);
             
