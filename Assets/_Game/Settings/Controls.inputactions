@@ -46,7 +46,7 @@
                     "type": "Value",
                     "id": "ebe99b40-a690-464d-b556-5075a86355e8",
                     "expectedControlType": "Vector2",
-                    "processors": "",
+                    "processors": "StickDeadzone",
                     "interactions": "Press",
                     "initialStateCheck": true
                 },
@@ -174,7 +174,7 @@
                 {
                     "name": "Down",
                     "id": "795584b4-4681-4268-b41b-6ca54244d6b9",
-                    "path": "<Keyboard>/d",
+                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard",

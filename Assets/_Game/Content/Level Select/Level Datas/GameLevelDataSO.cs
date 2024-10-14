@@ -10,5 +10,6 @@ namespace PixelDough.Bouncer
         [SerializeField] public string levelName;
         [SerializeField] public Texture2D levelThumbnail;
         [SerializeField] public string levelID;
+        [SerializeField] public int bronzeTime, silverTime, goldTime, platinumTime;
     }
 }

@@ -56,6 +56,9 @@ namespace PixelDough.Bouncer
 
         [SerializeField] private PlayerInput playerInput;
         public static bool IsGamepadInput = false;
+        
+        public enum SinglePlayerMode { Base, SpeedRun, TimeAttack }
+        public SinglePlayerMode singlePlayerMode = SinglePlayerMode.Base;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void InitOnLoad()

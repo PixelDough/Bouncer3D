@@ -29,6 +29,7 @@ namespace PixelDough.Bouncer
 
         public static int Sign(float a)
         {
+            if ((int)a == 0) return 0;
             return (int) Mathf.Sign(a);
         }
     }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using Tools.SceneDependencies;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -11,11 +12,17 @@ namespace PixelDough.Bouncer
     public class LevelSelect : MonoBehaviour
     { 
         [SerializeField] private Transform carouselContent;
-        [SerializeField] private List<LevelSelectButton> levelSelectButtons = new List<LevelSelectButton>();
         [SerializeField] private Transform characterTransform;
-        [SerializeField] private Font3DString levelNameText;
-        [SerializeField] private List<Transform> medalRoots;
         [SerializeField] private SceneDependencySettingsSO mainMenuScene;
+        
+        [Header("Level Select")]
+        [SerializeField] private List<LevelSelectButton> levelSelectButtons = new List<LevelSelectButton>();
+        [SerializeField] private CinemachineCamera levelSelectCam;
+
+        [Header("Mode Select")] 
+        [SerializeField] private Transform modeUpArrow;
+        [SerializeField] private Transform modeDownArrow;
+        [SerializeField] private List<ModeButton> modeButtons;
         
         [Header("Input Actions")]
         [SerializeField] private InputActionReference uiMoveAction;
@@ -46,62 +53,72 @@ namespace PixelDough.Bouncer
             carouselContent.localEulerAngles = new Vector3(0, _currentLevelIndex * 30f, 0f);
             
             UpdateCurrentLevelInfo();
+            
+            levelSelectButtons[_currentLevelIndex].Highlight();
         }
 
         private void Update()
         {
             characterTransform.localPosition = Vector3.Lerp(Vector3.zero,
                 Vector3.up * 0.1f, Mathf.InverseLerp(-1, 1, Mathf.Cos(Time.time)));
-
-            foreach (Transform medalRoot in medalRoots)
-            {
-                medalRoot.localEulerAngles = new Vector3(Mathf.Sin(Time.time * 2f) * 15, Mathf.Cos(Time.time * 2f) * 15, 0f);
-            }
             
             for (int i = 0; i < levelSelectButtons.Count; i++)
             {
                 levelSelectButtons[i].UpdateButton(i == _currentLevelIndex);
             }
             
+            HandleBack();
+            
             bool wasPressedThisFrame = uiMoveAction.action.WasPressedThisFrame();
             if (wasPressedThisFrame)
             {
-                int pressedDirection = MathHelpers.Sign(uiMoveAction.action.ReadValue<Vector2>().x);
-                _currentLevelIndex += pressedDirection;
-                
-                if (_currentLevelIndex < 0)
-                    _currentLevelIndex = levelSelectButtons.Count - 1;
-                else if (_currentLevelIndex >= levelSelectButtons.Count)
-                    _currentLevelIndex = 0;
+                Vector2 moveValue = uiMoveAction.action.ReadValue<Vector2>();
+                int pressedDirectionX = MathHelpers.Sign(moveValue.x);
+                int pressedDirectionY = MathHelpers.Sign(moveValue.y);
+                if (pressedDirectionX != 0)
+                {
+                    levelSelectButtons[_currentLevelIndex].Unhighlight();
+                    _currentLevelIndex += pressedDirectionX;
 
-                UpdateCurrentLevelInfo();
-                
-                tvChangeEvent.Play();
-                
-                DOTween.Kill(carouselContent);
-                carouselContent.DOLocalRotate(new Vector3(0, _currentLevelIndex * 30f, 0f), 0.5f)
-                    .SetEase(Ease.OutBack);
+                    if (_currentLevelIndex < 0)
+                        _currentLevelIndex = levelSelectButtons.Count - 1;
+                    else if (_currentLevelIndex >= levelSelectButtons.Count)
+                        _currentLevelIndex = 0;
+
+                    levelSelectButtons[_currentLevelIndex].Highlight();
+
+                    UpdateCurrentLevelInfo();
+
+                    tvChangeEvent.Play();
+
+                    carouselContent.DOKill();
+                    carouselContent.DOLocalRotate(new Vector3(0, _currentLevelIndex * 30f, 0f), 0.5f)
+                        .SetEase(Ease.OutBack);
+                } 
+                else if (pressedDirectionY != 0)
+                {
+                    Transform arrowTransform = pressedDirectionY > 0 ? modeUpArrow : modeDownArrow;
+                    arrowTransform.DOKill(true);
+                    arrowTransform.DOPunchPosition(Vector3.up * (pressedDirectionY * 0.1f), 0.25f, 4);
+                }
             }
 
             HandleSelectLevel();
-
-            HandleBack();
         }
 
         private void UpdateCurrentLevelInfo()
         {
             if (_currentLevelIndex < _levels.Count)
             {
-                levelNameText.SetText(_levels[_currentLevelIndex].levelName);
+                
             }
             else
             {
-                levelNameText.SetText("???");
                 tvChatterEvent.Play();
             }
-            levelNameText.AnimPulse();
             
             UpdateLevelRecord();
+            
         }
 
         private void UpdateLevelRecord()
@@ -115,10 +132,22 @@ namespace PixelDough.Bouncer
                 {
                     levelRecord = TimeSpan.FromMilliseconds(levelRecordMs).ToString("mm':'ss'.'fff");
                 }
+
+                var levelData = _levels[_currentLevelIndex];
             }
 
             // levelRecordText.SetText("Best Time: " + Environment.NewLine + levelRecord);
             // levelRecordText.AnimPulse();
+        }
+
+        private Medal.MedalState GetMedalStateForRecord(GameLevelDataSO levelData, int recordMs)
+        {
+            return recordMs == 0 ? Medal.MedalState.None :
+                recordMs <= levelData.platinumTime ? Medal.MedalState.Platinum :
+                recordMs <= levelData.goldTime ? Medal.MedalState.Gold :
+                recordMs <= levelData.silverTime ? Medal.MedalState.Silver :
+                recordMs <= levelData.bronzeTime ? Medal.MedalState.Bronze : 
+                Medal.MedalState.None;
         }
 
         private void HandleSelectLevel()

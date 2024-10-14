@@ -36,11 +36,6 @@ public class Rotate : LevelFeature
         startRotation = rigidbodyOptional ? rigidbodyOptional.transform.rotation : transform.rotation;
     }
 
-    private void Start()
-    {
-        Initialize();
-    }
-
     public override void Initialize()
     {
         Timing.KillCoroutines(_rotateCoroutineHandle);
@@ -57,6 +52,11 @@ public class Rotate : LevelFeature
         }
         
         _rotateCoroutineHandle = Timing.RunCoroutine(C_RotateCoroutine().CancelWith(gameObject), rigidbodyOptional ? Segment.FixedUpdate : Segment.Update);
+    }
+
+    private void OnEnable()
+    {
+        Initialize();
     }
 
     private IEnumerator<float> C_RotateCoroutine()
