@@ -1941,39 +1941,6 @@ MonoBehaviour:
   renderInCamera: {fileID: 0}
   horizontalAlignments: 0
   verticalAlignments: 0
---- !u!1 &1352640842
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1352640843}
-  m_Layer: 0
-  m_Name: Countdown Mode
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1352640843
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1352640842}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: -2, z: -15.25}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
-  m_Children:
-  - {fileID: 2124440686}
-  - {fileID: 1467935698}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &1448141281 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -746763418398105388, guid: b3b034dea3fbb4aa588800db80c40657, type: 3}
@@ -2056,6 +2023,8 @@ MonoBehaviour:
   - {fileID: 734748878}
   - {fileID: 454266552}
   - {fileID: 1557192900}
+  speedrunScoreText: {fileID: 133975877}
+  timeAttackScoreText: {fileID: 1530514387}
   uiMoveAction: {fileID: 3206811561649886536, guid: 4fd51e447f699490b8e9bdbbe0678b5f, type: 3}
   jumpAction: {fileID: 6957972893663073344, guid: 4fd51e447f699490b8e9bdbbe0678b5f, type: 3}
   backAction: {fileID: -5334455130332058213, guid: 4fd51e447f699490b8e9bdbbe0678b5f, type: 3}
@@ -2075,60 +2044,6 @@ MonoBehaviour:
       Data3: 1194901658
       Data4: -199544872
     Path: event:/SFX/LEVEL SELECT/Select Error
---- !u!1 &1467935697
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1467935698}
-  - component: {fileID: 1467935699}
-  m_Layer: 0
-  m_Name: Title Text (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1467935698
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1467935697}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1352640843}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!114 &1467935699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1467935697}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 204d9286f2423e14393a8ea09448e761, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  font3D: {fileID: 11400000, guid: cdcaeee3d2b5a3a42841d7151a72417c, type: 2}
-  material: {fileID: 2100000, guid: 1dd732ee53e9442beb60d2cd2b59da20, type: 2}
-  text: Beat the clock
-  fontSizeInUnits: 0.2
-  letterSpacingPercent: 1
-  lineSpacingPercent: 0.2
-  textColor: {r: 1, g: 1, b: 1, a: 1}
-  renderInCamera: {fileID: 0}
-  horizontalAlignments: 1
-  verticalAlignments: 2
 --- !u!1001 &1528031744
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2588,7 +2503,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1782424285
 Transform:
   m_ObjectHideFlags: 0
@@ -2598,7 +2513,7 @@ Transform:
   m_GameObject: {fileID: 1782424284}
   serializedVersion: 2
   m_LocalRotation: {x: -0.19099279, y: 0.030741703, z: -0.005984601, w: 0.98109174}
-  m_LocalPosition: {x: -0.48, y: -0.38, z: -19.01}
+  m_LocalPosition: {x: -1.25, y: -2, z: -18.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2899,60 +2814,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 31e881d7c505247e397793d59f915c7f, type: 3}
   m_PrefabInstance: {fileID: 2117801533}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2124440685
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2124440686}
-  - component: {fileID: 2124440687}
-  m_Layer: 0
-  m_Name: Title Text
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2124440686
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2124440685}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.55, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1352640843}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!114 &2124440687
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2124440685}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 204d9286f2423e14393a8ea09448e761, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  font3D: {fileID: 11400000, guid: cdcaeee3d2b5a3a42841d7151a72417c, type: 2}
-  material: {fileID: 2100000, guid: 1dd732ee53e9442beb60d2cd2b59da20, type: 2}
-  text: Countdown
-  fontSizeInUnits: 0.4
-  letterSpacingPercent: 1
-  lineSpacingPercent: 0.2
-  textColor: {r: 1, g: 1, b: 1, a: 1}
-  renderInCamera: {fileID: 0}
-  horizontalAlignments: 1
-  verticalAlignments: 2
 --- !u!1001 &8757293183255701159
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3052,4 +2913,3 @@ SceneRoots:
   - {fileID: 1782424285}
   - {fileID: 605986356}
   - {fileID: 1251261849}
-  - {fileID: 1352640843}

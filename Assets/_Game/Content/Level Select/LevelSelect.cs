@@ -23,6 +23,8 @@ namespace PixelDough.Bouncer
         [SerializeField] private Transform modeUpArrow;
         [SerializeField] private Transform modeDownArrow;
         [SerializeField] private List<ModeButton> modeButtons;
+        [SerializeField] private Font3DString speedrunScoreText;
+        [SerializeField] private Font3DString timeAttackScoreText;
         
         [Header("Input Actions")]
         [SerializeField] private InputActionReference uiMoveAction;
@@ -68,6 +70,10 @@ namespace PixelDough.Bouncer
             }
             
             HandleBack();
+
+            int gameModeInt = (int)GameManager.Instance.singlePlayerMode;
+            modeUpArrow.gameObject.SetActive(gameModeInt > 0);
+            modeDownArrow.gameObject.SetActive(gameModeInt < modeButtons.Count - 1);
             
             bool wasPressedThisFrame = uiMoveAction.action.WasPressedThisFrame();
             if (wasPressedThisFrame)
@@ -97,6 +103,14 @@ namespace PixelDough.Bouncer
                 } 
                 else if (pressedDirectionY != 0)
                 {
+                    if (Mathf.Clamp(gameModeInt - pressedDirectionY, 0, modeButtons.Count - 1) == gameModeInt) return;
+                    GameManager.Instance.singlePlayerMode =
+                        (GameManager.SinglePlayerMode)Mathf.Clamp(gameModeInt - pressedDirectionY, 0,
+                            modeButtons.Count - 1);
+                    modeButtons[gameModeInt].Hide();
+                    gameModeInt -= pressedDirectionY;
+                    modeButtons[gameModeInt].Show();
+                    
                     Transform arrowTransform = pressedDirectionY > 0 ? modeUpArrow : modeDownArrow;
                     arrowTransform.DOKill(true);
                     arrowTransform.DOPunchPosition(Vector3.up * (pressedDirectionY * 0.1f), 0.25f, 4);
@@ -118,7 +132,6 @@ namespace PixelDough.Bouncer
             }
             
             UpdateLevelRecord();
-            
         }
 
         private void UpdateLevelRecord()

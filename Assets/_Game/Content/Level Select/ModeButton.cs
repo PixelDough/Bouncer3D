@@ -12,6 +12,11 @@ namespace PixelDough.Bouncer
         
         private void Update()
         {
+            UpdateRotation();
+        }
+
+        private void UpdateRotation()
+        {
             iconTransform.localEulerAngles = new Vector3(0, Mathf.Repeat(Time.time * -180f, 360f), 0);
         }
 
@@ -20,6 +25,7 @@ namespace PixelDough.Bouncer
             gameObject.SetActive(true);
             iconTransform.localScale = Vector3.one;
             iconTransform.DOPunchScale(Vector3.one * 0.1f, 0.5f, 6);
+            UpdateRotation();
             
             foreach (Font3DString font3DString in modeTexts)
             {
