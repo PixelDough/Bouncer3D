@@ -192,7 +192,7 @@ namespace PixelDough.Bouncer
                     string nextRankText = "Next Rank:  " + (nextRankTime >= 0
                         ? TimeSpan.FromMilliseconds(nextRankTime).ToString("mm':'ss'.'fff")
                         : "None");
-                    speedrunScoreText.SetText(highScoreText + "\n" + nextRankText);
+                    speedrunScoreText.SetText(highScoreText + Environment.NewLine + nextRankText);
                     break;
                 case GameManager.SinglePlayerMode.TimeAttack:
                     break;

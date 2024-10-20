@@ -5,7 +5,7 @@
 			<value>Grunt</value>
 		</property>
 		<property name="outputFormat">
-			<value>0</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{65023d5a-89e7-4510-a834-43d596e3b971}</destination>
@@ -153,6 +153,7 @@
 		<relationship name="sounds">
 			<destination>{e881e93c-6cbf-44a7-9d42-38e9b1f6c7fd}</destination>
 			<destination>{8d95c51c-43b0-4038-8316-83c35c57d7f3}</destination>
+			<destination>{dd8bb8dc-190f-4292-8350-8f816b5fbab9}</destination>
 		</relationship>
 	</object>
 	<object class="PlayPercentage" id="{f29e9164-aecd-4beb-8ad3-3ad5aa88ec0e}">
@@ -178,6 +179,17 @@
 	<object class="SingleSound" id="{8d95c51c-43b0-4038-8316-83c35c57d7f3}">
 		<relationship name="audioFile">
 			<destination>{a9f6ac54-7135-4141-998b-9abd760f3af2}</destination>
+		</relationship>
+	</object>
+	<object class="SingleSound" id="{dd8bb8dc-190f-4292-8350-8f816b5fbab9}">
+		<property name="startOffset">
+			<value>9</value>
+		</property>
+		<property name="volume">
+			<value>-6.5</value>
+		</property>
+		<relationship name="audioFile">
+			<destination>{96ebf649-b084-4b8f-ad99-6f0abe9df9d9}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusFader" id="{b083528d-6f9b-4eb8-9e72-eb54f31ae921}" />

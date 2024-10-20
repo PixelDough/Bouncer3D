@@ -66,7 +66,7 @@ public class Font3DString : MonoBehaviour
     {
         if (font3D is null) return;
         
-        string[] lines = text.Split(new [] { "\\n", Environment.NewLine }, StringSplitOptions.None);
+        string[] lines = text.Split(new [] { "\n", "\\n", Environment.NewLine }, StringSplitOptions.None);
         float startY = 0f;
         float allLinesHeight = lines.Length * fontSizeInUnits;
         float allSpacesHeight = (lines.Length - 1) * (fontSizeInUnits * lineSpacingPercent);
